@@ -1,0 +1,70 @@
+'Utagawa Hiroshige (Ando)'
+utagawa hiroshige (ando)
+utagawahiroshigeando
+
+{
+  "id": "500333018",
+  "type": "Persons, Artists",
+  "preferredTerm": "Hiroshige",
+  "nonPreferredTerms": [
+    "Hiroshige II",
+    "Utagawa Chimpei",
+    "Shigenobu",
+    "Hirochika",
+    "Morita Chimpei",
+    "Kisai",
+    "Rissho",
+    "Ichiryusai",
+    "Suzuki Chimpei",
+    "Hiroshige, Morita"
+  ],
+  "descriptiveNotes": null,
+  "biography": "Japanese painter and draftsman, 1826-1869",
+  "birthDate": "1826",
+  "deathDate": "1869",
+  "sex": "Male"
+}
+{
+  "id": "500019641",
+  "type": "Persons, Artists",
+  "preferredTerm": "Andō Hiroshige",
+  "nonPreferredTerms": [
+    "Ando",
+    "Andō, Hiroshige",
+    "Hiroshige",
+    "Utugawa Hiroshige",
+    "Ichiyūsai",
+    "Ichiryūsai",
+    "Tokutarō",
+    "Tokubei",
+    "Utagawa Hiroshige",
+    "Ryūsai",
+    "Utagawa, Hiroshige",
+    "Ichiryūsai Hiroshige",
+    "Ichiyūsai Hiroshige",
+    "Ichiyo Hiroshige",
+    "Khirosigė",
+    "Andō, Tokitarō",
+    "Andō, Tokutarō",
+    "Andō, Jūemon",
+    "Yūsai",
+    "Andō, Tokubei",
+    "Utakawa, Hiroshige",
+    "安籐広重",
+    "安藤広重",
+    "安藤廣重",
+    "歌川広重",
+    "歌川廣重",
+    "Hiroshige, Ando",
+    "Ando Hiroshige",
+    "הירושיגה, אנדו",
+    "Hiroshige Andō",
+    "Hiroshige, Utagawa"
+  ],
+  "descriptiveNotes": "Japanese ukiyo-e artist regarded as one of the greatest of the genre, and the last master. He was prolific and designed thousands of four-color landscape prints.",
+  "biography": "Japanese painter and printmaker, 1797-1858",
+  "birthDate": "1650",
+  "deathDate": "1750",
+  "sex": "Male"
+}
+
