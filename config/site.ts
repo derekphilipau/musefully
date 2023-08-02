@@ -1,9 +1,14 @@
 import type { Dataset } from '@/types/dataset';
 import type { NavItem } from '@/types/nav';
 
+export interface RssFeed {
+  sourceName: string;
+}
+
 interface SiteConfig {
   defaultLocale: string;
   datasets: Dataset[];
+  rssFeeds: RssFeed[];
   mainNav: NavItem[];
   links?: {
     github?: string;
@@ -25,6 +30,11 @@ export const siteConfig: SiteConfig = {
       sourceName: 'moma',
       indices: ['collections'],
     },
+  ],
+  rssFeeds: [
+    {
+      sourceName: 'hyperallergic',
+    }
   ],
   mainNav: [
     {

@@ -12,6 +12,7 @@ import { siteConfig } from '@/config/site';
 import { updateAdditionalMetadata } from './updateAdditionalMetadata';
 import { updateDominantColors } from './updateDominantColors';
 import updateFromJsonlFile from './updateFromJsonlFile';
+import updateRssFeeds from './updateRssFeed';
 
 loadEnvConfig(process.cwd());
 
@@ -20,7 +21,9 @@ async function importDataset(dataset: Dataset, includeSourcePrefix: boolean) {
     if (await askYesNo(`Update ${dataset.name} ${indexName} index?`)) {
       const dataFile = `./data/${dataset.sourceName}/${indexName}.jsonl.gz`;
       try {
-        const { transformer } = await import(`./transform/${dataset.sourceName}/${indexName}Transformer`);
+        const { transformer } = await import(
+          `./transform/${dataset.sourceName}/${indexName}Transformer`
+        );
         await updateFromJsonlFile(
           indexName,
           dataFile,
@@ -44,7 +47,9 @@ async function run() {
     return abort();
   }
 
-  info(`Available datasets: ${siteConfig.datasets.map((d) => d.name).join(', ')}`);
+  info(
+    `Available datasets: ${siteConfig.datasets.map((d) => d.name).join(', ')}`
+  );
 
   if (process.env.ELASTICSEARCH_USE_CLOUD === 'true')
     warn('WARNING: Using Elasticsearch Cloud');
@@ -73,6 +78,10 @@ async function run() {
   }
 
   if (await askYesNo(`Update dominant colors?`)) await updateDominantColors();
+
+  if (await askYesNo(`Update RSS Feeds to content index?`)) {
+    await updateRssFeeds();
+  }
 
   questionsDone();
 }

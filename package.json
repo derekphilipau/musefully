@@ -46,6 +46,7 @@
     "clsx": "^1.2.1",
     "cmdk": "^0.2.0",
     "color-convert": "^2.0.1",
+    "date-fns": "^2.30.0",
     "embla-carousel-react": "^8.0.0-rc07",
     "get-pixels": "^3.3.3",
     "html-entities": "^2.3.3",
