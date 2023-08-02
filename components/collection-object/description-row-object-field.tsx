@@ -21,7 +21,7 @@ export function DescriptionRowObjectField({
 }: DescriptionRowProps) {
   const dict = getDictionary();
   const displayName = dict?.[`artwork.field.${name}.${valueField}`] || 'Unknown field';
-  const searchUrl = '/search/collections?';
+  const searchUrl = '/collections?';
 
   let nameValueObjects = item?.[name];
   if (!name || !nameValueObjects || nameValueObjects.length === 0) return null;

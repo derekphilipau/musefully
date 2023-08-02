@@ -13,7 +13,7 @@ export function GeographicalDescriptionRow({ item }: DescriptionRowProps) {
   const dict = getDictionary();
   const displayName =
     dict?.[`artwork.field.geographicalLocations`] || 'Unknown field';
-  const searchUrl = '/search/collections?';
+  const searchUrl = '/collections?';
 
   let val = item?.geographicalLocations;
   if (val === undefined || val.length === 0) return null;

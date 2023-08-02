@@ -19,12 +19,12 @@ export function CollectionObjectDescription({
   const primaryConstituentName =
     item.primaryConstituent?.canonicalName || 'Maker Unknown';
 
-  //  http://localhost:3000/search/collections?hasPhoto=true&f=true&startYear=2014&endYear=2014
+  //  http://localhost:3000/collections?hasPhoto=true&f=true&startYear=2014&endYear=2014
   const startYear = item.startYear;
   const endYear = item.endYear || item.startYear;
   let dateLink = '';
   if (startYear && endYear) {
-    dateLink = `/search/collections?hasPhoto=true&f=true&startYear=${item.startYear}&endYear=${item.endYear}`;
+    dateLink = `/collections?hasPhoto=true&f=true&startYear=${item.startYear}&endYear=${item.endYear}`;
   }
 
   return (

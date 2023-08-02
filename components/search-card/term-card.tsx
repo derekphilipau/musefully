@@ -8,13 +8,13 @@ export function TermCard({ term }: { term: Term }) {
 
   if (term.field === 'primaryConstituent.canonicalName') {
     name = 'Artist';
-    href = `/search/collections?primaryConstituent.canonicalName=${term.value}`;
+    href = `/collections?primaryConstituent.canonicalName=${term.value}`;
   } else if (term.field === 'classification') {
     name = 'Classification';
-    href = `/search/collections?classification=${term.value}`;
+    href = `/collections?classification=${term.value}`;
   } else if (term.field === 'collections') {
     name = 'Collection';
-    href = `/search/collections?collections=${term.value}`;
+    href = `/collections?collections=${term.value}`;
   }
 
   return (

@@ -64,7 +64,7 @@ export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
     }
     updatedParams.delete('q');
     updatedParams.delete('p');
-    const searchPath = `/search/${term.index || ''}`;
+    const searchPath = `/${term.index || ''}`;
     setSearchOptions([]);
     setValue('');
     router.push(`${searchPath}?${updatedParams}`);

@@ -12,5 +12,5 @@ test('should navigate to the collections search page', async ({
   } else {
     await page.click('text=Search');
   }
-  await expect(page).toHaveURL('/search/collections?hasPhoto=true');
+  await expect(page).toHaveURL('/collections?hasPhoto=true');
 });

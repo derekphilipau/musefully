@@ -124,7 +124,7 @@ export default async function Page({ params, searchParams }) {
           )}
         </div>
       )}
-      <div className="gap-6 pb-8 pt-4 sm:grid sm:grid-cols-3 md:grid-cols-4 md:py-6">
+      <div className="gap-6 pb-8 pt-2 sm:grid sm:grid-cols-3 md:grid-cols-4 md:pt-4">
         {isShowFilters && (
           <div className="hidden h-full space-y-2 sm:col-span-1 sm:block">
             <SearchFilters
