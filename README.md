@@ -38,12 +38,6 @@ The insert method completely repopulates an index from a JSONL data file. To avo
 
 All data was collected via the [Brooklyn Museum Open API](https://www.brooklynmuseum.org/opencollection/api/docs).
 
-### Archives Data
-
-The Archives data was collected using the OAI-PMH harvesting API of Brooklyn Museum's [ArchivesSpace](https://archivesspace.org/) service.
-
-The Dublin Core metadata is limited. It would be better to use ArchivesSpace's native API to index all the metadata fields like Language, Type, Names, etc.
-
 ### Additional Metadata
 
 It's often necessary to augment backend collection data with additional metadata.  For example, theme tags like "Climate Justice" might be associated with artworks in a CMS rather the backend collections management system.  The "sortPriority" field allows one to prominently display specific documents by adjusting the ordering in default searches.  This additional metadata is stored in `data/BrooklynMuseum/additionalMetadata.jsonl`, but could just as easily be exported from a CMS.
@@ -141,7 +135,7 @@ Museum Location:
 
 The base document defines common fields for all indices, these are the fields used for cross-index search. The Elasticsearch Base Document fields are defined in `indices.ts` and the associated Typescript interface is defined in `/types/baseDocument.ts`.
 
-- `type` - The type of document, e.g. "collections", "archives", "terms"
+- `type` - The type of document, e.g. "collections", "terms"
 - `source` - The source of the document, e.g. "Brooklyn Museum", "Getty ULAN"
 - `url` - The URL of the document
 - `id` - The unique ID of the document
@@ -197,19 +191,6 @@ Includes all Base Document fields as well as:
 #### Content Document
 
 Content documents represent a web page or resource, typically from a museum's website. The fields are the same as Base Document.
-
-#### Archives Document
-
-Archives documents represent archival collections. The fields are the same as Base Document with the addition of:
-
-- `accessionNumber` - (`dc:identifier`) The accession number.
-- `primaryConstituent` - (`dc:creator`) Primary constituent, often the primary maker, e.g. the artist.
-- `subject` - (`dc:subject`) The subject of the archival collection.
-- `language` - (`dc:language`) The language of the archival collection, e.g. "en".
-- `publisher` - (`dc:publisher`) The publisher of the record, e.g. "Brooklyn Museum Archives"
-- `format` - (`dc:format`) e.g. "17.916 Linear Feet; 43 document boxes"
-- `rights` - (`dc:rights`) e.g. "Collection is open for research; permission of archivist required..."
-- `relation` - (`dc:relation`) e.g. "Office of the Director records, DIR"
 
 #### Terms Document
 
@@ -364,12 +345,9 @@ This command will:
 2. Ask if you want to proceed with the import
 3. Ask if you want to import the collections index (all records)
 4. Ask if you want to import the content index (all records)
-5. Ask if you want to import the archives index (all records)
-6. Ask if you want to update the terms index. Queries collections index for collections, classifications, and primaryConstituent fields, then adds unique values to the terms index.
-7. Ask if you want to update the ULAN terms index. Queries collections index for all unique primaryConstituent values, then searches ULAN data files for each name. If a match is found, ULAN data is added to the term.
-8. Ask if you want to update dominant colors. This will only update colors for images which haven't already been analyzed.
+5. Ask if you want to update dominant colors. This will only update colors for images which haven't already been analyzed.
 
-The import process will take some time, as it inserts 1000 documents at a time using Elasticsearch bulk and then rests for a couple seconds. There are about 100,000 documents in the collections dataset, 800 in content, and 31,000 in the archives dataset.
+The import process will take some time, as it inserts 1000 documents at a time using Elasticsearch bulk and then rests for a couple seconds.
 
 ## License
 
@@ -377,7 +355,7 @@ Licensed under the [MIT license](./LICENSE.md).
 
 ## Lighthouse Score
 
-One should see 100's across the board for the Lighthouse score. Slightly lower score for performance due to relying on Brooklyn Museum image CDN.
+One should see 100's across the board for the Lighthouse score. Slightly lower score for performance due to relying on external image CDN.
 
 ![Lighthouse Score](./doc/img/Lighthouse.png)
 

@@ -76,25 +76,6 @@ export const content: T.IndicesIndexSettings = {
   },
 };
 
-export const archives: T.IndicesIndexSettings = {
-  settings: {
-    index: S.index,
-    analysis: S.analysis,
-  },
-  mappings: {
-    properties: {
-      ...baseDocument,
-      accessionNumber: S.searchableAggregatedKeywordAnalyzerField,
-      subject: S.searchableAggregatedKeywordAnalyzerField,
-      language: S.searchableAggregatedKeywordAnalyzerField,
-      publisher: S.keywordField,
-      format: S.textField,
-      rights: S.textField,
-      relation: S.keywordField,
-    },
-  },
-};
-
 export const terms: T.IndicesIndexSettings = {
   settings: {
     index: S.index,

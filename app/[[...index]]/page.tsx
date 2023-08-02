@@ -21,7 +21,6 @@ import { SearchAsYouTypeInput } from '@/components/search/search-as-you-type-inp
 import { SearchCheckbox } from '@/components/search/search-checkbox';
 import { SearchFilterTag } from '@/components/search/search-filter-tag';
 import { SearchFilters } from '@/components/search/search-filters';
-import { SearchIndexButton } from '@/components/search/search-index-button';
 import { SearchPagination } from '@/components/search/search-pagination';
 
 function getLayoutGridClass(layout: string) {
@@ -34,7 +33,7 @@ export default async function Page({ params, searchParams }) {
   const dict = getDictionary();
   let errorMessage = dict['search.noResults'];
 
-  const index = params?.index || 'all';
+  const index = params?.index?.length === 1 ? params.index[0] : 'all';
   const q = searchParams?.q || '';
   const p = parseInt(searchParams?.p) || 1;
   const size = searchParams?.size || '24';
@@ -72,33 +71,7 @@ export default async function Page({ params, searchParams }) {
   const totalPages = response?.metadata?.pages || 0;
 
   return (
-    <section className="container pt-4 md:pt-6">
-      <div className="flex flex-wrap gap-x-1 pb-2 sm:gap-x-2">
-        <SearchIndexButton
-          index={index}
-          params={searchParams}
-          name="all"
-          label={dict['index.all']}
-        />
-        <SearchIndexButton
-          index={index}
-          params={searchParams}
-          name="content"
-          label={dict['index.content']}
-        />
-        <SearchIndexButton
-          index={index}
-          params={searchParams}
-          name="collections"
-          label={dict['index.collections']}
-        />
-        <SearchIndexButton
-          index={index}
-          params={searchParams}
-          name="archives"
-          label={dict['index.archives']}
-        />
-      </div>
+    <section className="container pt-2 md:pt-4">
       <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
         <div className="grow">
           <SearchAsYouTypeInput params={searchParams} />

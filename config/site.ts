@@ -18,7 +18,7 @@ export const siteConfig: SiteConfig = {
     {
       name: 'Brooklyn Museum',
       sourceName: 'bkm',
-      indices: ['collections', 'content', 'archives'],
+      indices: ['collections', 'content'],
     },
     {
       name: 'Museum of Modern Art',
@@ -28,8 +28,16 @@ export const siteConfig: SiteConfig = {
   ],
   mainNav: [
     {
-      dict: 'nav.search',
-      href: '/search/collections?hasPhoto=true&f=true',
+      dict: 'index.all',
+      href: '/',
+    },
+    {
+      dict: 'index.content',
+      href: '/content',
+    },
+    {
+      dict: 'index.collections',
+      href: '/collections?hasPhoto=true&f=true',
     },
   ],
   links: {

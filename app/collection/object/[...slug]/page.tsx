@@ -14,7 +14,6 @@ import { CollectionObjectDescription } from '@/components/collection-object/coll
 import { CollectionObjectShare } from '@/components/collection-object/collection-object-share';
 import { LanguageDisclaimer } from '@/components/collection-object/language-disclaimer';
 import { SimilarCollectionObjectList } from '@/components/collection-object/similar-collection-object-list';
-import { MuseumMapDialog } from '@/components/museum-map/museum-map-dialog';
 
 export async function generateMetadata({ params }): Promise<Metadata> {
   const id = params.slug[0];
@@ -61,7 +60,7 @@ export default async function Page({ params }) {
 
   return (
     <>
-      <section className="container grid gap-x-12 gap-y-6 pb-8 pt-6 md:grid-cols-2 md:py-10 lg:grid-cols-8">
+      <section className="container grid gap-x-12 gap-y-6 pb-8 pt-2 md:grid-cols-2 md:pb-10 md:pt-4 lg:grid-cols-8">
         <div className="flex items-start justify-center md:col-span-1 lg:col-span-3">
           <ImageViewer item={collectionObject} />
         </div>
@@ -103,12 +102,7 @@ export default async function Page({ params }) {
             <CollectionObjectShare item={collectionObject} />
           </div>
           <div className="gap-x-4 pt-4 lg:flex">
-            <div>
-              <CollectionObjectDescription item={collectionObject} />
-            </div>
-            <div className="flex-0 my-4">
-              <MuseumMapDialog item={collectionObject} />
-            </div>
+            <CollectionObjectDescription item={collectionObject} />
           </div>
           <div>
             <LanguageDisclaimer

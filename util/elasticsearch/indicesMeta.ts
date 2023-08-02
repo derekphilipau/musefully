@@ -61,8 +61,4 @@ export const indicesMeta: IndicesMeta = {
     aggs: [],
     filters: [],
   },
-  archives: {
-    aggs: ['primaryConstituent.canonicalName'],
-    filters: ['primaryConstituent.canonicalName'],
-  },
 };

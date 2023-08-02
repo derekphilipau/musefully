@@ -4,12 +4,11 @@ import zlib from 'zlib';
 import { Client } from '@elastic/elasticsearch';
 import * as T from '@elastic/elasticsearch/lib/api/types';
 
-import { archives, collections, content, terms } from './indices';
+import { collections, content, terms } from './indices';
 
 const indices = {
   collections,
   content,
-  archives,
   terms,
 };
 

@@ -1,12 +1,7 @@
-'use client';
-
-import { usePathname, useRouter } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
 import { indicesMeta } from '@/util/elasticsearch/indicesMeta';
 
-import { Icons } from '@/components/icons';
 import { SearchAgg } from '@/components/search/search-agg';
-import { Button } from '@/components/ui/button';
 import { ColorPicker } from './color-picker';
 import { DateFilter } from './date-filter';
 
@@ -24,8 +19,6 @@ export function SearchFilters({
   filters,
 }: SearchFiltersProps) {
   const dict = getDictionary();
-  const router = useRouter();
-  const pathname = usePathname();
 
   return (
     <>
