@@ -71,7 +71,7 @@ export default async function Page({ params, searchParams }) {
   const totalPages = response?.metadata?.pages || 0;
 
   return (
-    <section className="container pt-2 md:pt-4">
+    <section className="container pt-2">
       <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
         <div className="grow">
           <SearchAsYouTypeInput params={searchParams} />

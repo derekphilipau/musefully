@@ -28,16 +28,12 @@ export const siteConfig: SiteConfig = {
   ],
   mainNav: [
     {
-      dict: 'index.all',
-      href: '/',
+      dict: 'index.collections',
+      href: '/collections?hasPhoto=true&f=true',
     },
     {
       dict: 'index.content',
       href: '/content',
-    },
-    {
-      dict: 'index.collections',
-      href: '/collections?hasPhoto=true&f=true',
     },
   ],
   links: {
