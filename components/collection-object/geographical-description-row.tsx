@@ -32,7 +32,7 @@ export function GeographicalDescriptionRow({ item }: DescriptionRowProps) {
               <span key={i}>
                 {geoLoc.type}:{' '}
                 <Link
-                  href={`${searchUrl}primaryGeographicalLocation.name=${geoLoc.name}`}
+                  href={`${searchUrl}primaryGeographicalLocation.name=${encodeURIComponent(geoLoc.name)}`}
                   className="underline"
                 >
                   {`${geoLoc.name}${val && i !== val.length - 1 ? ',  ' : ''}`}

@@ -53,7 +53,7 @@ export function DescriptionRow({
                 <>
                   <Link
                     key={i}
-                    href={`${searchUrl}${name}=${tag}`}
+                    href={`${searchUrl}${name}=${encodeURIComponent(tag)}`}
                     className="underline"
                   >
                     {tag}
