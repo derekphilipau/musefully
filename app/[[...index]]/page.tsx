@@ -260,11 +260,12 @@ export default async function Page({ params, searchParams }) {
                       {item.type === 'archive' && (
                         <ArchiveCard item={item} showType={index === 'all'} />
                       )}
-                      {item.type === 'content' && (
+                      {(item.type === 'content' || item.type === 'rss') && (
                         <ContentCard
                           item={item}
                           layout={layout}
                           showType={index === 'all'}
+                          isMultiDataset={isMultiDataset}
                         />
                       )}
                     </div>

@@ -14,11 +14,13 @@ const INDEX_NAME = 'content';
 
 async function importRssFeed(
   client: Client,
-  transformer: ElasticsearchRssTransformer
+  transformer: ElasticsearchRssTransformer,
+  url: string,
+  sourceName: string
 ) {
   try {
-    console.log(`Importing RSS feed ${transformer.url}...`);
-    const response = await fetch(transformer.url);
+    console.log(`Importing RSS feed ${url}...`);
+    const response = await fetch(url);
     const xmlString = await response.text();
 
     // Parse the XML string using xml2js
@@ -31,8 +33,7 @@ async function importRssFeed(
 
     // Iterate over each <item> and transform them
     for (const item of items) {
-      const doc = await transformer.documentTransformer(item);
-      console.log(doc);
+      const doc = await transformer.documentTransformer(item, sourceName);
       if (doc !== undefined) {
         const id = transformer.idGenerator(doc);
         if (doc && id) {
@@ -65,10 +66,12 @@ export default async function updateRssFeeds() {
 
   for (const rssFeed of siteConfig.rssFeeds) {
     try {
+      if (!rssFeed.transformer || !rssFeed.url || !rssFeed.sourceName)
+        throw new Error('RSS Feed missing url or sourceName');
       const { transformer } = await import(
-        `./transform/rss/${rssFeed.sourceName}Transformer`
+        `./transform/rss/${rssFeed.transformer}`
       );
-      await importRssFeed(client, transformer);
+      await importRssFeed(client, transformer, rssFeed.url, rssFeed.sourceName);
     } catch (e) {
       console.error(`Error updating RSS ${rssFeed.sourceName}: ${e}`);
       return;

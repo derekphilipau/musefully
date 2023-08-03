@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
+import type { BaseDocument } from '@/types/baseDocument';
 import { Icons } from '@/components/icons';
 
 function getContainerClass(layout) {
@@ -14,7 +15,19 @@ function getDetailsClass(layout) {
   return 'lg:col-span-2';
 }
 
-export function ContentCard({ item, layout, showType }) {
+interface ContentCardProps {
+  item: BaseDocument;
+  layout: 'grid' | 'list';
+  showType: boolean;
+  isMultiDataset: boolean;
+}
+
+export function ContentCard({
+  item,
+  layout,
+  showType,
+  isMultiDataset,
+}: ContentCardProps) {
   if (!item || !item.url) return null;
   const dict = getDictionary();
 
@@ -48,6 +61,11 @@ export function ContentCard({ item, layout, showType }) {
           </div>
         </div>
         <div className={getDetailsClass(layout)}>
+          {isMultiDataset && (
+            <div className="text-sm text-neutral-700 dark:text-neutral-400">
+              {dict[`source.${item.source}`]}
+            </div>
+          )}
           {showType && layout === 'list' && (
             <h4 className="mb-2 text-base font-semibold uppercase text-neutral-500 dark:text-neutral-600">
               {dict['index.content.itemTitle']}

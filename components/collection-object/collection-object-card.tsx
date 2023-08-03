@@ -63,7 +63,7 @@ export function CollectionObjectCard({
         <div className={getDetailsClass(layout)}>
           {isMultiDataset && (
             <div className="text-sm text-neutral-700 dark:text-neutral-400">
-              {dict[`dataset.${item.source}.name`]}
+              {dict[`source.${item.source}`]}
             </div>
           )}
           {showType && layout === 'list' && (

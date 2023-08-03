@@ -28,7 +28,7 @@ export function SimilarCollectionObjectCard({
         <div className="pt-2">
           {isMultiDataset && (
             <div className="text-xs text-neutral-700 dark:text-neutral-400">
-              {dict[`dataset.${item.source}.name`]}
+              {dict[`source.${item.source}`]}
             </div>
           )}
           <h4 className="font-semibold text-neutral-900 dark:text-white">
