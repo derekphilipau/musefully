@@ -27,10 +27,10 @@ export function MobileNav({ items }: MainNavProps) {
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className="-mr-4 text-2xl font-bold hover:bg-transparent focus:ring-0"
+          className="-mr-2 text-2xl font-bold hover:bg-transparent focus:ring-0"
           aria-label={dict['button.openMenu']}
         >
-          <Icons.menu className="ml-4 h-6 w-6" />
+          <Icons.menu className="h-6 w-6" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent

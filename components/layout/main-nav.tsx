@@ -22,7 +22,7 @@ export function MainNav({ items }: MainNavProps) {
       >
         <Image
           src={logoIcon}
-          className="h-10 object-contain md:mr-4"
+          className="h-10 object-contain md:mr-2"
           alt={dict['site.title']}
         />
         <span className="hidden md:block">{dict['site.title']}</span>
