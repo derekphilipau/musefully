@@ -19,7 +19,7 @@ export const metadata = {
     default: 'musefully',
     template: '%s | musefully',
   },
-  description: 'Elasticsearch + Next.js Search Prototype',
+  description: 'Musefully browse museum content',
   icons: {
     icon: [
       {
