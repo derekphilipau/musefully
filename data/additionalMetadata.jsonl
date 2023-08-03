@@ -1,6 +1,5 @@
 {"_index":"collections","_id":"bkm_1558","sortPriority":500}
 {"_index":"collections","_id":"moma_79802","sortPriority":497}
-{"_index":"content","_id":"www-brooklynmuseum-org-visit-hours_admission-museum_hours","sortPriority":495}
 {"_index":"collections","_id":"bkm_1165","sortPriority":490}
 {"_index":"collections","_id":"moma_78333","sortPriority":485}
 {"_index":"collections","_id":"bkm_217341","sortPriority":480}
@@ -8,7 +7,6 @@
 {"_index":"collections","_id":"bkm_207854","sortPriority":470}
 {"_index":"collections","_id":"bkm_4225","sortPriority":460}
 {"_index":"collections","_id":"moma_79809","sortPriority":457}
-{"_index":"content","_id":"www-brooklynmuseum-org-visit-directions","sortPriority":455}
 {"_index":"collections","_id":"bkm_169803","sortPriority":450}
 {"_index":"collections","_id":"moma_79766","sortPriority":445}
 {"_index":"collections","_id":"bkm_221709","sortPriority":440}
@@ -20,7 +18,6 @@
 {"_index":"collections","_id":"bkm_934","sortPriority":410}
 {"_index":"collections","_id":"moma_78908","sortPriority":405}
 {"_index":"collections","_id":"bkm_610","sortPriority":400}
-{"_index":"content","_id":"www-brooklynmuseum-org-support-join-membership","sortPriority":395}
 {"_index":"collections","_id":"moma_79933","sortPriority":395}
 {"_index":"collections","_id":"bkm_4813","sortPriority":390}
 {"_index":"collections","_id":"moma_80000","sortPriority":385}
@@ -37,7 +34,6 @@
 {"_index":"collections","_id":"bkm_218581","sortPriority":330}
 {"_index":"collections","_id":"moma_78455","sortPriority":325}
 {"_index":"collections","_id":"bkm_224994","sortPriority":320}
-{"_index":"content","_id":"www-brooklynmuseum-org-exhibitions","sortPriority":315}
 {"_index":"collections","_id":"bkm_224792","sortPriority":310}
 {"_index":"collections","_id":"bkm_224323","sortPriority":300}
 {"_index":"collections","_id":"bkm_217078","sortPriority":290}
@@ -46,4 +42,3 @@
 {"_index":"collections","_id":"bkm_161758","sortPriority":260}
 {"_index":"collections","_id":"bkm_28578","sortPriority":250}
 {"_index":"collections","_id":"bkm_1149","sortPriority":240}
-{"_index":"content","_id":"www-brooklynmuseum-org-visit-tours","sortPriority":235}

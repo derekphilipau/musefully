@@ -25,7 +25,7 @@ export const siteConfig: SiteConfig = {
     {
       name: 'Brooklyn Museum',
       sourceName: 'bkm',
-      indices: ['collections', 'content'],
+      indices: ['collections'],
     },
     {
       name: 'Museum of Modern Art',
