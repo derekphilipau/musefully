@@ -11,7 +11,7 @@ import type { Dataset } from '@/types/dataset';
 import { siteConfig } from '@/config/site';
 import { updateAdditionalMetadata } from './updateAdditionalMetadata';
 import { updateDominantColors } from './updateDominantColors';
-import updateFromJsonlFile from './updateFromJsonlFile';
+import updateFromFile from './updateFromFile';
 import updateRssFeeds from './updateRssFeed';
 
 loadEnvConfig(process.cwd());
@@ -24,7 +24,7 @@ async function importDataset(dataset: Dataset, includeSourcePrefix: boolean) {
         const { transformer } = await import(
           `./transform/${dataset.sourceName}/${indexName}Transformer`
         );
-        await updateFromJsonlFile(
+        await updateFromFile(
           indexName,
           dataFile,
           transformer,

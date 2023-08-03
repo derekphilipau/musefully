@@ -1,5 +1,28 @@
+import * as fs from 'fs';
+import * as readline from 'node:readline';
+import zlib from 'zlib';
 import { getClient } from '@/util/elasticsearch/client';
-import { getReadlineInterface } from '@/util/elasticsearch/import';
+
+/**
+ * Get a readline interface for a given filename.
+ * If the filename ends with '.gz', the file will be gunzipped.
+ *
+ * @param filename File to read
+ * @returns readline.Interface
+ */
+export function getReadlineInterface(filename: string) {
+  // Get either gunzip or regular file stream
+  if (filename.endsWith('.gz')) {
+    return readline.createInterface({
+      input: fs.createReadStream(filename).pipe(zlib.createGunzip()),
+      crlfDelay: Infinity,
+    });
+  }
+  return readline.createInterface({
+    input: fs.createReadStream(filename),
+    crlfDelay: Infinity,
+  });
+}
 
 export async function updateAdditionalMetadata(dataFilename: string) {
   const chunkSize = parseInt(process.env.ELASTICSEARCH_BULK_LIMIT || '1000');
@@ -20,7 +43,7 @@ export async function updateAdditionalMetadata(dataFilename: string) {
               _id,
             },
           },
-          { doc: docUpdate, doc_as_upsert: true }
+          { doc: docUpdate }
         );
       }
     } catch (err) {
@@ -35,7 +58,10 @@ export async function updateAdditionalMetadata(dataFilename: string) {
 
   for (const chunk of chunkedOperations) {
     console.log('BULK UPDATE');
-    const bulkResponse = await client.bulk({ refresh: true, operations: chunk });
+    const bulkResponse = await client.bulk({
+      refresh: true,
+      operations: chunk,
+    });
     if (bulkResponse.errors) {
       console.log(JSON.stringify(bulkResponse, null, 2));
       throw new Error('Failed to bulk update documents');

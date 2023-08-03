@@ -1,15 +1,58 @@
 // TODO remove zlib from package.json
+
+import * as fs from 'fs';
+import * as readline from 'node:readline';
+import zlib from 'zlib';
 import { getClient } from '@/util/elasticsearch/client';
 import {
   bulk,
   createIndexIfNotExist,
   getBulkOperationArray,
-  getReadlineInterface,
 } from '@/util/elasticsearch/import';
 import { searchAll } from '@/util/elasticsearch/search/search';
+import csvParser from 'csv-parser';
 
 import type { ElasticsearchTransformer } from '@/types/elasticsearchTransformer';
 import { TermIdMap } from '@/types/term';
+
+async function* readFileData(
+  filename: string
+): AsyncGenerator<any, void, unknown> {
+  const isJsonl = filename.endsWith('.jsonl');
+  const isCompressedJsonl = filename.endsWith('.jsonl.gz');
+  const isCsv = filename.endsWith('.csv');
+  const inputStream = fs.createReadStream(filename);
+
+  if (isJsonl || isCompressedJsonl) {
+    let fileStream: readline.Interface | undefined;
+    if (isJsonl) {
+      fileStream = readline.createInterface({
+        input: inputStream,
+        crlfDelay: Infinity,
+      });
+    } else if (isCompressedJsonl) {
+      fileStream = readline.createInterface({
+        input: fs.createReadStream(filename).pipe(zlib.createGunzip()),
+        crlfDelay: Infinity,
+      });
+    }
+    if (!fileStream)
+      throw new Error(`Error creating file stream for ${filename}`);
+    for await (const line of fileStream) {
+      try {
+        const obj = JSON.parse(line);
+        yield obj;
+      } catch (err) {
+        console.error(`Error parsing JSON line ${line}: ${err}`);
+      }
+    }
+  } else if (isCsv) {
+    const csvStream = inputStream.pipe(csvParser());
+    for await (const row of csvStream) {
+      yield row;
+    }
+  }
+}
 
 /**
  * Update data in Elasticsearch from a jsonl file (one JSON object per row, no endline commas)
@@ -20,7 +63,7 @@ import { TermIdMap } from '@/types/term';
  * @param source  Name of the source.
  * @param includeSourcePrefix  Whether to include the source prefix in the document ID.
  */
-export default async function updateFromJsonlFile(
+export default async function updateFromFile(
   indexName: string,
   dataFilename: string,
   transformer: ElasticsearchTransformer,
@@ -31,15 +74,13 @@ export default async function updateFromJsonlFile(
   const maxBulkOperations = bulkLimit * 2;
   const client = getClient();
   await createIndexIfNotExist(client, indexName);
-  const rl = getReadlineInterface(dataFilename);
-
   const allIds: string[] = [];
   let allTerms: TermIdMap = {};
   let operations: any[] = [];
-  for await (const line of rl) {
+
+  for await (const obj of readFileData(dataFilename)) {
     try {
-      const obj = line ? JSON.parse(line) : undefined;
-      if (obj !== undefined) {
+      if (obj) {
         const doc = await transformer.documentTransformer(obj);
         if (doc !== undefined) {
           const id = transformer.idGenerator(doc, includeSourcePrefix);
@@ -58,7 +99,7 @@ export default async function updateFromJsonlFile(
         }
       }
     } catch (err) {
-      console.error(`Error parsing line ${line}: ${err}`);
+      console.error(`Error parsing object ${obj}: ${err}`);
     }
 
     if (operations.length >= maxBulkOperations) {

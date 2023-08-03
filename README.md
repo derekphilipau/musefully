@@ -1,34 +1,30 @@
 # musefully
 
-This project was originally [https://github.com/derekphilipau/museum-nextjs-search](https://github.com/derekphilipau/museum-nextjs-search)
+The original project, [museum-nextjs-search](https://github.com/derekphilipau/museum-nextjs-search), was suitable for single-organization installations, with indices representing collections objects, website pages, and archives records.
 
-The original project was suitable for single-organization installations, with indices representing collections objects, website pages, and archives records.
-
-This new project is a more general solution, providing multi-dataset ingest, new design, and new website at [https://musefully.org](https://musefully.org)
+musefully is a more general solution, providing multi-dataset ingest, new design, and new website at [https://musefully.org](https://musefully.org)
 
 ## Intro
 
 Powerful platforms like [Elasticsearch](https://www.elastic.co/) & [Next.js](https://nextjs.org/) make it possible for museums to easily build performant, responsive and accessible faceted searches for their online collections.
 
-## Demo
+## Website
 
 This project has been deployed on Vercel at [https://musefully.org](https://musefully.org)
-
-OpenAI CLIP Embeddings similarity feature is in the [feature-experimental-clip](https://github.com/derekphilipau/museum-nextjs-search/tree/feature-experimental-clip) branch.  The embeddings were slowing down my test Elasticsearch instance, so I've taken down the Vercel deployment.  [You can see examples of artwork similarity here.](./doc/embeddings.md)
 
 ## Overview
 
 A typical approach for building a collections website is to periodically sync data from a backend collections management system (sometimes augmented with data from an internal CMS) into a relational database which is queried by a frontend website.
 
-This project takes a different approach, using Elasticsearch as the primary data store and Next.js as the frontend. Note that the collections data is read-only, the actual datastore is in the backend system. Using the last exported files, the Elasticsearch indices can be rebuilt within a handful of minutes, even with collections of 200,000 documents.
-
-TODO: Implement the "Cloud Function Periodic Sync" using AWS Lambda or Google Cloud Functions. For the time being, Elasticsearch indices are updated manually via command line scripts.
+This project takes a different approach, using Elasticsearch as the primary data store and Next.js as the frontend. Note that the collections data is read-only, the actual datastore is in the backend system. Using the last exported files, the Elasticsearch indices can be rebuilt in just a few minutes, even with collections of 200,000 documents.
 
 ![System Design](./doc/img/CollectionsSystem.png)
 
 ### Importing data
 
-Two methods are offered for updating indices: Update and insert.
+The original project, [museum-nextjs-search](https://github.com/derekphilipau/museum-nextjs-search), used two methods of updated indices, update and insert, which are detailed below.
+
+musefully only uses the update technique.
 
 ![Loading data with Update and Insert methods](./doc/img/UpdateInsertIndex.png)
 
@@ -44,11 +40,25 @@ The insert method completely repopulates an index from a JSONL data file. To avo
 
 ### Collections Data
 
-All data was collected via the [Brooklyn Museum Open API](https://www.brooklynmuseum.org/opencollection/api/docs).
+Data has been collected from a number of sources, and more sources will be added over time:
+
+- [Brooklyn Museum](https://www.brooklynmuseum.org), via [Brooklyn Museum Open API](https://www.brooklynmuseum.org/opencollection/api/docs).
+- [MoMA](https://www.moma.org/), dataset on Github [here](https://github.com/MuseumofModernArt/collection).
+- [The Met](https://www.metmuseum.org/), dataset on Github [here](https://github.com/metmuseum/openaccess)
+
+### RSS Feeds
+
+- [Hyperallergic](https://hyperallergic.com/), [Feed](https://hyperallergic.com/feed/)
+- [MOMA](https://stories.moma.org/), [Feed](https://stories.moma.org/feed)
+- [Cooper Hewitt](https://www.cooperhewitt.org/blog/), [Feed](https://www.cooperhewitt.org/blog/feed/)
+- [Victoria & Albert Museum](https://www.vam.ac.uk/blog), [Feed](https://www.vam.ac.uk/blog/feed)
+- [Seattle Art Museum](https://samblog.seattleartmuseum.org/), [Feed](https://samblog.seattleartmuseum.org/feed/)
+- [Milwaukee Art Museum](https://blog.mam.org/), [Feed](https://blog.mam.org/feed/)
+- [ArtNews](https://www.artnews.com/), [Feed](https://www.artnews.com/feed/)
 
 ### Additional Metadata
 
-It's often necessary to augment backend collection data with additional metadata.  For example, theme tags like "Climate Justice" might be associated with artworks in a CMS rather the backend collections management system.  The "sortPriority" field allows one to prominently display specific documents by adjusting the ordering in default searches.  This additional metadata is stored in `data/BrooklynMuseum/additionalMetadata.jsonl`, but could just as easily be exported from a CMS.
+It's often necessary to augment backend collection data with additional metadata. For example, theme tags like "Climate Justice" might be associated with artworks in a CMS rather the backend collections management system. The "sortPriority" field allows one to prominently display specific documents by adjusting the ordering in default searches. This additional metadata is stored in `data/BrooklynMuseum/additionalMetadata.jsonl`, but could just as easily be exported from a CMS.
 
 ### Getty Union List of Artist Names (ULAN) Data
 
@@ -129,7 +139,7 @@ Image:
 - `year` - The year of the image
 - `view` - The view of the image, e.g. "front", "back", "detail", etc.
 - `rank` - The rank of the image, used for sorting
-- `embedding` - Experimental Feature. CLIP image embedding for similarity & text search.  Removed.  [See examples here.](./doc/embeddings.md)
+- `embedding` - Experimental Feature. CLIP image embedding for similarity & text search. Removed. [See examples here.](./doc/embeddings.md)
 
 Museum Location:
 
@@ -158,9 +168,9 @@ The base document defines common fields for all indices, these are the fields us
 - `formattedDate` - A string representing the date, no strict format.
 - `startYear` - An integer representing the start date year. Used for year range filtering.
 - `endYear` - An integer representing the end date year. Used for year range filtering.
-- `sortPriority` - Integer representing the priority or weight of a document.  Allows for default search results customization.
+- `sortPriority` - Integer representing the priority or weight of a document. Allows for default search results customization.
 
-Note on dates:  Museum objects have a wide range of dates from pre-historic BCE to contemporary CE that ISO 8601 cannot represent, hence the use of signed integers to represent years.
+Note on dates: Museum objects have a wide range of dates from pre-historic BCE to contemporary CE that ISO 8601 cannot represent, hence the use of signed integers to represent years.
 
 #### Collection Document
 
@@ -224,16 +234,15 @@ Text queries are currently searched with multi_match default [`best_fields`](htt
 ```
 multi_match: {
     query: q,
-    type: 'best_fields',
+    type: 'cross_fields',
     operator: 'and',
     fields: [
         'boostedKeywords^20',
-        'constituents^4', // TODO
-        'title^2',
+        'primaryConstituent.canonicalName.search^4',
+        'title.search^2',
         'keywords^2',
         'description',
         'searchText',
-        'accessionNumber',
     ],
 },
 ```
@@ -244,7 +253,7 @@ How one defines object similarity will vary from institution to institution. The
 
 This project uses a custom bool query of boosted should terms. [similarObjects.ts](./util/elasticsearch/search/similarObjects.ts) specifies which fields are used along with a boost value for each. The primary constituent (e.g. Artist, Maker, etc.) is given the most weight. These fields can be adjusted based on your institution's concept of object similarity. The current weights are:
 
-- `primaryConstituent.canonicalName` - 4
+- `primaryConstituent.canonicalName.search` - 6
 - `dynasty` - 2
 - `period` - 2
 - `classification` - 1.5
@@ -278,11 +287,11 @@ which is an implementation of [Radix UI](https://www.radix-ui.com/) with [Tailwi
 
 ## Experimental Features
 
-I've added CLIP Embeddings but there's no code in this project to add embeddings yourself. I've used [the code here](https://github.com/derekphilipau/elastic-clip-museum-search) to add the embeddings via a Colab notebook, but it's a hack. Removed. [See examples here.](./doc/embeddings.md)
+Similarity based on OpenAI CLIP Embeddings stored in Elasticsearch dense vectors worked well, but slowed down my mini server. [You can learn more about it here.](https://github.com/derekphilipau/museum-nextjs-search/blob/main/doc/embeddings.md), and the old code is [feature-experimental-clip](https://github.com/derekphilipau/museum-nextjs-search/tree/feature-experimental-clip) branch. [The code here](https://github.com/derekphilipau/elastic-clip-museum-search) was used to add the embeddings via a Colab notebook, but it's a hack.
 
 ## Adopt it yourself
 
-It's hoped that all one will need to do is be able to export TMS data to JSON matching the format of the Elasticsearch index.
+It's hoped that all you need to do is 1) Export collections data to JSON, and 2) Write a transformer to convert the JSON to match the format of the Elasticsearch index.
 
 ## API Endpoints
 
@@ -306,7 +315,25 @@ GET `http://localhost:3000/api/collections/53453`
 
 ### Set up Elasticsearch
 
-You can run Elasticsearch in a Docker container, or sign up for an Elasticsearch Cloud account. [For Docker, follow the instructions here.](https://www.elastic.co/guide/en/elasticsearch/reference/8.6/docker.html) [Sign up for an Elasticsearch Cloud account here.](https://cloud.elastic.co/)
+You can run Elasticsearch in a Docker container locally or in the cloud, or [sign up for an Elasticsearch Cloud account](https://cloud.elastic.co/).
+
+#### Non-cloud Elasticsearch
+
+The `/docker` folder contains a docker-compose config file for running Elasticsearch locally. You can run it with `docker-compose up`. See related article, ["Start a multi-node cluster with Docker Compose"](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-compose-file). Alternatively, use [Elastic stack (ELK) on Docker](https://github.com/deviantony/docker-elk).
+
+##### Non-cloud post-install
+
+**API Key**
+
+Generate an API key (in Kibana: Stack Management > API Keys > Create API key). Once you've generated a key, copy the Base64 value to the `ELASTICSEARCH_API_KEY` variable in the .env.local file.
+
+**CA Cert**
+
+Copy the Elasticsearch container's CA certificate and put it in `/secrets`. If you're using this project's docker-compose.yml:
+
+`docker cp musefully-es01-1:/usr/share/elasticsearch/config/certs/es01/es01.crt ./secrets/`
+
+Update .env.local `ELASTICSEARCH_CA_FILE` variable with the crt file location.
 
 ### Environment Variables
 
@@ -319,17 +346,16 @@ On [Formspree](https://formspree.io/) you should set up a basic contact form and
 For cloud deployments (for example on Vercel), add the same variables to the Environment Variables of your deployment.
 
 ```
-DATASET=brooklynMuseum
 ELASTICSEARCH_USE_CLOUD=true
 ELASTICSEARCH_CLOUD_ID=elastic-museum-test:dXMtY2VudlasfdkjfdwLmNsb3VkLmVzLmlvOjQ0MyQ5ZDhiNWQ2NDM0NTA0ODgwadslfjk;ldfksjfdlNmE2M2IwMmaslfkjfdlksj2ZTU5MzZmMg==
 ELASTICSEARCH_CLOUD_USERNAME=elastic
-ELASTICSEARCH_CLOUD_PASSWORD=aslflsafdkjlkjslakdfj
+ELASTICSEARCH_CLOUD_PASSWORD=changeme
 ELASTICSEARCH_HOST=localhost
 ELASTICSEARCH_PROTOCOL=https
 ELASTICSEARCH_PORT=9200
 ELASTICSEARCH_CA_FILE=./secrets/http_ca.crt
 ELASTICSEARCH_API_KEY=DssaSLfdsFKJidsljfakslfjfLIJEWLiMkJPQzNwSzVmQQ==
-ELASTICSEARCH_BULK_LIMIT=1000
+ELASTICSEARCH_BULK_LIMIT=2000
 FORMSPREE_FORM_ID=mskbksar
 ```
 
@@ -345,7 +371,8 @@ If you have not yet loaded the Elasticsearch data, you should see an error on th
 
 From the command line, run: `npm run import`
 
-The main data file with collection objects is `./data/BrooklynMuseum/collections.jsonl.gz`. `importDataCommand.ts` will load compressed data from .jsonl.gz files in the `data/BrooklynMuseum/` directory into Elasticsearch indices. **_Warning: This will modify Elasticsearch indices._**
+Data files are stored in `/data/[source]/[index].jsonl.gz`.
+The import script, `importDataCommand.ts`, will load compressed data from .jsonl.gz files in the data directory into Elasticsearch indices. **_Warning: This will modify Elasticsearch indices._**
 
 This command will:
 
@@ -354,8 +381,9 @@ This command will:
 3. Ask if you want to import the collections index (all records)
 4. Ask if you want to import the content index (all records)
 5. Ask if you want to update dominant colors. This will only update colors for images which haven't already been analyzed.
+6. Ask if you want to update RSS feeds to the content index.
 
-The import process will take some time, as it inserts 1000 documents at a time using Elasticsearch bulk and then rests for a couple seconds.
+The import process will take some time, as it inserts 2000 documents at a time using Elasticsearch bulk and then rests for a couple seconds.
 
 ## License
 

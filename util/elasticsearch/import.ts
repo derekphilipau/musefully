@@ -1,6 +1,3 @@
-import * as fs from 'fs';
-import * as readline from 'node:readline';
-import zlib from 'zlib';
 import { Client } from '@elastic/elasticsearch';
 import * as T from '@elastic/elasticsearch/lib/api/types';
 
@@ -20,27 +17,6 @@ const indices = {
  */
 export function snooze(s: number) {
   return new Promise((resolve) => setTimeout(resolve, s * 1000));
-}
-
-/**
- * Get a readline interface for a given filename.
- * If the filename ends with '.gz', the file will be gunzipped.
- *
- * @param filename File to read
- * @returns readline.Interface
- */
-export function getReadlineInterface(filename: string) {
-  // Get either gunzip or regular file stream
-  if (filename.endsWith('.gz')) {
-    return readline.createInterface({
-      input: fs.createReadStream(filename).pipe(zlib.createGunzip()),
-      crlfDelay: Infinity,
-    });
-  }
-  return readline.createInterface({
-    input: fs.createReadStream(filename),
-    crlfDelay: Infinity,
-  });
 }
 
 /**

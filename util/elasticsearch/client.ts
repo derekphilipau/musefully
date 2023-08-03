@@ -1,7 +1,8 @@
 import { readFileSync } from 'fs';
 import { Client } from '@elastic/elasticsearch';
 
-export const ERR_CONFIG = 'Missing environment variables for Elasticsearch connection.';
+export const ERR_CONFIG =
+  'Missing environment variables for Elasticsearch connection.';
 export const ERR_CLIENT = 'Cannot connect to Elasticsearch.';
 
 /**
