@@ -1,10 +1,18 @@
 # musefully
 
+This project was originally [https://github.com/derekphilipau/museum-nextjs-search](https://github.com/derekphilipau/museum-nextjs-search)
+
+The original project was suitable for single-organization installations, with indices representing collections objects, website pages, and archives records.
+
+This new project is a more general solution, providing multi-dataset ingest, new design, and new website at [https://musefully.org](https://musefully.org)
+
+## Intro
+
 Powerful platforms like [Elasticsearch](https://www.elastic.co/) & [Next.js](https://nextjs.org/) make it possible for museums to easily build performant, responsive and accessible faceted searches for their online collections.
 
 ## Demo
 
-This project has been deployed on Vercel at https://bkm-next-search.vercel.app/
+This project has been deployed on Vercel at [https://musefully.org](https://musefully.org)
 
 OpenAI CLIP Embeddings similarity feature is in the [feature-experimental-clip](https://github.com/derekphilipau/museum-nextjs-search/tree/feature-experimental-clip) branch.  The embeddings were slowing down my test Elasticsearch instance, so I've taken down the Vercel deployment.  [You can see examples of artwork similarity here.](./doc/embeddings.md)
 
