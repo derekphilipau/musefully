@@ -1,8 +1,7 @@
 import * as React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
-import logoIcon from '@/public/favicon.svg';
+import { Logo } from '@/components/logo';
 
 import type { NavItem } from '@/types/nav';
 import { cn } from '@/lib/utils';
@@ -20,11 +19,7 @@ export function MainNav({ items }: MainNavProps) {
         href="/"
         className="inline-flex items-center space-x-2 text-xl font-bold"
       >
-        <Image
-          src={logoIcon}
-          className="h-10 object-contain md:mr-2"
-          alt={dict['site.title']}
-        />
+        <Logo className="h-10 fill-black object-contain dark:fill-white md:mr-2" />
         <span className="hidden md:block">{dict['site.title']}</span>
       </Link>
       {items?.length ? (
