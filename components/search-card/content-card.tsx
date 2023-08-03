@@ -37,7 +37,9 @@ export function ContentCard({
         <div>
           {showType && layout === 'grid' && (
             <h4 className="mb-2 text-base font-semibold uppercase text-neutral-500 dark:text-neutral-600">
-              {dict['index.content.itemTitle']}
+              {item.type === 'rss'
+                ? dict['index.content.type.rss']
+                : dict['index.content.type.page']}
             </h4>
           )}
           <div className="flex items-center justify-center bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-800 dark:hover:bg-neutral-700">
