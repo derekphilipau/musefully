@@ -1,4 +1,5 @@
 import { Inter } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/react';
 
 import { siteConfig } from '@/config/site';
 import { Footer } from '@/components/layout/footer';
@@ -49,7 +50,10 @@ export default async function RootLayout({
       <body className="bg-white font-sans text-neutral-900 antialiased dark:bg-neutral-900 dark:text-neutral-50">
         <Providers>
           <SiteHeader />
-          <main className="min-h-screen">{children}</main>
+          <main className="min-h-screen">
+            {children}
+            <Analytics />
+          </main>
           <Footer items={siteConfig.mainNav} />
         </Providers>
       </body>
