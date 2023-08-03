@@ -64,6 +64,11 @@ export const siteConfig: SiteConfig = {
       sourceName: 'mam',
       url: 'https://blog.mam.org/feed/',
     },
+    {
+      transformer: 'rssTransformer',
+      sourceName: 'artnews',
+      url: 'https://www.artnews.com/feed/',
+    },
   ],
   mainNav: [
     {
