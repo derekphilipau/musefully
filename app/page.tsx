@@ -33,7 +33,7 @@ export default async function Page({ params, searchParams }) {
   const dict = getDictionary();
   let errorMessage = dict['search.noResults'];
 
-  const index = params?.index?.length === 1 ? params.index[0] : 'all';
+  const index = params?.index || 'all';
   const q = searchParams?.q || '';
   const p = parseInt(searchParams?.p) || 1;
   const size = searchParams?.size || '24';
