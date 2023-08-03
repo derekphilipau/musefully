@@ -18,20 +18,17 @@ export function MainNav({ items }: MainNavProps) {
     <div className="flex gap-6 md:gap-10">
       <Link
         href="/"
-        className="inline-flex items-center space-x-2 text-2xl font-bold"
+        className="inline-flex items-center space-x-2 text-xl font-bold"
       >
         <Image
           src={logoIcon}
-          className="mr-4 h-10 object-contain"
+          className="h-10 object-contain md:mr-4"
           alt={dict['site.title']}
         />
-        {dict['site.title']}
+        <span className="hidden md:block">{dict['site.title']}</span>
       </Link>
       {items?.length ? (
-        <nav
-          className="hidden gap-6 md:flex"
-          aria-label={dict['button.mainMenu']}
-        >
+        <nav className="flex gap-6" aria-label={dict['button.mainMenu']}>
           {items?.map(
             (item, index) =>
               item.href && (
