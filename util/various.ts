@@ -123,3 +123,14 @@ export function timeAgo(date: Date | string): string {
   } catch (error) {}
   return '';
 }
+
+export function truncate(input: string, maxCharacters: number): string {
+  if (!input || input.length <= maxCharacters) return input;
+
+  let boundary = input.lastIndexOf(' ', maxCharacters);
+  boundary = boundary === -1 ? maxCharacters : boundary;
+
+  const truncated = input.substring(0, boundary) + '...';
+
+  return truncated;
+}

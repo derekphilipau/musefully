@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
-import { timeAgo } from '@/util/various';
+import { truncate } from '@/util/various';
 
 import type { BaseDocument } from '@/types/baseDocument';
-import { Icons } from '@/components/icons';
+import { CardSourceHeader } from './card-source-header';
 
 function getContainerClass(layout) {
   if (layout === 'grid') return 'py-4';
@@ -35,13 +35,7 @@ export function RssCard({
   return (
     <div className={getContainerClass(layout)}>
       <div>
-        {showType && layout === 'grid' && (
-          <h4 className="mb-2 text-base font-semibold uppercase text-neutral-500 dark:text-neutral-600">
-            {item.type === 'rss'
-              ? dict['index.content.type.rss']
-              : dict['index.content.type.page']}
-          </h4>
-        )}
+        {layout === 'grid' && <CardSourceHeader item={item} />}
         <div className="flex items-center justify-center bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-800 dark:hover:bg-neutral-700">
           <Link href={item.url}>
             <figure>
@@ -60,38 +54,14 @@ export function RssCard({
         </div>
       </div>
       <div className={getDetailsClass(layout)}>
-        <div className="mb-2 flex items-center justify-between text-sm text-neutral-700 dark:text-neutral-400">
-          <Link href={`/?f=true&source=${item.source}`} className="inline-flex items-center">
-            <div className="relative mr-2 flex h-7 w-7 shrink-0 overflow-hidden rounded-full">
-              <Image
-                src={`/img/logos/${item.sourceId}.jpg`}
-                className="aspect-square h-full w-full"
-                alt={item.source ? item.source : 'Logo'}
-                width={400}
-                height={400}
-              />
-            </div>
-            {item.source}
-          </Link>
-          <div>{item.date ? timeAgo(item.date) : null}</div>
-        </div>
-        {showType && layout === 'list' && (
-          <h4 className="mb-2 text-base font-semibold uppercase text-neutral-500 dark:text-neutral-600">
-            {dict['index.content.itemTitle']}
-          </h4>
-        )}
         <Link href={item.url}>
+          {layout !== 'grid' && <CardSourceHeader item={item} />}
           <h4 className="mb-1 text-xl font-semibold text-neutral-900 dark:text-white">
             {item.title}
           </h4>
-          {item.formattedDate && (
-            <p className="text-xs font-normal text-neutral-700 dark:text-neutral-400">
-              {item.formattedDate}
-            </p>
-          )}
           {item.description && (
             <p className="text-sm text-neutral-700 dark:text-neutral-400">
-              {item.description}
+              {truncate(item.description, item.image?.thumbnailUrl ? 200 : 400)}
             </p>
           )}
         </Link>
