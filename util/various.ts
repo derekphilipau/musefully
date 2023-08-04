@@ -1,16 +1,24 @@
+import { Parser } from 'htmlparser2';
 import slugify from 'slugify';
 
 import type { CollectionObjectDocument } from '@/types/collectionObjectDocument';
 
 /**
- * Strips basic html tags from a string
+ * Strips html tags from a string
  *
  * @param html the string to strip html from
  * @returns the string with html tags removed
  */
-export function stripBasicHtml(html) {
-  if (!html) return '';
-  return html.replace(/(<([^>]+)>)/gi, '');
+export function stripHtmlTags(html: string): string {
+  let text = '';
+  const parser = new Parser({
+    ontext(data) {
+      text += data;
+    },
+  });
+  parser.write(html);
+  parser.end();
+  return text;
 }
 
 /**
@@ -52,7 +60,7 @@ export function getCaption(
   caption += item?.accessionNumber ? `${item.accessionNumber}. ` : '';
   caption += item?.copyright ? `${item.copyright} ` : '';
   caption += item?.source ? `(Photo: ${item.source})` : '';
-  return stripBasicHtml(stripLineBreaks(caption?.trim()));
+  return stripHtmlTags(caption);
 }
 
 /**

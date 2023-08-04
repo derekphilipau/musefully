@@ -1,4 +1,6 @@
-import { loadJsonFile } from '@/util/jsonUtil';
+import * as fs from 'fs';
+import * as readline from 'node:readline';
+import zlib from 'zlib'; // TODO remove zlib from package.json
 
 import type { UlanArtist } from '@/types/ulanArtist';
 
@@ -6,6 +8,26 @@ const ULAN_ARTISTS_FILE = './data/ULAN/json/ulanArtists.jsonl.gz';
 let ULAN_ARTISTS: any = {};
 let ulanDataLoaded = false;
 let ULAN_ARTIST_CACHE: { [key: string]: UlanArtist } = {};
+
+async function loadJsonFile(filePath: string) {
+  const fileStream = fs.createReadStream(filePath).pipe(zlib.createGunzip());
+  const rl = readline.createInterface({
+    input: fileStream,
+    crlfDelay: Infinity,
+  });
+  let documents: any[] = [];
+  for await (const line of rl) {
+    try {
+      const obj = line ? JSON.parse(line) : undefined;
+      if (obj !== undefined) {
+        documents.push(obj);
+      }
+    } catch (err) {
+      console.error(`Error parsing line ${line}: ${err}`);
+    }
+  }
+  return documents;
+}
 
 /**
  * Normalizes a name for comparisons
@@ -44,14 +66,11 @@ async function loadUlanArtists() {
 
     if (ULAN_ARTISTS[artist.normalizedPreferredTerm])
       ULAN_ARTISTS[artist.normalizedPreferredTerm].push(artist);
-    else
-      ULAN_ARTISTS[artist.normalizedPreferredTerm] = [artist];
+    else ULAN_ARTISTS[artist.normalizedPreferredTerm] = [artist];
 
     for (const term of artist.normalizedNonPreferredTerms) {
-      if (ULAN_ARTISTS[term])
-        ULAN_ARTISTS[term].push(artist);
-      else
-        ULAN_ARTISTS[term] = [artist];
+      if (ULAN_ARTISTS[term]) ULAN_ARTISTS[term].push(artist);
+      else ULAN_ARTISTS[term] = [artist];
     }
   }
   console.log(`ULAN Artists loaded ${ulanArtistsRaw.length} entries`);

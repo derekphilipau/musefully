@@ -1,5 +1,5 @@
 import { format, getYear, isValid, parse } from 'date-fns';
-
+import { stripHtmlTags } from '@/util/various';
 import type { BaseDocument } from '@/types/baseDocument';
 
 /**
@@ -50,6 +50,9 @@ export function transformRssItem(item: any, source: string) {
   const date = parseDate(item.pubDate?.[0]);
   const year = getYear(date);
   const thumbnailUrl = getRssItemImageUrl(item);
+  const contentEncoded = item['content:encoded']?.length ? item['content:encoded'][0] : '';
+  const contentText = stripHtmlTags(contentEncoded);
+
   return {
     type: 'rss',
     source: source,
@@ -57,7 +60,7 @@ export function transformRssItem(item: any, source: string) {
     url: item.link?.[0],
     title: item.title?.[0],
     description: item.description?.[0],
-    searchText: item.title?.[0] + ' ' + item.description?.[0],
+    searchText: contentText,
     keywords: item.category?.length ? item.category.join(', ') : undefined,
     image: {
       url: thumbnailUrl,

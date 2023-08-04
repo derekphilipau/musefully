@@ -52,7 +52,7 @@ export const siteConfig: SiteConfig = {
   /**
    * For each dataset + index, there should be a dataset & transformer:
    * - data/{dataset.directory}/{indexName}.jsonl.gz
-   * - util/data/import/transform/{dataset.directory}/{indexName}Transformer.ts
+   * - util/import/transform/{dataset.directory}/{indexName}Transformer.ts
    */ 
   datasets: [
     {
