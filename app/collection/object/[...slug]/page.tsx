@@ -67,7 +67,7 @@ export default async function Page({ params }) {
         <div className="md:col-span-1 lg:col-span-5">
           {isMultiDataset && (
             <div className="mb-2 text-base text-neutral-700 dark:text-neutral-400">
-              {dict[`source.${collectionObject?.source}`]}
+              {collectionObject?.source}
             </div>
           )}
           <h1 className="mb-2 text-2xl font-bold leading-tight tracking-tighter sm:text-2xl md:text-3xl lg:text-4xl">

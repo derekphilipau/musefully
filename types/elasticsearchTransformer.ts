@@ -29,6 +29,8 @@ export interface ElasticsearchDocumentTransformer {
  * to transform data for use in Elasticsearch.
  */
 export interface ElasticsearchTransformer {
+  sourceId: string;
+  sourceName: string;
   idGenerator: ElasticsearchIdGenerator;
   documentTransformer: ElasticsearchDocumentTransformer;
   termsExtractor?: ElasticsearchTermsExtractor;

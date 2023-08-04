@@ -1,5 +1,5 @@
 export interface Dataset {
-  sourceName: string;
+  sourceId: string;
   name: string;
   indices: string[];
 }
