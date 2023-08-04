@@ -20,7 +20,7 @@ export function DescriptionRowObjectField({
   isLink = false,
 }: DescriptionRowProps) {
   const dict = getDictionary();
-  const displayName = dict?.[`artwork.field.${name}.${valueField}`] || 'Unknown field';
+  const displayName = dict?.[`field.${name}.${valueField}`] || 'Unknown field';
   const searchUrl = '/collections?';
 
   let nameValueObjects = item?.[name];

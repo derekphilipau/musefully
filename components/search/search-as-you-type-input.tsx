@@ -91,8 +91,8 @@ export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
 
   function getFieldName(field: string) {
     if (field === 'primaryConstituent')
-      return dict['index.collections.agg.primaryConstituent.canonicalName'];
-    else return dict[`index.collections.agg.${field}`];
+      return dict['agg.primaryConstituent.canonicalName'];
+    else return dict[`agg.${field}`];
   }
 
   return (

@@ -36,7 +36,7 @@ export function SearchFilters({
               index={index}
               params={params}
               key={i}
-              aggDisplayName={dict[`index.collections.agg.${aggName}`]}
+              aggDisplayName={dict[`agg.${aggName}`]}
               aggName={aggName}
               options={options[aggName]}
               filters={filters}
