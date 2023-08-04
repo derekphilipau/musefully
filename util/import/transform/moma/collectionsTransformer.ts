@@ -115,6 +115,7 @@ async function transformDoc(doc: any): Promise<CollectionObjectDocument> {
     // Begin BaseDocument fields
     type: OBJECT_TYPE,
     source: SOURCE_NAME,
+    sourceId: SOURCE_ID,
     id: getStringValue(doc.ObjectID),
     title: doc.Title || undefined,
   };

@@ -20,6 +20,8 @@ export interface RssFeed {
   transformer: string;
   /** Human-readable name */
   sourceName: string;
+  /** ID of source */
+  sourceId: string;
   /** URL of RSS feed */
   url: string;
 }
@@ -70,36 +72,43 @@ export const siteConfig: SiteConfig = {
     {
       transformer: 'rssTransformer',
       sourceName: 'Hyperallergic',
+      sourceId: 'hyperallergic',
       url: 'https://hyperallergic.com/feed/',
     },
     {
       transformer: 'rssTransformer',
       sourceName: 'MoMA',
+      sourceId: 'moma',
       url: 'https://stories.moma.org/feed',
     },
     {
       transformer: 'rssTransformer',
       sourceName: 'Cooper Hewitt',
+      sourceId: 'cooperhewitt',
       url: 'https://www.cooperhewitt.org/blog/feed/',
     },
     {
       transformer: 'rssTransformer',
       sourceName: 'V&A',
+      sourceId: 'vam',
       url: 'https://www.vam.ac.uk/blog/feed',
     },
     {
       transformer: 'rssTransformer',
       sourceName: 'Seattle Art Museum',
+      sourceId: 'sam',
       url: 'https://samblog.seattleartmuseum.org/feed/',
     },
     {
       transformer: 'rssTransformer',
       sourceName: 'Milwaukee Art Museum',
+      sourceId: 'mam',
       url: 'https://blog.mam.org/feed/',
     },
     {
       transformer: 'rssTransformer',
       sourceName: 'ARTnews',
+      sourceId: 'artnews',
       url: 'https://www.artnews.com/feed/',
     },
   ],

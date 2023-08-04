@@ -1,3 +1,4 @@
+import { formatDistanceToNow } from 'date-fns';
 import { Parser } from 'htmlparser2';
 import slugify from 'slugify';
 
@@ -10,6 +11,7 @@ import type { CollectionObjectDocument } from '@/types/collectionObjectDocument'
  * @returns the string with html tags removed
  */
 export function stripHtmlTags(html: string): string {
+  if (!html) return '';
   let text = '';
   const parser = new Parser({
     ontext(data) {
@@ -111,4 +113,13 @@ export function getObjectUrlWithSlug(
   });
   if (slug) url += `/${slug}`;
   return url;
+}
+
+export function timeAgo(date: Date | string): string {
+  try {
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    const timeAgo = formatDistanceToNow(dateObj);
+    return `${timeAgo} ago`;
+  } catch (error) {}
+  return '';
 }

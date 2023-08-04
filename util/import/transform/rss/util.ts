@@ -43,24 +43,26 @@ function parseDate(dateString: string): Date {
  * Transform a typical RSS item into a BaseDocument
  *
  * @param item RSS <item> element
- * @param source Source of RSS feed, e.g. 'hyperallergic'
+ * @param sourceName Source of RSS feed, e.g. 'hyperallergic'
  * @returns Elasticsearch BaseDocument
  */
-export function transformRssItem(item: any, source: string) {
+export function transformRssItem(item: any, sourceName: string, sourceId: string) {
+  const title = stripHtmlTags(item.title?.[0]);
+  const description = stripHtmlTags(item.description?.[0]);
+  const searchText = stripHtmlTags(item['content:encoded']?.[0]);
   const date = parseDate(item.pubDate?.[0]);
   const year = getYear(date);
   const thumbnailUrl = getRssItemImageUrl(item);
-  const contentEncoded = item['content:encoded']?.length ? item['content:encoded'][0] : '';
-  const contentText = stripHtmlTags(contentEncoded);
 
   return {
     type: 'rss',
-    source: source,
+    source: sourceName,
+    sourceId: sourceId,
     id: getRssItemId(item),
     url: item.link?.[0],
-    title: item.title?.[0],
-    description: item.description?.[0],
-    searchText: contentText,
+    title,
+    description,
+    searchText,
     keywords: item.category?.length ? item.category.join(', ') : undefined,
     image: {
       url: thumbnailUrl,
