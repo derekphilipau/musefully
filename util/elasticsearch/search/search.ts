@@ -23,7 +23,6 @@ const MIN_SEARCH_QUERY_LENGTH = 3; // Minimum length of search query
  * @returns Elasticsearch search response
  */
 export async function search(params: any): Promise<ApiResponseSearch> {
-  console.log('search params', params);
   if (params.index === 'collections') {
     return searchCollections(params);
   }
@@ -176,7 +175,6 @@ export async function searchCollections(
   if (qt !== undefined && qt?.length > 0) res.terms = qt;
   const term = await getFilterTerm(index, params, client);
   if (term !== undefined) res.filters = [term];
-  console.log(res)
   return res;
 }
 
