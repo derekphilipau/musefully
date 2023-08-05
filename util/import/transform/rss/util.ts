@@ -8,6 +8,10 @@ import type { BaseDocument } from '@/types/baseDocument';
  * @returns string representing URL of image
  */
 function getRssItemImageUrl(item: any): string | undefined {
+  const mediaContentUrl = item['media:content']?.[0]?.['$']?.url;
+
+  if (mediaContentUrl) return mediaContentUrl;
+
   const description = item.description?.[0];
   const content = item['content:encoded'] ? item['content:encoded'][0] : '';
 

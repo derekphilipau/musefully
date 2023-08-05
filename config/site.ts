@@ -111,6 +111,12 @@ export const siteConfig: SiteConfig = {
       sourceId: 'artnews',
       url: 'https://www.artnews.com/feed/',
     },
+    {
+      transformer: 'rssTransformer',
+      sourceName: 'NYT Art & Design',
+      sourceId: 'nyt',
+      url: 'https://rss.nytimes.com/services/xml/rss/nyt/ArtandDesign.xml',
+    },
   ],
   mainNav: [
     {
