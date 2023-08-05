@@ -81,7 +81,7 @@ export async function search(params: any): Promise<ApiResponseSearch> {
   if (sf && so) {
     esQuery.sort = [{ [sf]: so }];
   } else {
-    esQuery.sort = [{ sortPriority: 'desc' }, { startYear: 'desc' }];
+    esQuery.sort = [{ sortPriority: 'desc' }, { startYear: 'desc' }, { date: 'desc' } ];
   }
 
   const client = getClient();
