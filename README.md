@@ -311,6 +311,13 @@ GET `http://localhost:3000/api/search/document?index=collections&id=[documentId]
 For example, to get collection object with id `bkm_225001`:
 GET `http://localhost:3000/api/search/document?id=bkm_225001&index=collections`
 
+### RSS Sync API
+
+Sync RSS feeds:
+POST `http://localhost:3000/api/import/rss`
+
+Parameters: Content-Type application/json, raw body `{ "secret": "dfJtqJDG9VwN69edUU283qnD"}`
+
 ## Installation & Running
 
 ### Set up Elasticsearch
