@@ -82,7 +82,7 @@ export function SearchAgg({
 
   const debouncedRequest = useDebounce(() => {
     if (aggName && value)
-      fetch(`/api/options?index=${index}&field=${aggName}&q=${value}`)
+      fetch(`/api/search/options?index=${index}&field=${aggName}&q=${value}`)
         .then((res) => res.json())
         .then((data) => {
           if (data?.length > 0) setSearchOptions(data);
