@@ -32,7 +32,7 @@ export async function getDocument(
 
   const apiResponse: ApiResponseDocument = { data };
   if (index === 'collections' && getAdditionalData) {
-    apiResponse.similar = await similarCollectionObjects(data, client);
+    apiResponse.similar = await similarCollectionObjects(data, true, client);
   }
   return apiResponse;
 }

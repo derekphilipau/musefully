@@ -73,9 +73,9 @@ export function getCaption(
  */
 export function getBooleanValue(x: any) {
   if (typeof x === 'boolean') return x;
-  if (typeof x === 'string') return x === 'true';
+  if (typeof x === 'string') return x === 'true' || x === '1';
   if (typeof x === 'number') return x === 1;
-  return false;
+  return false; // undefined, null, or other
 }
 
 /**
