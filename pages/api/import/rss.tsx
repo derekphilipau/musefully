@@ -6,19 +6,21 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    console.log(req.body);
-    const { secret } = req.body;
+    const { secret } = req.query;
+    // const { secret } = req.body; // Someday use POST instead of GET
     const realSecret = process.env.API_SECRET;
 
     if (!realSecret) {
       res.status(500).json({ error: 'API_SECRET not set' });
       return;
     }
-
+    /*
+    // Someday use POST instead of GET
     if (req.method !== 'POST') {
       res.status(405).send({ message: 'Only POST requests allowed' })
       return
     }
+    */
 
     if (secret !== realSecret) {
       res.status(401).json({ error: 'Unauthorized' });
