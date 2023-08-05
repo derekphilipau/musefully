@@ -40,6 +40,7 @@ export const indicesMeta: IndicesMeta = {
     ],
     filters: [
       // not all aggs need to be filters
+      'source',
       'primaryConstituent.canonicalName',
       'classification',
       'medium',

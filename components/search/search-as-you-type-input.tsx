@@ -113,8 +113,8 @@ export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
             </div>
             <Button
               type="submit"
-              variant="default"
-              className="rounded-none  rounded-r-md"
+              variant="secondary"
+              className="rounded-none rounded-r-md"
               aria-label={dict['search.search']}
             >
               <Icons.search className="h-5 w-5" />
