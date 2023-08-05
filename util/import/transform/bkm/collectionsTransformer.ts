@@ -2,8 +2,8 @@ import type { DocumentImage } from '@/types/baseDocument';
 import type { CollectionObjectDocument } from '@/types/collectionObjectDocument';
 import type { ElasticsearchTransformer } from '@/types/elasticsearchTransformer';
 import {
-  parseSignificantWords,
   getStringValue,
+  parseSignificantWords,
   sourceAwareIdFormatter,
 } from '../transformUtil';
 import { searchUlanArtists } from '../ulan/searchUlanArtists';
@@ -18,6 +18,11 @@ const SOURCE_ID = 'bkm';
 const SOURCE_NAME = 'Brooklyn Museum';
 const OBJECT_TYPE = 'object';
 const NOT_ON_VIEW = 'This item is not on view';
+const NOT_ASSIGNED = '(not assigned)';
+
+const UNKNOWN = 'Unknown';
+const UNKNOWN_ARTIST = 'Unknown Artist';
+const MAKER_UNKNOWN = 'Maker Unknown';
 
 /**
  * Sometimes the item's main image (item.image.url) is ranked at the same level
@@ -104,7 +109,8 @@ async function transformDoc(doc: any): Promise<CollectionObjectDocument> {
   if (doc.inscribed) esDoc.inscribed = doc.inscribed;
   if (doc.credit_line) esDoc.creditLine = doc.credit_line;
   if (doc.copyright) esDoc.copyright = doc.copyright;
-  if (doc.classification) esDoc.classification = doc.classification; // "Vessel"
+  if (doc.classification && doc.classification != NOT_ASSIGNED)
+    esDoc.classification = doc.classification; // e.g. "Vessel"
   if (doc.public_access) esDoc.publicAccess = doc.public_access === 1;
   if (doc.copyright_restricted)
     esDoc.copyrightRestricted = doc.copyright_restricted === 1;
@@ -152,9 +158,12 @@ async function transformDoc(doc: any): Promise<CollectionObjectDocument> {
     }));
 
     if (esDoc.constituents?.length) {
-      // Remove constituents with name = "Unknown":
+      // Remove constituents with hard-coded unknown values
       esDoc.constituents = esDoc.constituents.filter(
-        (c) => c.name !== 'Unknown' && c.name !== 'Unknown Artist'
+        (c) =>
+          c.name !== UNKNOWN &&
+          c.name !== UNKNOWN_ARTIST &&
+          c.name !== MAKER_UNKNOWN
       );
     }
 

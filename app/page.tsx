@@ -26,8 +26,8 @@ import { SearchPagination } from '@/components/search/search-pagination';
 
 function getLayoutGridClass(layout: string) {
   if (layout === 'grid')
-    return 'my-4 relative grid grid-cols-1 gap-6 pb-8 md:grid-cols-2 md:pb-10 lg:grid-cols-3';
-  return 'relative grid grid-cols-1 gap-6 pb-8 md:pb-10';
+    return 'my-4 relative grid grid-cols-1 gap-8 pb-8 md:grid-cols-2 md:pb-10 lg:grid-cols-3';
+  return 'relative grid grid-cols-1 gap-8 pb-8 md:pb-10';
 }
 
 export default async function Page({ params, searchParams }) {

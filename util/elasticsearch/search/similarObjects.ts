@@ -9,12 +9,13 @@ const SIMILAR_PAGE_SIZE = 24; // 24 results per similar search
 const UNKNOWN_CONSTITUENT = 'Unknown'; // Default string for unknown constituent in dataset
 
 export async function similarCollectionObjectsById(
-  id: string
+  id: string,
+  hasPhoto: boolean = true,
 ): Promise<CollectionObjectDocument[]> {
   if (!id) return [];
   const docResponse = await getDocument('collections', id, false);
   const document = docResponse?.data as CollectionObjectDocument;
-  if (document) return similarCollectionObjects(document);
+  if (document) return similarCollectionObjects(document, hasPhoto);
   return [];
 }
 
@@ -27,6 +28,7 @@ export async function similarCollectionObjectsById(
  */
 export async function similarCollectionObjects(
   document?: CollectionObjectDocument,
+  hasPhoto: boolean = true,
   client?: Client
 ): Promise<CollectionObjectDocument[]> {
   if (!document || !document.id) return [];
@@ -42,33 +44,32 @@ export async function similarCollectionObjects(
             },
           },
         ],
-        /*
-        // Don't require similar objects to have images
-        must: {
-          exists: {
-            field: 'image',
-          },
-        },
-        */
       },
     },
     from: 0,
     size: SIMILAR_PAGE_SIZE,
   };
 
+  if (hasPhoto && esQuery.query?.bool) {
+    esQuery.query.bool.must = {
+      exists: {
+        field: 'image',
+      },
+    };
+  }
+
   // Adjust these boosts to accomodate your conception of object similarity:
   if (
     document.primaryConstituent?.id &&
-    document.primaryConstituent?.name !== UNKNOWN_CONSTITUENT
+    document.primaryConstituent?.canonicalName !== UNKNOWN_CONSTITUENT
   ) {
-    addShouldTerms(document, esQuery, 'primaryConstituent.id', 4);
+    addShouldTerms(document, esQuery, 'primaryConstituent.canonicalName', 4);
   }
-  addShouldTerms(document, esQuery, 'dynasty', 2);
-  addShouldTerms(document, esQuery, 'period', 2);
-  addShouldTerms(document, esQuery, 'classification', 1.5);
+  addShouldTerms(document, esQuery, 'classification', 2);
+  addShouldTerms(document, esQuery, 'dynasty', 1);
   addShouldTerms(document, esQuery, 'medium', 1);
+  addShouldTerms(document, esQuery, 'period', 1);
   addShouldTerms(document, esQuery, 'departments', 1);
-  addShouldTerms(document, esQuery, 'exhibitions', 1);
   addShouldTerms(document, esQuery, 'primaryGeographicalLocation.name', 1);
 
   if (!client) client = getClient();

@@ -11,7 +11,7 @@ export function ArchiveCard({ item, showType }) {
 
   return (
     <Link href={item.url}>
-      <div className="py-4">
+      <div className="">
         {showType && (
           <h4 className="mb-2 text-base font-semibold uppercase text-neutral-500 dark:text-neutral-600">
             {dict['index.archives.itemTitle']}

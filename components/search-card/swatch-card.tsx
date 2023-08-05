@@ -10,7 +10,7 @@ import {
 import { Icons } from '@/components/icons';
 
 function getContainerClass(layout) {
-  if (layout === 'grid') return 'py-4';
+  if (layout === 'grid') return '';
   return 'grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 gap-x-6 gap-y-3';
 }
 

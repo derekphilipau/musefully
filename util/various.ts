@@ -56,7 +56,7 @@ export function getCaption(
     : '';
   caption += item?.title ? `${item.title}, ` : '';
   caption += item?.formattedDate ? `${item.formattedDate}. ` : '';
-  caption += item?.medium ? `${item.medium}, ` : '';
+  caption += item?.formattedMedium ? `${item.formattedMedium}, ` : '';
   caption += item?.dimensions ? `${item.dimensions}. ` : '';
   caption += item?.creditLine ? `${item.creditLine}, ` : '';
   caption += item?.accessionNumber ? `${item.accessionNumber}. ` : '';
@@ -73,9 +73,9 @@ export function getCaption(
  */
 export function getBooleanValue(x: any) {
   if (typeof x === 'boolean') return x;
-  if (typeof x === 'string') return x === 'true';
+  if (typeof x === 'string') return x === 'true' || x === '1';
   if (typeof x === 'number') return x === 1;
-  return false;
+  return false; // undefined, null, or other
 }
 
 /**

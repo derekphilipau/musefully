@@ -4,11 +4,11 @@ import { getDictionary } from '@/dictionaries/dictionaries';
 import { truncate } from '@/util/various';
 
 import type { BaseDocument } from '@/types/baseDocument';
-import { CardSourceHeader } from './card-source-header';
+import { SourceHeader } from '../source/source-header';
 
 function getContainerClass(layout) {
-  if (layout === 'grid') return 'py-4';
-  return 'py-4 grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 gap-x-6 gap-y-3';
+  if (layout === 'grid') return '';
+  return 'grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 gap-x-6 gap-y-3';
 }
 
 function getDetailsClass(layout) {
@@ -36,7 +36,7 @@ export function RssCard({
     <div className={getContainerClass(layout)}>
       <div>
         {isMultiDataset && layout === 'grid' && (
-          <CardSourceHeader item={item} />
+          <SourceHeader item={item} showDate={true} isSmall={true} />
         )}
         <div className="flex items-center justify-center bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-800 dark:hover:bg-neutral-700">
           <Link href={item.url}>
@@ -58,7 +58,7 @@ export function RssCard({
       <div className={getDetailsClass(layout)}>
         <Link href={item.url}>
           {isMultiDataset && layout !== 'grid' && (
-            <CardSourceHeader item={item} />
+            <SourceHeader item={item} />
           )}
           <h4 className="mb-1 text-xl font-semibold text-neutral-900 dark:text-white">
             {item.title}
