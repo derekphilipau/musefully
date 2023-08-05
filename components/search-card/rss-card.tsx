@@ -35,7 +35,9 @@ export function RssCard({
   return (
     <div className={getContainerClass(layout)}>
       <div>
-        {layout === 'grid' && <CardSourceHeader item={item} />}
+        {isMultiDataset && layout === 'grid' && (
+          <CardSourceHeader item={item} />
+        )}
         <div className="flex items-center justify-center bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-800 dark:hover:bg-neutral-700">
           <Link href={item.url}>
             <figure>
@@ -55,7 +57,9 @@ export function RssCard({
       </div>
       <div className={getDetailsClass(layout)}>
         <Link href={item.url}>
-          {layout !== 'grid' && <CardSourceHeader item={item} />}
+          {isMultiDataset && layout !== 'grid' && (
+            <CardSourceHeader item={item} />
+          )}
           <h4 className="mb-1 text-xl font-semibold text-neutral-900 dark:text-white">
             {item.title}
           </h4>

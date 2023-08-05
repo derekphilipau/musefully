@@ -7,8 +7,8 @@ import {
 
 import type { CollectionObjectDocument } from '@/types/collectionObjectDocument';
 import { DominantColors } from '@/components/color/dominant-colors';
-import { CollectionObjectThumbnail } from '../collection-object-image/collection-object-thumbnail';
 import { CardSourceHeader } from '@/components/search-card/card-source-header';
+import { CollectionObjectThumbnail } from '../collection-object-image/collection-object-thumbnail';
 
 function getContainerClass(layout) {
   if (layout === 'grid') return 'py-4';
@@ -46,7 +46,9 @@ export function CollectionObjectCard({
   return (
     <div className={getContainerClass(layout)}>
       <div>
-        {layout === 'grid' && <CardSourceHeader item={item} showDate={false} />}
+        {isMultiDataset && layout === 'grid' && (
+          <CardSourceHeader item={item} showDate={false} />
+        )}
         <div className="flex items-center justify-center bg-neutral-50 text-neutral-200 hover:bg-neutral-100 hover:text-neutral-300 dark:bg-neutral-800 dark:text-neutral-900 dark:hover:bg-neutral-700  dark:hover:text-neutral-800">
           <Link href={href}>
             <CollectionObjectThumbnail item={item} />
