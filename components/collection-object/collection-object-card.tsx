@@ -7,12 +7,12 @@ import {
 
 import type { CollectionObjectDocument } from '@/types/collectionObjectDocument';
 import { DominantColors } from '@/components/color/dominant-colors';
-import { CardSourceHeader } from '@/components/search-card/card-source-header';
+import { SourceHeader } from '@/components/source/source-header';
 import { CollectionObjectThumbnail } from '../collection-object-image/collection-object-thumbnail';
 
 function getContainerClass(layout) {
-  if (layout === 'grid') return 'py-4';
-  return 'py-4 grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 gap-x-6 gap-y-3';
+  if (layout === 'grid') return '';
+  return 'grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 gap-x-6 gap-y-3';
 }
 
 function getDetailsClass(layout) {
@@ -47,7 +47,7 @@ export function CollectionObjectCard({
     <div className={getContainerClass(layout)}>
       <div>
         {isMultiDataset && layout === 'grid' && (
-          <CardSourceHeader item={item} showDate={false} />
+          <SourceHeader item={item} showDate={false} isSmall={true} />
         )}
         <div className="flex items-center justify-center bg-neutral-50 text-neutral-200 hover:bg-neutral-100 hover:text-neutral-300 dark:bg-neutral-800 dark:text-neutral-900 dark:hover:bg-neutral-700  dark:hover:text-neutral-800">
           <Link href={href}>
@@ -62,7 +62,7 @@ export function CollectionObjectCard({
       )}
       <div className={getDetailsClass(layout)}>
         {isMultiDataset && layout !== 'grid' && (
-          <CardSourceHeader item={item} showDate={false} />
+          <SourceHeader item={item} showDate={false} />
         )}
         <Link href={href}>
           {showType && layout === 'list' && (

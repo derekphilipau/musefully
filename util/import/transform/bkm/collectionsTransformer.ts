@@ -20,6 +20,10 @@ const OBJECT_TYPE = 'object';
 const NOT_ON_VIEW = 'This item is not on view';
 const NOT_ASSIGNED = '(not assigned)';
 
+const UNKNOWN = 'Unknown';
+const UNKNOWN_ARTIST = 'Unknown Artist';
+const MAKER_UNKNOWN = 'Maker Unknown';
+
 /**
  * Sometimes the item's main image (item.image.url) is ranked at the same level
  * as other item images.  Force the main image to have the highest rank (0).
@@ -154,9 +158,12 @@ async function transformDoc(doc: any): Promise<CollectionObjectDocument> {
     }));
 
     if (esDoc.constituents?.length) {
-      // Remove constituents with name = "Unknown":
+      // Remove constituents with hard-coded unknown values
       esDoc.constituents = esDoc.constituents.filter(
-        (c) => c.name !== 'Unknown' && c.name !== 'Unknown Artist'
+        (c) =>
+          c.name !== UNKNOWN &&
+          c.name !== UNKNOWN_ARTIST &&
+          c.name !== MAKER_UNKNOWN
       );
     }
 

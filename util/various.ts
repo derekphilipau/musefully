@@ -56,7 +56,7 @@ export function getCaption(
     : '';
   caption += item?.title ? `${item.title}, ` : '';
   caption += item?.formattedDate ? `${item.formattedDate}. ` : '';
-  caption += item?.medium ? `${item.medium}, ` : '';
+  caption += item?.formattedMedium ? `${item.formattedMedium}, ` : '';
   caption += item?.dimensions ? `${item.dimensions}. ` : '';
   caption += item?.creditLine ? `${item.creditLine}, ` : '';
   caption += item?.accessionNumber ? `${item.accessionNumber}. ` : '';

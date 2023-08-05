@@ -7,19 +7,30 @@ import type { BaseDocument } from '@/types/baseDocument';
 interface CardSourceHeaderProps {
   item: BaseDocument;
   showDate?: boolean;
+  isSmall?: boolean;
 }
 
-export function CardSourceHeader({ item, showDate = true }: CardSourceHeaderProps) {
+export function SourceHeader({
+  item,
+  showDate = false,
+  isSmall = false,
+}: CardSourceHeaderProps) {
   if (!item || !item.source) return null;
+  let containerClass = 'mb-2 flex items-center justify-between text-sm text-neutral-700 dark:text-neutral-400';
+  let imageContainerClass = 'relative mr-2 flex h-7 w-7 shrink-0 overflow-hidden rounded-full';
+  if (isSmall) {
+    containerClass = 'mb-2 flex items-center justify-between text-xs text-neutral-700 dark:text-neutral-400'
+    imageContainerClass = 'relative mr-2 flex h-6 w-6 shrink-0 overflow-hidden rounded-full';
+  }
 
   return (
-    <div className="mb-2 flex items-center justify-between text-sm text-neutral-700 dark:text-neutral-400">
+    <div className={containerClass}>
       <Link
         href={`/?f=true&source=${item.source}`}
         className="inline-flex items-center"
       >
         {item.sourceId && (
-          <div className="relative mr-2 flex h-7 w-7 shrink-0 overflow-hidden rounded-full">
+          <div className={imageContainerClass}>
             <Image
               src={`/img/logos/${item.sourceId}.jpg`}
               className="aspect-square h-full w-full"
@@ -31,7 +42,9 @@ export function CardSourceHeader({ item, showDate = true }: CardSourceHeaderProp
         )}
         {item.source}
       </Link>
-      {showDate && <div>{item.date ? timeAgo(item.date) : null}</div>}
+      {showDate && item.date && (
+        <div>{item.date ? timeAgo(item.date) : null}</div>
+      )}
     </div>
   );
 }

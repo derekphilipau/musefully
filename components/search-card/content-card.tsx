@@ -6,8 +6,8 @@ import type { BaseDocument } from '@/types/baseDocument';
 import { Icons } from '@/components/icons';
 
 function getContainerClass(layout) {
-  if (layout === 'grid') return 'py-4';
-  return 'py-4 grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 gap-x-6 gap-y-3';
+  if (layout === 'grid') return '';
+  return 'grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 gap-x-6 gap-y-3';
 }
 
 function getDetailsClass(layout) {

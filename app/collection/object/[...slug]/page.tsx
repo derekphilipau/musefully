@@ -14,6 +14,7 @@ import { CollectionObjectDescription } from '@/components/collection-object/coll
 import { CollectionObjectShare } from '@/components/collection-object/collection-object-share';
 import { LanguageDisclaimer } from '@/components/collection-object/language-disclaimer';
 import { SimilarCollectionObjectList } from '@/components/collection-object/similar-collection-object-list';
+import { SourceHeader } from '@/components/source/source-header';
 
 export async function generateMetadata({ params }): Promise<Metadata> {
   const id = params.slug[0];
@@ -66,9 +67,7 @@ export default async function Page({ params }) {
         </div>
         <div className="md:col-span-1 lg:col-span-5">
           {isMultiDataset && (
-            <div className="mb-2 text-base text-neutral-700 dark:text-neutral-400">
-              {collectionObject?.source}
-            </div>
+            <SourceHeader item={collectionObject} />
           )}
           <h1 className="mb-2 text-2xl font-bold leading-tight tracking-tighter sm:text-2xl md:text-3xl lg:text-4xl">
             {collectionObject?.title}
