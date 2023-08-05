@@ -14,6 +14,7 @@ import { CollectionObjectCard } from '@/components/collection-object/collection-
 import { ArchiveCard } from '@/components/search-card/archive-card';
 import { ColorCard } from '@/components/search-card/color-card';
 import { ContentCard } from '@/components/search-card/content-card';
+import { RssCard } from '@/components/search-card/rss-card';
 import { PaletteCard } from '@/components/search-card/palette-card';
 import { SwatchCard } from '@/components/search-card/swatch-card';
 import { TermCard } from '@/components/search-card/term-card';
@@ -260,8 +261,16 @@ export default async function Page({ params, searchParams }) {
                       {item.type === 'archive' && (
                         <ArchiveCard item={item} showType={index === 'all'} />
                       )}
-                      {(item.type === 'content' || item.type === 'rss') && (
+                      {item.type === 'content' && (
                         <ContentCard
+                          item={item}
+                          layout={layout}
+                          showType={index === 'all'}
+                          isMultiDataset={isMultiDataset}
+                        />
+                      )}
+                      {item.type === 'rss' && (
+                        <RssCard
                           item={item}
                           layout={layout}
                           showType={index === 'all'}

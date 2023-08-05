@@ -224,32 +224,32 @@ export function SearchPagination({
                     {sortDropdownMenuItem(
                       'startYear',
                       'asc',
-                      'artwork.field.date'
+                      'field.date'
                     )}
                     {sortDropdownMenuItem(
                       'startYear',
                       'desc',
-                      'artwork.field.date'
+                      'field.date'
                     )}
                     {sortDropdownMenuItem(
                       'title',
                       'asc',
-                      'baseDocument.field.title'
+                      'field.title'
                     )}
                     {sortDropdownMenuItem(
                       'title',
                       'desc',
-                      'baseDocument.field.title'
+                      'field.title'
                     )}
                     {sortDropdownMenuItem(
                       'primaryConstituent.canonicalName',
                       'asc',
-                      'artwork.field.primaryConstituent.canonicalName'
+                      'field.primaryConstituent.canonicalName'
                     )}
                     {sortDropdownMenuItem(
                       'primaryConstituent.canonicalName',
                       'desc',
-                      'artwork.field.primaryConstituent.canonicalName'
+                      'field.primaryConstituent.canonicalName'
                     )}
                   </DropdownMenuGroup>
                 </DropdownMenuContent>

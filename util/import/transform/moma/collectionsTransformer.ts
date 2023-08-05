@@ -6,7 +6,9 @@ import { searchUlanArtists } from '../ulan/searchUlanArtists';
 import { collectionsTermsExtractor } from '../util/collectionsTermsExtractor';
 import type { MomaDocument } from './types';
 import { parseSignificantWords } from '../transformUtil';
-const DATASOURCE_NAME = 'moma';
+
+const SOURCE_ID = 'moma';
+const SOURCE_NAME = 'MoMA';
 const OBJECT_TYPE = 'object';
 
 interface YearRange {
@@ -112,7 +114,8 @@ async function transformDoc(doc: any): Promise<CollectionObjectDocument> {
   const esDoc: CollectionObjectDocument = {
     // Begin BaseDocument fields
     type: OBJECT_TYPE,
-    source: DATASOURCE_NAME,
+    source: SOURCE_NAME,
+    sourceId: SOURCE_ID,
     id: getStringValue(doc.ObjectID),
     title: doc.Title || undefined,
   };
@@ -173,16 +176,18 @@ async function transformDoc(doc: any): Promise<CollectionObjectDocument> {
 }
 
 export const transformer: ElasticsearchTransformer = {
+  sourceId: SOURCE_ID,
+  sourceName: SOURCE_NAME,
   idGenerator: (
     doc: CollectionObjectDocument,
     includeSourcePrefix: boolean
   ) => {
-    return sourceAwareIdFormatter(doc.id, DATASOURCE_NAME, includeSourcePrefix);
+    return sourceAwareIdFormatter(doc.id, SOURCE_ID, includeSourcePrefix);
   },
   documentTransformer: async (doc) => {
     return transformDoc(doc);
   },
   termsExtractor: async (doc: CollectionObjectDocument) => {
-    return collectionsTermsExtractor(doc, DATASOURCE_NAME);
+    return collectionsTermsExtractor(doc, SOURCE_NAME);
   },
 };

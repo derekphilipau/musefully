@@ -6,7 +6,7 @@ export const transformer: ElasticsearchRssTransformer = {
   idGenerator: (doc: BaseDocument) => {
     return doc.id || '';
   },
-  documentTransformer: async (item, source) => {
-    return transformRssItem(item, source);
+  documentTransformer: async (item, sourceName, sourceId) => {
+    return transformRssItem(item, sourceName, sourceId);
   },
 };

@@ -1,16 +1,26 @@
+import { formatDistanceToNow } from 'date-fns';
+import { Parser } from 'htmlparser2';
 import slugify from 'slugify';
 
 import type { CollectionObjectDocument } from '@/types/collectionObjectDocument';
 
 /**
- * Strips basic html tags from a string
+ * Strips html tags from a string
  *
  * @param html the string to strip html from
  * @returns the string with html tags removed
  */
-export function stripBasicHtml(html) {
+export function stripHtmlTags(html: string): string {
   if (!html) return '';
-  return html.replace(/(<([^>]+)>)/gi, '');
+  let text = '';
+  const parser = new Parser({
+    ontext(data) {
+      text += data;
+    },
+  });
+  parser.write(html);
+  parser.end();
+  return text;
 }
 
 /**
@@ -52,7 +62,7 @@ export function getCaption(
   caption += item?.accessionNumber ? `${item.accessionNumber}. ` : '';
   caption += item?.copyright ? `${item.copyright} ` : '';
   caption += item?.source ? `(Photo: ${item.source})` : '';
-  return stripBasicHtml(stripLineBreaks(caption?.trim()));
+  return stripHtmlTags(caption);
 }
 
 /**
@@ -103,4 +113,24 @@ export function getObjectUrlWithSlug(
   });
   if (slug) url += `/${slug}`;
   return url;
+}
+
+export function timeAgo(date: Date | string): string {
+  try {
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    const timeAgo = formatDistanceToNow(dateObj);
+    return `${timeAgo} ago`;
+  } catch (error) {}
+  return '';
+}
+
+export function truncate(input: string, maxCharacters: number): string {
+  if (!input || input.length <= maxCharacters) return input;
+
+  let boundary = input.lastIndexOf(' ', maxCharacters);
+  boundary = boundary === -1 ? maxCharacters : boundary;
+
+  const truncated = input.substring(0, boundary) + '...';
+
+  return truncated;
 }

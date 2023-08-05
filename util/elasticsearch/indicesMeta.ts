@@ -24,6 +24,7 @@ interface IndicesMeta {
 export const indicesMeta: IndicesMeta = {
   collections: {
     aggs: [
+      'source',
       'primaryConstituent.canonicalName',
       'classification',
       'medium',
@@ -39,6 +40,7 @@ export const indicesMeta: IndicesMeta = {
     ],
     filters: [
       // not all aggs need to be filters
+      'source',
       'primaryConstituent.canonicalName',
       'classification',
       'medium',
@@ -58,7 +60,11 @@ export const indicesMeta: IndicesMeta = {
     ],
   },
   content: {
-    aggs: [],
-    filters: [],
+    aggs: [
+      'source',
+    ],
+    filters: [
+      'source',
+    ],
   },
 };

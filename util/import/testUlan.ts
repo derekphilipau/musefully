@@ -1,7 +1,7 @@
 /**
  * Import Elasticsearch data from JSON files.
  *
- * npx ts-node --compiler-options {\"module\":\"CommonJS\"} ./util/data/import/importDataCommand.ts
+ * npx ts-node --compiler-options {\"module\":\"CommonJS\"} ./util/import/importDataCommand.ts
  */
 
 import {

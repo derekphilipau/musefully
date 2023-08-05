@@ -7,6 +7,7 @@ import {
 
 import type { CollectionObjectDocument } from '@/types/collectionObjectDocument';
 import { DominantColors } from '@/components/color/dominant-colors';
+import { CardSourceHeader } from '@/components/search-card/card-source-header';
 import { CollectionObjectThumbnail } from '../collection-object-image/collection-object-thumbnail';
 
 function getContainerClass(layout) {
@@ -43,29 +44,27 @@ export function CollectionObjectCard({
   const href = getObjectUrlWithSlug(item._id, item.title);
 
   return (
-    <Link href={href}>
-      <div className={getContainerClass(layout)}>
-        <div>
-          {showType && layout === 'grid' && (
-            <h4 className="mb-2 text-base font-semibold uppercase text-neutral-500 dark:text-neutral-600">
-              {dict['index.collections.itemTitle']}
-            </h4>
-          )}
-          <div className="flex items-center justify-center bg-neutral-50 text-neutral-200 hover:bg-neutral-100 hover:text-neutral-300 dark:bg-neutral-800 dark:text-neutral-900 dark:hover:bg-neutral-700  dark:hover:text-neutral-800">
-            <CollectionObjectThumbnail item={item} />
-          </div>
-        </div>
-        {showColor && (
-          <div className="mt-2">
-            <DominantColors item={item} height={4} isLinked={false} />
-          </div>
+    <div className={getContainerClass(layout)}>
+      <div>
+        {isMultiDataset && layout === 'grid' && (
+          <CardSourceHeader item={item} showDate={false} />
         )}
-        <div className={getDetailsClass(layout)}>
-          {isMultiDataset && (
-            <div className="text-sm text-neutral-700 dark:text-neutral-400">
-              {dict[`source.${item.source}`]}
-            </div>
-          )}
+        <div className="flex items-center justify-center bg-neutral-50 text-neutral-200 hover:bg-neutral-100 hover:text-neutral-300 dark:bg-neutral-800 dark:text-neutral-900 dark:hover:bg-neutral-700  dark:hover:text-neutral-800">
+          <Link href={href}>
+            <CollectionObjectThumbnail item={item} />
+          </Link>
+        </div>
+      </div>
+      {showColor && (
+        <div className="mt-2">
+          <DominantColors item={item} height={4} isLinked={false} />
+        </div>
+      )}
+      <div className={getDetailsClass(layout)}>
+        {isMultiDataset && layout !== 'grid' && (
+          <CardSourceHeader item={item} showDate={false} />
+        )}
+        <Link href={href}>
           {showType && layout === 'list' && (
             <h4 className="mb-2 text-base font-semibold uppercase text-neutral-500 dark:text-neutral-600">
               {dict['index.collections.itemTitle']}
@@ -84,8 +83,8 @@ export function CollectionObjectCard({
           {layout === 'list' && (
             <p>{trimStringToLengthAtWordBoundary(item.description, 200)}</p>
           )}
-        </div>
+        </Link>
       </div>
-    </Link>
+    </div>
   );
 }

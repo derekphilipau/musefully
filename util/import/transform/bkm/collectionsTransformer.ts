@@ -14,7 +14,8 @@ import {
   getSmallOrRestrictedImageUrl,
 } from './util';
 
-const DATASOURCE_NAME = 'bkm';
+const SOURCE_ID = 'bkm';
+const SOURCE_NAME = 'Brooklyn Museum';
 const OBJECT_TYPE = 'object';
 const NOT_ON_VIEW = 'This item is not on view';
 
@@ -38,7 +39,8 @@ async function transformDoc(doc: any): Promise<CollectionObjectDocument> {
   const esDoc: CollectionObjectDocument = {
     // Begin BaseDocument fields
     type: OBJECT_TYPE,
-    source: DATASOURCE_NAME,
+    source: SOURCE_NAME,
+    sourceId: SOURCE_ID,
     id: getStringValue(doc.id),
     title: doc.title || undefined,
   };
@@ -145,7 +147,7 @@ async function transformDoc(doc: any): Promise<CollectionObjectDocument> {
       nationality: [artist.nationality], // "American"
       role: artist.role,
       rank: artist.rank,
-      source: DATASOURCE_NAME,
+      source: SOURCE_NAME,
       sourceId: artist.id,
     }));
 
@@ -296,16 +298,18 @@ async function transformDoc(doc: any): Promise<CollectionObjectDocument> {
 }
 
 export const transformer: ElasticsearchTransformer = {
+  sourceId: SOURCE_ID,
+  sourceName: SOURCE_NAME,
   idGenerator: (
     doc: CollectionObjectDocument,
     includeSourcePrefix: boolean
   ) => {
-    return sourceAwareIdFormatter(doc.id, DATASOURCE_NAME, includeSourcePrefix);
+    return sourceAwareIdFormatter(doc.id, SOURCE_ID, includeSourcePrefix);
   },
   documentTransformer: async (doc) => {
     return transformDoc(doc);
   },
   termsExtractor: async (doc: CollectionObjectDocument) => {
-    return collectionsTermsExtractor(doc, DATASOURCE_NAME);
+    return collectionsTermsExtractor(doc, SOURCE_NAME);
   },
 };

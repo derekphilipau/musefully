@@ -60,14 +60,13 @@ async function* readFileData(
  * @param indexName  Name of the index.
  * @param dataFilename  Name of the file containing the data.
  * @param transformer  Transformer object with functions to transform the data.
- * @param source  Name of the source.
- * @param includeSourcePrefix  Whether to include the source prefix in the document ID.
+ * @param sourceName  Name of the sourceName.
+ * @param includeSourcePrefix  Whether to include the source id prefix in the document ID.
  */
 export default async function updateFromFile(
   indexName: string,
   dataFilename: string,
   transformer: ElasticsearchTransformer,
-  source: string,
   includeSourcePrefix = false
 ) {
   const bulkLimit = parseInt(process.env.ELASTICSEARCH_BULK_LIMIT || '1000');
@@ -135,7 +134,7 @@ export default async function updateFromFile(
     indexName,
     {
       match: {
-        source,
+        source: transformer.sourceName,
       },
     },
     ['id']

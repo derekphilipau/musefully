@@ -59,6 +59,7 @@ export interface BaseDocument {
   _index?: string;
   type?: string;
   source?: string;
+  sourceId?: string;
   url?: string;
   id?: string;
   title?: string;

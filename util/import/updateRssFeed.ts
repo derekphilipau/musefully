@@ -16,7 +16,8 @@ async function importRssFeed(
   client: Client,
   transformer: ElasticsearchRssTransformer,
   url: string,
-  sourceName: string
+  sourceName: string,
+  sourceId: string,
 ) {
   try {
     console.log(`Importing RSS feed ${url}...`);
@@ -33,7 +34,7 @@ async function importRssFeed(
 
     // Iterate over each <item> and transform them
     for (const item of items) {
-      const doc = await transformer.documentTransformer(item, sourceName);
+      const doc = await transformer.documentTransformer(item, sourceName, sourceId);
       if (doc !== undefined) {
         const id = transformer.idGenerator(doc);
         if (doc && id) {
@@ -71,7 +72,7 @@ export default async function updateRssFeeds() {
       const { transformer } = await import(
         `./transform/rss/${rssFeed.transformer}`
       );
-      await importRssFeed(client, transformer, rssFeed.url, rssFeed.sourceName);
+      await importRssFeed(client, transformer, rssFeed.url, rssFeed.sourceName, rssFeed.sourceId);
     } catch (e) {
       console.error(`Error updating RSS ${rssFeed.sourceName}: ${e}`);
       return;

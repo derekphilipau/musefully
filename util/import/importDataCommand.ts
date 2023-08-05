@@ -1,14 +1,13 @@
 /**
  * Import Elasticsearch data from JSON files.
  *
- * npx ts-node --compiler-options {\"module\":\"CommonJS\"} ./util/data/import/importDataCommand.ts
+ * npx ts-node --compiler-options {\"module\":\"CommonJS\"} ./util/import/importDataCommand.ts
  */
 
 import { abort, askYesNo, info, questionsDone, warn } from '@/util/command';
 import { loadEnvConfig } from '@next/env';
 
-import type { Dataset } from '@/types/dataset';
-import { siteConfig } from '@/config/site';
+import { siteConfig, type Dataset } from '@/config/site';
 import { updateAdditionalMetadata } from './updateAdditionalMetadata';
 import { updateDominantColors } from './updateDominantColors';
 import updateFromFile from './updateFromFile';
@@ -19,16 +18,15 @@ loadEnvConfig(process.cwd());
 async function importDataset(dataset: Dataset, includeSourcePrefix: boolean) {
   for (const indexName of dataset.indices) {
     if (await askYesNo(`Update ${dataset.name} ${indexName} index?`)) {
-      const dataFile = `./data/${dataset.sourceName}/${indexName}.jsonl.gz`;
+      const dataFile = `./data/${dataset.directory}/${indexName}.jsonl.gz`;
       try {
         const { transformer } = await import(
-          `./transform/${dataset.sourceName}/${indexName}Transformer`
+          `./transform/${dataset.directory}/${indexName}Transformer`
         );
         await updateFromFile(
           indexName,
           dataFile,
           transformer,
-          dataset.sourceName,
           includeSourcePrefix
         );
       } catch (e) {

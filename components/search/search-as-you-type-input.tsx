@@ -91,8 +91,8 @@ export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
 
   function getFieldName(field: string) {
     if (field === 'primaryConstituent')
-      return dict['index.collections.agg.primaryConstituent.canonicalName'];
-    else return dict[`index.collections.agg.${field}`];
+      return dict['agg.primaryConstituent.canonicalName'];
+    else return dict[`agg.${field}`];
   }
 
   return (
@@ -113,8 +113,8 @@ export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
             </div>
             <Button
               type="submit"
-              variant="default"
-              className="rounded-none  rounded-r-md"
+              variant="secondary"
+              className="rounded-none rounded-r-md"
               aria-label={dict['search.search']}
             >
               <Icons.search className="h-5 w-5" />

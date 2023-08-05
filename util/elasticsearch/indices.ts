@@ -4,7 +4,8 @@ import * as S from './settings';
 
 const baseDocument: Record<T.PropertyName, T.MappingProperty> = {
   type: S.keywordField,
-  source: S.keywordField,
+  source: S.searchableAggregatedKeywordAnalyzerField,
+  sourceId: S.keywordField,
   url: S.keywordField,
   id: S.keywordField,
   title: S.suggestUnaggregatedStandardAnalyzerField,
