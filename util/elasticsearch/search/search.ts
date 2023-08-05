@@ -31,12 +31,12 @@ export async function search(params: any): Promise<ApiResponseSearch> {
   let { index, p, size, q, sf, so } = params;
 
   // Defaults for params:
-  index = index !== 'all' ? index : ['collections', 'content'];
+  const searchIndices = index !== 'all' ? index : ['collections', 'content'];
   size = size || DEFAULT_SEARCH_PAGE_SIZE;
   p = p || 1;
 
   const esQuery: T.SearchRequest = {
-    index,
+    index: searchIndices,
     query: { bool: { must: {} } },
     from: (p - 1) * size || 0,
     size,
@@ -70,8 +70,8 @@ export async function search(params: any): Promise<ApiResponseSearch> {
 
   if (index === 'all') {
     esQuery.indices_boost = [
-      { content: 6 },
-      { collections: 3 },
+      { content: 1.5 },
+      { collections: 1 },
     ];
   }
 
@@ -105,10 +105,10 @@ export async function search(params: any): Promise<ApiResponseSearch> {
 export async function searchCollections(
   params: any
 ): Promise<ApiResponseSearch> {
-  let { index, p, size, q, color, sf, so } = params;
+  let { p, size, q, color, sf, so } = params;
 
   // Defaults for missing params:
-  index = 'collections';
+  const index = 'collections';
   size = size || DEFAULT_SEARCH_PAGE_SIZE;
   p = p || 1;
 

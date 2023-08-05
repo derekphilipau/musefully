@@ -67,4 +67,12 @@ export const indicesMeta: IndicesMeta = {
       'source',
     ],
   },
+  all: {
+    aggs: [
+      'source',
+    ],
+    filters: [
+      'source',
+    ],
+  },
 };
