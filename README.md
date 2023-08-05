@@ -298,18 +298,25 @@ It's hoped that all you need to do is 1) Export collections data to JSON, and 2)
 ### Search API
 
 Searches can be performed against any index. Search requests are of the form:
-GET `http://localhost:3000/api/search/[index]?[querystring]`
+GET `http://localhost:3000/api/search?[querystring]`
 
 Querystring parameters are the same as those for the Web UI:
-GET `http://localhost:3000/api/search/collections?f=true&.name=George%20Bradford%20Brainerd`
+GET `http://localhost:3000/api/search?index=collections&f=true&primaryConstituent.canonicalName=George%20Bradford%20Brainerd`
 
 ### Document API
 
 Document requests are of the form:
-GET `http://localhost:3000/api/[index]/[documentId]`
+GET `http://localhost:3000/api/search/document?index=collections&id=[documentId]`
 
-For example, to get collection object #53453:
-GET `http://localhost:3000/api/collections/53453`
+For example, to get collection object with id `bkm_225001`:
+GET `http://localhost:3000/api/search/document?id=bkm_225001&index=collections`
+
+### RSS Sync API
+
+Sync RSS feeds:
+POST `http://localhost:3000/api/import/rss`
+
+Parameters: Content-Type application/json, raw body `{ "secret": "dfJtqJDG9VwN69edUU283qnD"}`
 
 ## Installation & Running
 

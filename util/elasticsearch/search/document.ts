@@ -22,7 +22,7 @@ export async function getDocument(
   const client = getClient();
   const document = await client.get({
     index,
-    id: id + '' // force to string
+    id: id + '' // force to string. this is actually the _id field
   });
   const data = {
     _id: document._id,

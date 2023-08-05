@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/import/rss?secret=dfJtqJDG9VwN69edUU283qnD",
+      "schedule": "0 * * * *"
+    }
+  ]
+}

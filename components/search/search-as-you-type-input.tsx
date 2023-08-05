@@ -36,7 +36,7 @@ export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
       return;
     }
     if (value)
-      fetch(`/api/suggest?q=${value}`)
+      fetch(`/api/search/suggest?q=${value}`)
         .then((res) => res.json())
         .then((data) => {
           if (data?.data?.length > 0) setSearchOptions(data.data);
