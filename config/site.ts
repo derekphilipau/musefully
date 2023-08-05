@@ -129,6 +129,6 @@ export const siteConfig: SiteConfig = {
     },
   ],
   links: {
-    github: 'https://github.com/derekphilipau/museum-nextjs-search',
+    github: 'https://github.com/derekphilipau/musefully',
   },
 };
