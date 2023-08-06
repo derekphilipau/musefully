@@ -24,7 +24,7 @@ interface MainNavProps {
 
 export function MobileNav({ items }: MainNavProps) {
   const dict = getDictionary();
-  const { setTheme } = useTheme();
+  const { setTheme, theme } = useTheme();
 
   return (
     <DropdownMenu>
@@ -62,7 +62,7 @@ export function MobileNav({ items }: MainNavProps) {
         )}
         <DropdownMenuSeparator />
         <DropdownMenuLabel className="text-xs leading-none text-muted-foreground">
-        {dict['nav.links']}
+          {dict['nav.links']}
         </DropdownMenuLabel>
         {siteConfig?.links?.github && (
           <DropdownMenuItem asChild>
@@ -92,20 +92,26 @@ export function MobileNav({ items }: MainNavProps) {
         )}
         <DropdownMenuSeparator />
         <DropdownMenuLabel className="text-xs leading-none text-muted-foreground">
-        {dict['nav.theme']}
+          {dict['nav.theme']}
         </DropdownMenuLabel>
-        <DropdownMenuItem onClick={() => setTheme('light')}>
-          <Icons.sun className="mr-2 h-4 w-4" />
-          <span>{dict['nav.theme.light']}</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('dark')}>
-          <Icons.moon className="mr-2 h-4 w-4" />
-          <span>{dict['nav.theme.dark']}</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('system')}>
-          <Icons.laptop className="mr-2 h-4 w-4" />
-          <span>{dict['nav.theme.system']}</span>
-        </DropdownMenuItem>
+        {theme !== 'light' && (
+          <DropdownMenuItem onClick={() => setTheme('light')}>
+            <Icons.sun className="mr-2 h-4 w-4" />
+            <span>{dict['nav.theme.light']}</span>
+          </DropdownMenuItem>
+        )}
+        {theme !== 'dark' && (
+          <DropdownMenuItem onClick={() => setTheme('dark')}>
+            <Icons.moon className="mr-2 h-4 w-4" />
+            <span>{dict['nav.theme.dark']}</span>
+          </DropdownMenuItem>
+        )}
+        {theme !== 'system' && (
+          <DropdownMenuItem onClick={() => setTheme('system')}>
+            <Icons.laptop className="mr-2 h-4 w-4" />
+            <span>{dict['nav.theme.system']}</span>
+          </DropdownMenuItem>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );
