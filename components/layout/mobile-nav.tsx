@@ -1,8 +1,12 @@
+'use client';
+
 import * as React from 'react';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
+import { useTheme } from 'next-themes';
 
 import type { NavItem } from '@/types/nav';
+import { siteConfig } from '@/config/site';
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,7 +17,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { AltNav } from './alt-nav';
 
 interface MainNavProps {
   items?: NavItem[];
@@ -21,6 +24,7 @@ interface MainNavProps {
 
 export function MobileNav({ items }: MainNavProps) {
   const dict = getDictionary();
+  const { setTheme } = useTheme();
 
   return (
     <DropdownMenu>
@@ -38,12 +42,14 @@ export function MobileNav({ items }: MainNavProps) {
         sideOffset={24}
         className="w-[300px] overflow-scroll"
       >
-        <DropdownMenuLabel>
-          <Link href="/" className="flex items-center">
-            {dict['site.title']}
-          </Link>
+        <DropdownMenuLabel className="text-xs leading-none text-muted-foreground">
+          {dict['site.title']}
         </DropdownMenuLabel>
-        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link role="button" href="/">
+            {dict['nav.home']}
+          </Link>
+        </DropdownMenuItem>
         {items?.map(
           (item, index) =>
             item.href && (
@@ -54,7 +60,52 @@ export function MobileNav({ items }: MainNavProps) {
               </DropdownMenuItem>
             )
         )}
-        <AltNav />
+        <DropdownMenuSeparator />
+        <DropdownMenuLabel className="text-xs leading-none text-muted-foreground">
+        {dict['nav.links']}
+        </DropdownMenuLabel>
+        {siteConfig?.links?.github && (
+          <DropdownMenuItem asChild>
+            <Link
+              role="button"
+              href={siteConfig.links.github}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Icons.github className="mr-2 h-5 w-5" />
+              Github
+            </Link>
+          </DropdownMenuItem>
+        )}
+        {siteConfig?.links?.instagram && (
+          <DropdownMenuItem asChild>
+            <Link
+              role="button"
+              href={siteConfig.links.instagram}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Icons.instagram className="mr-2 h-5 w-5" />
+              Instagram
+            </Link>
+          </DropdownMenuItem>
+        )}
+        <DropdownMenuSeparator />
+        <DropdownMenuLabel className="text-xs leading-none text-muted-foreground">
+        {dict['nav.theme']}
+        </DropdownMenuLabel>
+        <DropdownMenuItem onClick={() => setTheme('light')}>
+          <Icons.sun className="mr-2 h-4 w-4" />
+          <span>{dict['nav.theme.light']}</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme('dark')}>
+          <Icons.moon className="mr-2 h-4 w-4" />
+          <span>{dict['nav.theme.dark']}</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme('system')}>
+          <Icons.laptop className="mr-2 h-4 w-4" />
+          <span>{dict['nav.theme.system']}</span>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
