@@ -39,8 +39,8 @@ export function MobileNav({ items }: MainNavProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="start"
-        sideOffset={24}
-        className="w-[300px] overflow-scroll"
+        sideOffset={10}
+        className="w-[200px] overflow-scroll"
       >
         <DropdownMenuLabel className="text-xs leading-none text-muted-foreground">
           {dict['site.title']}
