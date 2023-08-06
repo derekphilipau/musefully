@@ -62,7 +62,7 @@ export function MobileNav({ items }: MainNavProps) {
         )}
         <DropdownMenuSeparator />
         <DropdownMenuLabel className="text-xs leading-none text-muted-foreground">
-          Links
+        {dict['nav.links']}
         </DropdownMenuLabel>
         {siteConfig?.links?.github && (
           <DropdownMenuItem asChild>
@@ -92,19 +92,19 @@ export function MobileNav({ items }: MainNavProps) {
         )}
         <DropdownMenuSeparator />
         <DropdownMenuLabel className="text-xs leading-none text-muted-foreground">
-          Theme
+        {dict['nav.theme']}
         </DropdownMenuLabel>
         <DropdownMenuItem onClick={() => setTheme('light')}>
           <Icons.sun className="mr-2 h-4 w-4" />
-          <span>Light</span>
+          <span>{dict['nav.theme.light']}</span>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('dark')}>
           <Icons.moon className="mr-2 h-4 w-4" />
-          <span>Dark</span>
+          <span>{dict['nav.theme.dark']}</span>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('system')}>
           <Icons.laptop className="mr-2 h-4 w-4" />
-          <span>System</span>
+          <span>{dict['nav.theme.system']}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
