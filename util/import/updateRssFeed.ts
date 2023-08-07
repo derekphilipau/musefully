@@ -8,7 +8,7 @@ import { Client } from '@elastic/elasticsearch';
 import { parseStringPromise } from 'xml2js';
 
 import type { ElasticsearchRssTransformer } from '@/types/elasticsearchRssTransformer';
-import { siteConfig, type RssFeed } from '@/config/site';
+import { siteConfig, type RssFeedConfig } from '@/config/site';
 
 const INDEX_NAME = 'content';
 

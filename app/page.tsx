@@ -14,6 +14,7 @@ import { CollectionObjectCard } from '@/components/collection-object/collection-
 import { ArchiveCard } from '@/components/search-card/archive-card';
 import { ColorCard } from '@/components/search-card/color-card';
 import { ContentCard } from '@/components/search-card/content-card';
+import { EventCard } from '@/components/search-card/event-card';
 import { RssCard } from '@/components/search-card/rss-card';
 import { PaletteCard } from '@/components/search-card/palette-card';
 import { SwatchCard } from '@/components/search-card/swatch-card';
@@ -263,6 +264,14 @@ export default async function Page({ params, searchParams }) {
                       )}
                       {item.type === 'content' && (
                         <ContentCard
+                          item={item}
+                          layout={layout}
+                          showType={index === 'all'}
+                          isMultiDataset={isMultiDataset}
+                        />
+                      )}
+                      {(item.type === 'exhibition' || item.type === 'event') && (
+                        <EventCard
                           item={item}
                           layout={layout}
                           showType={index === 'all'}

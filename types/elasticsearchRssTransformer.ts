@@ -9,7 +9,7 @@ export interface ElasticsearchRssIdGenerator {
 }
 
 /**
- * Function type for transforming any document to a `BaseDocument` or `Term`.
+ * Function type for transforming any document to a `BaseDocument`.
  */
 export interface ElasticsearchRssDocumentTransformer {
   (doc: any, sourceName: string, sourceId: string): Promise<

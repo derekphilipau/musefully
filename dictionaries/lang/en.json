@@ -70,6 +70,7 @@
   "index.all": "All",
   "index.collections": "Art",
   "index.content": "News",
+  "index.events": "Events",
   "index.collections.itemTitle": "Artwork",
   "index.content.type.rss": "News",
   "index.content.type.content": "Page",

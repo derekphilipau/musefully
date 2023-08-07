@@ -48,6 +48,7 @@ async function transformDoc(doc: any): Promise<CollectionObjectDocument> {
     sourceId: SOURCE_ID,
     id: getStringValue(doc.id),
     title: doc.title || undefined,
+    url: `https://www.brooklynmuseum.org/opencollection/objects/${getStringValue(doc.id)}`
   };
 
   if (doc.labels?.length) {
