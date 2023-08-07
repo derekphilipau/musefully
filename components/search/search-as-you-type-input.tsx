@@ -1,6 +1,11 @@
 'use client';
 
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import {
+  ChangeEvent,
+  FormEvent,
+  useEffect,
+  useState,
+} from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
 import { useDebounce } from '@/util/debounce';
@@ -27,20 +32,27 @@ export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
+  const [open, setOpen] = useState(false);
   const [value, setValue] = useState(searchParams?.get('q') || '');
   const [searchOptions, setSearchOptions] = useState<Term[]>([]);
 
   const debouncedSuggest = useDebounce(() => {
     if (value?.length < 3) {
       setSearchOptions([]);
+      setOpen(false);
       return;
     }
     if (value)
       fetch(`/api/search/suggest?q=${value}`)
         .then((res) => res.json())
         .then((data) => {
-          if (data?.data?.length > 0) setSearchOptions(data.data);
-          else setSearchOptions([]);
+          if (data?.data?.length > 0) {
+            setSearchOptions(data.data);
+            setOpen(true);
+          } else {
+            setSearchOptions([]);
+            setOpen(false);
+          }
         });
   }, 50);
 
@@ -50,6 +62,7 @@ export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
     else updatedParams.delete('q');
     updatedParams.delete('p');
     setSearchOptions([]);
+    setOpen(false);
     setValue(currentValue);
     router.push(`${pathname}?${updatedParams}`);
   }
@@ -66,6 +79,7 @@ export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
     updatedParams.delete('p');
     const searchPath = `/${term.index || ''}`;
     setSearchOptions([]);
+    setOpen(false);
     setValue('');
     router.push(`${searchPath}?${updatedParams}`);
   }
@@ -86,6 +100,7 @@ export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
 
   useEffect(() => {
     setSearchOptions([]);
+    setOpen(false);
     setValue(searchParams?.get('q') || '');
   }, [pathname, searchParams]);
 
@@ -96,7 +111,7 @@ export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
   }
 
   return (
-    <Popover open={searchOptions?.length > 0} onOpenChange={handleOpenChange}>
+    <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverAnchor asChild>
         <form onSubmit={handleOnSubmit}>
           <div className="flex rounded-md shadow-sm">
@@ -109,6 +124,7 @@ export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
                 onChange={onQueryChange}
                 value={value}
                 autoComplete="off"
+                onBlur={() => setOpen(false)}
               />
             </div>
             <Button
