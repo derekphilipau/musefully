@@ -22,11 +22,7 @@ export function Footer({ items }: FooterProps) {
           >
             {dict['site.title']}
           </Link>
-          <p className="mb-2 text-xs">
-            {dict['organization.address1']}
-            <br />
-            {dict['organization.address2']}
-          </p>
+          {}
           <p className="text-xs">{dict['footer.text']}</p>
         </div>
         <div className="mt-6 md:mt-0">

@@ -10,6 +10,7 @@ import { loadEnvConfig } from '@next/env';
 import { siteConfig, type Dataset } from '@/config/site';
 import { updateAdditionalMetadata } from './updateAdditionalMetadata';
 import { updateDominantColors } from './updateDominantColors';
+import updateEvents from './updateEvents';
 import updateFromFile from './updateFromFile';
 import updateRssFeeds from './updateRssFeed';
 
@@ -79,6 +80,10 @@ async function run() {
 
   if (await askYesNo(`Update RSS Feeds to content index?`)) {
     await updateRssFeeds();
+  }
+
+  if (await askYesNo(`Update events to events index?`)) {
+    await updateEvents();
   }
 
   questionsDone();

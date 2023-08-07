@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import Script from 'next/script';
 import { getDictionary } from '@/dictionaries/dictionaries';
 import { getDocument } from '@/util/elasticsearch/search/document';
@@ -14,7 +15,9 @@ import { CollectionObjectDescription } from '@/components/collection-object/coll
 import { CollectionObjectShare } from '@/components/collection-object/collection-object-share';
 import { LanguageDisclaimer } from '@/components/collection-object/language-disclaimer';
 import { SimilarCollectionObjectList } from '@/components/collection-object/similar-collection-object-list';
+import { Icons } from '@/components/icons';
 import { SourceHeader } from '@/components/source/source-header';
+import { buttonVariants } from '@/components/ui/button';
 
 export async function generateMetadata({ params }): Promise<Metadata> {
   const id = params.slug[0];
@@ -66,9 +69,7 @@ export default async function Page({ params }) {
           <ImageViewer item={collectionObject} />
         </div>
         <div className="md:col-span-1 lg:col-span-5">
-          {isMultiDataset && (
-            <SourceHeader item={collectionObject} />
-          )}
+          {isMultiDataset && <SourceHeader item={collectionObject} />}
           <h1 className="mb-2 text-2xl font-bold leading-tight tracking-tighter sm:text-2xl md:text-3xl lg:text-4xl">
             {collectionObject?.title}
           </h1>
@@ -99,6 +100,15 @@ export default async function Page({ params }) {
           ></div>
           <div>
             <CollectionObjectShare item={collectionObject} />
+            {collectionObject?.url && (
+              <Link
+                className={buttonVariants({ variant: 'outline' })}
+                href={collectionObject?.url}
+              >
+                <Icons.link className="mr-2 h-5 w-5" />
+                {dict['button.source']}
+              </Link>
+            )}
           </div>
           <div className="gap-x-4 pt-4 lg:flex">
             <CollectionObjectDescription item={collectionObject} />

@@ -221,26 +221,10 @@ export function SearchPagination({
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                    {sortDropdownMenuItem(
-                      'startYear',
-                      'asc',
-                      'field.date'
-                    )}
-                    {sortDropdownMenuItem(
-                      'startYear',
-                      'desc',
-                      'field.date'
-                    )}
-                    {sortDropdownMenuItem(
-                      'title',
-                      'asc',
-                      'field.title'
-                    )}
-                    {sortDropdownMenuItem(
-                      'title',
-                      'desc',
-                      'field.title'
-                    )}
+                    {sortDropdownMenuItem('startYear', 'asc', 'field.date')}
+                    {sortDropdownMenuItem('startYear', 'desc', 'field.date')}
+                    {sortDropdownMenuItem('title', 'asc', 'field.title')}
+                    {sortDropdownMenuItem('title', 'desc', 'field.title')}
                     {sortDropdownMenuItem(
                       'primaryConstituent.canonicalName',
                       'asc',
@@ -365,8 +349,8 @@ export function SearchPagination({
           size="sm"
           aria-label={dict['search.previous']}
         >
-          <Icons.chevronLeft className="h-5 w-5 sm:mr-2" aria-hidden="true" />
-          <span className="hidden sm:block">{dict['search.previous']}</span>
+          <Icons.chevronLeft className="mr-2 h-5 w-5" aria-hidden="true" />
+          <span className="">{dict['search.previous']}</span>
         </Button>
         <Button
           disabled={p >= totalPages}
@@ -375,8 +359,8 @@ export function SearchPagination({
           size="sm"
           aria-label={dict['search.next']}
         >
-          <span className="hidden sm:block">{dict['search.next']}</span>
-          <Icons.chevronRight className="h-5 w-5 sm:ml-2" aria-hidden="true" />
+          <span className="">{dict['search.next']}</span>
+          <Icons.chevronRight className="ml-2 h-5 w-5" aria-hidden="true" />
         </Button>
       </div>
     </nav>

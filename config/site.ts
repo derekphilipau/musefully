@@ -15,7 +15,7 @@ export interface Dataset {
 /**
  * Represents an RSS feed with necessary information for ingestion.
  */
-export interface RssFeed {
+export interface RssFeedConfig {
   /** Transformer to use, typically rssTransformer */
   transformer: string;
   /** Human-readable name */
@@ -34,8 +34,10 @@ interface SiteConfig {
   defaultLocale: string;
   /** List of datasets to ingest */
   datasets: Dataset[];
+  /** List of crawlers in /util/import/transform/events/ directory */
+  eventCrawlers: string[];
   /** List of RSS feeds to ingest */
-  rssFeeds: RssFeed[];
+  rssFeeds: RssFeedConfig[];
   /** List of nav items */
   mainNav: NavItem[];
   /** List of secondary/social links */
@@ -67,6 +69,9 @@ export const siteConfig: SiteConfig = {
       indices: ['collections'],
       directory: 'moma',
     },
+  ],
+  eventCrawlers: [
+    'bkmExhibitionsCrawler',
   ],
   rssFeeds: [
     {
@@ -126,6 +131,10 @@ export const siteConfig: SiteConfig = {
     {
       dict: 'index.content',
       href: '/content',
+    },
+    {
+      dict: 'index.events',
+      href: '/events',
     },
   ],
   links: {

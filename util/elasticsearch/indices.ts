@@ -77,6 +77,21 @@ export const content: T.IndicesIndexSettings = {
   },
 };
 
+export const events: T.IndicesIndexSettings = {
+  settings: {
+    index: S.index,
+    analysis: S.analysis,
+  },
+  mappings: {
+    properties: {
+      ...baseDocument,
+      location: S.keywordField,
+      dates: S.textField,
+      endDate: S.dateField,
+    },
+  },
+};
+
 export const terms: T.IndicesIndexSettings = {
   settings: {
     index: S.index,
