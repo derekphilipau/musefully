@@ -1,18 +1,6 @@
 import type { NavItem } from '@/types/nav';
 
 /**
- * Represents a dataset with necessary information for ingestion.
- */
-export interface Dataset {
-  /** Human-readable name */
-  name: string;
-  /** List of indices to ingest */
-  indices: string[];
-  /** Directory where data & transformer are stored */
-  directory: string;
-}
-
-/**
  * Represents an RSS feed with necessary information for ingestion.
  */
 export interface RssFeedConfig {
@@ -32,8 +20,10 @@ export interface RssFeedConfig {
 interface SiteConfig {
   /** Default locale for the site.  Currently only en supported. */
   defaultLocale: string;
-  /** List of datasets to ingest */
-  datasets: Dataset[];
+  /** Whether the site is multi-source. */
+  isMultiSource: boolean;
+  /** List of ingesters */
+  ingesters: string[];
   /** List of crawlers in /util/import/transform/events/ directory */
   eventCrawlers: string[];
   /** List of extractors in /util/import/extract/ directory */
@@ -51,26 +41,18 @@ interface SiteConfig {
 }
 
 /**
- * The site configuration.  Defines all datasets, RSS feeds, and nav items.
+ * The site configuration.  Defines all ingesters, RSS feeds, and nav items.
  */
 export const siteConfig: SiteConfig = {
   defaultLocale: 'en',
+  isMultiSource: true,
   /**
-   * For each dataset + index, there should be a dataset & transformer:
-   * - data/{dataset.directory}/{indexName}.jsonl.gz
-   * - util/import/transform/{dataset.directory}/{indexName}Transformer.ts
+   * Dynamically load from ./util/import/ingesters/{ingester}.ts
    */ 
-  datasets: [
-    {
-      name: 'Brooklyn Museum',
-      indices: ['collections'],
-      directory: 'bkm',
-    },
-    {
-      name: 'Museum of Modern Art',
-      indices: ['collections'],
-      directory: 'moma',
-    },
+  ingesters: [
+    'bkm/collectionsIngester',
+    'moma/collectionsIngester',
+    'whitney/collectionsIngester',
   ],
   eventCrawlers: [
     'bkmExhibitionsCrawler',

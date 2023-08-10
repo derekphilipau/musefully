@@ -4,7 +4,7 @@ import type { Term, TermIdMap } from './term';
 /**
  * Function type for generating an ID for Elasticsearch documents.
  * `includeSourcePrefix` is an optional flag to include a source prefix in the ID,
- * used when there are multiple datasets to avoid ID collisions.
+ * used when there are multiple sources to avoid ID collisions.
  */
 export interface ElasticsearchIdGenerator {
   (doc: BaseDocument | Term, includeSourcePrefix?: boolean): string;
@@ -20,7 +20,7 @@ export interface ElasticsearchTermsExtractor {
 /**
  * Function type for transforming any document to a `BaseDocument` or `Term`.
  */
-export interface ElasticsearchDocumentTransformer {
+export interface ElasticsearchTransformer {
   (doc: any): Promise<BaseDocument | Term | undefined>;
 }
 
@@ -28,10 +28,12 @@ export interface ElasticsearchDocumentTransformer {
  * Defines the structure of an Elasticsearch transformer, with all functions required
  * to transform data for use in Elasticsearch.
  */
-export interface ElasticsearchTransformer {
+export interface ElasticsearchIngester{
+  indexName: string;
+  dataFilename: string;
   sourceId: string;
   sourceName: string;
   idGenerator: ElasticsearchIdGenerator;
-  documentTransformer: ElasticsearchDocumentTransformer;
+  transformer: ElasticsearchTransformer;
   termsExtractor?: ElasticsearchTermsExtractor;
 }

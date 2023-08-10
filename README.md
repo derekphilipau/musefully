@@ -2,7 +2,7 @@
 
 The original project, [museum-nextjs-search](https://github.com/derekphilipau/museum-nextjs-search), was suitable for single-organization installations, with indices representing collections objects, website pages, and archives records.
 
-musefully is a more general solution, providing multi-dataset ingest, new design, and new website at [https://musefully.org](https://musefully.org)
+musefully is a more general solution, providing multi-source ingest, new design, and new website at [https://musefully.org](https://musefully.org)
 
 ## Intro
 

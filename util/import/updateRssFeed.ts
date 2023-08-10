@@ -34,7 +34,7 @@ async function importRssFeed(
 
     // Iterate over each <item> and transform them
     for (const item of items) {
-      const doc = await transformer.documentTransformer(item, sourceName, sourceId);
+      const doc = await transformer.transformer(item, sourceName, sourceId);
       if (doc !== undefined) {
         const id = transformer.idGenerator(doc);
         if (doc && id) {

@@ -12,7 +12,7 @@ function getContainerClass(layout) {
 }
 
 function getDetailsClass(layout) {
-  if (layout === 'grid') return 'pt-3';
+  if (layout === 'grid') return '';
   return 'lg:col-span-2';
 }
 
@@ -20,14 +20,14 @@ interface RssCardProps {
   item: BaseDocument;
   layout: 'grid' | 'list';
   showType: boolean;
-  isMultiDataset: boolean;
+  isMultiSource: boolean;
 }
 
 export function RssCard({
   item,
   layout,
   showType,
-  isMultiDataset,
+  isMultiSource,
 }: RssCardProps) {
   if (!item || !item.url) return null;
   const dict = getDictionary();
@@ -35,13 +35,13 @@ export function RssCard({
   return (
     <div className={getContainerClass(layout)}>
       <div>
-        {isMultiDataset && layout === 'grid' && (
+        {isMultiSource && layout === 'grid' && (
           <SourceHeader item={item} showDate={true} isSmall={true} />
         )}
-        <div className="flex items-center justify-center bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-800 dark:hover:bg-neutral-700">
-          <Link href={item.url}>
-            <figure>
-              {item.image?.thumbnailUrl && (
+        {item.image?.thumbnailUrl && (
+          <div className="mb-3 flex items-center justify-center bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-800 dark:hover:bg-neutral-700">
+            <Link href={item.url}>
+              <figure>
                 <Image
                   src={item.image?.thumbnailUrl}
                   className="h-48 object-contain"
@@ -49,17 +49,15 @@ export function RssCard({
                   width={400}
                   height={400}
                 />
-              )}
-              <figcaption></figcaption>
-            </figure>
-          </Link>
-        </div>
+                <figcaption></figcaption>
+              </figure>
+            </Link>
+          </div>
+        )}
       </div>
       <div className={getDetailsClass(layout)}>
         <Link href={item.url}>
-          {isMultiDataset && layout !== 'grid' && (
-            <SourceHeader item={item} />
-          )}
+          {isMultiSource && layout !== 'grid' && <SourceHeader item={item} />}
           <h4 className="mb-1 text-xl font-semibold text-neutral-900 dark:text-white">
             {item.title}
           </h4>

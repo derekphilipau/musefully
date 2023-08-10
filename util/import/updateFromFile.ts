@@ -12,7 +12,7 @@ import {
 import { searchAll } from '@/util/elasticsearch/search/search';
 import csvParser from 'csv-parser';
 
-import type { ElasticsearchTransformer } from '@/types/elasticsearchTransformer';
+import type { ElasticsearchIngester} from '@/types/elasticsearchTransformer';
 import { TermIdMap } from '@/types/term';
 
 async function* readFileData(
@@ -21,23 +21,20 @@ async function* readFileData(
   const isJsonl = filename.endsWith('.jsonl');
   const isCompressedJsonl = filename.endsWith('.jsonl.gz');
   const isCsv = filename.endsWith('.csv');
-  const inputStream = fs.createReadStream(filename);
+  const isCompressedCsv = filename.endsWith('.csv.gz');
+  
+  let inputStream: NodeJS.ReadableStream;
+  if (isCompressedJsonl || isCompressedCsv) {
+    inputStream = fs.createReadStream(filename).pipe(zlib.createGunzip());
+  } else {
+    inputStream = fs.createReadStream(filename);
+  }
 
   if (isJsonl || isCompressedJsonl) {
-    let fileStream: readline.Interface | undefined;
-    if (isJsonl) {
-      fileStream = readline.createInterface({
-        input: inputStream,
-        crlfDelay: Infinity,
-      });
-    } else if (isCompressedJsonl) {
-      fileStream = readline.createInterface({
-        input: fs.createReadStream(filename).pipe(zlib.createGunzip()),
-        crlfDelay: Infinity,
-      });
-    }
-    if (!fileStream)
-      throw new Error(`Error creating file stream for ${filename}`);
+    const fileStream = readline.createInterface({
+      input: inputStream,
+      crlfDelay: Infinity,
+    });
     for await (const line of fileStream) {
       try {
         const obj = JSON.parse(line);
@@ -46,11 +43,13 @@ async function* readFileData(
         console.error(`Error parsing JSON line ${line}: ${err}`);
       }
     }
-  } else if (isCsv) {
+  } else if (isCsv || isCompressedCsv) {
     const csvStream = inputStream.pipe(csvParser());
     for await (const row of csvStream) {
       yield row;
     }
+  } else {
+    throw new Error(`Unsupported file format for ${filename}`);
   }
 }
 
@@ -59,16 +58,17 @@ async function* readFileData(
  *
  * @param indexName  Name of the index.
  * @param dataFilename  Name of the file containing the data.
- * @param transformer  Transformer object with functions to transform the data.
+ * @param ingester  Ingester with properties & functions to transform a dataset.
  * @param sourceName  Name of the sourceName.
  * @param includeSourcePrefix  Whether to include the source id prefix in the document ID.
  */
 export default async function updateFromFile(
-  indexName: string,
-  dataFilename: string,
-  transformer: ElasticsearchTransformer,
+  ingester: ElasticsearchIngester,
   includeSourcePrefix = false
 ) {
+  const indexName = ingester.indexName;
+  const dataFilename = ingester.dataFilename;
+  console.log(`Updating ${indexName} from ${dataFilename}...`);
   const bulkLimit = parseInt(process.env.ELASTICSEARCH_BULK_LIMIT || '1000');
   const maxBulkOperations = bulkLimit * 2;
   const client = getClient();
@@ -80,17 +80,17 @@ export default async function updateFromFile(
   for await (const obj of readFileData(dataFilename)) {
     try {
       if (obj) {
-        const doc = await transformer.documentTransformer(obj);
+        const doc = await ingester.transformer(obj);
         if (doc !== undefined) {
-          const id = transformer.idGenerator(doc, includeSourcePrefix);
+          const id = ingester.idGenerator(doc, includeSourcePrefix);
           if (doc && id) {
             operations.push(
               ...getBulkOperationArray('update', indexName, id, doc)
             );
             allIds.push(id);
           }
-          if (transformer.termsExtractor !== undefined) {
-            const termElements = await transformer.termsExtractor(doc);
+          if (ingester.termsExtractor !== undefined) {
+            const termElements = await ingester.termsExtractor(doc);
             if (termElements) {
               allTerms = { ...allTerms, ...termElements };
             }
@@ -134,7 +134,7 @@ export default async function updateFromFile(
     indexName,
     {
       match: {
-        source: transformer.sourceName,
+        source: ingester.sourceName,
       },
     },
     ['id']

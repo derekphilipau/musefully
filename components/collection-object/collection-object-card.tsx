@@ -25,7 +25,7 @@ interface CollectionObjectCardProps {
   layout: 'grid' | 'list';
   showType: boolean;
   showColor: boolean;
-  isMultiDataset: boolean;
+  isMultiSource: boolean;
 }
 
 export function CollectionObjectCard({
@@ -33,7 +33,7 @@ export function CollectionObjectCard({
   layout,
   showType,
   showColor,
-  isMultiDataset,
+  isMultiSource,
 }: CollectionObjectCardProps) {
   if (!item) return null;
   const dict = getDictionary();
@@ -46,7 +46,7 @@ export function CollectionObjectCard({
   return (
     <div className={getContainerClass(layout)}>
       <div>
-        {isMultiDataset && layout === 'grid' && (
+        {isMultiSource && layout === 'grid' && (
           <SourceHeader item={item} showDate={false} isSmall={true} />
         )}
         <div className="flex items-center justify-center bg-neutral-50 text-neutral-200 hover:bg-neutral-100 hover:text-neutral-300 dark:bg-neutral-800 dark:text-neutral-900 dark:hover:bg-neutral-700  dark:hover:text-neutral-800">
@@ -61,7 +61,7 @@ export function CollectionObjectCard({
         </div>
       )}
       <div className={getDetailsClass(layout)}>
-        {isMultiDataset && layout !== 'grid' && (
+        {isMultiSource && layout !== 'grid' && (
           <SourceHeader item={item} showDate={false} />
         )}
         <Link href={href}>

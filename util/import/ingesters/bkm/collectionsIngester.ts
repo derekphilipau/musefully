@@ -1,19 +1,21 @@
 import type { DocumentImage } from '@/types/baseDocument';
 import type { CollectionObjectDocument } from '@/types/collectionObjectDocument';
-import type { ElasticsearchTransformer } from '@/types/elasticsearchTransformer';
+import type { ElasticsearchIngester} from '@/types/elasticsearchTransformer';
 import {
   getStringValue,
   parseSignificantWords,
   sourceAwareIdFormatter,
-} from '../transformUtil';
-import { searchUlanArtists } from '../ulan/searchUlanArtists';
-import { collectionsTermsExtractor } from '../util/collectionsTermsExtractor';
+} from '../ingestUtil';
+import { searchUlanArtists } from '../../transform/ulan/searchUlanArtists';
+import { collectionsTermsExtractor } from '../../transform/util/collectionsTermsExtractor';
 import type { BkmImage } from './types';
 import {
   getLargeOrRestrictedImageUrl,
   getSmallOrRestrictedImageUrl,
 } from './util';
 
+const DATA_FILE = './data/bkm/collections.jsonl.gz';
+const INDEX_NAME = 'collections';
 const SOURCE_ID = 'bkm';
 const SOURCE_NAME = 'Brooklyn Museum';
 const OBJECT_TYPE = 'object';
@@ -307,7 +309,9 @@ async function transformDoc(doc: any): Promise<CollectionObjectDocument> {
   return esDoc;
 }
 
-export const transformer: ElasticsearchTransformer = {
+export const transformer: ElasticsearchIngester= {
+  indexName: INDEX_NAME,
+  dataFilename: DATA_FILE,
   sourceId: SOURCE_ID,
   sourceName: SOURCE_NAME,
   idGenerator: (
@@ -316,7 +320,7 @@ export const transformer: ElasticsearchTransformer = {
   ) => {
     return sourceAwareIdFormatter(doc.id, SOURCE_ID, includeSourcePrefix);
   },
-  documentTransformer: async (doc) => {
+  transformer: async (doc) => {
     return transformDoc(doc);
   },
   termsExtractor: async (doc: CollectionObjectDocument) => {

@@ -23,5 +23,5 @@ export interface ElasticsearchRssDocumentTransformer {
  */
 export interface ElasticsearchRssTransformer {
   idGenerator: ElasticsearchRssIdGenerator;
-  documentTransformer: ElasticsearchRssDocumentTransformer;
+  transformer: ElasticsearchRssDocumentTransformer;
 }

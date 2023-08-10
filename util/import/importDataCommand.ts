@@ -7,48 +7,39 @@
 import { abort, askYesNo, info, questionsDone, warn } from '@/util/command';
 import { loadEnvConfig } from '@next/env';
 
-import { siteConfig, type Dataset } from '@/config/site';
+import { siteConfig } from '@/config/site';
+import extractDocuments from './extractDocuments';
 import { updateAdditionalMetadata } from './updateAdditionalMetadata';
 import { updateDominantColors } from './updateDominantColors';
 import updateEvents from './updateEvents';
-import extractDocuments from './extractDocuments';
 import updateFromFile from './updateFromFile';
 import updateRssFeeds from './updateRssFeed';
 
 loadEnvConfig(process.cwd());
 
-async function importDataset(dataset: Dataset, includeSourcePrefix: boolean) {
-  for (const indexName of dataset.indices) {
-    if (await askYesNo(`Update ${dataset.name} ${indexName} index?`)) {
-      const dataFile = `./data/${dataset.directory}/${indexName}.jsonl.gz`;
-      try {
-        const { transformer } = await import(
-          `./transform/${dataset.directory}/${indexName}Transformer`
-        );
-        await updateFromFile(
-          indexName,
-          dataFile,
-          transformer,
-          includeSourcePrefix
-        );
-      } catch (e) {
-        abort(`Error updating ${dataset.name} ${indexName} index: ${e}`);
-        return;
-      }
-    }
+async function importDataset(ingester: string, includeSourcePrefix: boolean) {
+  try {
+    const { transformer } = await import(`./ingesters/${ingester}`);        
+    await updateFromFile(
+      transformer,
+      includeSourcePrefix
+    );
+  } catch (e) {
+    abort(`Error updating with ${ingester}: ${e}`);
+    return;
   }
 }
 
 async function run() {
   info('Import data from gzipped JSONL files.');
 
-  if (siteConfig.datasets.length === 0) {
-    warn('No datasets specified.');
+  if (siteConfig.ingesters.length === 0) {
+    warn('No ingesters specified.');
     return abort();
   }
 
   info(
-    `Available datasets: ${siteConfig.datasets.map((d) => d.name).join(', ')}`
+    `Available ingesters: ${siteConfig.ingesters.join(', ')}`
   );
 
   if (process.env.ELASTICSEARCH_USE_CLOUD === 'true')
@@ -64,11 +55,11 @@ async function run() {
 
   info('Beginning import of Elasticsearch data from JSON files...');
 
-  const includeSourcePrefix = siteConfig.datasets.length > 1;
+  const includeSourcePrefix = siteConfig.isMultiSource;
 
-  for (const dataset of siteConfig.datasets) {
-    if (await askYesNo(`Import ${dataset.name} dataset?`)) {
-      await importDataset(dataset, includeSourcePrefix);
+  for (const ingester of siteConfig.ingesters) {
+    if (await askYesNo(`Import using ${ingester}?`)) {
+      await importDataset(ingester, includeSourcePrefix);
     }
   }
 
