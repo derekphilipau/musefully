@@ -11,13 +11,9 @@ import type { BaseDocument } from '@/types/baseDocument';
 import type { Term } from '@/types/term';
 import { siteConfig } from '@/config/site';
 import { CollectionObjectCard } from '@/components/collection-object/collection-object-card';
-import { ArchiveCard } from '@/components/search-card/archive-card';
-import { ColorCard } from '@/components/search-card/color-card';
 import { ContentCard } from '@/components/search-card/content-card';
 import { EventCard } from '@/components/search-card/event-card';
 import { RssCard } from '@/components/search-card/rss-card';
-import { PaletteCard } from '@/components/search-card/palette-card';
-import { SwatchCard } from '@/components/search-card/swatch-card';
 import { TermCard } from '@/components/search-card/term-card';
 import { SearchAsYouTypeInput } from '@/components/search/search-as-you-type-input';
 import { SearchCheckbox } from '@/components/search/search-checkbox';
@@ -229,27 +225,6 @@ export default async function Page({ params, searchParams }) {
                 (item: any, i: Key) =>
                   item && (
                     <div className="" key={i}>
-                      {item.type === 'object' && cardType === 'color' && (
-                        <ColorCard
-                          item={item}
-                          layout={layout}
-                          showType={index === 'all'}
-                        />
-                      )}
-                      {item.type === 'object' && cardType === 'palette' && (
-                        <PaletteCard
-                          item={item}
-                          layout={layout}
-                          showType={index === 'all'}
-                        />
-                      )}
-                      {item.type === 'object' && cardType === 'swatch' && (
-                        <SwatchCard
-                          item={item}
-                          layout={layout}
-                          showType={index === 'all'}
-                        />
-                      )}
                       {item.type === 'object' && cardType === '' && (
                         <CollectionObjectCard
                           item={item}
@@ -258,9 +233,6 @@ export default async function Page({ params, searchParams }) {
                           showColor={color ? true : false}
                           isMultiDataset={isMultiDataset}
                         />
-                      )}
-                      {item.type === 'archive' && (
-                        <ArchiveCard item={item} showType={index === 'all'} />
                       )}
                       {item.type === 'content' && (
                         <ContentCard
