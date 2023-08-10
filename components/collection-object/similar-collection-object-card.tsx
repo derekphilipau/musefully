@@ -8,10 +8,10 @@ import { SourceHeader } from '../source/source-header';
 
 export function SimilarCollectionObjectCard({
   item,
-  isMultiDataset,
+  isMultiSource,
 }: {
   item: CollectionObjectDocument;
-  isMultiDataset: boolean;
+  isMultiSource: boolean;
 }) {
   if (!item || !item._id) return null;
   const dict = getDictionary();
@@ -23,7 +23,7 @@ export function SimilarCollectionObjectCard({
   return (
     <Link href={href}>
       <div className="">
-        {isMultiDataset && <SourceHeader item={item} isSmall={true} />}
+        {isMultiSource && <SourceHeader item={item} isSmall={true} />}
         <div className="flex items-center justify-center bg-neutral-200 text-neutral-300 hover:bg-neutral-300 hover:text-neutral-400  dark:bg-neutral-900 dark:text-neutral-800 dark:hover:bg-neutral-800 dark:hover:text-neutral-700">
           <CollectionObjectThumbnail item={item} />
         </div>

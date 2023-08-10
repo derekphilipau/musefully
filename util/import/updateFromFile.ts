@@ -12,7 +12,7 @@ import {
 import { searchAll } from '@/util/elasticsearch/search/search';
 import csvParser from 'csv-parser';
 
-import type { ElasticsearchTransformer } from '@/types/elasticsearchTransformer';
+import type { ElasticsearchIngester} from '@/types/elasticsearchTransformer';
 import { TermIdMap } from '@/types/term';
 
 async function* readFileData(
@@ -59,16 +59,17 @@ async function* readFileData(
  *
  * @param indexName  Name of the index.
  * @param dataFilename  Name of the file containing the data.
- * @param transformer  Transformer object with functions to transform the data.
+ * @param ingester  Ingester with properties & functions to transform a dataset.
  * @param sourceName  Name of the sourceName.
  * @param includeSourcePrefix  Whether to include the source id prefix in the document ID.
  */
 export default async function updateFromFile(
-  indexName: string,
-  dataFilename: string,
-  transformer: ElasticsearchTransformer,
+  ingester: ElasticsearchIngester,
   includeSourcePrefix = false
 ) {
+  const indexName = ingester.indexName;
+  const dataFilename = ingester.dataFilename;
+  console.log(`Updating ${indexName} from ${dataFilename}...`);
   const bulkLimit = parseInt(process.env.ELASTICSEARCH_BULK_LIMIT || '1000');
   const maxBulkOperations = bulkLimit * 2;
   const client = getClient();
@@ -80,17 +81,17 @@ export default async function updateFromFile(
   for await (const obj of readFileData(dataFilename)) {
     try {
       if (obj) {
-        const doc = await transformer.documentTransformer(obj);
+        const doc = await ingester.transformer(obj);
         if (doc !== undefined) {
-          const id = transformer.idGenerator(doc, includeSourcePrefix);
+          const id = ingester.idGenerator(doc, includeSourcePrefix);
           if (doc && id) {
             operations.push(
               ...getBulkOperationArray('update', indexName, id, doc)
             );
             allIds.push(id);
           }
-          if (transformer.termsExtractor !== undefined) {
-            const termElements = await transformer.termsExtractor(doc);
+          if (ingester.termsExtractor !== undefined) {
+            const termElements = await ingester.termsExtractor(doc);
             if (termElements) {
               allTerms = { ...allTerms, ...termElements };
             }
@@ -134,7 +135,7 @@ export default async function updateFromFile(
     indexName,
     {
       match: {
-        source: transformer.sourceName,
+        source: ingester.sourceName,
       },
     },
     ['id']

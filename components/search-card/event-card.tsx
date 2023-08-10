@@ -19,14 +19,14 @@ interface EventCardProps {
   item: EventDocument;
   layout: 'grid' | 'list';
   showType: boolean;
-  isMultiDataset: boolean;
+  isMultiSource: boolean;
 }
 
 export function EventCard({
   item,
   layout,
   showType,
-  isMultiDataset,
+  isMultiSource,
 }: EventCardProps) {
   if (!item || !item.url) return null;
   const dict = getDictionary();
@@ -63,7 +63,7 @@ export function EventCard({
           </div>
         </div>
         <div className={getDetailsClass(layout)}>
-          {isMultiDataset && (
+          {isMultiSource && (
             <div className="text-sm text-neutral-700 dark:text-neutral-400">
               {item.source}
             </div>

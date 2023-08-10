@@ -46,7 +46,7 @@ export default async function Page({ params, searchParams }) {
 
   const isShowFilters = getBooleanValue(searchParams?.f);
 
-  const isMultiDataset = siteConfig.datasets.length > 1;
+  const isMultiSource = siteConfig.isMultiSource;
 
   const aggFilters = {};
   if (searchParams && Array.isArray(indicesMeta[index]?.aggs)) {
@@ -231,7 +231,7 @@ export default async function Page({ params, searchParams }) {
                           layout={layout}
                           showType={index === 'all'}
                           showColor={color ? true : false}
-                          isMultiDataset={isMultiDataset}
+                          isMultiSource={isMultiSource}
                         />
                       )}
                       {item.type === 'content' && (
@@ -239,7 +239,7 @@ export default async function Page({ params, searchParams }) {
                           item={item}
                           layout={layout}
                           showType={index === 'all'}
-                          isMultiDataset={isMultiDataset}
+                          isMultiSource={isMultiSource}
                         />
                       )}
                       {(item.type === 'exhibition' || item.type === 'event') && (
@@ -247,7 +247,7 @@ export default async function Page({ params, searchParams }) {
                           item={item}
                           layout={layout}
                           showType={index === 'all'}
-                          isMultiDataset={isMultiDataset}
+                          isMultiSource={isMultiSource}
                         />
                       )}
                       {item.type === 'rss' && (
@@ -255,7 +255,7 @@ export default async function Page({ params, searchParams }) {
                           item={item}
                           layout={layout}
                           showType={index === 'all'}
-                          isMultiDataset={isMultiDataset}
+                          isMultiSource={isMultiSource}
                         />
                       )}
                     </div>

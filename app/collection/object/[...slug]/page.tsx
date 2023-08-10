@@ -50,7 +50,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 export default async function Page({ params }) {
   const id = params.slug[0];
   const dict = getDictionary();
-  const isMultiDataset = siteConfig.datasets.length > 1;
+  const isMultiSource = siteConfig.isMultiSource;
 
   let data: ApiResponseDocument = await getDocument('collections', id);
 
@@ -69,7 +69,7 @@ export default async function Page({ params }) {
           <ImageViewer item={collectionObject} />
         </div>
         <div className="md:col-span-1 lg:col-span-5">
-          {isMultiDataset && <SourceHeader item={collectionObject} />}
+          {isMultiSource && <SourceHeader item={collectionObject} />}
           <h1 className="mb-2 text-2xl font-bold leading-tight tracking-tighter sm:text-2xl md:text-3xl lg:text-4xl">
             {collectionObject?.title}
           </h1>
@@ -98,7 +98,7 @@ export default async function Page({ params }) {
               __html: collectionObject?.description || '',
             }}
           ></div>
-          <div>
+          <div className="flex gap-x-2">
             <CollectionObjectShare item={collectionObject} />
             {collectionObject?.url && (
               <Link
@@ -124,7 +124,7 @@ export default async function Page({ params }) {
       <SimilarCollectionObjectList
         title={dict['artwork.similar']}
         similar={similarCollectionObjects}
-        isMultiDataset={isMultiDataset}
+        isMultiSource={isMultiSource}
       />
 
       {/* https://beta.nextjs.org/docs/guides/seo */}

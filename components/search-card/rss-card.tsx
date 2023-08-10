@@ -20,14 +20,14 @@ interface RssCardProps {
   item: BaseDocument;
   layout: 'grid' | 'list';
   showType: boolean;
-  isMultiDataset: boolean;
+  isMultiSource: boolean;
 }
 
 export function RssCard({
   item,
   layout,
   showType,
-  isMultiDataset,
+  isMultiSource,
 }: RssCardProps) {
   if (!item || !item.url) return null;
   const dict = getDictionary();
@@ -35,7 +35,7 @@ export function RssCard({
   return (
     <div className={getContainerClass(layout)}>
       <div>
-        {isMultiDataset && layout === 'grid' && (
+        {isMultiSource && layout === 'grid' && (
           <SourceHeader item={item} showDate={true} isSmall={true} />
         )}
         {item.image?.thumbnailUrl && (
@@ -57,7 +57,7 @@ export function RssCard({
       </div>
       <div className={getDetailsClass(layout)}>
         <Link href={item.url}>
-          {isMultiDataset && layout !== 'grid' && <SourceHeader item={item} />}
+          {isMultiSource && layout !== 'grid' && <SourceHeader item={item} />}
           <h4 className="mb-1 text-xl font-semibold text-neutral-900 dark:text-white">
             {item.title}
           </h4>
