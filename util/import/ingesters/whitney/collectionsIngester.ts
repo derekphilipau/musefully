@@ -16,7 +16,7 @@ import type { WhitneyArtist, WhitneyDocument } from './types';
 const WHITNEY_ARTISTS: WhitneyArtist[] = [];
 let WHITNEY_ARTISTS_LOADED = false;
 
-const DATA_FILE = './data/whitney/artworks.csv';
+const DATA_FILE = './data/whitney/artworks.csv.gz';
 const INDEX_NAME = 'collections';
 const SOURCE_ID = 'whitney';
 const SOURCE_NAME = 'The Whitney';

@@ -21,23 +21,20 @@ async function* readFileData(
   const isJsonl = filename.endsWith('.jsonl');
   const isCompressedJsonl = filename.endsWith('.jsonl.gz');
   const isCsv = filename.endsWith('.csv');
-  const inputStream = fs.createReadStream(filename);
+  const isCompressedCsv = filename.endsWith('.csv.gz');
+  
+  let inputStream: NodeJS.ReadableStream;
+  if (isCompressedJsonl || isCompressedCsv) {
+    inputStream = fs.createReadStream(filename).pipe(zlib.createGunzip());
+  } else {
+    inputStream = fs.createReadStream(filename);
+  }
 
   if (isJsonl || isCompressedJsonl) {
-    let fileStream: readline.Interface | undefined;
-    if (isJsonl) {
-      fileStream = readline.createInterface({
-        input: inputStream,
-        crlfDelay: Infinity,
-      });
-    } else if (isCompressedJsonl) {
-      fileStream = readline.createInterface({
-        input: fs.createReadStream(filename).pipe(zlib.createGunzip()),
-        crlfDelay: Infinity,
-      });
-    }
-    if (!fileStream)
-      throw new Error(`Error creating file stream for ${filename}`);
+    const fileStream = readline.createInterface({
+      input: inputStream,
+      crlfDelay: Infinity,
+    });
     for await (const line of fileStream) {
       try {
         const obj = JSON.parse(line);
@@ -46,11 +43,13 @@ async function* readFileData(
         console.error(`Error parsing JSON line ${line}: ${err}`);
       }
     }
-  } else if (isCsv) {
+  } else if (isCsv || isCompressedCsv) {
     const csvStream = inputStream.pipe(csvParser());
     for await (const row of csvStream) {
       yield row;
     }
+  } else {
+    throw new Error(`Unsupported file format for ${filename}`);
   }
 }
 

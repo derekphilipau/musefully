@@ -41,7 +41,9 @@ secrets/http_ca.crt
 elastic.md
 
 # data files
+data/whitney/artworks.csv
 data/ULAN/json/ulanArtists.jsonl
 data/ULAN/json/ulanCorporateBodies.jsonl
 data/ULAN/raw/*
 data/*/*.jsonl
+util/import/ingesters/whitney/collectionsIngester.ts
