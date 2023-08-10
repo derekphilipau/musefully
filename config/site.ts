@@ -36,6 +36,8 @@ interface SiteConfig {
   datasets: Dataset[];
   /** List of crawlers in /util/import/transform/events/ directory */
   eventCrawlers: string[];
+  /** List of extractors in /util/import/extract/ directory */
+  extractors: string[];
   /** List of RSS feeds to ingest */
   rssFeeds: RssFeedConfig[];
   /** List of nav items */
@@ -72,6 +74,9 @@ export const siteConfig: SiteConfig = {
   ],
   eventCrawlers: [
     'bkmExhibitionsCrawler',
+  ],
+  extractors: [
+    'openAiExhibitionsExtractor',
   ],
   rssFeeds: [
     {
