@@ -9,8 +9,10 @@ import type { BaseDocument } from '@/types/baseDocument';
  */
 function getRssItemImageUrl(item: any): string | undefined {
   const mediaContentUrl = item['media:content']?.[0]?.['$']?.url;
-
   if (mediaContentUrl) return mediaContentUrl;
+
+  const mediaThumbnailUrl = item['media:thumbnail']?.[0]?.['$']?.url;
+  if (mediaThumbnailUrl) return mediaThumbnailUrl;
 
   const description = item.description?.[0];
   const content = item['content:encoded'] ? item['content:encoded'][0] : '';
@@ -23,6 +25,8 @@ function getRssItemImageUrl(item: any): string | undefined {
   if (descriptionMatch?.length === 2) return descriptionMatch[1];
 
   if (contentMatch?.length === 2) return contentMatch[1];
+
+
 }
 
 export function getRssItemId(item: any) {

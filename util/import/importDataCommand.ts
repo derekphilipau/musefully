@@ -11,6 +11,7 @@ import { siteConfig, type Dataset } from '@/config/site';
 import { updateAdditionalMetadata } from './updateAdditionalMetadata';
 import { updateDominantColors } from './updateDominantColors';
 import updateEvents from './updateEvents';
+import extractDocuments from './extractDocuments';
 import updateFromFile from './updateFromFile';
 import updateRssFeeds from './updateRssFeed';
 
@@ -84,6 +85,10 @@ async function run() {
 
   if (await askYesNo(`Update events to events index?`)) {
     await updateEvents();
+  }
+
+  if (await askYesNo(`Experiment: Extract documents (OpenAI parser)?`)) {
+    await extractDocuments();
   }
 
   questionsDone();
