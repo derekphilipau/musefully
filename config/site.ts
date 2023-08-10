@@ -127,6 +127,60 @@ export const siteConfig: SiteConfig = {
       sourceId: 'nyt',
       url: 'https://rss.nytimes.com/services/xml/rss/nyt/ArtandDesign.xml',
     },
+    {
+      transformer: 'rssTransformer',
+      sourceName: 'The Met',
+      sourceId: 'met',
+      url: 'https://www.metmuseum.org/blogs?rss=1',
+    },
+    {
+      transformer: 'rssTransformer',
+      sourceName: 'Artsy',
+      sourceId: 'artsy',
+      url: 'https://www.artsy.net/rss/news',
+    },
+    {
+      transformer: 'rssTransformer',
+      sourceName: 'Colossal',
+      sourceId: 'colossal',
+      url: 'https://www.thisiscolossal.com/feed/',
+    },
+    {
+      transformer: 'rssTransformer',
+      sourceName: 'Hi-Fructose',
+      sourceId: 'hifructose',
+      url: 'https://hifructose.com/feed/',
+    },
+    {
+      transformer: 'rssTransformer',
+      sourceName: 'Juxtapoz',
+      sourceId: 'juxtapoz',
+      url: 'https://www.juxtapoz.com/news/?format=feed&type=rss',
+    },
+    {
+      transformer: 'rssTransformer',
+      sourceName: 'Artforum',
+      sourceId: 'artforum',
+      url: 'https://www.artforum.com/rss.xml',
+    },
+    {
+      transformer: 'rssTransformer',
+      sourceName: 'LACMA',
+      sourceId: 'lacma',
+      url: 'https://www.lacma.org/rss.xml',
+    },
+    {
+      transformer: 'rssTransformer',
+      sourceName: 'Aesthetica',
+      sourceId: 'aesthetica',
+      url: 'https://aestheticamagazine.com/feed/',
+    },
+    {
+      transformer: 'rssTransformer',
+      sourceName: 'New Yorker Daily Cartoon',
+      sourceId: 'newyorkercartoon',
+      url: 'https://www.newyorker.com/feed/cartoons/daily-cartoon',
+    },
   ],
   mainNav: [
     {
