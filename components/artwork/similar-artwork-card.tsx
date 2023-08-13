@@ -1,16 +1,16 @@
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
-import { getObjectUrlWithSlug } from '@/util/various';
+import { getArtworkUrlWithSlug } from '@/util/various';
 
-import type { CollectionObjectDocument } from '@/types/collectionObjectDocument';
-import { CollectionObjectThumbnail } from '../collection-object-image/collection-object-thumbnail';
+import type { ArtworkDocument } from '@/types/artworkDocument';
+import { ArtworkThumbnail } from '../artwork-image/artwork-thumbnail';
 import { SourceHeader } from '../source/source-header';
 
-export function SimilarCollectionObjectCard({
+export function SimilarArtworkCard({
   item,
   isMultiSource,
 }: {
-  item: CollectionObjectDocument;
+  item: ArtworkDocument;
   isMultiSource: boolean;
 }) {
   if (!item || !item._id) return null;
@@ -18,14 +18,14 @@ export function SimilarCollectionObjectCard({
 
   const primaryConstituentName =
     item.primaryConstituent?.name || 'Maker Unknown';
-  const href = getObjectUrlWithSlug(item._id, item.title);
+  const href = getArtworkUrlWithSlug(item._id, item.title);
 
   return (
     <div className="">
       {isMultiSource && <SourceHeader item={item} isSmall={true} />}
       <div className="flex items-center justify-center bg-neutral-200 text-neutral-300 hover:bg-neutral-300 hover:text-neutral-400  dark:bg-neutral-900 dark:text-neutral-800 dark:hover:bg-neutral-800 dark:hover:text-neutral-700">
         <Link href={href}>
-          <CollectionObjectThumbnail item={item} />
+          <ArtworkThumbnail item={item} />
         </Link>
       </div>
       <div className="pt-2">

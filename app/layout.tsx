@@ -19,7 +19,7 @@ export const metadata = {
     default: 'musefully',
     template: '%s | musefully',
   },
-  description: 'Musefully browse museum content',
+  description: 'Musefully browse the art world.',
   icons: {
     icon: [
       {

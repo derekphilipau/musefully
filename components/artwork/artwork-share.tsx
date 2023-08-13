@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { CollectionObjectDocument } from '@/types/collectionObjectDocument';
+import type { ArtworkDocument } from '@/types/artworkDocument';
 import { Icons } from '@/components/icons';
 import { buttonVariants } from '@/components/ui/button';
 import {
@@ -14,13 +14,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-interface CollectionObjectDescriptionProps {
-  item: CollectionObjectDocument;
+interface ArtworkDescriptionProps {
+  item: ArtworkDocument;
 }
 
-export function CollectionObjectShare({
+export function ArtworkShare({
   item,
-}: CollectionObjectDescriptionProps) {
+}: ArtworkDescriptionProps) {
   const dict = getDictionary();
   const [facebookLink, setFacebookLink] = useState('');
   const [twitterLink, setTwitterLink] = useState('');

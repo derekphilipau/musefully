@@ -182,7 +182,7 @@ async function extract(): Promise<EventDocument[]> {
 
 export const extractor: ElasticsearchExtractor = {
   indexName: 'events',
-  idGenerator: (doc: EventDocument) => {
+  generateId: (doc: EventDocument) => {
     return doc.url || '';
   },
   extract: async () => {

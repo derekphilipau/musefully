@@ -10,10 +10,10 @@ import type { ApiResponseSearch } from '@/types/apiResponseSearch';
 import type { BaseDocument } from '@/types/baseDocument';
 import type { Term } from '@/types/term';
 import { siteConfig } from '@/config/site';
-import { CollectionObjectCard } from '@/components/collection-object/collection-object-card';
+import { ArtworkCard } from '@/components/artwork/artwork-card';
 import { ContentCard } from '@/components/search-card/content-card';
 import { EventCard } from '@/components/search-card/event-card';
-import { RssCard } from '@/components/search-card/rss-card';
+import { RssCard } from '@/components/search-card/news-card';
 import { TermCard } from '@/components/search-card/term-card';
 import { SearchAsYouTypeInput } from '@/components/search/search-as-you-type-input';
 import { SearchCheckbox } from '@/components/search/search-checkbox';
@@ -74,7 +74,7 @@ export default async function Page({ params, searchParams }) {
         <div className="grow">
           <SearchAsYouTypeInput params={searchParams} />
         </div>
-        {index === 'collections' && (
+        {index === 'art' && (
           <div className="flex flex-wrap gap-x-4 gap-y-2">
             <div className="flex items-center space-x-2">
               <SearchCheckbox
@@ -154,7 +154,7 @@ export default async function Page({ params, searchParams }) {
                     <h4 className="text-base font-semibold uppercase text-neutral-500 dark:text-neutral-600">
                       {
                         dict[
-                          `index.collections.agg.primaryConstituent.canonicalName`
+                          `index.art.agg.primaryConstituent.canonicalName`
                         ]
                       }
                     </h4>
@@ -225,8 +225,8 @@ export default async function Page({ params, searchParams }) {
                 (item: any, i: Key) =>
                   item && (
                     <div className="" key={i}>
-                      {item.type === 'object' && cardType === '' && (
-                        <CollectionObjectCard
+                      {item.type === 'artwork' && cardType === '' && (
+                        <ArtworkCard
                           item={item}
                           layout={layout}
                           showType={index === 'all'}
@@ -234,7 +234,7 @@ export default async function Page({ params, searchParams }) {
                           isMultiSource={isMultiSource}
                         />
                       )}
-                      {item.type === 'content' && (
+                      {item.type === 'news' && (
                         <ContentCard
                           item={item}
                           layout={layout}

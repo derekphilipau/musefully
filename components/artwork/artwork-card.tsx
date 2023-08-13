@@ -1,14 +1,14 @@
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
 import {
-  getObjectUrlWithSlug,
+  getArtworkUrlWithSlug,
   trimStringToLengthAtWordBoundary,
 } from '@/util/various';
 
-import type { CollectionObjectDocument } from '@/types/collectionObjectDocument';
+import type { ArtworkDocument } from '@/types/artworkDocument';
 import { DominantColors } from '@/components/color/dominant-colors';
 import { SourceHeader } from '@/components/source/source-header';
-import { CollectionObjectThumbnail } from '../collection-object-image/collection-object-thumbnail';
+import { ArtworkThumbnail } from '../artwork-image/artwork-thumbnail';
 
 function getContainerClass(layout) {
   if (layout === 'grid') return '';
@@ -20,28 +20,28 @@ function getDetailsClass(layout) {
   return 'lg:col-span-2';
 }
 
-interface CollectionObjectCardProps {
-  item: CollectionObjectDocument;
+interface ArtworkCardProps {
+  item: ArtworkDocument;
   layout: 'grid' | 'list';
   showType: boolean;
   showColor: boolean;
   isMultiSource: boolean;
 }
 
-export function CollectionObjectCard({
+export function ArtworkCard({
   item,
   layout,
   showType,
   showColor,
   isMultiSource,
-}: CollectionObjectCardProps) {
+}: ArtworkCardProps) {
   if (!item) return null;
   const dict = getDictionary();
 
   const primaryConstituentName =
     item.primaryConstituent?.name || 'Maker Unknown';
 
-  const href = getObjectUrlWithSlug(item._id, item.title);
+  const href = getArtworkUrlWithSlug(item._id, item.title);
 
   return (
     <div className={getContainerClass(layout)}>
@@ -51,7 +51,7 @@ export function CollectionObjectCard({
         )}
         <div className="flex items-center justify-center bg-neutral-50 text-neutral-200 hover:bg-neutral-100 hover:text-neutral-300 dark:bg-neutral-800 dark:text-neutral-900 dark:hover:bg-neutral-700  dark:hover:text-neutral-800">
           <Link href={href}>
-            <CollectionObjectThumbnail item={item} />
+            <ArtworkThumbnail item={item} />
           </Link>
         </div>
       </div>
@@ -67,7 +67,7 @@ export function CollectionObjectCard({
         <Link href={href}>
           {showType && layout === 'list' && (
             <h4 className="mb-2 text-base font-semibold uppercase text-neutral-500 dark:text-neutral-600">
-              {dict['index.collections.itemTitle']}
+              {dict['index.art.itemTitle']}
             </h4>
           )}
           <h4 className="mb-2 text-xl font-semibold">

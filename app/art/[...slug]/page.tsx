@@ -8,13 +8,13 @@ import { getCaption } from '@/util/various';
 import { encode } from 'html-entities';
 
 import type { ApiResponseDocument } from '@/types/apiResponseDocument';
-import type { CollectionObjectDocument } from '@/types/collectionObjectDocument';
+import type { ArtworkDocument } from '@/types/artworkDocument';
 import { siteConfig } from '@/config/site';
-import { ImageViewer } from '@/components/collection-object-image/image-viewer';
-import { CollectionObjectDescription } from '@/components/collection-object/collection-object-description';
-import { CollectionObjectShare } from '@/components/collection-object/collection-object-share';
-import { LanguageDisclaimer } from '@/components/collection-object/language-disclaimer';
-import { SimilarCollectionObjectList } from '@/components/collection-object/similar-collection-object-list';
+import { ImageViewer } from '@/components/artwork-image/image-viewer';
+import { ArtworkDescription } from '@/components/artwork/artwork-description';
+import { ArtworkShare } from '@/components/artwork/artwork-share';
+import { LanguageDisclaimer } from '@/components/artwork/language-disclaimer';
+import { SimilarArtworkList } from '@/components/artwork/similar-artwork-list';
 import { Icons } from '@/components/icons';
 import { SourceHeader } from '@/components/source/source-header';
 import { buttonVariants } from '@/components/ui/button';
@@ -23,24 +23,24 @@ export async function generateMetadata({ params }): Promise<Metadata> {
   const id = params.slug[0];
   let data: ApiResponseDocument | undefined = undefined;
   try {
-    data = await getDocument('collections', id);
+    data = await getDocument('art', id);
   } catch (error) {
     console.log(error);
     return {};
     // don't do anything so that the error page can be rendered later
   }
 
-  const collectionObject = data?.data as CollectionObjectDocument;
-  if (!collectionObject) return {};
+  const artwork = data?.data as ArtworkDocument;
+  if (!artwork) return {};
 
-  const caption = encode(getCaption(collectionObject));
-  const images = [collectionObject?.image?.thumbnailUrl || ''];
+  const caption = encode(getCaption(artwork));
+  const images = [artwork?.image?.thumbnailUrl || ''];
 
   return {
-    title: collectionObject.title,
+    title: artwork.title,
     description: caption,
     openGraph: {
-      title: collectionObject.title || '',
+      title: artwork.title || '',
       description: caption,
       images,
     },
@@ -52,40 +52,40 @@ export default async function Page({ params }) {
   const dict = getDictionary();
   const isMultiSource = siteConfig.isMultiSource;
 
-  let data: ApiResponseDocument = await getDocument('collections', id);
+  let data: ApiResponseDocument = await getDocument('art', id);
 
   if (!data?.data) {
-    throw new Error('Collection object not found.');
+    throw new Error('Artwork not found.');
   }
 
-  const collectionObject = data?.data as CollectionObjectDocument;
-  const similarCollectionObjects = data?.similar as CollectionObjectDocument[];
-  const jsonLd = getSchemaVisualArtworkJson(collectionObject);
+  const artwork = data?.data as ArtworkDocument;
+  const similarArtworks = data?.similar as ArtworkDocument[];
+  const jsonLd = getSchemaVisualArtworkJson(artwork);
 
   return (
     <>
       <section className="container grid gap-x-12 gap-y-6 pb-8 pt-2 md:grid-cols-2 md:pb-10 md:pt-4 lg:grid-cols-8">
         <div className="flex items-start justify-center md:col-span-1 lg:col-span-3">
-          <ImageViewer item={collectionObject} />
+          <ImageViewer item={artwork} />
         </div>
         <div className="md:col-span-1 lg:col-span-5">
-          {isMultiSource && <SourceHeader item={collectionObject} />}
+          {isMultiSource && <SourceHeader item={artwork} />}
           <h1 className="mb-2 text-2xl font-bold leading-tight tracking-tighter sm:text-2xl md:text-3xl lg:text-4xl">
-            {collectionObject?.title}
+            {artwork?.title}
           </h1>
           <div className="mb-4 text-neutral-700 dark:text-neutral-400">
-            {collectionObject?.formattedDate}
+            {artwork?.formattedDate}
           </div>
           <h2 className="text-lg md:text-xl">
-            {collectionObject?.primaryConstituent?.name || 'Maker Unknown'}
+            {artwork?.primaryConstituent?.name || 'Maker Unknown'}
           </h2>
-          {collectionObject?.primaryConstituent?.dates && (
+          {artwork?.primaryConstituent?.dates && (
             <div className="mb-4 text-sm text-neutral-700 dark:text-neutral-400">
-              {collectionObject?.primaryConstituent?.dates}
+              {artwork?.primaryConstituent?.dates}
             </div>
           )}
           <h3 className="mb-4 font-semibold uppercase text-neutral-700 dark:text-neutral-400">
-            {collectionObject?.departments?.map(
+            {artwork?.departments?.map(
               (department, i) =>
                 department && (
                   <span key={i}>{`${department}${i > 0 ? ', ' : ''}`}</span>
@@ -95,15 +95,15 @@ export default async function Page({ params }) {
           <div
             className="mb-4 text-neutral-700 dark:text-neutral-400"
             dangerouslySetInnerHTML={{
-              __html: collectionObject?.description || '',
+              __html: artwork?.description || '',
             }}
           ></div>
           <div className="flex gap-x-2">
-            <CollectionObjectShare item={collectionObject} />
-            {collectionObject?.url && (
+            <ArtworkShare item={artwork} />
+            {artwork?.url && (
               <Link
                 className={buttonVariants({ variant: 'outline' })}
-                href={collectionObject?.url}
+                href={artwork?.url}
               >
                 <Icons.link className="mr-2 h-5 w-5" />
                 {dict['button.source']}
@@ -111,19 +111,19 @@ export default async function Page({ params }) {
             )}
           </div>
           <div className="gap-x-4 pt-4 lg:flex">
-            <CollectionObjectDescription item={collectionObject} />
+            <ArtworkDescription item={artwork} />
           </div>
           <div>
             <LanguageDisclaimer
-              item={collectionObject}
+              item={artwork}
               formId={process.env.FORMSPREE_FORM_ID}
             />
           </div>
         </div>
       </section>
-      <SimilarCollectionObjectList
+      <SimilarArtworkList
         title={dict['artwork.similar']}
-        similar={similarCollectionObjects}
+        similar={similarArtworks}
         isMultiSource={isMultiSource}
       />
 

@@ -24,7 +24,7 @@ export default async function updateEvents() {
 
   for (const eventConfig of siteConfig.eventCrawlers) {
     try {
-      const { crawler } = await import(`./transform/events/${eventConfig}`);
+      const { crawler } = await import(`./crawl/events/${eventConfig}`);
 
       let operations: any[] = [];
       const events = await crawler.crawl();

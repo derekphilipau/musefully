@@ -1,17 +1,17 @@
 import type { DocumentConstituent } from '@/types/baseDocument';
-import type { CollectionObjectDocument } from '@/types/collectionObjectDocument';
-import type { ElasticsearchIngester} from '@/types/elasticsearchTransformer';
+import type { ArtworkDocument } from '@/types/artworkDocument';
+import type { ElasticsearchIngester} from '@/types/elasticsearchIngester';
 import { getStringValue, sourceAwareIdFormatter } from '../ingestUtil';
-import { searchUlanArtists } from '../../transform/ulan/searchUlanArtists';
-import { collectionsTermsExtractor } from '../../transform/util/collectionsTermsExtractor';
+import { searchUlanArtists } from '@/util/import/ulan/searchUlanArtists';
+import { artworkTermsExtractor } from '../artworkTermsExtractor';
 import type { MomaDocument } from './types';
 import { parseSignificantWords } from '../ingestUtil';
 
 const DATA_FILE = './data/moma/collections.jsonl.gz';
-const INDEX_NAME = 'collections';
+const INDEX_NAME = 'art';
 const SOURCE_ID = 'moma';
 const SOURCE_NAME = 'MoMA';
-const OBJECT_TYPE = 'object';
+const DOC_TYPE = 'artwork';
 
 interface YearRange {
   startYear: number | null;
@@ -112,10 +112,10 @@ function getImage(doc) {
   return;
 }
 
-async function transformDoc(doc: any): Promise<CollectionObjectDocument> {
-  const esDoc: CollectionObjectDocument = {
+async function transformDoc(doc: any): Promise<ArtworkDocument> {
+  const esDoc: ArtworkDocument = {
     // Begin BaseDocument fields
-    type: OBJECT_TYPE,
+    type: DOC_TYPE,
     source: SOURCE_NAME,
     sourceId: SOURCE_ID,
     id: getStringValue(doc.ObjectID),
@@ -177,21 +177,21 @@ async function transformDoc(doc: any): Promise<CollectionObjectDocument> {
   return esDoc;
 }
 
-export const transformer: ElasticsearchIngester= {
+export const ingester: ElasticsearchIngester= {
   indexName: INDEX_NAME,
   dataFilename: DATA_FILE,
   sourceId: SOURCE_ID,
   sourceName: SOURCE_NAME,
-  idGenerator: (
-    doc: CollectionObjectDocument,
+  generateId: (
+    doc: ArtworkDocument,
     includeSourcePrefix: boolean
   ) => {
     return sourceAwareIdFormatter(doc.id, SOURCE_ID, includeSourcePrefix);
   },
-  transformer: async (doc) => {
+  transform: async (doc) => {
     return transformDoc(doc);
   },
-  termsExtractor: async (doc: CollectionObjectDocument) => {
-    return collectionsTermsExtractor(doc, SOURCE_NAME);
+  extractTerms: async (doc: ArtworkDocument) => {
+    return artworkTermsExtractor(doc, SOURCE_NAME);
   },
 };

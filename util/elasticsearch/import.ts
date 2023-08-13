@@ -1,11 +1,11 @@
 import { Client } from '@elastic/elasticsearch';
 import * as T from '@elastic/elasticsearch/lib/api/types';
 
-import { collections, content, events, terms } from './indices';
+import { art, news, events, terms } from './indices';
 
 const indices = {
-  collections,
-  content,
+  art,
+  news,
   events,
   terms,
 };

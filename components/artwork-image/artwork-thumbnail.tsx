@@ -3,7 +3,7 @@ import { getDictionary } from '@/dictionaries/dictionaries';
 
 import { Icons } from '@/components/icons';
 
-export function CollectionObjectThumbnail({ item }) {
+export function ArtworkThumbnail({ item }) {
   if (!item) return null;
   const dict = getDictionary();
 
@@ -13,7 +13,7 @@ export function CollectionObjectThumbnail({ item }) {
         <Image
           src={item.image?.thumbnailUrl}
           className="h-48 object-contain"
-          alt={`${dict['index.collections.altText']} ${item.title}`}
+          alt={`${dict['index.art.altText']} ${item.title}`}
           width={400}
           height={400}
         />

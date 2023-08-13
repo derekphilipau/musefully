@@ -21,7 +21,7 @@ Example cosine similarity query:
 
 ```
 const esQuery: T.SearchRequest = {
-    index: 'collections',
+    index: 'art',
     query: {
       bool: {
         must: [

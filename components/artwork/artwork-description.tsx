@@ -1,30 +1,30 @@
 import * as React from 'react';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { CollectionObjectDocument } from '@/types/collectionObjectDocument';
+import type { ArtworkDocument } from '@/types/artworkDocument';
 import { DominantColors } from '@/components/color/dominant-colors';
 import { DescriptionRow } from './description-row';
 import { GeographicalDescriptionRow } from './geographical-description-row';
 
-interface CollectionObjectDescriptionProps {
-  item: CollectionObjectDocument;
+interface ArtworkDescriptionProps {
+  item: ArtworkDocument;
 }
 
-export function CollectionObjectDescription({
+export function ArtworkDescription({
   item,
-}: CollectionObjectDescriptionProps) {
+}: ArtworkDescriptionProps) {
   if (!item?.id) return null;
   const dict = getDictionary();
 
   const primaryConstituentName =
     item.primaryConstituent?.canonicalName || 'Maker Unknown';
 
-  //  http://localhost:3000/collections?hasPhoto=true&f=true&startYear=2014&endYear=2014
+  //  http://localhost:3000/art?hasPhoto=true&f=true&startYear=2014&endYear=2014
   const startYear = item.startYear;
   const endYear = item.endYear || item.startYear;
   let dateLink = '';
   if (startYear && endYear) {
-    dateLink = `/collections?hasPhoto=true&f=true&startYear=${item.startYear}&endYear=${item.endYear}`;
+    dateLink = `/art?hasPhoto=true&f=true&startYear=${item.startYear}&endYear=${item.endYear}`;
   }
 
   return (

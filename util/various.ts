@@ -2,7 +2,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { Parser } from 'htmlparser2';
 import slugify from 'slugify';
 
-import type { CollectionObjectDocument } from '@/types/collectionObjectDocument';
+import type { ArtworkDocument } from '@/types/artworkDocument';
 
 /**
  * Strips html tags from a string
@@ -42,11 +42,11 @@ export function stripLineBreaks(str: string, replaceStr: string = ' ') {
  * Caption is of the form:
  * Alma W. Thomas (American, 1891-1978). Wind, Sunshine and Flowers, 1968. Acrylic on canvas, 71 3/4 x 51 7/8 in. (182.2 x 131.8 cm). Brooklyn Museum, Gift of Mr. and Mrs. David K. Anderson, 76.120. © artist or artist's estate (Photo: Brooklyn Museum, 76.120_PS2.jpg)
  *
- * @param item the collection object
+ * @param item the artwork
  * @param filename the filename of the image
  */
 export function getCaption(
-  item: CollectionObjectDocument,
+  item: ArtworkDocument,
   filename: string = ''
 ): string {
   if (!item) return '';
@@ -98,12 +98,12 @@ export function trimStringToLengthAtWordBoundary(
   return str.substr(0, str.lastIndexOf(' ', length)) + ellipsis;
 }
 
-export function getObjectUrlWithSlug(
+export function getArtworkUrlWithSlug(
   id: string | undefined,
   title: string | undefined
 ) {
   if (!id) return '';
-  let url = `/collection/object/${id}`;
+  let url = `/art/${id}`;
   if (title === undefined) return url;
   const slug = slugify(title, {
     replacement: '-', // replace spaces with replacement character, defaults to `-`

@@ -20,20 +20,20 @@ export interface ElasticsearchTermsExtractor {
 /**
  * Function type for transforming any document to a `BaseDocument` or `Term`.
  */
-export interface ElasticsearchTransformer {
+export interface ElasticsearchTransform {
   (doc: any): Promise<BaseDocument | Term | undefined>;
 }
 
 /**
- * Defines the structure of an Elasticsearch transformer, with all functions required
- * to transform data for use in Elasticsearch.
+ * Defines the structure of an Elasticsearch ingester, with all functions required
+ * to ingest & transform data for use in Elasticsearch.
  */
 export interface ElasticsearchIngester{
   indexName: string;
   dataFilename: string;
   sourceId: string;
   sourceName: string;
-  idGenerator: ElasticsearchIdGenerator;
-  transformer: ElasticsearchTransformer;
-  termsExtractor?: ElasticsearchTermsExtractor;
+  generateId: ElasticsearchIdGenerator;
+  transform: ElasticsearchTransform;
+  extractTerms?: ElasticsearchTermsExtractor;
 }

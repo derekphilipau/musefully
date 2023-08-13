@@ -28,9 +28,9 @@ export function DateFilter({ params }: DateFilterProps) {
   const [toYear, setToYear] = useState(params?.endYear || '');
   const [isOpen, setIsOpen] = useState(params?.startYear || params?.endYear);
 
-  const displayName = dict['index.collections.date'];
-  const fromYearName = dict['index.collections.date.from'];
-  const toYearName = dict['index.collections.date.to'];
+  const displayName = dict['index.art.date'];
+  const fromYearName = dict['index.art.date.from'];
+  const toYearName = dict['index.art.date.to'];
 
   const debouncedRequest = useDebounce(() => {
     const updatedParams = new URLSearchParams(params);

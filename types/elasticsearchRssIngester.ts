@@ -11,7 +11,7 @@ export interface ElasticsearchRssIdGenerator {
 /**
  * Function type for transforming any document to a `BaseDocument`.
  */
-export interface ElasticsearchRssDocumentTransformer {
+export interface ElasticsearchRssTransform {
   (doc: any, sourceName: string, sourceId: string): Promise<
     BaseDocument | undefined
   >;
@@ -21,7 +21,7 @@ export interface ElasticsearchRssDocumentTransformer {
  * Defines the structure of an Elasticsearch transformer, with all functions required
  * to transform data for use in Elasticsearch.
  */
-export interface ElasticsearchRssTransformer {
-  idGenerator: ElasticsearchRssIdGenerator;
-  transformer: ElasticsearchRssDocumentTransformer;
+export interface ElasticsearchRssIngester {
+  generateId: ElasticsearchRssIdGenerator;
+  transform: ElasticsearchRssTransform;
 }

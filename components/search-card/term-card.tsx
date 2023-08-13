@@ -10,13 +10,13 @@ export function TermCard({ term }: { term: Term }) {
 
   if (term.field === 'primaryConstituent.canonicalName') {
     fieldName = dict['field.primaryConstituent.canonicalName'];
-    href = `/collections?primaryConstituent.canonicalName=${term.value}`;
+    href = `/art?primaryConstituent.canonicalName=${term.value}`;
   } else if (term.field === 'classification') {
     fieldName = dict['field.classification'];
-    href = `/collections?classification=${term.value}`;
-  } else if (term.field === 'collections') {
+    href = `/art?classification=${term.value}`;
+  } else if (term.field === 'art') {
     fieldName = dict['field.departments'];
-    href = `/collections?departments=${term.value}`;
+    href = `/art?departments=${term.value}`;
   }
 
   return (

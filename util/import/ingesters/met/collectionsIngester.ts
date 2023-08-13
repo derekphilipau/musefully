@@ -8,10 +8,10 @@ import type {
   DocumentGeographicalLocation,
   DocumentImage,
 } from '@/types/baseDocument';
-import type { CollectionObjectDocument } from '@/types/collectionObjectDocument';
-import type { ElasticsearchIngester } from '@/types/elasticsearchTransformer';
-import { searchUlanArtistById } from '../../transform/ulan/searchUlanArtists';
-import { collectionsTermsExtractor } from '../../transform/util/collectionsTermsExtractor';
+import type { ArtworkDocument } from '@/types/artworkDocument';
+import type { ElasticsearchIngester } from '@/types/elasticsearchIngester';
+import { searchUlanArtistById } from '@/util/import/ulan/searchUlanArtists';
+import { artworkTermsExtractor } from '../artworkTermsExtractor';
 import {
   getStringValue,
   parseSignificantWords,
@@ -20,10 +20,10 @@ import {
 import type { MetDocument } from './types';
 
 const DATA_FILE = './data/met/MetObjects.csv.gz';
-const INDEX_NAME = 'collections';
+const INDEX_NAME = 'art';
 const SOURCE_ID = 'met';
 const SOURCE_NAME = 'The Met';
-const OBJECT_TYPE = 'object';
+const DOC_TYPE = 'artwork';
 
 async function getConstituents(
   doc: MetDocument
@@ -181,9 +181,9 @@ async function getImage(doc: MetDocument): Promise<DocumentImage | undefined> {
 
 async function transformDoc(
   doc: MetDocument
-): Promise<CollectionObjectDocument> {
-  const esDoc: CollectionObjectDocument = {
-    type: OBJECT_TYPE,
+): Promise<ArtworkDocument> {
+  const esDoc: ArtworkDocument = {
+    type: DOC_TYPE,
     source: SOURCE_NAME,
     sourceId: SOURCE_ID,
     id: getStringValue(doc['Object ID']),
@@ -235,21 +235,21 @@ async function transformDoc(
   return esDoc;
 }
 
-export const transformer: ElasticsearchIngester = {
+export const ingester: ElasticsearchIngester= {
   indexName: INDEX_NAME,
   dataFilename: DATA_FILE,
   sourceId: SOURCE_ID,
   sourceName: SOURCE_NAME,
-  idGenerator: (
-    doc: CollectionObjectDocument,
+  generateId: (
+    doc: ArtworkDocument,
     includeSourcePrefix: boolean
   ) => {
     return sourceAwareIdFormatter(doc.id, SOURCE_ID, includeSourcePrefix);
   },
-  transformer: async (doc) => {
+  transform: async (doc) => {
     return transformDoc(doc);
   },
-  termsExtractor: async (doc: CollectionObjectDocument) => {
-    return collectionsTermsExtractor(doc, SOURCE_NAME);
+  extractTerms: async (doc: ArtworkDocument) => {
+    return artworkTermsExtractor(doc, SOURCE_NAME);
   },
 };

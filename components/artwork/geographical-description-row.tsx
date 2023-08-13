@@ -3,17 +3,17 @@ import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
 import { type DocumentGeographicalLocation } from '@/types/baseDocument';
-import type { CollectionObjectDocument } from '@/types/collectionObjectDocument';
+import type { ArtworkDocument } from '@/types/artworkDocument';
 
 interface DescriptionRowProps {
-  item?: CollectionObjectDocument;
+  item?: ArtworkDocument;
 }
 
 export function GeographicalDescriptionRow({ item }: DescriptionRowProps) {
   const dict = getDictionary();
   const displayName =
     dict?.[`field.geographicalLocations`] || 'Unknown field';
-  const searchUrl = '/collections?';
+  const searchUrl = '/art?';
 
   let val = item?.geographicalLocations;
   if (val === undefined || val.length === 0) return null;

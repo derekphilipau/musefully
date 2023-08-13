@@ -1,4 +1,4 @@
-import type { CollectionObjectDocument } from '@/types/collectionObjectDocument';
+import type { ArtworkDocument } from '@/types/artworkDocument';
 
 function getDimensionsCM(dimensions: string | undefined) {
   // H x W x D
@@ -24,7 +24,7 @@ function getDimensionsCM(dimensions: string | undefined) {
  * TODO: import JSON-LD schema typescript def
  */
 export function getSchemaVisualArtwork(
-  item: CollectionObjectDocument | undefined
+  item: ArtworkDocument | undefined
 ) {
   if (!item) return '';
   const schema: any = {
@@ -63,7 +63,7 @@ export function getSchemaVisualArtwork(
 }
 
 export function getSchemaVisualArtworkJson(
-  item: CollectionObjectDocument | undefined
+  item: ArtworkDocument | undefined
 ) {
   return JSON.stringify(getSchemaVisualArtwork(item), null, 2);
 }

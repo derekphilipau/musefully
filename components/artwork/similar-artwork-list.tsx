@@ -3,24 +3,24 @@
 import { useState } from 'react';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { CollectionObjectDocument } from '@/types/collectionObjectDocument';
-import { SimilarCollectionObjectCard } from '@/components/collection-object/similar-collection-object-card';
+import type { ArtworkDocument } from '@/types/artworkDocument';
+import { SimilarArtworkCard } from '@/components/artwork/similar-artwork-card';
 import { Button } from '@/components/ui/button';
 
 const SIMILAR_MAX_ITEMS = 24;
 const SIMILAR_MIN_ITEMS = 12;
 
-interface SimilarObjectsProps {
+interface SimilarArtworkListProps {
   title: string;
-  similar: CollectionObjectDocument[];
+  similar: ArtworkDocument[];
   isMultiSource: boolean;
 }
 
-export function SimilarCollectionObjectList({
+export function SimilarArtworkList({
   title,
   similar,
   isMultiSource,
-}: SimilarObjectsProps) {
+}: SimilarArtworkListProps) {
   const dict = getDictionary();
   const [showAllSimilar, setShowAllSimilar] = useState(false);
 
@@ -40,7 +40,7 @@ export function SimilarCollectionObjectList({
                 (item, i) =>
                   item && (
                     <div className="" key={i}>
-                      <SimilarCollectionObjectCard
+                      <SimilarArtworkCard
                         item={item}
                         isMultiSource={isMultiSource}
                       />

@@ -22,13 +22,13 @@ export function SearchFilters({
 
   return (
     <>
-      {index === 'collections' && (
+      {index === 'art' && (
         <div className="color-picker mb-2">
           <ColorPicker params={params} />
         </div>
       )}
-      {index === 'collections' && <DateFilter params={params} />}
-      {indicesMeta.collections?.aggs?.map(
+      {index === 'art' && <DateFilter params={params} />}
+      {indicesMeta.art?.aggs?.map(
         (aggName, i) =>
           aggName &&
           options[aggName]?.length > 0 && (

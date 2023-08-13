@@ -17,15 +17,15 @@ import updateRssFeeds from './updateRssFeed';
 
 loadEnvConfig(process.cwd());
 
-async function importDataset(ingester: string, includeSourcePrefix: boolean) {
+async function importDataset(ingesterName: string, includeSourcePrefix: boolean) {
   try {
-    const { transformer } = await import(`./ingesters/${ingester}`);        
+    const { ingester } = await import(`./ingesters/${ingesterName}`);        
     await updateFromFile(
-      transformer,
+      ingester,
       includeSourcePrefix
     );
   } catch (e) {
-    abort(`Error updating with ${ingester}: ${e}`);
+    abort(`Error updating with ${ingesterName}: ${e}`);
     return;
   }
 }
@@ -57,9 +57,9 @@ async function run() {
 
   const includeSourcePrefix = siteConfig.isMultiSource;
 
-  for (const ingester of siteConfig.ingesters) {
-    if (await askYesNo(`Import using ${ingester}?`)) {
-      await importDataset(ingester, includeSourcePrefix);
+  for (const ingesterName of siteConfig.ingesters) {
+    if (await askYesNo(`Import using ${ingesterName}?`)) {
+      await importDataset(ingesterName, includeSourcePrefix);
     }
   }
 
@@ -70,7 +70,7 @@ async function run() {
 
   if (await askYesNo(`Update dominant colors?`)) await updateDominantColors();
 
-  if (await askYesNo(`Update RSS Feeds to content index?`)) {
+  if (await askYesNo(`Update RSS Feeds to news index?`)) {
     await updateRssFeeds();
   }
 

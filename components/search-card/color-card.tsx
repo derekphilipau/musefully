@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
 import {
-  getObjectUrlWithSlug,
+  getArtworkUrlWithSlug,
   trimStringToLengthAtWordBoundary,
 } from '@/util/various';
 
@@ -33,7 +33,7 @@ export function ColorCard({ item, layout, showType }) {
 
   const primaryConstituentName = item.primaryConstituent?.name || 'Maker Unknown';
 
-  const href = getObjectUrlWithSlug(item._id, item.title);
+  const href = getArtworkUrlWithSlug(item._id, item.title);
 
   return (
     <Link href={href}>
@@ -41,7 +41,7 @@ export function ColorCard({ item, layout, showType }) {
         <div>
           {showType && layout === 'grid' && (
             <h4 className="text-base font-semibold uppercase text-neutral-500 dark:text-neutral-600">
-              {dict['index.collections.itemTitle']}
+              {dict['index.art.itemTitle']}
             </h4>
           )}
           {item.image?.dominantColors && (
@@ -59,7 +59,7 @@ export function ColorCard({ item, layout, showType }) {
         <div className={getDetailsClass(layout)}>
           {showType && layout === 'list' && (
             <h4 className="mb-2 text-base font-semibold uppercase text-neutral-500 dark:text-neutral-600">
-              {dict['index.collections.itemTitle']}
+              {dict['index.art.itemTitle']}
             </h4>
           )}
 

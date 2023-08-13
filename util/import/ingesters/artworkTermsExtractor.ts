@@ -1,34 +1,34 @@
 import slugify from 'slugify';
 
-import type { CollectionObjectDocument } from '@/types/collectionObjectDocument';
+import type { ArtworkDocument } from '@/types/artworkDocument';
 import type { Term, TermIdMap } from '@/types/term';
-import { normalizeName, searchUlanArtists } from '../ulan/searchUlanArtists';
+import { normalizeName, searchUlanArtists } from '@/util/import/ulan/searchUlanArtists';
 
 /**
  * Terms are significant fields that may contain additiona metadata are
  * used for search-as-you-type.
  *
- * @param doc Elasticsearch document representing a Collection Object
+ * @param doc Elasticsearch document representing an artwork
  */
-export async function collectionsTermsExtractor(
-  doc: CollectionObjectDocument,
+export async function artworkTermsExtractor(
+  doc: ArtworkDocument,
   datasourceName: string
 ): Promise<TermIdMap> {
   const termIdMap: TermIdMap = {};
   if (doc.departments?.length) {
     for (const department of doc.departments) {
-      termIdMap[`collections-departments-${slugify(department)}`] = {
+      termIdMap[`art-departments-${slugify(department)}`] = {
         source: datasourceName,
-        index: 'collections',
+        index: 'art',
         field: 'departments',
         value: department,
       };
     }
   }
   if (doc.classification) {
-    termIdMap[`collections-classification-${slugify(doc.classification)}`] = {
+    termIdMap[`art-classification-${slugify(doc.classification)}`] = {
       source: datasourceName,
-      index: 'collections',
+      index: 'art',
       field: 'classification',
       value: doc.classification,
     };
@@ -44,7 +44,7 @@ export async function collectionsTermsExtractor(
     if (ulanArtist?.preferredTerm) {
       term = {
         source: 'ulan',
-        index: 'collections',
+        index: 'art',
         field: 'primaryConstituent.canonicalName',
         value: ulanArtist.preferredTerm,
         alternates: ulanArtist.nonPreferredTerms,
@@ -54,7 +54,7 @@ export async function collectionsTermsExtractor(
     } else {
       term = {
         source: datasourceName,
-        index: 'collections',
+        index: 'art',
         field: 'primaryConstituent.canonicalName',
         value: primaryConstituent.canonicalName,
         summary: primaryConstituent.dates,
@@ -62,7 +62,7 @@ export async function collectionsTermsExtractor(
     }
     if (term.value) {
       const id = slugify(normalizeName(term.value));
-      termIdMap[`collections-primaryConstituent.canonicalName-${id}`] = term;
+      termIdMap[`art-primaryConstituent.canonicalName-${id}`] = term;
     }
   }
   return termIdMap;

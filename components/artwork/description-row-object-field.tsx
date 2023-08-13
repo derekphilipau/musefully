@@ -2,11 +2,11 @@ import { Key } from 'react';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { CollectionObjectDocument } from '@/types/collectionObjectDocument';
+import type { ArtworkDocument } from '@/types/artworkDocument';
 
 interface DescriptionRowProps {
   name: string;
-  item?: CollectionObjectDocument;
+  item?: ArtworkDocument;
   idField?: string;
   valueField?: string;
   isLink?: boolean;
@@ -21,7 +21,7 @@ export function DescriptionRowObjectField({
 }: DescriptionRowProps) {
   const dict = getDictionary();
   const displayName = dict?.[`field.${name}.${valueField}`] || 'Unknown field';
-  const searchUrl = '/collections?';
+  const searchUrl = '/art?';
 
   let nameValueObjects = item?.[name];
   if (!name || !nameValueObjects || nameValueObjects.length === 0) return null;

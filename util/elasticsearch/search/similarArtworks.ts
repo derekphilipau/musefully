@@ -1,21 +1,21 @@
 import { Client } from '@elastic/elasticsearch';
 import * as T from '@elastic/elasticsearch/lib/api/types';
 
-import type { CollectionObjectDocument } from '@/types/collectionObjectDocument';
+import type { ArtworkDocument } from '@/types/artworkDocument';
 import { getClient } from '../client';
 import { getDocument } from './document';
 
 const SIMILAR_PAGE_SIZE = 24; // 24 results per similar search
 const UNKNOWN_CONSTITUENT = 'Unknown'; // Default string for unknown constituent in dataset
 
-export async function similarCollectionObjectsById(
+export async function similarArtworksById(
   id: string,
   hasPhoto: boolean = true,
-): Promise<CollectionObjectDocument[]> {
+): Promise<ArtworkDocument[]> {
   if (!id) return [];
-  const docResponse = await getDocument('collections', id, false);
-  const document = docResponse?.data as CollectionObjectDocument;
-  if (document) return similarCollectionObjects(document, hasPhoto);
+  const docResponse = await getDocument('art', id, false);
+  const document = docResponse?.data as ArtworkDocument;
+  if (document) return similarArtworks(document, hasPhoto);
   return [];
 }
 
@@ -26,15 +26,15 @@ export async function similarCollectionObjectsById(
  * @param client The ES client
  * @returns Array of similar objects
  */
-export async function similarCollectionObjects(
-  document?: CollectionObjectDocument,
+export async function similarArtworks(
+  document?: ArtworkDocument,
   hasPhoto: boolean = true,
   client?: Client
-): Promise<CollectionObjectDocument[]> {
+): Promise<ArtworkDocument[]> {
   if (!document || !document.id) return [];
 
   const esQuery: T.SearchRequest = {
-    index: 'collections',
+    index: 'art',
     query: {
       bool: {
         must_not: [
@@ -58,7 +58,7 @@ export async function similarCollectionObjects(
     };
   }
 
-  // Adjust these boosts to accomodate your conception of object similarity:
+  // Adjust these boosts to accomodate your conception of artwork similarity:
   if (
     document.primaryConstituent?.id &&
     document.primaryConstituent?.canonicalName !== UNKNOWN_CONSTITUENT
@@ -84,7 +84,7 @@ export async function similarCollectionObjects(
         _id: hit._id,
         _index: hit._index,
         ...(hit._source || {}),
-      } as CollectionObjectDocument)
+      } as ArtworkDocument)
   );
 }
 
@@ -97,7 +97,7 @@ export async function similarCollectionObjects(
  * @returns  Void.  The ES Query is modified in place
  */
 function addShouldTerms(
-  document: CollectionObjectDocument,
+  document: ArtworkDocument,
   esQuery: T.SearchRequest,
   name: string,
   boost: number

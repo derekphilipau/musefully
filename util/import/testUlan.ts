@@ -7,7 +7,7 @@
 import {
   normalizeName,
   searchUlanArtists,
-} from './transform/ulan/searchUlanArtists';
+} from './ulan/searchUlanArtists';
 
 async function run() {
   const artists = [

@@ -175,7 +175,7 @@ Museum Location:
 
 The base document defines common fields for all indices, these are the fields used for cross-index search. The Elasticsearch Base Document fields are defined in `indices.ts` and the associated Typescript interface is defined in `/types/baseDocument.ts`.
 
-- `type` - The type of document, e.g. "collections", "terms"
+- `type` - The type of document, e.g. "object", "terms"
 - `source` - The source of the document, e.g. "Brooklyn Museum", "Getty ULAN"
 - `url` - The URL of the document
 - `id` - The unique ID of the document
@@ -323,15 +323,15 @@ Searches can be performed against any index. Search requests are of the form:
 GET `http://localhost:3000/api/search?[querystring]`
 
 Querystring parameters are the same as those for the Web UI:
-GET `http://localhost:3000/api/search?index=collections&f=true&primaryConstituent.canonicalName=George%20Bradford%20Brainerd`
+GET `http://localhost:3000/api/search?index=art&f=true&primaryConstituent.canonicalName=George%20Bradford%20Brainerd`
 
 ### Document API
 
 Document requests are of the form:
-GET `http://localhost:3000/api/search/document?index=collections&id=[documentId]`
+GET `http://localhost:3000/api/search/document?index=art&id=[documentId]`
 
 For example, to get collection object with id `bkm_225001`:
-GET `http://localhost:3000/api/search/document?id=bkm_225001&index=collections`
+GET `http://localhost:3000/api/search/document?id=bkm_225001&index=art`
 
 ### RSS Sync API
 
@@ -407,7 +407,7 @@ This command will:
 
 1. Load environment variables from `.env.local`
 2. Ask if you want to proceed with the import
-3. Ask if you want to import the collections index (all records)
+3. Ask if you want to import the art index (all records)
 4. Ask if you want to import the content index (all records)
 5. Ask if you want to update dominant colors. This will only update colors for images which haven't already been analyzed.
 6. Ask if you want to update RSS feeds to the content index.

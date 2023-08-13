@@ -19,7 +19,7 @@ export function DominantColors({ item, height = 10, isLinked = true }) {
               <Link
                 className="rounded-none"
                 key={index}
-                href={`/collections?hasPhoto=true&color=${color.hex}`}
+                href={`/art?hasPhoto=true&color=${color.hex}`}
                 style={{
                   backgroundColor: `#${color.hex}`,
                   height: `${height}px`,
