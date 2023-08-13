@@ -1,11 +1,14 @@
 import * as fs from 'fs';
 import * as readline from 'node:readline';
-import zlib from 'zlib'; // TODO remove zlib from package.json
+import zlib from 'zlib';
+
+// TODO remove zlib from package.json
 
 import type { UlanArtist } from '@/types/ulanArtist';
 
 const ULAN_ARTISTS_FILE = './data/ULAN/json/ulanArtists.jsonl.gz';
 let ULAN_ARTISTS: any = {};
+let ULAN_ID_LOOKUP: { [id: string]: UlanArtist } = {};
 let ulanDataLoaded = false;
 let ULAN_ARTIST_CACHE: { [key: string]: UlanArtist } = {};
 
@@ -72,6 +75,8 @@ async function loadUlanArtists() {
       if (ULAN_ARTISTS[term]) ULAN_ARTISTS[term].push(artist);
       else ULAN_ARTISTS[term] = [artist];
     }
+
+    ULAN_ID_LOOKUP[artist.id] = artist;
   }
   console.log(`ULAN Artists loaded ${ulanArtistsRaw.length} entries`);
   ulanDataLoaded = true;
@@ -118,6 +123,24 @@ function selectUlanMatch(
       return temporaryConfirmedUlanArtist;
     }
   }
+}
+
+/**
+ * Search ULAN by id
+ *
+ * @param id represents artist id
+ * @returns UlanArtist if found
+ */
+export async function searchUlanArtistById(
+  id: number | string
+): Promise<UlanArtist | undefined> {
+  if (!id) return;
+
+  if (!ulanDataLoaded) {
+    await loadUlanArtists();
+  }
+
+  return ULAN_ID_LOOKUP[id];
 }
 
 /**

@@ -73,7 +73,9 @@ export function getCaption(
  */
 export function getBooleanValue(x: any) {
   if (typeof x === 'boolean') return x;
-  if (typeof x === 'string') return x === 'true' || x === '1';
+  if (typeof x === 'string') {
+    return x.toLowerCase() === 'true' || x === '1';
+  }
   if (typeof x === 'number') return x === 1;
   return false; // undefined, null, or other
 }
@@ -133,4 +135,14 @@ export function truncate(input: string, maxCharacters: number): string {
   const truncated = input.substring(0, boundary) + '...';
 
   return truncated;
+}
+
+/**
+ * Sleep for a given number of seconds.
+ *
+ * @param s Number of seconds to sleep.
+ * @returns A promise that resolves after the given number of seconds.
+ */
+export function snooze(s: number) {
+  return new Promise((resolve) => setTimeout(resolve, s * 1000));
 }

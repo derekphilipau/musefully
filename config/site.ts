@@ -53,6 +53,7 @@ export const siteConfig: SiteConfig = {
     'bkm/collectionsIngester',
     'moma/collectionsIngester',
     'whitney/collectionsIngester',
+    'met/collectionsIngester',
   ],
   eventCrawlers: [
     'bkmExhibitionsCrawler',
