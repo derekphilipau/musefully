@@ -10,7 +10,7 @@ import Map, { Layer, Source } from 'react-map-gl';
 
 import { countries } from './countries';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import type { CollectionObjectDocument } from '@/types/collectionObjectDocument';
+import type { ArtworkDocument } from '@/types/artworkDocument';
 
 //const MAPBOX_TOKEN = process.env.MAPBOX_TOKEN;
 const MAPBOX_TOKEN =
@@ -26,7 +26,7 @@ const layerStyle = {
   },
 };
 
-export function SearchMap({ items }: { items: CollectionObjectDocument[] }) {
+export function SearchMap({ items }: { items: ArtworkDocument[] }) {
   const [viewport, setViewport] = React.useState();
 
   if (!MAPBOX_TOKEN || !(items?.length > 0)) return null;

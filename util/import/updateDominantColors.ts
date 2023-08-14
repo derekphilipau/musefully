@@ -3,7 +3,7 @@ import { bulk, getBulkOperationArray } from '@/util/elasticsearch/import';
 import { searchAll } from '@/util/elasticsearch/search/search';
 import dominantColors from '@/util/image/dominantColors';
 
-const INDEX_NAME = 'collections';
+const INDEX_NAME = 'art';
 const NUMBER_DOMINANT_COLORS = 8;
 
 export async function updateDominantColors(forceUpdate: boolean = false) {

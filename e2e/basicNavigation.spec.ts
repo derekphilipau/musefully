@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-test('should navigate to the collections search page', async ({
+test('should navigate to the art search page', async ({
   page,
   browserName,
   isMobile,
@@ -12,5 +12,5 @@ test('should navigate to the collections search page', async ({
   } else {
     await page.click('text=Search');
   }
-  await expect(page).toHaveURL('/collections?hasPhoto=true');
+  await expect(page).toHaveURL('/art?hasPhoto=true');
 });

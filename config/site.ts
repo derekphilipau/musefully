@@ -4,8 +4,8 @@ import type { NavItem } from '@/types/nav';
  * Represents an RSS feed with necessary information for ingestion.
  */
 export interface RssFeedConfig {
-  /** Transformer to use, typically rssTransformer */
-  transformer: string;
+  /** Transformer to use, typically rssIngester */
+  ingester: string;
   /** Human-readable name */
   sourceName: string;
   /** ID of source */
@@ -24,7 +24,7 @@ interface SiteConfig {
   isMultiSource: boolean;
   /** List of ingesters */
   ingesters: string[];
-  /** List of crawlers in /util/import/transform/events/ directory */
+  /** List of crawlers in /util/import/crawl/events/ directory */
   eventCrawlers: string[];
   /** List of extractors in /util/import/extract/ directory */
   extractors: string[];
@@ -53,6 +53,7 @@ export const siteConfig: SiteConfig = {
     'bkm/collectionsIngester',
     'moma/collectionsIngester',
     'whitney/collectionsIngester',
+    'met/collectionsIngester',
   ],
   eventCrawlers: [
     'bkmExhibitionsCrawler',
@@ -62,103 +63,103 @@ export const siteConfig: SiteConfig = {
   ],
   rssFeeds: [
     {
-      transformer: 'rssTransformer',
+      ingester: 'rssIngester',
       sourceName: 'Hyperallergic',
       sourceId: 'hyperallergic',
       url: 'https://hyperallergic.com/feed/',
     },
     {
-      transformer: 'rssTransformer',
+      ingester: 'rssIngester',
       sourceName: 'MoMA',
       sourceId: 'moma',
       url: 'https://stories.moma.org/feed',
     },
     {
-      transformer: 'rssTransformer',
+      ingester: 'rssIngester',
       sourceName: 'Cooper Hewitt',
       sourceId: 'cooperhewitt',
       url: 'https://www.cooperhewitt.org/blog/feed/',
     },
     {
-      transformer: 'rssTransformer',
+      ingester: 'rssIngester',
       sourceName: 'V&A',
       sourceId: 'vam',
       url: 'https://www.vam.ac.uk/blog/feed',
     },
     {
-      transformer: 'rssTransformer',
+      ingester: 'rssIngester',
       sourceName: 'Seattle Art Museum',
       sourceId: 'sam',
       url: 'https://samblog.seattleartmuseum.org/feed/',
     },
     {
-      transformer: 'rssTransformer',
+      ingester: 'rssIngester',
       sourceName: 'Milwaukee Art Museum',
       sourceId: 'mam',
       url: 'https://blog.mam.org/feed/',
     },
     {
-      transformer: 'rssTransformer',
+      ingester: 'rssIngester',
       sourceName: 'ARTnews',
       sourceId: 'artnews',
       url: 'https://www.artnews.com/feed/',
     },
     {
-      transformer: 'rssTransformer',
+      ingester: 'rssIngester',
       sourceName: 'NYT Art & Design',
       sourceId: 'nyt',
       url: 'https://rss.nytimes.com/services/xml/rss/nyt/ArtandDesign.xml',
     },
     {
-      transformer: 'rssTransformer',
+      ingester: 'rssIngester',
       sourceName: 'The Met',
       sourceId: 'met',
       url: 'https://www.metmuseum.org/blogs?rss=1',
     },
     {
-      transformer: 'rssTransformer',
+      ingester: 'rssIngester',
       sourceName: 'Artsy',
       sourceId: 'artsy',
       url: 'https://www.artsy.net/rss/news',
     },
     {
-      transformer: 'rssTransformer',
+      ingester: 'rssIngester',
       sourceName: 'Colossal',
       sourceId: 'colossal',
       url: 'https://www.thisiscolossal.com/feed/',
     },
     {
-      transformer: 'rssTransformer',
+      ingester: 'rssIngester',
       sourceName: 'Hi-Fructose',
       sourceId: 'hifructose',
       url: 'https://hifructose.com/feed/',
     },
     {
-      transformer: 'rssTransformer',
+      ingester: 'rssIngester',
       sourceName: 'Juxtapoz',
       sourceId: 'juxtapoz',
       url: 'https://www.juxtapoz.com/news/?format=feed&type=rss',
     },
     {
-      transformer: 'rssTransformer',
+      ingester: 'rssIngester',
       sourceName: 'Artforum',
       sourceId: 'artforum',
       url: 'https://www.artforum.com/rss.xml',
     },
     {
-      transformer: 'rssTransformer',
+      ingester: 'rssIngester',
       sourceName: 'LACMA',
       sourceId: 'lacma',
       url: 'https://www.lacma.org/rss.xml',
     },
     {
-      transformer: 'rssTransformer',
+      ingester: 'rssIngester',
       sourceName: 'Aesthetica',
       sourceId: 'aesthetica',
       url: 'https://aestheticamagazine.com/feed/',
     },
     {
-      transformer: 'rssTransformer',
+      ingester: 'rssIngester',
       sourceName: 'New Yorker Daily Cartoon',
       sourceId: 'newyorkercartoon',
       url: 'https://www.newyorker.com/feed/cartoons/daily-cartoon',
@@ -166,12 +167,12 @@ export const siteConfig: SiteConfig = {
   ],
   mainNav: [
     {
-      dict: 'index.collections',
-      href: '/collections?hasPhoto=true&f=true',
+      dict: 'index.art',
+      href: '/art?hasPhoto=true&f=true',
     },
     {
-      dict: 'index.content',
-      href: '/content',
+      dict: 'index.news',
+      href: '/news',
     },
     {
       dict: 'index.events',

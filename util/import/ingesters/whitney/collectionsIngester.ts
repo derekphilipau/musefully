@@ -2,25 +2,25 @@ import * as fs from 'fs';
 import csv from 'csv-parser';
 
 import type { DocumentConstituent } from '@/types/baseDocument';
-import type { CollectionObjectDocument } from '@/types/collectionObjectDocument';
-import type { ElasticsearchIngester} from '@/types/elasticsearchTransformer';
+import type { ArtworkDocument } from '@/types/artworkDocument';
+import type { ElasticsearchIngester} from '@/types/elasticsearchIngester';
 import {
   getStringValue,
   parseSignificantWords,
   sourceAwareIdFormatter,
 } from '../ingestUtil';
-import { searchUlanArtists } from '../../transform/ulan/searchUlanArtists';
-import { collectionsTermsExtractor } from '../../transform/util/collectionsTermsExtractor';
+import { searchUlanArtists } from '@/util/import/ulan/searchUlanArtists';
+import { artworkTermsExtractor } from '../artworkTermsExtractor';
 import type { WhitneyArtist, WhitneyDocument } from './types';
 
 const WHITNEY_ARTISTS: WhitneyArtist[] = [];
 let WHITNEY_ARTISTS_LOADED = false;
 
 const DATA_FILE = './data/whitney/artworks.csv.gz';
-const INDEX_NAME = 'collections';
+const INDEX_NAME = 'art';
 const SOURCE_ID = 'whitney';
 const SOURCE_NAME = 'The Whitney';
-const OBJECT_TYPE = 'object';
+const DOC_TYPE = 'artwork';
 
 /**
  * Whitney publishes artist data in a separate CSV file.
@@ -70,12 +70,12 @@ function getConstituents(doc: WhitneyDocument): DocumentConstituent[] {
   return constituents;
 }
 
-async function transformDoc(doc: any): Promise<CollectionObjectDocument> {
+async function transformDoc(doc: any): Promise<ArtworkDocument> {
   if (!WHITNEY_ARTISTS_LOADED) await loadArtistsData();
 
-  const esDoc: CollectionObjectDocument = {
+  const esDoc: ArtworkDocument = {
     // BaseDocument fields
-    type: OBJECT_TYPE,
+    type: DOC_TYPE,
     source: SOURCE_NAME,
     sourceId: SOURCE_ID,
     id: getStringValue(doc.id),
@@ -132,21 +132,21 @@ async function transformDoc(doc: any): Promise<CollectionObjectDocument> {
   return esDoc;
 }
 
-export const transformer: ElasticsearchIngester= {
+export const ingester: ElasticsearchIngester= {
   indexName: INDEX_NAME,
   dataFilename: DATA_FILE,
   sourceId: SOURCE_ID,
   sourceName: SOURCE_NAME,
-  idGenerator: (
-    doc: CollectionObjectDocument,
+  generateId: (
+    doc: ArtworkDocument,
     includeSourcePrefix: boolean
   ) => {
     return sourceAwareIdFormatter(doc.id, SOURCE_ID, includeSourcePrefix);
   },
-  transformer: async (doc) => {
+  transform: async (doc) => {
     return transformDoc(doc);
   },
-  termsExtractor: async (doc: CollectionObjectDocument) => {
-    return collectionsTermsExtractor(doc, SOURCE_NAME);
+  extractTerms: async (doc: ArtworkDocument) => {
+    return artworkTermsExtractor(doc, SOURCE_NAME);
   },
 };

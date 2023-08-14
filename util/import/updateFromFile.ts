@@ -12,7 +12,7 @@ import {
 import { searchAll } from '@/util/elasticsearch/search/search';
 import csvParser from 'csv-parser';
 
-import type { ElasticsearchIngester} from '@/types/elasticsearchTransformer';
+import type { ElasticsearchIngester} from '@/types/elasticsearchIngester';
 import { TermIdMap } from '@/types/term';
 
 async function* readFileData(
@@ -80,17 +80,17 @@ export default async function updateFromFile(
   for await (const obj of readFileData(dataFilename)) {
     try {
       if (obj) {
-        const doc = await ingester.transformer(obj);
+        const doc = await ingester.transform(obj);
         if (doc !== undefined) {
-          const id = ingester.idGenerator(doc, includeSourcePrefix);
+          const id = ingester.generateId(doc, includeSourcePrefix);
           if (doc && id) {
             operations.push(
               ...getBulkOperationArray('update', indexName, id, doc)
             );
             allIds.push(id);
           }
-          if (ingester.termsExtractor !== undefined) {
-            const termElements = await ingester.termsExtractor(doc);
+          if (ingester.extractTerms !== undefined) {
+            const termElements = await ingester.extractTerms(doc);
             if (termElements) {
               allTerms = { ...allTerms, ...termElements };
             }

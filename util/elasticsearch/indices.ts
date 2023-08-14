@@ -22,7 +22,7 @@ const baseDocument: Record<T.PropertyName, T.MappingProperty> = {
   sortPriority: S.integerField,
 };
 
-export const collections: T.IndicesIndexSettings = {
+export const art: T.IndicesIndexSettings = {
   settings: {
     index: S.index,
     analysis: S.analysis,
@@ -56,7 +56,7 @@ export const collections: T.IndicesIndexSettings = {
       onView: S.booleanField,
       rightsType: S.keywordField,
       labels: S.disabledObjectField,
-      relatedObjects: S.keywordField,
+      // relatedArtworks: S.keywordField,
       departments: S.searchableAggregatedKeywordAnalyzerField,
       exhibitions: S.searchableAggregatedKeywordAnalyzerField,
       primaryGeographicalLocation: S.geographicalLocationObjectField,
@@ -65,7 +65,7 @@ export const collections: T.IndicesIndexSettings = {
   },
 };
 
-export const content: T.IndicesIndexSettings = {
+export const news: T.IndicesIndexSettings = {
   settings: {
     index: S.index,
     analysis: S.analysis,

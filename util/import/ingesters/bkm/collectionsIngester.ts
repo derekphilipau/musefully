@@ -1,13 +1,13 @@
+import type { ArtworkDocument } from '@/types/artworkDocument';
 import type { DocumentImage } from '@/types/baseDocument';
-import type { CollectionObjectDocument } from '@/types/collectionObjectDocument';
-import type { ElasticsearchIngester} from '@/types/elasticsearchTransformer';
+import type { ElasticsearchIngester } from '@/types/elasticsearchIngester';
+import { searchUlanArtists } from '@/util/import/ulan/searchUlanArtists';
+import { artworkTermsExtractor } from '../artworkTermsExtractor';
 import {
   getStringValue,
   parseSignificantWords,
   sourceAwareIdFormatter,
 } from '../ingestUtil';
-import { searchUlanArtists } from '../../transform/ulan/searchUlanArtists';
-import { collectionsTermsExtractor } from '../../transform/util/collectionsTermsExtractor';
 import type { BkmImage } from './types';
 import {
   getLargeOrRestrictedImageUrl,
@@ -15,10 +15,10 @@ import {
 } from './util';
 
 const DATA_FILE = './data/bkm/collections.jsonl.gz';
-const INDEX_NAME = 'collections';
+const INDEX_NAME = 'art';
 const SOURCE_ID = 'bkm';
 const SOURCE_NAME = 'Brooklyn Museum';
-const OBJECT_TYPE = 'object';
+const DOC_TYPE = 'artwork';
 const NOT_ON_VIEW = 'This item is not on view';
 const NOT_ASSIGNED = '(not assigned)';
 
@@ -42,15 +42,17 @@ function getSortedImages(
   return images.sort((a, b) => (a.rank || 0) - (b.rank || 0));
 }
 
-async function transformDoc(doc: any): Promise<CollectionObjectDocument> {
-  const esDoc: CollectionObjectDocument = {
+async function transformDoc(doc: any): Promise<ArtworkDocument> {
+  const esDoc: ArtworkDocument = {
     // Begin BaseDocument fields
-    type: OBJECT_TYPE,
+    type: DOC_TYPE,
     source: SOURCE_NAME,
     sourceId: SOURCE_ID,
     id: getStringValue(doc.id),
     title: doc.title || undefined,
-    url: `https://www.brooklynmuseum.org/opencollection/objects/${getStringValue(doc.id)}`
+    url: `https://www.brooklynmuseum.org/opencollection/objects/${getStringValue(
+      doc.id
+    )}`,
   };
 
   if (doc.labels?.length) {
@@ -212,9 +214,12 @@ async function transformDoc(doc: any): Promise<CollectionObjectDocument> {
     );
   }
 
-  esDoc.relatedObjects = doc.related_items?.map(
+  /*
+  // Don't use their related artworks
+  esDoc.relatedArtworks = doc.related_items?.map(
     (related: any) => related.object_id
   );
+  */
 
   if (doc.geographical_locations?.length) {
     // TODO: get continent, country, etc.
@@ -309,21 +314,18 @@ async function transformDoc(doc: any): Promise<CollectionObjectDocument> {
   return esDoc;
 }
 
-export const transformer: ElasticsearchIngester= {
+export const ingester: ElasticsearchIngester= {
   indexName: INDEX_NAME,
   dataFilename: DATA_FILE,
   sourceId: SOURCE_ID,
   sourceName: SOURCE_NAME,
-  idGenerator: (
-    doc: CollectionObjectDocument,
-    includeSourcePrefix: boolean
-  ) => {
+  generateId: (doc: ArtworkDocument, includeSourcePrefix: boolean) => {
     return sourceAwareIdFormatter(doc.id, SOURCE_ID, includeSourcePrefix);
   },
-  transformer: async (doc) => {
+  transform: async (doc) => {
     return transformDoc(doc);
   },
-  termsExtractor: async (doc: CollectionObjectDocument) => {
-    return collectionsTermsExtractor(doc, SOURCE_NAME);
+  extractTerms: async (doc: ArtworkDocument) => {
+    return artworkTermsExtractor(doc, SOURCE_NAME);
   },
 };

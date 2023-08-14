@@ -23,14 +23,14 @@ const MIN_SEARCH_QUERY_LENGTH = 3; // Minimum length of search query
  * @returns Elasticsearch search response
  */
 export async function search(params: any): Promise<ApiResponseSearch> {
-  if (params.index === 'collections') {
+  if (params.index === 'art') {
     return searchCollections(params);
   }
 
   let { index, p, size, q, sf, so } = params;
 
   // Defaults for params:
-  const searchIndices = index !== 'all' ? index : ['collections', 'content'];
+  const searchIndices = index !== 'all' ? index : ['art', 'news', 'events'];
   size = size || DEFAULT_SEARCH_PAGE_SIZE;
   p = p || 1;
 
@@ -69,8 +69,9 @@ export async function search(params: any): Promise<ApiResponseSearch> {
 
   if (index === 'all') {
     esQuery.indices_boost = [
-      { content: 1.5 },
-      { collections: 1 },
+      { news: 1.5 },
+      { events: 1.5 },
+      { art: 1 },
     ];
   }
 
@@ -107,7 +108,7 @@ export async function searchCollections(
   let { p, size, q, color, sf, so } = params;
 
   // Defaults for missing params:
-  const index = 'collections';
+  const index = 'art';
   size = size || DEFAULT_SEARCH_PAGE_SIZE;
   p = p || 1;
 

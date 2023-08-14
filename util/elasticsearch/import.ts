@@ -1,24 +1,14 @@
 import { Client } from '@elastic/elasticsearch';
 import * as T from '@elastic/elasticsearch/lib/api/types';
 
-import { collections, content, events, terms } from './indices';
+import { art, news, events, terms } from './indices';
 
 const indices = {
-  collections,
-  content,
+  art,
+  news,
   events,
   terms,
 };
-
-/**
- * Sleep for a given number of seconds.
- *
- * @param s Number of seconds to sleep.
- * @returns A promise that resolves after the given number of seconds.
- */
-export function snooze(s: number) {
-  return new Promise((resolve) => setTimeout(resolve, s * 1000));
-}
 
 /**
  * Check if a given index already exists in Elasticsearch.

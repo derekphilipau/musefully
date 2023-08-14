@@ -7,14 +7,14 @@ import {
 import { Client } from '@elastic/elasticsearch';
 import { parseStringPromise } from 'xml2js';
 
-import type { ElasticsearchRssTransformer } from '@/types/elasticsearchRssTransformer';
+import type { ElasticsearchRssIngester } from '@/types/elasticsearchRssIngester';
 import { siteConfig, type RssFeedConfig } from '@/config/site';
 
-const INDEX_NAME = 'content';
+const INDEX_NAME = 'news';
 
 async function importRssFeed(
   client: Client,
-  transformer: ElasticsearchRssTransformer,
+  ingester: ElasticsearchRssIngester,
   url: string,
   sourceName: string,
   sourceId: string,
@@ -34,9 +34,9 @@ async function importRssFeed(
 
     // Iterate over each <item> and transform them
     for (const item of items) {
-      const doc = await transformer.transformer(item, sourceName, sourceId);
+      const doc = await ingester.transform(item, sourceName, sourceId);
       if (doc !== undefined) {
-        const id = transformer.idGenerator(doc);
+        const id = ingester.generateId(doc);
         if (doc && id) {
           operations.push(
             ...getBulkOperationArray('update', INDEX_NAME, id, doc)
@@ -67,12 +67,12 @@ export default async function updateRssFeeds() {
 
   for (const rssFeed of siteConfig.rssFeeds) {
     try {
-      if (!rssFeed.transformer || !rssFeed.url || !rssFeed.sourceName)
+      if (!rssFeed.ingester || !rssFeed.url || !rssFeed.sourceName)
         throw new Error('RSS Feed missing url or sourceName');
-      const { transformer } = await import(
-        `./transform/rss/${rssFeed.transformer}`
+      const { ingester } = await import(
+        `./ingesters/rss/${rssFeed.ingester}`
       );
-      await importRssFeed(client, transformer, rssFeed.url, rssFeed.sourceName, rssFeed.sourceId);
+      await importRssFeed(client, ingester, rssFeed.url, rssFeed.sourceName, rssFeed.sourceId);
     } catch (e) {
       console.error(`Error updating RSS ${rssFeed.sourceName}: ${e}`);
       return;

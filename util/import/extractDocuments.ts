@@ -32,7 +32,7 @@ export default async function extractDocuments() {
           ...getBulkOperationArray(
             'update',
             extractor.indexName,
-            extractor.idGenerator(doc),
+            extractor.generateId(doc),
             doc
           )
         );

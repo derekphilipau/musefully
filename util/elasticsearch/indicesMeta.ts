@@ -18,11 +18,11 @@ interface IndicesMeta {
 /**
  * The metadata for each index.
  *
- * @property collections - The metadata for the collections index.
- * @property content - The metadata for the content index.
+ * @property art - The metadata for the art index.
+ * @property news - The metadata for the news index.
  */
 export const indicesMeta: IndicesMeta = {
-  collections: {
+  art: {
     aggs: [
       'source',
       'primaryConstituent.canonicalName',
@@ -59,7 +59,7 @@ export const indicesMeta: IndicesMeta = {
       'onView',
     ],
   },
-  content: {
+  news: {
     aggs: [
       'source',
     ],

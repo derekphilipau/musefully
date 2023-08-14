@@ -38,7 +38,7 @@ export function SourceHeader({
           >
             <Image
               src={`/img/logos/${item.sourceId}.jpg`}
-              className="aspect-square h-full w-full"
+              className="aspect-square"
               alt={item.source ? item.source : 'Logo'}
               width={400}
               height={400}
