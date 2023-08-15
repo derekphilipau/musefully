@@ -61,7 +61,8 @@ export function getCaption(
   caption += item?.creditLine ? `${item.creditLine}, ` : '';
   caption += item?.accessionNumber ? `${item.accessionNumber}. ` : '';
   caption += item?.copyright ? `${item.copyright} ` : '';
-  caption += item?.source ? `(Photo: ${item.source})` : '';
+  caption += item?.rightsType ? `${item.rightsType}. ` : '';
+  caption += !item?.rightsType && item?.source ? `(Photo: ${item.source})` : '';
   return stripHtmlTags(caption);
 }
 

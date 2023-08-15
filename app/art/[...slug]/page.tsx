@@ -15,6 +15,7 @@ import { ArtworkShare } from '@/components/artwork/artwork-share';
 import { LanguageDisclaimer } from '@/components/artwork/language-disclaimer';
 import { SimilarArtworkList } from '@/components/artwork/similar-artwork-list';
 import { Icons } from '@/components/icons';
+import { DocumentImage } from '@/components/image/document-image';
 import { ImageZoom } from '@/components/image/image-zoom';
 import { SourceHeader } from '@/components/source/source-header';
 import { buttonVariants } from '@/components/ui/button';
@@ -68,7 +69,16 @@ export default async function Page({ params }) {
     <>
       <section className="container grid gap-x-12 gap-y-6 pb-8 pt-2 md:grid-cols-2 md:pb-10 md:pt-4 lg:grid-cols-8">
         <div className="flex items-start justify-center md:col-span-1 lg:col-span-3">
-          <ImageZoom item={artwork} imageDomain={IMAGE_DOMAIN} />
+          {artwork?.copyrightRestricted || !artwork?.publicAccess ? (
+            <DocumentImage
+              item={artwork}
+              imageDomain={IMAGE_DOMAIN}
+              className="mb-4"
+              caption={getCaption(artwork, artwork?.image?.url)}
+            />
+          ) : (
+            <ImageZoom item={artwork} imageDomain={IMAGE_DOMAIN} />
+          )}
         </div>
         <div className="md:col-span-1 lg:col-span-5">
           {isMultiSource && <SourceHeader item={artwork} />}
