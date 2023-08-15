@@ -1,16 +1,20 @@
+'use client';
+
 import * as React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
-import { Logo } from '@/components/logo';
 
 import type { NavItem } from '@/types/nav';
 import { cn } from '@/lib/utils';
+import { Logo } from '@/components/logo';
 
 interface MainNavProps {
   items?: NavItem[];
 }
 
 export function MainNav({ items }: MainNavProps) {
+  const pathname = usePathname();
   const dict = getDictionary();
 
   return (
@@ -31,8 +35,11 @@ export function MainNav({ items }: MainNavProps) {
                   key={index}
                   href={item.href}
                   className={cn(
-                    'flex items-center text-lg font-semibold text-neutral-600 hover:text-neutral-900 dark:text-neutral-100',
-                    item.disabled && 'cursor-not-allowed opacity-80'
+                    'flex items-center text-lg font-semibold transition-colors',
+                    item.disabled && 'cursor-not-allowed opacity-80',
+                    pathname === item.path
+                      ? 'text-foreground hover:text-foreground/80'
+                      : 'text-foreground/60 hover:text-foreground/80'
                   )}
                 >
                   {dict[item.dict]}
