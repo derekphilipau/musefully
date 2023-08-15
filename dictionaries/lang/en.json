@@ -111,5 +111,6 @@
   "index.art.date": "Year Made",
   "index.art.date.from": "From",
   "index.art.date.to": "To",
-  "index.art.altText": "Photo of collection object"
+  "index.art.altText": "Photo of collection object",
+  "news.cartoon.by": "Cartoon by"
 }

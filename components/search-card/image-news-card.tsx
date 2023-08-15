@@ -50,8 +50,15 @@ export function ImageNewsCard({
                   height={400}
                 />
                 {item.description && (
-                  <figcaption className="mt-2 text-base italic">
+                  <figcaption className="mt-3">
+                    <span className="font-serif text-base italic">
                     {item.description}
+                    </span>
+                    {item.primaryConstituent?.name && (
+                      <div className="mt-2 text-sm text-muted-foreground">
+                        {dict['news.cartoon.by']} {item.primaryConstituent?.name}
+                      </div>
+                    )}
                   </figcaption>
                 )}
               </figure>
