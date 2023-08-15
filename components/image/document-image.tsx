@@ -71,8 +71,6 @@ export function DocumentImage({
             src={fallbackSrc}
             className={className}
             alt={`${dict['index.art.altText']} ${item.title}`}
-            width={400}
-            height={400}
           />
         </picture>
       ) : (
