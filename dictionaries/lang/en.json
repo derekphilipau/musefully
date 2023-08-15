@@ -55,7 +55,7 @@
   "search.sort.startYear.desc": "Newest to oldest",
   "search.sort.title.asc": "Title A-Z",
   "search.sort.title.desc": "Title Z-A",
-  "search.sort.primaryConstituent.canonicalName.name.asc": "Maker/Artist A-Z",
+  "search.sort.primaryConstituent.canonicalName.asc": "Maker/Artist A-Z",
   "search.sort.primaryConstituent.canonicalName.desc": "Maker/Artist Z-A",
   "artwork.similar": "Similar Artworks",
   "artwork.similarDominantColors": "Similar Colors",
