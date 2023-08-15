@@ -54,7 +54,7 @@ export function ImageZoom({ item, imageDomain }: ImageZoomProps) {
                 <DocumentImage
                   item={item}
                   imageDomain={imageDomain}
-                  className="cursor-pointer object-contain"
+                  className="max-h-[32rem] cursor-pointer object-contain"
                   size="m"
                   caption={getCaption(item, item.image.url)}
                 />
