@@ -10,12 +10,12 @@ import { encode } from 'html-entities';
 import type { ApiResponseDocument } from '@/types/apiResponseDocument';
 import type { ArtworkDocument } from '@/types/artworkDocument';
 import { siteConfig } from '@/config/site';
-import { ImageViewer } from '@/components/artwork-image/image-viewer';
 import { ArtworkDescription } from '@/components/artwork/artwork-description';
 import { ArtworkShare } from '@/components/artwork/artwork-share';
 import { LanguageDisclaimer } from '@/components/artwork/language-disclaimer';
 import { SimilarArtworkList } from '@/components/artwork/similar-artwork-list';
 import { Icons } from '@/components/icons';
+import { ImageZoom } from '@/components/image/image-zoom';
 import { SourceHeader } from '@/components/source/source-header';
 import { buttonVariants } from '@/components/ui/button';
 
@@ -62,11 +62,13 @@ export default async function Page({ params }) {
   const similarArtworks = data?.similar as ArtworkDocument[];
   const jsonLd = getSchemaVisualArtworkJson(artwork);
 
+  const IMAGE_DOMAIN = process.env.IMAGE_DOMAIN || '';
+
   return (
     <>
       <section className="container grid gap-x-12 gap-y-6 pb-8 pt-2 md:grid-cols-2 md:pb-10 md:pt-4 lg:grid-cols-8">
         <div className="flex items-start justify-center md:col-span-1 lg:col-span-3">
-          <ImageViewer item={artwork} />
+          <ImageZoom item={artwork} imageDomain={IMAGE_DOMAIN} />
         </div>
         <div className="md:col-span-1 lg:col-span-5">
           {isMultiSource && <SourceHeader item={artwork} />}
@@ -125,6 +127,7 @@ export default async function Page({ params }) {
         title={dict['artwork.similar']}
         similar={similarArtworks}
         isMultiSource={isMultiSource}
+        imageDomain={IMAGE_DOMAIN}
       />
 
       {/* https://beta.nextjs.org/docs/guides/seo */}

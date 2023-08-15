@@ -8,7 +8,9 @@ import {
 import type { ArtworkDocument } from '@/types/artworkDocument';
 import { DominantColors } from '@/components/color/dominant-colors';
 import { SourceHeader } from '@/components/source/source-header';
-import { ArtworkThumbnail } from '../artwork-image/artwork-thumbnail';
+import { DocumentImage } from '../image/document-image';
+
+const IMAGE_DOMAIN = process.env.IMAGE_DOMAIN || '';
 
 function getContainerClass(layout) {
   if (layout === 'grid') return '';
@@ -51,7 +53,7 @@ export function ArtworkCard({
         )}
         <div className="flex items-center justify-center bg-neutral-50 text-neutral-200 hover:bg-neutral-100 hover:text-neutral-300 dark:bg-neutral-800 dark:text-neutral-900 dark:hover:bg-neutral-700  dark:hover:text-neutral-800">
           <Link href={href}>
-            <ArtworkThumbnail item={item} />
+            <DocumentImage item={item} imageDomain={IMAGE_DOMAIN} className="h-48 object-contain" />
           </Link>
         </div>
       </div>

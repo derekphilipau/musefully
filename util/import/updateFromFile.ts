@@ -10,9 +10,10 @@ import {
   getBulkOperationArray,
 } from '@/util/elasticsearch/import';
 import { searchAll } from '@/util/elasticsearch/search/search';
+import { processDocumentImage } from '@/util/image/imageProcessor';
 import csvParser from 'csv-parser';
 
-import type { ElasticsearchIngester} from '@/types/elasticsearchIngester';
+import type { ElasticsearchIngester } from '@/types/elasticsearchIngester';
 import { TermIdMap } from '@/types/term';
 
 async function* readFileData(
@@ -22,7 +23,7 @@ async function* readFileData(
   const isCompressedJsonl = filename.endsWith('.jsonl.gz');
   const isCsv = filename.endsWith('.csv');
   const isCompressedCsv = filename.endsWith('.csv.gz');
-  
+
   let inputStream: NodeJS.ReadableStream;
   if (isCompressedJsonl || isCompressedCsv) {
     inputStream = fs.createReadStream(filename).pipe(zlib.createGunzip());
@@ -83,12 +84,27 @@ export default async function updateFromFile(
         const doc = await ingester.transform(obj);
         if (doc !== undefined) {
           const id = ingester.generateId(doc, includeSourcePrefix);
+
+          // Process our own version of image:
+          if (doc?.image?.url) {
+            const isImageSuccess = await processDocumentImage(
+              doc.image.url,
+              id,
+              indexName
+            );
+            if (!isImageSuccess) {
+              // Sometimes images aren't actually available
+              doc.image = undefined;
+            }
+          }
+
           if (doc && id) {
             operations.push(
               ...getBulkOperationArray('update', indexName, id, doc)
             );
             allIds.push(id);
           }
+
           if (ingester.extractTerms !== undefined) {
             const termElements = await ingester.extractTerms(doc);
             if (termElements) {
