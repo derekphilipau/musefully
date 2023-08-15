@@ -34,6 +34,7 @@ yarn-error.log*
 
 .contentlayer
 .env
+!docker/.env
 
 es.secret.md
 **/.vscode/
