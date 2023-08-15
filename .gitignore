@@ -37,7 +37,7 @@ yarn-error.log*
 
 es.secret.md
 **/.vscode/
-secrets/http_ca.crt
+secrets/*
 elastic.md
 
 # data files
