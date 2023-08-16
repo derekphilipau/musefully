@@ -71,37 +71,6 @@ function getArtists(doc: MomaDocument): DocumentConstituent[] {
   return artists;
 }
 
-/*
-Couldn't find a way to reliably get the large image size, may need to scrape.
-function getImage(doc) {
-  if (doc.ThumbnailURL) {
-    let regex = /\/media\/(.+)\.jpg/i;
-    let matches = doc.ThumbnailURL.match(regex);
-
-    if (matches && matches[1]) {
-      const encodedObject = matches[1];
-      let bufferObj = Buffer.from(encodedObject, 'base64');
-      let decodedString = bufferObj.toString('utf8');
-      let imageObject = JSON.parse(decodedString); // Add surrounding quotes to form valid JSON string
-      if (imageObject?.[0]) {
-        const imageId = imageObject[0]?.[1];
-        const largeImageRequest = `[["f","${imageId}"],["p","convert","-quality 90 -resize 2000x2000\\u003e"]]`
-        // base64 encode the request
-        const largeImageRequestString = Buffer.from(
-          largeImageRequest
-        ).toString('base64').replace(/=+$/, '');;
-
-        return {
-          url: `https://www.moma.org/media/${largeImageRequestString}.jpg`,
-          thumbnailUrl: doc.ThumbnailURL,
-        };
-      }
-    }
-  }
-  return;
-}
-*/
-
 function getImage(doc) {
   if (doc.ThumbnailURL) {
     return {
