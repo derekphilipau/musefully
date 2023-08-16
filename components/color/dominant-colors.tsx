@@ -1,7 +1,9 @@
 import { Key } from 'react';
 import Link from 'next/link';
+import { getDictionary } from '@/dictionaries/dictionaries';
 
 export function DominantColors({ item, height = 10, isLinked = true }) {
+  const dict = getDictionary();
   if (!item?.image?.dominantColors?.length) return null;
 
   // get total percent of all colors
@@ -25,6 +27,7 @@ export function DominantColors({ item, height = 10, isLinked = true }) {
                   height: `${height}px`,
                   width: `${(color.percent * totalPercent) / 100}%`,
                 }}
+                aria-label={`${dict['button.colorSearch']} #${color.hex}`}
               ></Link>
             )
         )}
