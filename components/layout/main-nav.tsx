@@ -15,6 +15,7 @@ interface MainNavProps {
 
 export function MainNav({ items }: MainNavProps) {
   const pathname = usePathname();
+  const basePath = pathname?.split('/')[1];
   const dict = getDictionary();
 
   return (
@@ -37,7 +38,7 @@ export function MainNav({ items }: MainNavProps) {
                   className={cn(
                     'flex items-center text-lg font-semibold transition-colors',
                     item.disabled && 'cursor-not-allowed opacity-80',
-                    pathname === item.path
+                    basePath === item.basePath
                       ? 'text-foreground hover:text-foreground/80'
                       : 'text-foreground/60 hover:text-foreground/80'
                   )}
