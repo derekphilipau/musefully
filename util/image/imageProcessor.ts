@@ -89,6 +89,7 @@ async function resizeAndUploadImage(
     if (type === 'jpg') {
       const jpgBuffer = shouldResize
         ? await sharp(buffer)
+            .rotate() // auto-orient image based on EXIF data
             .resize({
               width: size,
               height: size,
@@ -101,6 +102,7 @@ async function resizeAndUploadImage(
     } else if (type === 'webp') {
       const webpBuffer = shouldResize
         ? await sharp(buffer)
+            .rotate() // auto-orient image based on EXIF data
             .resize({
               width: size,
               height: size,
