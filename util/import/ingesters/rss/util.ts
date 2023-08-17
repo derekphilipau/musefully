@@ -15,6 +15,10 @@ function getRssItemImageUrl(item: any): string | undefined {
   const mediaThumbnailUrl = item['media:thumbnail']?.[0]?.['$']?.url;
   if (mediaThumbnailUrl) return mediaThumbnailUrl;
 
+  // RSS enclosures are a way of attaching multimedia content to RSS feeds by providing the URL of a file associated with an entry
+  const enclosureUrl = item.enclosure?.[0]?.['$']?.url;
+  if (enclosureUrl) return enclosureUrl;
+
   const description = item.description?.[0];
   const content = item['content:encoded'] ? item['content:encoded'][0] : '';
 
