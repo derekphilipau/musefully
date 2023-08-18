@@ -53,8 +53,8 @@ export interface MetDocument {
   "Metadata Date": string;
   Repository: string;
   // Multiple tags are separated by "|": "Eagles|Men|Profiles"
-  Tags: string[];
+  Tags: string;
   // URLS also separated by "|": http://vocab.getty.edu/page/aat/300250049|http://vocab.getty.edu/page/aat/300025928|http://vocab.getty.edu/page/aat/300123319
-  "Tags AAT URL": string[];
-  "Tags Wikidata URL": string[];
+  "Tags AAT URL": string;
+  "Tags Wikidata URL": string;
 }
