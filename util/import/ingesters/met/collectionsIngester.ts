@@ -25,6 +25,13 @@ const SOURCE_ID = 'met';
 const SOURCE_NAME = 'The Met';
 const DOC_TYPE = 'artwork';
 
+function getKeywords(
+  doc: MetDocument
+): string | undefined {
+  const keywords = doc['Tags']?.split('|').map((s) => s.trim());
+  if (keywords?.length) return keywords.join(', ');
+}
+
 async function getConstituents(
   doc: MetDocument
 ): Promise<DocumentConstituent[]> {
@@ -166,7 +173,7 @@ async function getImage(doc: MetDocument): Promise<DocumentImage | undefined> {
     const ogImage = $('meta[property="og:image"]').attr('content');
     console.log('got met image: ' + ogImage);
     if (ogImage) {
-      await snooze(2); // be nice
+      await snooze(1); // be nice
       return {
         id: getStringValue(doc['Object ID']),
         url: ogImage,
@@ -189,6 +196,7 @@ async function transformDoc(
     id: getStringValue(doc['Object ID']),
     url: getUrl(doc),
     title: doc['Title'] || undefined,
+    keywords: getKeywords(doc),
     creditLine: doc['Credit Line'] || undefined,
     classification: doc['Classification'] || undefined,
     departments: [doc['Department']] || undefined,
