@@ -360,7 +360,7 @@ Generate an API key (in Kibana: Stack Management > API Keys > Create API key). O
 
 Copy the Elasticsearch container's CA certificate and put it in `/secrets`. If you're using this project's docker-compose.yml:
 
-`docker cp musefully-es01-1:/usr/share/elasticsearch/config/certs/es01/es01.crt ./secrets/`
+`docker cp docker-es01-1:/usr/share/elasticsearch/config/certs/es01/es01.crt ./secrets/http_ca.crt`
 
 Update .env.local `ELASTICSEARCH_CA_FILE` variable with the crt file location.
 

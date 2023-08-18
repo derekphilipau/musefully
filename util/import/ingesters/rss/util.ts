@@ -1,6 +1,7 @@
-import { format, getYear, isValid, parse } from 'date-fns';
 import { stripHtmlTags } from '@/util/various';
-import type { BaseDocument } from '@/types/baseDocument';
+import { format, getYear, isValid, parse } from 'date-fns';
+
+import type { BaseDocument, DocumentConstituent } from '@/types/baseDocument';
 
 /**
  * Get the image url from the rss item, either from the description or the content
@@ -14,6 +15,10 @@ function getRssItemImageUrl(item: any): string | undefined {
   const mediaThumbnailUrl = item['media:thumbnail']?.[0]?.['$']?.url;
   if (mediaThumbnailUrl) return mediaThumbnailUrl;
 
+  // RSS enclosures are a way of attaching multimedia content to RSS feeds by providing the URL of a file associated with an entry
+  const enclosureUrl = item.enclosure?.[0]?.['$']?.url;
+  if (enclosureUrl) return enclosureUrl;
+
   const description = item.description?.[0];
   const content = item['content:encoded'] ? item['content:encoded'][0] : '';
 
@@ -25,8 +30,6 @@ function getRssItemImageUrl(item: any): string | undefined {
   if (descriptionMatch?.length === 2) return descriptionMatch[1];
 
   if (contentMatch?.length === 2) return contentMatch[1];
-
-
 }
 
 export function getRssItemId(item: any) {
@@ -34,15 +37,29 @@ export function getRssItemId(item: any) {
   if (item.link?.[0]) return item.link[0];
 }
 
-const dateFormats = [
-  "EEE, dd MMM yyyy HH:mm:ss 'GMT'",
-  'EEE, dd MMM yyyy HH:mm:ss xx',
-];
+function getRssConstituent(item: any) {
+  const creator = item['dc:creator']?.[0];
+  if (creator) {
+    return {
+      name: creator,
+      canonicalName: creator,
+      role: 'Author',
+    } as DocumentConstituent;
+  }
+}
 
-function parseDate(dateString: string): Date {
-  for (const format of dateFormats) {
-    const date = parse(dateString, format, new Date());
-    if (isValid(date)) return date;
+function parseDate(item: any): Date {
+  const dateFormats = [
+    "EEE, dd MMM yyyy HH:mm:ss 'GMT'",
+    'EEE, dd MMM yyyy HH:mm:ss xx',
+    'yyyy-MM-dd HH:mm:ss',
+  ];
+  const dateString = item.pubDate?.[0] || item['dc:date']?.[0];
+  if (dateString) {
+    for (const format of dateFormats) {
+      const date = parse(dateString, format, new Date());
+      if (isValid(date)) return date;
+    }  
   }
   throw new Error('RSS Item Date could not be parsed');
 }
@@ -54,13 +71,18 @@ function parseDate(dateString: string): Date {
  * @param sourceName Source of RSS feed, e.g. 'hyperallergic'
  * @returns Elasticsearch BaseDocument
  */
-export function transformRssItem(item: any, sourceName: string, sourceId: string) {
+export function transformRssItem(
+  item: any,
+  sourceName: string,
+  sourceId: string
+) {
   const title = stripHtmlTags(item.title?.[0]);
   const description = stripHtmlTags(item.description?.[0]);
   const searchText = stripHtmlTags(item['content:encoded']?.[0]);
-  const date = parseDate(item.pubDate?.[0]);
-  const year = getYear(date);
+  const date = parseDate(item);
+  const year = date ? getYear(date) : undefined;
   const thumbnailUrl = getRssItemImageUrl(item);
+  const primaryConstituent = getRssConstituent(item);
 
   return {
     type: 'rss',
@@ -76,6 +98,7 @@ export function transformRssItem(item: any, sourceName: string, sourceId: string
       url: thumbnailUrl,
       thumbnailUrl: thumbnailUrl,
     },
+    primaryConstituent,
     date: date ? date.toISOString() : undefined,
     formattedDate: format(date, 'MMMM do, yyyy'),
     startYear: year,

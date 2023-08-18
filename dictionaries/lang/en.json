@@ -46,16 +46,17 @@
   "button.toggleTheme": "Toggle Theme",
   "button.pagination": "Pagination",
   "button.resultsPerPage": "Results per page",
-  "button.download": "Download",
+  "button.download": "Download Original",
   "button.share": "Share",
   "button.shareTo": "Share to:",
   "button.source": "Original Source",
+  "button.colorSearch": "Search for color",
   "search.sort.label": "Sort results by:",
   "search.sort.startYear.asc": "Oldest to newest",
   "search.sort.startYear.desc": "Newest to oldest",
   "search.sort.title.asc": "Title A-Z",
   "search.sort.title.desc": "Title Z-A",
-  "search.sort.primaryConstituent.canonicalName.name.asc": "Maker/Artist A-Z",
+  "search.sort.primaryConstituent.canonicalName.asc": "Maker/Artist A-Z",
   "search.sort.primaryConstituent.canonicalName.desc": "Maker/Artist Z-A",
   "artwork.similar": "Similar Artworks",
   "artwork.similarDominantColors": "Similar Colors",
@@ -111,5 +112,6 @@
   "index.art.date": "Year Made",
   "index.art.date.from": "From",
   "index.art.date.to": "To",
-  "index.art.altText": "Photo of collection object"
+  "index.art.altText": "Photo of collection object",
+  "news.cartoon.by": "Cartoon by"
 }

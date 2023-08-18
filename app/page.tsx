@@ -13,7 +13,8 @@ import { siteConfig } from '@/config/site';
 import { ArtworkCard } from '@/components/artwork/artwork-card';
 import { ContentCard } from '@/components/search-card/content-card';
 import { EventCard } from '@/components/search-card/event-card';
-import { RssCard } from '@/components/search-card/news-card';
+import { ImageNewsCard } from '@/components/search-card/image-news-card';
+import { NewsCard } from '@/components/search-card/news-card';
 import { TermCard } from '@/components/search-card/term-card';
 import { SearchAsYouTypeInput } from '@/components/search/search-as-you-type-input';
 import { SearchCheckbox } from '@/components/search/search-checkbox';
@@ -152,11 +153,7 @@ export default async function Page({ params, searchParams }) {
                 term?.field === 'primaryConstituent.canonicalName' && (
                   <div className="mb-4">
                     <h4 className="text-base font-semibold uppercase text-neutral-500 dark:text-neutral-600">
-                      {
-                        dict[
-                          `index.art.agg.primaryConstituent.canonicalName`
-                        ]
-                      }
+                      {dict[`index.art.agg.primaryConstituent.canonicalName`]}
                     </h4>
                     {term.value && (
                       <h4 className="text-xl md:text-2xl">{term.value}</h4>
@@ -242,7 +239,8 @@ export default async function Page({ params, searchParams }) {
                           isMultiSource={isMultiSource}
                         />
                       )}
-                      {(item.type === 'exhibition' || item.type === 'event') && (
+                      {(item.type === 'exhibition' ||
+                        item.type === 'event') && (
                         <EventCard
                           item={item}
                           layout={layout}
@@ -250,14 +248,23 @@ export default async function Page({ params, searchParams }) {
                           isMultiSource={isMultiSource}
                         />
                       )}
-                      {item.type === 'rss' && (
-                        <RssCard
-                          item={item}
-                          layout={layout}
-                          showType={index === 'all'}
-                          isMultiSource={isMultiSource}
-                        />
-                      )}
+                      {item.sourceId === 'newyorkercartoon' && (
+                          <ImageNewsCard
+                            item={item}
+                            layout={layout}
+                            showType={index === 'all'}
+                            isMultiSource={isMultiSource}
+                          />
+                        )}
+                      {item.type === 'rss' &&
+                        item.sourceId !== 'newyorkercartoon' && (
+                          <NewsCard
+                            item={item}
+                            layout={layout}
+                            showType={index === 'all'}
+                            isMultiSource={isMultiSource}
+                          />
+                        )}
                     </div>
                   )
               )}

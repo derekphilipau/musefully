@@ -16,57 +16,55 @@ function getDetailsClass(layout) {
   return 'lg:col-span-2';
 }
 
-interface NewsCardProps {
+interface ImageNewsCardProps {
   item: BaseDocument;
   layout: 'grid' | 'list';
   showType: boolean;
   isMultiSource: boolean;
 }
 
-export function NewsCard({
+export function ImageNewsCard({
   item,
   layout,
   showType,
   isMultiSource,
-}: NewsCardProps) {
+}: ImageNewsCardProps) {
   if (!item || !item.url) return null;
   const dict = getDictionary();
 
   return (
-    <div className={getContainerClass(layout)}>
+    <div className=''>
       <div>
-        {isMultiSource && layout === 'grid' && (
+        {isMultiSource && (
           <SourceHeader item={item} showDate={true} isSmall={true} />
         )}
         {item.image?.thumbnailUrl && (
-          <div className="mb-3 flex items-center justify-center bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-800 dark:hover:bg-neutral-700">
-            <Link href={item.url}>
-              <figure>
+          <div className="mb-3 flex w-full items-center justify-center">
+            <Link href={item.url} className="">
+              <figure className="w-full">
                 <Image
                   src={item.image?.thumbnailUrl}
-                  className="h-48 object-contain"
+                  className="w-full object-contain align-middle"
                   alt=""
                   width={400}
                   height={400}
                 />
-                <figcaption></figcaption>
+                {item.description && (
+                  <figcaption className="mt-3">
+                    <span className="font-serif text-base italic">
+                    {item.description}
+                    </span>
+                    {item.primaryConstituent?.name && (
+                      <div className="mt-2 text-sm text-muted-foreground">
+                        {dict['news.cartoon.by']} {item.primaryConstituent?.name}
+                      </div>
+                    )}
+                  </figcaption>
+                )}
               </figure>
             </Link>
           </div>
         )}
-      </div>
-      <div className={getDetailsClass(layout)}>
-        <Link href={item.url}>
-          {isMultiSource && layout !== 'grid' && <SourceHeader item={item} />}
-          <h4 className="mb-1 text-xl font-semibold text-neutral-900 dark:text-white">
-            {item.title}
-          </h4>
-          {item.description && (
-            <p className="text-sm text-neutral-700 dark:text-neutral-400">
-              {truncate(item.description, item.image?.thumbnailUrl ? 200 : 400)}
-            </p>
-          )}
-        </Link>
       </div>
     </div>
   );

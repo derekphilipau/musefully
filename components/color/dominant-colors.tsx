@@ -1,12 +1,15 @@
 import { Key } from 'react';
 import Link from 'next/link';
+import { getDictionary } from '@/dictionaries/dictionaries';
+import type { DocumentImageDominantColor } from '@/types/baseDocument';
 
 export function DominantColors({ item, height = 10, isLinked = true }) {
+  const dict = getDictionary();
   if (!item?.image?.dominantColors?.length) return null;
 
   // get total percent of all colors
   const totalPercent = item.image.dominantColors.reduce(
-    (acc, color) => acc + color.percent,
+    (acc: number, color: DocumentImageDominantColor) => acc + color.percent,
     0
   );
 
@@ -14,7 +17,7 @@ export function DominantColors({ item, height = 10, isLinked = true }) {
     return (
       <div className="flex w-full items-center border border-neutral-200 dark:border-neutral-600">
         {item.image.dominantColors.map(
-          (color, index: Key) =>
+          (color: DocumentImageDominantColor, index: Key) =>
             color?.hex && (
               <Link
                 className="rounded-none"
@@ -25,6 +28,7 @@ export function DominantColors({ item, height = 10, isLinked = true }) {
                   height: `${height}px`,
                   width: `${(color.percent * totalPercent) / 100}%`,
                 }}
+                aria-label={`${dict['button.colorSearch']} #${color.hex}`}
               ></Link>
             )
         )}
@@ -35,7 +39,7 @@ export function DominantColors({ item, height = 10, isLinked = true }) {
   return (
     <div className="flex w-full items-center border border-neutral-200 dark:border-neutral-600">
       {item.image.dominantColors.map(
-        (color, index: Key) =>
+        (color: DocumentImageDominantColor, index: Key) =>
           color?.hex && (
             <div
               className="rounded-none"

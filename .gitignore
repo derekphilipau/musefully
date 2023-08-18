@@ -34,10 +34,11 @@ yarn-error.log*
 
 .contentlayer
 .env
+!docker/.env
 
 es.secret.md
 **/.vscode/
-secrets/http_ca.crt
+secrets/*
 elastic.md
 
 # data files

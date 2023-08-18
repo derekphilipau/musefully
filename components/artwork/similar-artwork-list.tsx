@@ -14,12 +14,14 @@ interface SimilarArtworkListProps {
   title: string;
   similar: ArtworkDocument[];
   isMultiSource: boolean;
+  imageDomain: string;
 }
 
 export function SimilarArtworkList({
   title,
   similar,
   isMultiSource,
+  imageDomain,
 }: SimilarArtworkListProps) {
   const dict = getDictionary();
   const [showAllSimilar, setShowAllSimilar] = useState(false);
@@ -43,6 +45,7 @@ export function SimilarArtworkList({
                       <SimilarArtworkCard
                         item={item}
                         isMultiSource={isMultiSource}
+                        imageDomain={imageDomain}
                       />
                     </div>
                   )

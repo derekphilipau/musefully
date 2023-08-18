@@ -168,14 +168,17 @@ export const siteConfig: SiteConfig = {
   mainNav: [
     {
       dict: 'index.art',
+      basePath: 'art',
       href: '/art?hasPhoto=true&f=true',
     },
     {
       dict: 'index.news',
+      basePath: 'news',
       href: '/news',
     },
     {
       dict: 'index.events',
+      basePath: 'events',
       href: '/events',
     },
   ],
