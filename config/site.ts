@@ -50,6 +50,7 @@ export const siteConfig: SiteConfig = {
    * Dynamically load from ./util/import/ingesters/{ingester}.ts
    */ 
   ingesters: [
+    'cma/collectionsIngester',
     'bkm/collectionsIngester',
     'moma/collectionsIngester',
     'whitney/collectionsIngester',

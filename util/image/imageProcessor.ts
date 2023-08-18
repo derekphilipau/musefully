@@ -42,10 +42,11 @@ async function processAndUploadImage(
 
   if (
     !overwrite &&
-    (await exists(`${name}-s.jpg`)) &&
-    (await exists(`${name}-s.webp`)) &&
-    (await exists(`${name}-m.webp`)) &&
-    (await exists(`${name}-l.webp`))
+    (await exists(`${name}-s.webp`)) // Assume all sizes exist if small webp exists
+    //(await exists(`${name}-s.jpg`)) &&
+    //(await exists(`${name}-s.webp`)) &&
+    //(await exists(`${name}-m.webp`)) &&
+    //(await exists(`${name}-l.webp`))
   ) {
     console.log('Image already exists, skipping processing.');
     return true;
