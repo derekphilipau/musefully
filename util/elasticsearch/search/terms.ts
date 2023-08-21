@@ -44,7 +44,7 @@ export async function getTerm(
 }
 
 export async function terms(
-  query?: string | string[],
+  query?: string | string[] | null,
   size: number = TERMS_PAGE_SIZE,
   client?: Client
 ): Promise<Term[]> {

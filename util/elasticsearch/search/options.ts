@@ -6,9 +6,9 @@ import { getClient } from '../client';
 const OPTIONS_PAGE_SIZE = 20; // 20 results per aggregation options search
 
 interface OptionsParams {
-  index?: string | string[]; // Indices to search
-  field?: string; // Field to get options for
-  q?: string; // Query string
+  index: string | string[]; // Indices to search
+  field: string; // Field to get options for
+  q?: string | null; // Query string
 }
 
 /**
@@ -22,10 +22,6 @@ export async function options(
   size = OPTIONS_PAGE_SIZE
 ): Promise<AggOption[]> {
   const { index, field, q } = params;
-
-  if (!index || !field) {
-    return [];
-  }
 
   const request: T.SearchRequest = {
     index,
@@ -50,7 +46,7 @@ export async function options(
       },
     };
   }
-
+console.log(JSON.stringify(request));
   const client = getClient();
 
   try {
