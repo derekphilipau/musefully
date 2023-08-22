@@ -13,7 +13,7 @@ const MAX_SUGGESTIONS = 10; // Maximum number of suggestions to return
  * @param params contains 'q' string representing query
  * @returns ApiResponseSuggest object containing query and data
  */
-export async function suggest(q?: string): Promise<ApiResponseSuggest> {
+export async function suggest(q?: string | null): Promise<ApiResponseSuggest> {
   if (!q) return {};
   const client = getClient();
 
