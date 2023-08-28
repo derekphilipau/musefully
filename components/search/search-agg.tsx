@@ -25,6 +25,7 @@ interface SearchAggProps {
   aggName: string;
   options?: AggOption[];
   filters?: any;
+  isDefaultOpen?: boolean;
 }
 
 export function SearchAgg({
@@ -34,13 +35,15 @@ export function SearchAgg({
   aggName,
   options,
   filters,
+  isDefaultOpen = false,
 }: SearchAggProps) {
   const router = useRouter();
   const pathname = usePathname();
   const [value, setValue] = useState('');
   const [checkedKeys, setCheckedKeys] = useState<string[]>([]);
   const [searchOptions, setSearchOptions] = useState<AggOption[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(isDefaultOpen);
+  console.log('agg is open? ', isOpen, isDefaultOpen)
 
   const dict = getDictionary();
 
@@ -71,14 +74,14 @@ export function SearchAgg({
   }
 
   useEffect(() => {
-    setIsOpen(false);
+    if (!isDefaultOpen) setIsOpen(false);
     const c: string[] = [];
     if (filters?.[aggName]) {
       c.push(filters[aggName]);
     }
     setCheckedKeys(c);
     if (c.length > 0) setIsOpen(true);
-  }, [aggName, filters]);
+  }, [aggName, filters, isDefaultOpen]);
 
   const debouncedRequest = useDebounce(() => {
     if (aggName && value)

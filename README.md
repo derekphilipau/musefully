@@ -64,19 +64,31 @@ The insert method completely repopulates an index from a JSONL data file. To avo
 
 Data has been collected from a number of sources, and more sources will be added over time:
 
-- [Brooklyn Museum](https://www.brooklynmuseum.org), via [Brooklyn Museum Open API](https://www.brooklynmuseum.org/opencollection/api/docs).
-- [MoMA](https://www.moma.org/), dataset on Github [here](https://github.com/MuseumofModernArt/collection).
-- [The Met](https://www.metmuseum.org/), dataset on Github [here](https://github.com/metmuseum/openaccess)
+- [Brooklyn Museum](https://www.brooklynmuseum.org): via [Brooklyn Museum Open API](https://www.brooklynmuseum.org/opencollection/api/docs).
+- [MoMA](https://www.moma.org/): [Github dataset](https://github.com/MuseumofModernArt/collection).
+- [The Met](https://www.metmuseum.org/): [Github dataset](https://github.com/metmuseum/openaccess).
+- [Cleveland Museum of Art](https://www.clevelandart.org/): [Github dataset](https://github.com/ClevelandMuseumArt/openaccess).
+- [Whitney Museum of American Art](https://whitney.org/): [Github dataset](https://github.com/whitneymuseum/open-access). (No Images)
 
 ### RSS Feeds
 
-- [Hyperallergic](https://hyperallergic.com/), [Feed](https://hyperallergic.com/feed/)
-- [MOMA](https://stories.moma.org/), [Feed](https://stories.moma.org/feed)
-- [Cooper Hewitt](https://www.cooperhewitt.org/blog/), [Feed](https://www.cooperhewitt.org/blog/feed/)
-- [Victoria & Albert Museum](https://www.vam.ac.uk/blog), [Feed](https://www.vam.ac.uk/blog/feed)
-- [Seattle Art Museum](https://samblog.seattleartmuseum.org/), [Feed](https://samblog.seattleartmuseum.org/feed/)
-- [Milwaukee Art Museum](https://blog.mam.org/), [Feed](https://blog.mam.org/feed/)
-- [ArtNews](https://www.artnews.com/), [Feed](https://www.artnews.com/feed/)
+- [Hyperallergic](https://hyperallergic.com/): [Feed](https://hyperallergic.com/feed/)
+- [MOMA](https://stories.moma.org/): [Feed](https://stories.moma.org/feed)
+- [Cooper Hewitt](https://www.cooperhewitt.org/blog/): [Feed](https://www.cooperhewitt.org/blog/feed/)
+- [Victoria & Albert Museum](https://www.vam.ac.uk/blog): [Feed](https://www.vam.ac.uk/blog/feed)
+- [Seattle Art Museum](https://samblog.seattleartmuseum.org/): [Feed](https://samblog.seattleartmuseum.org/feed/)
+- [Milwaukee Art Museum](https://blog.mam.org/): [Feed](https://blog.mam.org/feed/)
+- [ArtNews](https://www.artnews.com/): [Feed](https://www.artnews.com/feed/)
+- [NYT Art & Design](https://nytimes.com): [Feed](https://rss.nytimes.com/services/xml/rss/nyt/ArtandDesign.xml)
+- [The Met](https://www.metmuseum.org): [Feed](https://www.metmuseum.org/blogs?rss=1)
+- [Artsy](https://www.artsy.net): [Feed](https://www.artsy.net/rss/news)
+- [Collossal](https://www.thisiscolossal.com): [Feed](https://www.thisiscolossal.com/feed/)
+- [Hi-Fructose](https://hifructose.com): [Feed](https://hifructose.com/feed/)
+- [Juxtapoz](https://www.juxtapoz.com): [Feed](https://www.juxtapoz.com/news/?format=feed&type=rss)
+- [Artforum](https://www.artforum.com): [Feed](https://www.artforum.com/rss.xml)
+- [LACMA](https://www.lacma.org): [Feed](https://www.lacma.org/rss.xml)
+- [Aesthetica](https://aestheticamagazine.com): [Feed](https://aestheticamagazine.com/feed/)
+- [New Yorker Daily Cartoon](https://www.newyorker.com): [Feed](https://www.newyorker.com/feed/cartoons/daily-cartoon)
 
 ### Additional Metadata
 
@@ -348,7 +360,11 @@ You can run Elasticsearch in a Docker container locally or in the cloud, or [sig
 
 #### Non-cloud Elasticsearch
 
-The `/docker` folder contains a docker-compose config file for running Elasticsearch locally. You can run it with `docker-compose up`. See related article, ["Start a multi-node cluster with Docker Compose"](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-compose-file). Alternatively, use [Elastic stack (ELK) on Docker](https://github.com/deviantony/docker-elk).
+The `/docker` folder contains a `docker-compose` file for running Elasticsearch locally. 
+1. `cd docker`
+2. `docker compose up`.
+
+See related article, ["Start a multi-node cluster with Docker Compose"](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-compose-file). Alternatively, use [Elastic stack (ELK) on Docker](https://github.com/deviantony/docker-elk).
 
 ##### Non-cloud post-install
 
@@ -376,16 +392,22 @@ For cloud deployments (for example on Vercel), add the same variables to the Env
 
 ```
 ELASTICSEARCH_USE_CLOUD=true
-ELASTICSEARCH_CLOUD_ID=elastic-museum-test:dXMtY2VudlasfdkjfdwLmNsb3VkLmVzLmlvOjQ0MyQ5ZDhiNWQ2NDM0NTA0ODgwadslfjk;ldfksjfdlNmE2M2IwMmaslfkjfdlksj2ZTU5MzZmMg==
+ELASTICSEARCH_CLOUD_ID=elastic-my-museum:dXMtY3VudHJhbDEuZ4NwLmNsb1VkLmVzLmlvOjQ0MyQ5ZEhiNWQ2NDM0NTB0ODgwOGE1MGVkZDViYzhjM2QwMSRjNmE2M2IwMmE3NDQ0YzU1YWU2YTg4YjI2ZTU5MzZmMg==
 ELASTICSEARCH_CLOUD_USERNAME=elastic
 ELASTICSEARCH_CLOUD_PASSWORD=changeme
 ELASTICSEARCH_HOST=localhost
 ELASTICSEARCH_PROTOCOL=https
 ELASTICSEARCH_PORT=9200
-ELASTICSEARCH_CA_FILE=./secrets/http_ca.crt
-ELASTICSEARCH_API_KEY=DssaSLfdsFKJidsljfakslfjfLIJEWLiMkJPQzNwSzVmQQ==
+ELASTICSEARCH_CA_FILE=./secrets/es01.crt
+ELASTICSEARCH_API_KEY=MVE2aWxZUIJBWkNOUzYwU1ZKbUg6dEllY4JjQkVTZ3lFWlU3RRdLUm5mQQ==
 ELASTICSEARCH_BULK_LIMIT=2000
-FORMSPREE_FORM_ID=mskbksar
+API_SECRET=dfJtqJDG9VwN69edUU283qnD
+IMAGE_DOMAIN=rx3rxq8hyni2c.cloudfront.net
+PROCESS_IMAGES=true
+OPENAI_ORGANIZATION_ID=org-w82VoqIeNar3SuG3kBcnZ
+OPENAI_API_KEY=sk-231rZaTl2w2MnRPOrsT1T9BlckFJes7O2D1RIOqEkvV2SEAZ
+OPENAI_MODEL=gpt-3.5-turbo-16k
+FORMSPREE_FORM_ID=rwejcdbw
 ```
 
 ### Download & Install
