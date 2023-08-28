@@ -28,7 +28,6 @@ interface SearchParams {
 
 function getSearchParams(params: any): SearchParams {
   let { index, p, size, q, sf, so, color } = params;
-  if (!index || index === 'all') index = ['art', 'news', 'events'];
   size = size || DEFAULT_SEARCH_PAGE_SIZE;
   p = p || 1;
   return { index, p, size, q, sf, so, color };
@@ -46,9 +45,10 @@ export async function search(params: any): Promise<ApiResponseSearch> {
   }
 
   const { index, p, size, q, sf, so } = getSearchParams(params);
+  const searchIndices = (!index || index === 'all') ? ['art', 'news', 'events'] : index;
 
   const esQuery: T.SearchRequest = {
-    index,
+    index: searchIndices,
     query: { bool: { must: {} } },
     from: (p - 1) * size || 0,
     size,
