@@ -71,6 +71,7 @@ export default async function updateFromFile(
   const dataFilename = ingester.dataFilename;
   console.log(`Updating ${indexName} from ${dataFilename}...`);
   const bulkLimit = parseInt(process.env.ELASTICSEARCH_BULK_LIMIT || '1000');
+  const isProcessImages = process.env.PROCESS_IMAGES === 'true';
   const maxBulkOperations = bulkLimit * 2;
   const client = getClient();
   await createIndexIfNotExist(client, indexName);
@@ -86,7 +87,7 @@ export default async function updateFromFile(
           const id = ingester.generateId(doc, includeSourcePrefix);
 
           // Process our own version of image:
-          if (doc?.image?.url) {
+          if (isProcessImages && doc?.image?.url) {
             const isImageSuccess = await processDocumentImage(
               doc.image.url,
               id,

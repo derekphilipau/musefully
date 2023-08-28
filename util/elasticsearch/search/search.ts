@@ -16,6 +16,24 @@ const DEFAULT_SEARCH_PAGE_SIZE = 24; // 24 results per page
 const SEARCH_AGG_SIZE = 20; // 20 results per aggregation
 const MIN_SEARCH_QUERY_LENGTH = 3; // Minimum length of search query
 
+interface SearchParams {
+  index: string | string[]; // index or indices to search
+  p: number; // page number
+  size: number; // number of results per page
+  q?: string; // search query
+  sf?: string; // sort field
+  so?: T.SortOrder; // sort order (asc or desc)
+  color?: string; // hex color
+}
+
+function getSearchParams(params: any): SearchParams {
+  let { index, p, size, q, sf, so, color } = params;
+  if (!index || index === 'all') index = ['art', 'news', 'events'];
+  size = size || DEFAULT_SEARCH_PAGE_SIZE;
+  p = p || 1;
+  return { index, p, size, q, sf, so, color };
+}
+
 /**
  * Search for documents in one or more indices
  *
@@ -27,15 +45,10 @@ export async function search(params: any): Promise<ApiResponseSearch> {
     return searchCollections(params);
   }
 
-  let { index, p, size, q, sf, so } = params;
-
-  // Defaults for params:
-  const searchIndices = index !== 'all' ? index : ['art', 'news', 'events'];
-  size = size || DEFAULT_SEARCH_PAGE_SIZE;
-  p = p || 1;
+  const { index, p, size, q, sf, so } = getSearchParams(params);
 
   const esQuery: T.SearchRequest = {
-    index: searchIndices,
+    index,
     query: { bool: { must: {} } },
     from: (p - 1) * size || 0,
     size,
@@ -105,12 +118,8 @@ export async function search(params: any): Promise<ApiResponseSearch> {
 export async function searchCollections(
   params: any
 ): Promise<ApiResponseSearch> {
-  let { p, size, q, color, sf, so } = params;
-
-  // Defaults for missing params:
+  const { p, size, q, sf, so, color } = getSearchParams(params);
   const index = 'art';
-  size = size || DEFAULT_SEARCH_PAGE_SIZE;
-  p = p || 1;
 
   const esQuery: T.SearchRequest = {
     index,
@@ -227,11 +236,11 @@ function getResponseMetadata(
  * @returns Array of matching terms
  */
 async function getSearchQueryTerms(
-  q: string,
+  q: string | undefined,
   p: number,
   client: Client
 ): Promise<Term[] | undefined> {
-  if (q?.length && q?.length > MIN_SEARCH_QUERY_LENGTH && p === 1) {
+  if (q && q?.length > MIN_SEARCH_QUERY_LENGTH && p === 1) {
     return await terms(q, undefined, client);
   }
 }
