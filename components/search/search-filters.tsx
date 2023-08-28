@@ -28,7 +28,7 @@ export function SearchFilters({
         </div>
       )}
       {index === 'art' && <DateFilter params={params} />}
-      {indicesMeta.art?.aggs?.map(
+      {indicesMeta?.[index]?.aggs?.map(
         (aggName, i) =>
           aggName &&
           options[aggName]?.length > 0 && (
@@ -40,6 +40,7 @@ export function SearchFilters({
               aggName={aggName}
               options={options[aggName]}
               filters={filters}
+              isDefaultOpen={indicesMeta[index].aggs.length === 1}
             />
           )
       )}
