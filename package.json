@@ -58,7 +58,7 @@
     "htmlparser2": "^9.0.0",
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.263.1",
-    "next": "^13.4.13",
+    "next": "^13.4.19",
     "next-themes": "npm:@wits/next-themes@^0.2.16",
     "node-kmeans": "^1.1.9",
     "openai": "^3.3.0",
