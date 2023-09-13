@@ -147,12 +147,15 @@ export const siteConfig: SiteConfig = {
       sourceId: 'artforum',
       url: 'https://www.artforum.com/rss.xml',
     },
+    /*
+    LACMA is using their RSS feed for all events, filling up the timeline.
     {
       ingester: 'rssIngester',
       sourceName: 'LACMA',
       sourceId: 'lacma',
       url: 'https://www.lacma.org/rss.xml',
     },
+    */
     {
       ingester: 'rssIngester',
       sourceName: 'Aesthetica',
