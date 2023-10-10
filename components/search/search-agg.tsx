@@ -83,13 +83,18 @@ export function SearchAgg({
   }, [aggName, filters, isDefaultOpen]);
 
   const debouncedRequest = useDebounce(() => {
-    if (aggName && value)
-      fetch(`/api/search/options?index=${index}&field=${aggName}&q=${value}`)
+    if (aggName) {
+      let url = `/api/search/options?index=${index}&field=${aggName}`;
+      if (value) {
+        url += `&q=${value}`;
+      }
+      fetch(url)
         .then((res) => res.json())
         .then((data) => {
           if (data?.length > 0) setSearchOptions(data);
           else setSearchOptions([]);
         });
+    }
   });
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {

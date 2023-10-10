@@ -1,4 +1,3 @@
-import countryByContinent from '@/util/country-by-continent.json';
 import axios from 'axios';
 import { load } from 'cheerio';
 
@@ -9,6 +8,7 @@ import type {
   DocumentImage,
 } from '@/types/baseDocument';
 import type { ElasticsearchIngester } from '@/types/elasticsearchIngester';
+import countryByContinent from '@/lib/country-by-continent.json';
 import { searchUlanArtistById } from '@/lib/import/ulan/searchUlanArtists';
 import { getBooleanValue, snooze } from '@/lib/various';
 import { artworkTermsExtractor } from '../artworkTermsExtractor';

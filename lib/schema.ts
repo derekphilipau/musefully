@@ -1,5 +1,18 @@
+/**
+ * Schema.org JSON-LD
+ *
+ * Functions to transform data into JSON-LD for Schema.org.
+ * Currently only supports VisualArtwork.
+ */
 import type { ArtworkDocument } from '@/types/artworkDocument';
 
+/**
+ * Parse dimensions string into cm.
+ * TODO: Improve.  Also need similar function when importing into Elasticsearch.
+ *
+ * @param dimensions Dimensions string. (BkM)
+ * @returns Object with height, width, and depth in cm.
+ */
 function getDimensionsCM(dimensions: string | undefined) {
   // H x W x D
   /*
@@ -23,17 +36,14 @@ function getDimensionsCM(dimensions: string | undefined) {
  *
  * TODO: import JSON-LD schema typescript def
  */
-export function getSchemaVisualArtwork(
-  item: ArtworkDocument | undefined
-) {
+export function getSchemaVisualArtwork(item: ArtworkDocument | undefined) {
   if (!item) return '';
   const schema: any = {
     '@context': 'https://schema.org',
     '@type': 'VisualArtwork',
   };
   if (item.title) schema.name = item.title;
-  if (item.image?.thumbnailUrl)
-    schema.image = item.image?.thumbnailUrl;
+  if (item.image?.thumbnailUrl) schema.image = item.image?.thumbnailUrl;
   if (item.description) schema.abstract = item.description;
   if (item.primaryConstituent?.name) {
     schema.creator = [
@@ -62,8 +72,6 @@ export function getSchemaVisualArtwork(
   return schema;
 }
 
-export function getSchemaVisualArtworkJson(
-  item: ArtworkDocument | undefined
-) {
+export function getSchemaVisualArtworkJson(item: ArtworkDocument | undefined) {
   return JSON.stringify(getSchemaVisualArtwork(item), null, 2);
 }

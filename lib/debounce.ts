@@ -1,25 +1,23 @@
-'use client';
-
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import debounce from 'lodash.debounce';
 
-interface myCallbackType {
-  (myArgument?: string): void;
-}
+type DebounceCallbackType = (...args: any[]) => void;
 
-export const useDebounce = (callback: myCallbackType, ms: number = 600) => {
-  const ref = useRef<myCallbackType | undefined>();
+export const useDebounce = (
+  callback: DebounceCallbackType,
+  ms: number = 600
+) => {
+  const callbackRef = useRef(callback);
 
   useEffect(() => {
-    ref.current = callback;
+    callbackRef.current = callback;
   }, [callback]);
 
-  const debouncedCallback = useMemo(() => {
-    const func = () => {
-      ref.current?.();
-    };
-    return debounce(func, ms);
-  }, []);
+  const debouncedCallbackRef = useRef(
+    debounce((...args: any[]) => {
+      callbackRef.current(...args);
+    }, ms)
+  );
 
-  return debouncedCallback;
+  return debouncedCallbackRef.current;
 };
