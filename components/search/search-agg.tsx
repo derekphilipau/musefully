@@ -43,7 +43,6 @@ export function SearchAgg({
   const [checkedKeys, setCheckedKeys] = useState<string[]>([]);
   const [searchOptions, setSearchOptions] = useState<AggOption[]>([]);
   const [isOpen, setIsOpen] = useState(isDefaultOpen);
-  console.log('agg is open? ', isOpen, isDefaultOpen);
 
   const dict = getDictionary();
 

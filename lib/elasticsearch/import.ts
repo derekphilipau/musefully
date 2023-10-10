@@ -1,7 +1,7 @@
 import { Client } from '@elastic/elasticsearch';
 import * as T from '@elastic/elasticsearch/lib/api/types';
 
-import { art, news, events, terms } from './indices';
+import { art, events, news, terms } from './indices';
 
 const indices = {
   art,
@@ -114,16 +114,13 @@ export async function createIndex(
   }
 }
 
-export async function createIndexIfNotExist(
-  client: Client,
-  indexName: string,
-) {
+export async function createIndexIfNotExist(client: Client, indexName: string) {
   return createIndex(client, indexName, false, true);
 }
 
 export async function forceCreateIndexIfNotExist(
   client: Client,
-  indexName: string,
+  indexName: string
 ) {
   return createIndex(client, indexName, true, true);
 }

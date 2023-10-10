@@ -46,7 +46,7 @@ export async function options(
       },
     };
   }
-console.log(JSON.stringify(request));
+
   const client = getClient();
 
   try {
