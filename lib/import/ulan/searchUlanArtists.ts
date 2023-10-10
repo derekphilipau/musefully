@@ -90,7 +90,7 @@ function selectUlanMatch(
   if (ulanMatches?.length === 1) {
     // Great, found a single matching record for ULAN preferred term.
     return ulanMatches[0];
-  } else if (ulanMatches?.length > 1 && birthYear && deathYear) {
+  } else if (ulanMatches?.length > 1) {
     // Found multiple matching records for ULAN preferred term.
     // Try to find matching birth & death dates
     let temporaryConfirmedUlanArtist: UlanArtist | undefined;
@@ -109,12 +109,14 @@ function selectUlanMatch(
         ) {
           // Only end date match, keep looping just in case there's a better match.
           temporaryConfirmedUlanArtist = ulanArtist;
-        }
-        if (
+        } else if (
           ulanArtist.birthDate &&
           parseInt(ulanArtist.birthDate) === birthYear
         ) {
           // Only start date match, keep looping just in case there's a better match.
+          temporaryConfirmedUlanArtist = ulanArtist;
+        } else if (!temporaryConfirmedUlanArtist) {
+          // Neither start nor end date match, use this only if no matching dates are found.
           temporaryConfirmedUlanArtist = ulanArtist;
         }
       }
@@ -166,7 +168,6 @@ export async function searchUlanArtists(
     if (ULAN_ARTIST_CACHE[normalizedConstituentName]?.id === 'Not Found') {
       return;
     }
-    // console.log(`CACHE HIT ULAN "${normalizedConstituentName}"`)
     return ULAN_ARTIST_CACHE[normalizedConstituentName];
   }
 
