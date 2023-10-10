@@ -3,11 +3,11 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
-import { useDebounce } from '@/util/debounce';
-import { getBooleanValue } from '@/util/various';
 import { ChevronsUpDown, Plus, X } from 'lucide-react';
 
 import type { AggOption } from '@/types/aggOption';
+import { useDebounce } from '@/lib/debounce';
+import { getBooleanValue } from '@/lib/various';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -43,7 +43,7 @@ export function SearchAgg({
   const [checkedKeys, setCheckedKeys] = useState<string[]>([]);
   const [searchOptions, setSearchOptions] = useState<AggOption[]>([]);
   const [isOpen, setIsOpen] = useState(isDefaultOpen);
-  console.log('agg is open? ', isOpen, isDefaultOpen)
+  console.log('agg is open? ', isOpen, isDefaultOpen);
 
   const dict = getDictionary();
 

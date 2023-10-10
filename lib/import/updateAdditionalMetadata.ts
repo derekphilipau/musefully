@@ -1,7 +1,8 @@
 import * as fs from 'fs';
 import * as readline from 'node:readline';
 import zlib from 'zlib';
-import { getClient } from '@/util/elasticsearch/client';
+
+import { getClient } from '@/lib/elasticsearch/client';
 
 /**
  * Get a readline interface for a given filename.

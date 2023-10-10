@@ -4,10 +4,10 @@
  * npx ts-node --compiler-options {\"module\":\"CommonJS\"} ./util/import/importDataCommand.ts
  */
 
-import { abort, askYesNo, info, questionsDone, warn } from '@/util/command';
 import { loadEnvConfig } from '@next/env';
 
 import { siteConfig } from '@/config/site';
+import { abort, askYesNo, info, questionsDone, warn } from '@/lib/command';
 import extractDocuments from './extractDocuments';
 import { updateAdditionalMetadata } from './updateAdditionalMetadata';
 import { updateDominantColors } from './updateDominantColors';
@@ -17,13 +17,13 @@ import updateRssFeeds from './updateRssFeed';
 
 loadEnvConfig(process.cwd());
 
-async function importDataset(ingesterName: string, includeSourcePrefix: boolean) {
+async function importDataset(
+  ingesterName: string,
+  includeSourcePrefix: boolean
+) {
   try {
-    const { ingester } = await import(`./ingesters/${ingesterName}`);        
-    await updateFromFile(
-      ingester,
-      includeSourcePrefix
-    );
+    const { ingester } = await import(`./ingesters/${ingesterName}`);
+    await updateFromFile(ingester, includeSourcePrefix);
   } catch (e) {
     abort(`Error updating with ${ingesterName}: ${e}`);
     return;
@@ -38,9 +38,7 @@ async function run() {
     return abort();
   }
 
-  info(
-    `Available ingesters: ${siteConfig.ingesters.join(', ')}`
-  );
+  info(`Available ingesters: ${siteConfig.ingesters.join(', ')}`);
 
   if (process.env.ELASTICSEARCH_USE_CLOUD === 'true')
     warn('WARNING: Using Elasticsearch Cloud');

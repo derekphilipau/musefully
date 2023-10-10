@@ -1,14 +1,14 @@
-import { getClient } from '@/util/elasticsearch/client';
-import {
-  bulk,
-  createIndexIfNotExist,
-  getBulkOperationArray,
-} from '@/util/elasticsearch/import';
 import { Client } from '@elastic/elasticsearch';
 import { parseStringPromise } from 'xml2js';
 
 import type { ElasticsearchRssIngester } from '@/types/elasticsearchRssIngester';
 import { siteConfig, type RssFeedConfig } from '@/config/site';
+import { getClient } from '@/lib/elasticsearch/client';
+import {
+  bulk,
+  createIndexIfNotExist,
+  getBulkOperationArray,
+} from '@/lib/elasticsearch/import';
 
 const INDEX_NAME = 'news';
 
@@ -17,7 +17,7 @@ async function importRssFeed(
   ingester: ElasticsearchRssIngester,
   url: string,
   sourceName: string,
-  sourceId: string,
+  sourceId: string
 ) {
   try {
     console.log(`Importing RSS feed ${url}...`);
@@ -69,10 +69,14 @@ export default async function updateRssFeeds() {
     try {
       if (!rssFeed.ingester || !rssFeed.url || !rssFeed.sourceName)
         throw new Error('RSS Feed missing url or sourceName');
-      const { ingester } = await import(
-        `./ingesters/rss/${rssFeed.ingester}`
+      const { ingester } = await import(`./ingesters/rss/${rssFeed.ingester}`);
+      await importRssFeed(
+        client,
+        ingester,
+        rssFeed.url,
+        rssFeed.sourceName,
+        rssFeed.sourceId
       );
-      await importRssFeed(client, ingester, rssFeed.url, rssFeed.sourceName, rssFeed.sourceId);
     } catch (e) {
       console.error(`Error updating RSS ${rssFeed.sourceName}: ${e}`);
       return;

@@ -1,11 +1,10 @@
-import { getClient } from '@/util/elasticsearch/client';
+import { siteConfig } from '@/config/site';
+import { getClient } from '@/lib/elasticsearch/client';
 import {
   bulk,
   createIndexIfNotExist,
   getBulkOperationArray,
-} from '@/util/elasticsearch/import';
-
-import { siteConfig } from '@/config/site';
+} from '@/lib/elasticsearch/import';
 
 const INDEX_NAME = 'events';
 
@@ -30,12 +29,7 @@ export default async function updateEvents() {
       const events = await crawler.crawl();
       for (const event of events) {
         operations.push(
-          ...getBulkOperationArray(
-            'update',
-            INDEX_NAME,
-            event.url,
-            event
-          )
+          ...getBulkOperationArray('update', INDEX_NAME, event.url, event)
         );
       }
       if (operations.length > 0) {

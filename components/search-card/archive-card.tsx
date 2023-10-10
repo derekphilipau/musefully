@@ -1,13 +1,15 @@
 import { Key } from 'react';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
-import { trimStringToLengthAtWordBoundary } from '@/util/various';
+
+import { trimStringToLengthAtWordBoundary } from '@/lib/various';
 
 export function ArchiveCard({ item, showType }) {
   if (!item || !item.url) return null;
   const dict = getDictionary();
 
-  const primaryConstituentName = item.primaryConstituent?.name || 'Maker Unknown';
+  const primaryConstituentName =
+    item.primaryConstituent?.name || 'Maker Unknown';
 
   return (
     <Link href={item.url}>

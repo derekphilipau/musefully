@@ -1,11 +1,14 @@
-import type { DocumentConstituent, DocumentImage } from '@/types/baseDocument';
 import type { ArtworkDocument } from '@/types/artworkDocument';
-import type { ElasticsearchIngester} from '@/types/elasticsearchIngester';
-import { getStringValue, sourceAwareIdFormatter } from '../ingestUtil';
-import { searchUlanArtists } from '@/util/import/ulan/searchUlanArtists';
+import type { DocumentConstituent, DocumentImage } from '@/types/baseDocument';
+import type { ElasticsearchIngester } from '@/types/elasticsearchIngester';
+import { searchUlanArtists } from '@/lib/import/ulan/searchUlanArtists';
 import { artworkTermsExtractor } from '../artworkTermsExtractor';
+import {
+  getStringValue,
+  parseSignificantWords,
+  sourceAwareIdFormatter,
+} from '../ingestUtil';
 import type { CmaDocument } from './types';
-import { parseSignificantWords } from '../ingestUtil';
 
 const DATA_FILE = './data/cma/data.jsonl.gz';
 const INDEX_NAME = 'art';
@@ -29,10 +32,15 @@ function getConstituents(doc: CmaDocument): DocumentConstituent[] {
     };
     if (creator.id) constituent.id = getStringValue(creator.id);
     // Example:  "Nicolaes Berchem (Dutch, 1620\u20131683)"
-    const nationality =  creator.description.replace(/.*\((.+\,\s\d.*)\).*/, '$1');
+    const nationality = creator.description.replace(
+      /.*\((.+\,\s\d.*)\).*/,
+      '$1'
+    );
     if (nationality) constituent.nationality = [nationality];
-    if (creator.birth_year) constituent.birthYear = parseInt(creator.birth_year);
-    if (creator.death_year) constituent.deathYear = parseInt(creator.death_year);
+    if (creator.birth_year)
+      constituent.birthYear = parseInt(creator.birth_year);
+    if (creator.death_year)
+      constituent.deathYear = parseInt(creator.death_year);
     constituents.push(constituent);
   }
   return constituents;
@@ -58,7 +66,7 @@ function getImage(doc: CmaDocument): DocumentImage | undefined {
       const image: DocumentImage = {
         url: doc.images.print.url,
         thumbnailUrl: doc.images.print.url,
-      };  
+      };
       if (doc.images.web?.url) {
         image.thumbnailUrl = doc.images.web.url;
       }
@@ -67,7 +75,7 @@ function getImage(doc: CmaDocument): DocumentImage | undefined {
       return {
         url: doc.images.web.url,
         thumbnailUrl: doc.images.web.url,
-      } as DocumentImage;  
+      } as DocumentImage;
     }
   }
 }
@@ -82,8 +90,7 @@ function getProvenance(doc: CmaDocument): string | undefined {
       provenance += ' Citations: ' + provenanceItem.citations;
     if (provenanceItem.footnotes)
       provenance += ' Footnotes: ' + provenanceItem.footnotes;
-    if (provenanceItem.date)
-      provenance += ' Date: ' + provenanceItem.date;
+    if (provenanceItem.date) provenance += ' Date: ' + provenanceItem.date;
   }
   if (provenance) return provenance;
 }
@@ -129,7 +136,6 @@ function getExhibitions(doc: CmaDocument): string[] | undefined {
   if (exhibitions.length > 0) return exhibitions;
 }
 
-  
 async function transformDoc(doc: any): Promise<ArtworkDocument> {
   const esDoc: ArtworkDocument = {
     type: DOC_TYPE,
@@ -150,13 +156,12 @@ async function transformDoc(doc: any): Promise<ArtworkDocument> {
       esDoc.constituents[0].deathYear
     );
     if (ulanArtist?.preferredTerm) {
-      esDoc.constituents[0].canonicalName =
-        ulanArtist.preferredTerm;
+      esDoc.constituents[0].canonicalName = ulanArtist.preferredTerm;
       esDoc.constituents[0].ulan = ulanArtist;
     }
     esDoc.primaryConstituent = esDoc.constituents[0];
   }
-  
+
   esDoc.accessionNumber = doc.accession_number;
   esDoc.searchText = doc.accession_number;
 
@@ -178,7 +183,7 @@ async function transformDoc(doc: any): Promise<ArtworkDocument> {
   esDoc.inscribed = getInscribed(doc);
 
   // TODO sort public access vs copyrightRestricted
-  esDoc.publicAccess = doc.share_license_status === "CC0";
+  esDoc.publicAccess = doc.share_license_status === 'CC0';
   esDoc.rightsType = doc.share_license_status;
   if (doc.copyright) {
     esDoc.rightsType = doc.share_license_status + ' ' + doc.rights_type;
@@ -197,7 +202,7 @@ async function transformDoc(doc: any): Promise<ArtworkDocument> {
   if (doc.current_location) {
     esDoc.museumLocation = {
       name: doc.current_location,
-    }
+    };
   }
 
   // TODO: Missing geographical location, find_spot not suitable
@@ -210,10 +215,7 @@ export const ingester: ElasticsearchIngester = {
   dataFilename: DATA_FILE,
   sourceId: SOURCE_ID,
   sourceName: SOURCE_NAME,
-  generateId: (
-    doc: ArtworkDocument,
-    includeSourcePrefix: boolean
-  ) => {
+  generateId: (doc: ArtworkDocument, includeSourcePrefix: boolean) => {
     return sourceAwareIdFormatter(doc.id, SOURCE_ID, includeSourcePrefix);
   },
   transform: async (doc) => {

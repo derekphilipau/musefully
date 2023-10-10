@@ -1,16 +1,16 @@
 import * as fs from 'fs';
 import csv from 'csv-parser';
 
-import type { DocumentConstituent } from '@/types/baseDocument';
 import type { ArtworkDocument } from '@/types/artworkDocument';
-import type { ElasticsearchIngester} from '@/types/elasticsearchIngester';
+import type { DocumentConstituent } from '@/types/baseDocument';
+import type { ElasticsearchIngester } from '@/types/elasticsearchIngester';
+import { searchUlanArtists } from '@/lib/import/ulan/searchUlanArtists';
+import { artworkTermsExtractor } from '../artworkTermsExtractor';
 import {
   getStringValue,
   parseSignificantWords,
   sourceAwareIdFormatter,
 } from '../ingestUtil';
-import { searchUlanArtists } from '@/util/import/ulan/searchUlanArtists';
-import { artworkTermsExtractor } from '../artworkTermsExtractor';
 import type { WhitneyArtist, WhitneyDocument } from './types';
 
 const WHITNEY_ARTISTS: WhitneyArtist[] = [];
@@ -132,15 +132,12 @@ async function transformDoc(doc: any): Promise<ArtworkDocument> {
   return esDoc;
 }
 
-export const ingester: ElasticsearchIngester= {
+export const ingester: ElasticsearchIngester = {
   indexName: INDEX_NAME,
   dataFilename: DATA_FILE,
   sourceId: SOURCE_ID,
   sourceName: SOURCE_NAME,
-  generateId: (
-    doc: ArtworkDocument,
-    includeSourcePrefix: boolean
-  ) => {
+  generateId: (doc: ArtworkDocument, includeSourcePrefix: boolean) => {
     return sourceAwareIdFormatter(doc.id, SOURCE_ID, includeSourcePrefix);
   },
   transform: async (doc) => {

@@ -1,7 +1,7 @@
-import { getClient } from '@/util/elasticsearch/client';
-import { bulk, getBulkOperationArray } from '@/util/elasticsearch/import';
-import { searchAll } from '@/util/elasticsearch/search/search';
-import dominantColors from '@/util/image/dominantColors';
+import { getClient } from '@/lib/elasticsearch/client';
+import { bulk, getBulkOperationArray } from '@/lib/elasticsearch/import';
+import { searchAll } from '@/lib/elasticsearch/search/search';
+import dominantColors from '@/lib/image/dominantColors';
 
 const INDEX_NAME = 'art';
 const NUMBER_DOMINANT_COLORS = 8;
@@ -94,7 +94,9 @@ export async function updateDominantColors(forceUpdate: boolean = false) {
       document.image.dominantColors = colors;
     }
 
-    operations.push(...getBulkOperationArray('update', INDEX_NAME, hit._id, document));
+    operations.push(
+      ...getBulkOperationArray('update', INDEX_NAME, hit._id, document)
+    );
 
     if (operations.length >= maxBulkOperations) {
       console.log('BULK UPDATE');

@@ -1,4 +1,4 @@
-import { getBooleanValue } from '@/util/various';
+import { getBooleanValue } from '@/lib/various';
 
 const IMG_RESTRICTED_BASE_URL =
   'https://d1lfxha3ugu3d4.cloudfront.net/images/opencollection/objects/size1/';

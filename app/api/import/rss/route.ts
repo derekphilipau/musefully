@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import updateRssFeeds from '@/util/import/updateRssFeed';
+
+import updateRssFeeds from '@/lib/import/updateRssFeed';
 
 /**
  * @swagger

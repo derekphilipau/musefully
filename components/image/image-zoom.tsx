@@ -4,9 +4,9 @@ import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
-import { getCaption } from '@/util/various';
 
 import type { ArtworkDocument } from '@/types/artworkDocument';
+import { getCaption } from '@/lib/various';
 import { Icons } from '@/components/icons';
 import { buttonVariants } from '@/components/ui/button';
 import {

@@ -1,4 +1,3 @@
-import { indicesMeta } from '@/util/elasticsearch/indicesMeta';
 import { Client } from '@elastic/elasticsearch';
 import * as T from '@elastic/elasticsearch/lib/api/types';
 import convert from 'color-convert';
@@ -9,6 +8,7 @@ import type {
   ApiResponseSearchMetadata,
 } from '@/types/apiResponseSearch';
 import type { Term } from '@/types/term';
+import { indicesMeta } from '@/lib/elasticsearch/indicesMeta';
 import { getClient } from '../client';
 import { getTerm, terms } from './terms';
 
@@ -45,7 +45,8 @@ export async function search(params: any): Promise<ApiResponseSearch> {
   }
 
   const { index, p, size, q, sf, so } = getSearchParams(params);
-  const searchIndices = (!index || index === 'all') ? ['art', 'news', 'events'] : index;
+  const searchIndices =
+    !index || index === 'all' ? ['art', 'news', 'events'] : index;
 
   const esQuery: T.SearchRequest = {
     index: searchIndices,
@@ -81,11 +82,7 @@ export async function search(params: any): Promise<ApiResponseSearch> {
   }
 
   if (index === 'all') {
-    esQuery.indices_boost = [
-      { news: 1.5 },
-      { events: 1.5 },
-      { art: 1 },
-    ];
+    esQuery.indices_boost = [{ news: 1.5 }, { events: 1.5 }, { art: 1 }];
   }
 
   addQueryBoolDateRange(esQuery, params);
@@ -95,7 +92,11 @@ export async function search(params: any): Promise<ApiResponseSearch> {
   if (sf && so) {
     esQuery.sort = [{ [sf]: so }];
   } else {
-    esQuery.sort = [{ sortPriority: 'desc' }, { startYear: 'desc' }, { date: 'desc' } ];
+    esQuery.sort = [
+      { sortPriority: 'desc' },
+      { startYear: 'desc' },
+      { date: 'desc' },
+    ];
   }
 
   const client = getClient();
@@ -104,7 +105,7 @@ export async function search(params: any): Promise<ApiResponseSearch> {
 
   const options = getResponseOptions(response);
   const metadata = getResponseMetadata(response, size);
-  const data = response.hits.hits.map(hit => ({
+  const data = response.hits.hits.map((hit) => ({
     _id: hit._id,
     _index: hit._index,
     ...(hit._source || {}),
@@ -175,7 +176,7 @@ export async function searchCollections(
   const response: T.SearchTemplateResponse = await client.search(esQuery);
   const options = getResponseOptions(response);
   const metadata = getResponseMetadata(response, size);
-  const data = response.hits.hits.map(hit => ({
+  const data = response.hits.hits.map((hit) => ({
     _id: hit._id,
     _index: hit._index,
     ...(hit._source || {}),

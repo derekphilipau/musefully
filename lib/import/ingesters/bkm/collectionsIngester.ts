@@ -1,8 +1,7 @@
-import { searchUlanArtists } from '@/util/import/ulan/searchUlanArtists';
-
 import type { ArtworkDocument } from '@/types/artworkDocument';
 import type { DocumentImage } from '@/types/baseDocument';
 import type { ElasticsearchIngester } from '@/types/elasticsearchIngester';
+import { searchUlanArtists } from '@/lib/import/ulan/searchUlanArtists';
 import { artworkTermsExtractor } from '../artworkTermsExtractor';
 import {
   getStringValue,

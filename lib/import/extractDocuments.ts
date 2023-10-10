@@ -1,11 +1,10 @@
-import { getClient } from '@/util/elasticsearch/client';
+import { siteConfig } from '@/config/site';
+import { getClient } from '@/lib/elasticsearch/client';
 import {
   bulk,
   createIndexIfNotExist,
   getBulkOperationArray,
-} from '@/util/elasticsearch/import';
-
-import { siteConfig } from '@/config/site';
+} from '@/lib/elasticsearch/import';
 
 /**
  * Extract documents and update the indices.

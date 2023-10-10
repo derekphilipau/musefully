@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { getDocument } from '@/util/elasticsearch/search/document';
+
+import { getDocument } from '@/lib/elasticsearch/search/document';
 
 /**
  * @swagger
@@ -57,10 +58,10 @@ export async function GET(request: Request) {
   const id = searchParams.get('id');
 
   if (!id || Array.isArray(id))
-    return NextResponse.json({ error: "id is required" }, { status: 400 });
+    return NextResponse.json({ error: 'id is required' }, { status: 400 });
 
   if (!index || Array.isArray(index))
-    return NextResponse.json({ error: "index is required" }, { status: 400 });
+    return NextResponse.json({ error: 'index is required' }, { status: 400 });
 
   try {
     const result = await getDocument(index, id);

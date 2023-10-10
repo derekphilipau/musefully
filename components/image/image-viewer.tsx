@@ -5,9 +5,9 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
-import { getCaption } from '@/util/various';
 import useEmblaCarousel from 'embla-carousel-react';
 
+import { getCaption } from '@/lib/various';
 import { Icons } from '@/components/icons';
 import { buttonVariants } from '@/components/ui/button';
 import {

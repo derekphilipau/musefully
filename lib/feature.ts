@@ -1,7 +1,6 @@
-import { getDocument } from '@/util/elasticsearch/search/document';
-
 import type { ApiResponseDocument } from '@/types/apiResponseDocument';
 import type { ArtworkDocument } from '@/types/artworkDocument';
+import { getDocument } from '@/lib/elasticsearch/search/document';
 
 async function getArtwork(id: string): Promise<ApiResponseDocument> {
   const data = await getDocument('art', id, false);

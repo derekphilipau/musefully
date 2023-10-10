@@ -1,16 +1,16 @@
 import countryByContinent from '@/util/country-by-continent.json';
-import { getBooleanValue, snooze } from '@/util/various';
 import axios from 'axios';
 import { load } from 'cheerio';
 
+import type { ArtworkDocument } from '@/types/artworkDocument';
 import type {
   DocumentConstituent,
   DocumentGeographicalLocation,
   DocumentImage,
 } from '@/types/baseDocument';
-import type { ArtworkDocument } from '@/types/artworkDocument';
 import type { ElasticsearchIngester } from '@/types/elasticsearchIngester';
-import { searchUlanArtistById } from '@/util/import/ulan/searchUlanArtists';
+import { searchUlanArtistById } from '@/lib/import/ulan/searchUlanArtists';
+import { getBooleanValue, snooze } from '@/lib/various';
 import { artworkTermsExtractor } from '../artworkTermsExtractor';
 import {
   getStringValue,
@@ -25,9 +25,7 @@ const SOURCE_ID = 'met';
 const SOURCE_NAME = 'The Met';
 const DOC_TYPE = 'artwork';
 
-function getKeywords(
-  doc: MetDocument
-): string | undefined {
+function getKeywords(doc: MetDocument): string | undefined {
   const keywords = doc['Tags']?.split('|').map((s) => s.trim());
   if (keywords?.length) return keywords.join(', ');
 }
@@ -186,9 +184,7 @@ async function getImage(doc: MetDocument): Promise<DocumentImage | undefined> {
   }
 }
 
-async function transformDoc(
-  doc: MetDocument
-): Promise<ArtworkDocument> {
+async function transformDoc(doc: MetDocument): Promise<ArtworkDocument> {
   const esDoc: ArtworkDocument = {
     type: DOC_TYPE,
     source: SOURCE_NAME,
@@ -243,15 +239,12 @@ async function transformDoc(
   return esDoc;
 }
 
-export const ingester: ElasticsearchIngester= {
+export const ingester: ElasticsearchIngester = {
   indexName: INDEX_NAME,
   dataFilename: DATA_FILE,
   sourceId: SOURCE_ID,
   sourceName: SOURCE_NAME,
-  generateId: (
-    doc: ArtworkDocument,
-    includeSourcePrefix: boolean
-  ) => {
+  generateId: (doc: ArtworkDocument, includeSourcePrefix: boolean) => {
     return sourceAwareIdFormatter(doc.id, SOURCE_ID, includeSourcePrefix);
   },
   transform: async (doc) => {

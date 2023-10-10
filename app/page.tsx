@@ -1,15 +1,15 @@
 import { Key } from 'react';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
-import { indicesMeta } from '@/util/elasticsearch/indicesMeta';
-import { search } from '@/util/elasticsearch/search/search';
-import { getBooleanValue } from '@/util/various';
 
 import type { AggOptions } from '@/types/aggOptions';
 import type { ApiResponseSearch } from '@/types/apiResponseSearch';
 import type { BaseDocument } from '@/types/baseDocument';
 import type { Term } from '@/types/term';
 import { siteConfig } from '@/config/site';
+import { indicesMeta } from '@/lib/elasticsearch/indicesMeta';
+import { search } from '@/lib/elasticsearch/search/search';
+import { getBooleanValue } from '@/lib/various';
 import { ArtworkCard } from '@/components/artwork/artwork-card';
 import { ContentCard } from '@/components/search-card/content-card';
 import { EventCard } from '@/components/search-card/event-card';
@@ -249,13 +249,13 @@ export default async function Page({ params, searchParams }) {
                         />
                       )}
                       {item.sourceId === 'newyorkercartoon' && (
-                          <ImageNewsCard
-                            item={item}
-                            layout={layout}
-                            showType={index === 'all'}
-                            isMultiSource={isMultiSource}
-                          />
-                        )}
+                        <ImageNewsCard
+                          item={item}
+                          layout={layout}
+                          showType={index === 'all'}
+                          isMultiSource={isMultiSource}
+                        />
+                      )}
                       {item.type === 'rss' &&
                         item.sourceId !== 'newyorkercartoon' && (
                           <NewsCard

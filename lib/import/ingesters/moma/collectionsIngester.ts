@@ -1,11 +1,14 @@
-import type { DocumentConstituent } from '@/types/baseDocument';
 import type { ArtworkDocument } from '@/types/artworkDocument';
-import type { ElasticsearchIngester} from '@/types/elasticsearchIngester';
-import { getStringValue, sourceAwareIdFormatter } from '../ingestUtil';
-import { searchUlanArtists } from '@/util/import/ulan/searchUlanArtists';
+import type { DocumentConstituent } from '@/types/baseDocument';
+import type { ElasticsearchIngester } from '@/types/elasticsearchIngester';
+import { searchUlanArtists } from '@/lib/import/ulan/searchUlanArtists';
 import { artworkTermsExtractor } from '../artworkTermsExtractor';
+import {
+  getStringValue,
+  parseSignificantWords,
+  sourceAwareIdFormatter,
+} from '../ingestUtil';
 import type { MomaDocument } from './types';
-import { parseSignificantWords } from '../ingestUtil';
 
 const DATA_FILE = './data/moma/collections.jsonl.gz';
 const INDEX_NAME = 'art';
@@ -146,15 +149,12 @@ async function transformDoc(doc: any): Promise<ArtworkDocument> {
   return esDoc;
 }
 
-export const ingester: ElasticsearchIngester= {
+export const ingester: ElasticsearchIngester = {
   indexName: INDEX_NAME,
   dataFilename: DATA_FILE,
   sourceId: SOURCE_ID,
   sourceName: SOURCE_NAME,
-  generateId: (
-    doc: ArtworkDocument,
-    includeSourcePrefix: boolean
-  ) => {
+  generateId: (doc: ArtworkDocument, includeSourcePrefix: boolean) => {
     return sourceAwareIdFormatter(doc.id, SOURCE_ID, includeSourcePrefix);
   },
   transform: async (doc) => {

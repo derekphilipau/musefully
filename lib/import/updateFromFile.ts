@@ -3,18 +3,18 @@
 import * as fs from 'fs';
 import * as readline from 'node:readline';
 import zlib from 'zlib';
-import { getClient } from '@/util/elasticsearch/client';
-import {
-  bulk,
-  createIndexIfNotExist,
-  getBulkOperationArray,
-} from '@/util/elasticsearch/import';
-import { searchAll } from '@/util/elasticsearch/search/search';
-import { processDocumentImage } from '@/util/image/imageProcessor';
 import csvParser from 'csv-parser';
 
 import type { ElasticsearchIngester } from '@/types/elasticsearchIngester';
 import { TermIdMap } from '@/types/term';
+import { getClient } from '@/lib/elasticsearch/client';
+import {
+  bulk,
+  createIndexIfNotExist,
+  getBulkOperationArray,
+} from '@/lib/elasticsearch/import';
+import { searchAll } from '@/lib/elasticsearch/search/search';
+import { processDocumentImage } from '@/lib/image/imageProcessor';
 
 async function* readFileData(
   filename: string

@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { timeAgo } from '@/util/various';
 
 import type { BaseDocument } from '@/types/baseDocument';
 import { cn } from '@/lib/utils';
+import { timeAgo } from '@/lib/various';
 
 interface CardSourceHeaderProps {
   item: BaseDocument;

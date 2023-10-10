@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
+
+import type { ArtworkDocument } from '@/types/artworkDocument';
 import {
   getArtworkUrlWithSlug,
   trimStringToLengthAtWordBoundary,
-} from '@/util/various';
-
-import type { ArtworkDocument } from '@/types/artworkDocument';
+} from '@/lib/various';
 import { DominantColors } from '@/components/color/dominant-colors';
 import { SourceHeader } from '@/components/source/source-header';
 import { DocumentImage } from '../image/document-image';

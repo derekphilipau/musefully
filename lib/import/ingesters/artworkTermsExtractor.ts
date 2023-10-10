@@ -2,7 +2,10 @@ import slugify from 'slugify';
 
 import type { ArtworkDocument } from '@/types/artworkDocument';
 import type { Term, TermIdMap } from '@/types/term';
-import { normalizeName, searchUlanArtists } from '@/util/import/ulan/searchUlanArtists';
+import {
+  normalizeName,
+  searchUlanArtists,
+} from '@/lib/import/ulan/searchUlanArtists';
 
 /**
  * Terms are significant fields that may contain additiona metadata are

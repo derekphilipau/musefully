@@ -2,14 +2,14 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Script from 'next/script';
 import { getDictionary } from '@/dictionaries/dictionaries';
-import { getDocument } from '@/util/elasticsearch/search/document';
-import { getSchemaVisualArtworkJson } from '@/util/schema';
-import { getCaption } from '@/util/various';
 import { encode } from 'html-entities';
 
 import type { ApiResponseDocument } from '@/types/apiResponseDocument';
 import type { ArtworkDocument } from '@/types/artworkDocument';
 import { siteConfig } from '@/config/site';
+import { getDocument } from '@/lib/elasticsearch/search/document';
+import { getSchemaVisualArtworkJson } from '@/lib/schema';
+import { getCaption } from '@/lib/various';
 import { ArtworkDescription } from '@/components/artwork/artwork-description';
 import { ArtworkShare } from '@/components/artwork/artwork-share';
 import { LanguageDisclaimer } from '@/components/artwork/language-disclaimer';

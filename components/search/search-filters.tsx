@@ -1,6 +1,6 @@
 import { getDictionary } from '@/dictionaries/dictionaries';
-import { indicesMeta } from '@/util/elasticsearch/indicesMeta';
 
+import { indicesMeta } from '@/lib/elasticsearch/indicesMeta';
 import { SearchAgg } from '@/components/search/search-agg';
 import { ColorPicker } from './color-picker';
 import { DateFilter } from './date-filter';

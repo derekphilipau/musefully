@@ -1,7 +1,7 @@
-import { stripHtmlTags } from '@/util/various';
 import { format, getYear, isValid, parse } from 'date-fns';
 
 import type { BaseDocument, DocumentConstituent } from '@/types/baseDocument';
+import { stripHtmlTags } from '@/lib/various';
 
 /**
  * Get the image url from the rss item, either from the description or the content
@@ -59,7 +59,7 @@ function parseDate(item: any): Date {
     for (const format of dateFormats) {
       const date = parse(dateString, format, new Date());
       if (isValid(date)) return date;
-    }  
+    }
   }
   throw new Error('RSS Item Date could not be parsed');
 }

@@ -1,16 +1,11 @@
 'use client';
 
-import {
-  ChangeEvent,
-  FormEvent,
-  useEffect,
-  useState,
-} from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
-import { useDebounce } from '@/util/debounce';
 
 import type { Term } from '@/types/term';
+import { useDebounce } from '@/lib/debounce';
 import { Icons } from '@/components/icons';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
