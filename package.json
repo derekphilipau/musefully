@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.388.0",
-    "@elastic/elasticsearch": "^8.9.0",
+    "@elastic/elasticsearch": "^8.10.0",
     "@formspree/react": "^2.4.1",
     "@radix-ui/react-accessible-icon": "^1.0.3",
     "@radix-ui/react-accordion": "^1.1.2",
