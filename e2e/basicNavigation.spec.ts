@@ -7,10 +7,10 @@ test('should navigate to the art search page', async ({
 }) => {
   await page.goto('/');
   if (isMobile) {
-    await page.click('[aria-label="Open Menu"]');
-    await page.getByRole('button', { name: 'Search' }).click();
+    await page.click('[aria-label="Open Menu"]', { timeout: 1000 });
+    await page.getByRole('button', { name: 'Art' }).click();
   } else {
-    await page.click('text=Search');
+    await page.click('text=Art');
   }
-  await expect(page).toHaveURL('/art?hasPhoto=true');
+  await expect(page).toHaveURL('/art?hasPhoto=true&f=true');
 });

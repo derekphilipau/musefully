@@ -1,11 +1,11 @@
-import { PlaywrightTestConfig, devices } from '@playwright/test'
-import path from 'path'
+import path from 'path';
+import { PlaywrightTestConfig, devices } from '@playwright/test';
 
 // Use process.env.PORT by default and fallback to port 3000
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000;
 
 // Set webServer.url and use.baseURL with the location of the WebServer respecting the correct set port
-const baseURL = `http://localhost:${PORT}`
+const baseURL = `http://localhost:${PORT}`;
 
 // Reference: https://playwright.dev/docs/test-configuration
 const config: PlaywrightTestConfig = {
@@ -44,34 +44,29 @@ const config: PlaywrightTestConfig = {
 
   projects: [
     {
-      name: 'Desktop Chrome',
+      name: 'API',
+      testMatch: /api\//,
+      retries: 0,
+    },
+    {
+      name: 'WEB Desktop Chrome',
+      testIgnore: /api\//,
       use: {
         ...devices['Desktop Chrome'],
       },
     },
-    // {
-    //   name: 'Desktop Firefox',
-    //   use: {
-    //     ...devices['Desktop Firefox'],
-    //   },
-    // },
-    // {
-    //   name: 'Desktop Safari',
-    //   use: {
-    //     ...devices['Desktop Safari'],
-    //   },
-    // },
-    // Test against mobile viewports.
     {
-      name: 'Mobile Chrome',
+      name: 'WEB Mobile Chrome',
+      testIgnore: /api\//,
       use: {
         ...devices['Pixel 5'],
       },
     },
     {
-      name: 'Mobile Safari',
+      name: 'WEB Mobile Safari',
+      testIgnore: /api\//,
       use: devices['iPhone 12'],
     },
   ],
-}
-export default config
+};
+export default config;

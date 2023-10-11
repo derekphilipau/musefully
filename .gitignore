@@ -41,6 +41,9 @@ es.secret.md
 secrets/*
 elastic.md
 
+# testing
+test-results/*
+
 # data files
 data/whitney/artworks.csv
 data/ULAN/json/ulanArtists.jsonl
