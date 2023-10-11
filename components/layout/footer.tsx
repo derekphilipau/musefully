@@ -36,7 +36,7 @@ export function Footer({ items }: FooterProps) {
       {items?.length ? (
         <nav
           className="mb-10 mt-6 flex gap-6"
-          aria-label={dict['button.mainMenu']}
+          aria-label={dict['nav.footerMenu']}
         >
           {items?.map(
             (item, index) =>
