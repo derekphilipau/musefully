@@ -12,12 +12,16 @@ import { indicesMeta } from '@/lib/elasticsearch/indicesMeta';
 import { getClient } from '../client';
 import { getTerm, terms } from './terms';
 
-const DEFAULT_SEARCH_PAGE_SIZE = 24; // 24 results per page
+const ALL_INDICES = ['art', 'news', 'events'];
+const DEFAULT_INDEX = 'all';
+const DEFAULT_SEARCH_PAGE_SIZE = 24;
+const MAX_SEARCH_PAGE_SIZE = 100;
+const MAX_PAGES = 1000; // Don't allow more than 1000 pages of results
 const SEARCH_AGG_SIZE = 20; // 20 results per aggregation
 const MIN_SEARCH_QUERY_LENGTH = 3; // Minimum length of search query
 
 interface SearchParams {
-  index: string | string[]; // index or indices to search
+  index: string; // index or indices to search
   p: number; // page number
   size: number; // number of results per page
   q?: string; // search query
@@ -26,11 +30,35 @@ interface SearchParams {
   color?: string; // hex color
 }
 
-function getSearchParams(params: any): SearchParams {
+function getSanitizedSearchParams(params: any): SearchParams {
   let { index, p, size, q, sf, so, color } = params;
-  size = size || DEFAULT_SEARCH_PAGE_SIZE;
-  p = p || 1;
+  if (!index || !ALL_INDICES.includes(index)) {
+    index = DEFAULT_INDEX;
+  }
+  p = parseInt(p, 10);
+  p = p > 0 && p < MAX_PAGES ? p : 1;
+  size = parseInt(size, 10);
+  size =
+    size > 0 && size < MAX_SEARCH_PAGE_SIZE ? size : DEFAULT_SEARCH_PAGE_SIZE;
+  if (!sf || !isValidSortField(sf)) {
+    sf = undefined;
+  }
+  if (!so || !isValidSortOrder(so)) {
+    so = undefined;
+  }
+  color = /^[A-Fa-f0-9]{6}$/.test(color) ? color : undefined;
   return { index, p, size, q, sf, so, color };
+}
+
+function isValidSortField(field: string | undefined): boolean {
+  return (
+    field !== undefined &&
+    ['title', 'startYear', 'primaryConstituent.canonicalName'].includes(field)
+  );
+}
+
+function isValidSortOrder(order: T.SortOrder | undefined): boolean {
+  return order !== undefined && ['asc', 'desc'].includes(order);
 }
 
 /**
@@ -40,13 +68,12 @@ function getSearchParams(params: any): SearchParams {
  * @returns Elasticsearch search response
  */
 export async function search(params: any): Promise<ApiResponseSearch> {
-  if (params.index === 'art') {
-    return searchCollections(params);
+  const safeParams = getSanitizedSearchParams(params);
+  if (safeParams.index === 'art') {
+    return searchCollections(safeParams);
   }
-
-  const { index, p, size, q, sf, so } = getSearchParams(params);
-  const searchIndices =
-    !index || index === 'all' ? ['art', 'news', 'events'] : index;
+  const { index, p, size, q, sf, so } = safeParams;
+  const searchIndices = !index || index === DEFAULT_INDEX ? ALL_INDICES : index;
 
   const esQuery: T.SearchRequest = {
     index: searchIndices,
@@ -81,7 +108,7 @@ export async function search(params: any): Promise<ApiResponseSearch> {
     ];
   }
 
-  if (index === 'all') {
+  if (index === DEFAULT_INDEX) {
     esQuery.indices_boost = [{ news: 1.5 }, { events: 1.5 }, { art: 1 }];
   }
 
@@ -90,7 +117,7 @@ export async function search(params: any): Promise<ApiResponseSearch> {
   addQueryAggs(esQuery, index);
 
   if (sf && so) {
-    esQuery.sort = [{ [sf]: so }];
+    esQuery.sort = [{ [sf]: so as T.SortOrder }];
   } else {
     esQuery.sort = [
       { sortPriority: 'desc' },
@@ -117,9 +144,9 @@ export async function search(params: any): Promise<ApiResponseSearch> {
 }
 
 export async function searchCollections(
-  params: any
+  safeParams: SearchParams
 ): Promise<ApiResponseSearch> {
-  const { p, size, q, sf, so, color } = getSearchParams(params);
+  const { p, size, q, sf, so, color } = safeParams;
   const index = 'art';
 
   const esQuery: T.SearchRequest = {
@@ -167,8 +194,8 @@ export async function searchCollections(
     esQuery.sort = [{ sortPriority: 'desc' }, { startYear: 'desc' }];
   }
 
-  addQueryBoolDateRange(esQuery, params);
-  addQueryBoolFilterTerms(esQuery, index, params);
+  addQueryBoolDateRange(esQuery, safeParams);
+  addQueryBoolFilterTerms(esQuery, index, safeParams);
   addQueryAggs(esQuery, index);
 
   const client = getClient();
@@ -184,7 +211,7 @@ export async function searchCollections(
   const res: ApiResponseSearch = { query: esQuery, data, options, metadata };
   const qt = await getSearchQueryTerms(q, p, client);
   if (qt !== undefined && qt?.length > 0) res.terms = qt;
-  const term = await getFilterTerm(index, params, client);
+  const term = await getFilterTerm(index, safeParams, client);
   if (term !== undefined) res.filters = [term];
   return res;
 }
