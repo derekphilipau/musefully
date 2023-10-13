@@ -15,6 +15,7 @@ import { EventCard } from '@/components/search-card/event-card';
 import { ImageNewsCard } from '@/components/search-card/image-news-card';
 import { NewsCard } from '@/components/search-card/news-card';
 import { TermCard } from '@/components/search-card/term-card';
+import { ArtistTermCard } from '@/components/search/artist-term-card';
 import { SearchAsYouTypeInput } from '@/components/search/search-as-you-type-input';
 import { SearchCheckbox } from '@/components/search/search-checkbox';
 import { SearchFilterTag } from '@/components/search/search-filter-tag';
@@ -129,39 +130,7 @@ export default async function Page({ params, searchParams }: Props) {
             </h3>
           )}
 
-          {filters?.length > 0 &&
-            filters.map(
-              (term: Term, i: Key) =>
-                term?.field === 'primaryConstituent.canonicalName' && (
-                  <div className="mb-4">
-                    <h4 className="text-base font-semibold uppercase text-neutral-500 dark:text-neutral-600">
-                      {dict[`field.primaryConstituent.canonicalName`]}
-                    </h4>
-                    {term.value && (
-                      <h4 className="text-xl md:text-2xl">{term.value}</h4>
-                    )}
-                    {term.data?.biography && (
-                      <p className="mb-4 text-neutral-700 dark:text-neutral-400">
-                        {term.data.biography}
-                      </p>
-                    )}
-                    {term.data?.descriptiveNotes && (
-                      <p className="">{term.data.descriptiveNotes}</p>
-                    )}
-                    {term.data?.id && (
-                      <p className="mb-4 mt-2">
-                        <Link
-                          href={`https://www.getty.edu/vow/ULANFullDisplay?find=${term.data.id}&role=&nation=&subjectid=${term.data.id}`}
-                          target="_blank"
-                          className="underline"
-                        >
-                          View Getty ULAN Record
-                        </Link>
-                      </p>
-                    )}
-                  </div>
-                )
-            )}
+          <ArtistTermCard filters={filters} />
 
           <div className="flex w-full">
             <div className="w-full">

@@ -248,14 +248,14 @@ async function getFilterTerm(
   if (indicesMeta[searchParams.index]?.filters?.length > 0) {
     for (const filter of indicesMeta[searchParams.index].filters) {
       if (
-        searchParams?.[filter] &&
+        searchParams.aggFilters?.[filter] &&
         filter === 'primaryConstituent.canonicalName'
       ) {
         // TODO: Only returns primaryConstituent.canonicalName filter term
         // TODO: term fix naming conventions
         const response = await getTerm(
           'primaryConstituent.canonicalName',
-          searchParams?.[filter],
+          searchParams.aggFilters?.[filter],
           client
         );
         return response?.data as Term;
