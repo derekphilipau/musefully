@@ -7,9 +7,8 @@ import type { ApiResponseSearch } from '@/types/apiResponseSearch';
 import type { BaseDocument } from '@/types/baseDocument';
 import type { Term } from '@/types/term';
 import { siteConfig } from '@/config/site';
-import { indicesMeta } from '@/lib/elasticsearch/indicesMeta';
 import { search } from '@/lib/elasticsearch/search/search';
-import { getBooleanValue } from '@/lib/various';
+import { getSanitizedSearchParams } from '@/lib/elasticsearch/search/searchParams';
 import { ArtworkCard } from '@/components/artwork/artwork-card';
 import { ContentCard } from '@/components/search-card/content-card';
 import { EventCard } from '@/components/search-card/event-card';
@@ -28,39 +27,23 @@ function getLayoutGridClass(layout: string) {
   return 'relative grid grid-cols-1 gap-8 pb-8 md:pb-10';
 }
 
-export default async function Page({ params, searchParams }) {
+type Props = {
+  params: { index: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export default async function Page({ params, searchParams }: Props) {
   const dict = getDictionary();
   let errorMessage = dict['search.noResults'];
 
-  const index = params?.index || 'all';
-  const q = searchParams?.q || '';
-  const p = parseInt(searchParams?.p) || 1;
-  const size = searchParams?.size || '24';
-  const isUnrestricted = getBooleanValue(searchParams?.isUnrestricted);
-  const hasPhoto = getBooleanValue(searchParams?.hasPhoto);
-  const onView = getBooleanValue(searchParams?.onView);
-  const layout = searchParams?.layout || 'grid';
-  const cardType = searchParams?.card || '';
-  const sortField = searchParams?.sf || '';
-  const sortOrder = searchParams?.so || '';
-  const color = searchParams?.color || '';
-
-  const isShowFilters = getBooleanValue(searchParams?.f);
-
   const isMultiSource = siteConfig.isMultiSource;
 
-  const aggFilters = {};
-  if (searchParams && Array.isArray(indicesMeta[index]?.aggs)) {
-    for (const aggName of indicesMeta[index].aggs) {
-      if (searchParams[aggName]) {
-        aggFilters[aggName] = searchParams[aggName] || '';
-      }
-    }
-  }
-  const filterArr = Object.entries(aggFilters);
+  const sanitizedParams = getSanitizedSearchParams(params.index, searchParams);
+
+  const filterArr = Object.entries(sanitizedParams.aggFilters);
 
   // Query Elasticsearch
-  let response: ApiResponseSearch = await search({ index, ...searchParams });
+  let response: ApiResponseSearch = await search(sanitizedParams);
   const items: BaseDocument[] = response?.data || [];
   const terms: Term[] = response?.terms || [];
   const filters: Term[] = response?.filters || [];
@@ -75,13 +58,13 @@ export default async function Page({ params, searchParams }) {
         <div className="grow">
           <SearchAsYouTypeInput params={searchParams} />
         </div>
-        {index === 'art' && (
+        {sanitizedParams.index === 'art' && (
           <div className="flex flex-wrap gap-x-4 gap-y-2">
             <div className="flex items-center space-x-2">
               <SearchCheckbox
                 params={searchParams}
                 name="hasPhoto"
-                value={hasPhoto}
+                value={sanitizedParams.hasPhoto}
                 label={dict['search.hasPhoto']}
               />
             </div>
@@ -89,7 +72,7 @@ export default async function Page({ params, searchParams }) {
               <SearchCheckbox
                 params={searchParams}
                 name="onView"
-                value={onView}
+                value={sanitizedParams.onView}
                 label={dict['search.onView']}
               />
             </div>
@@ -97,14 +80,14 @@ export default async function Page({ params, searchParams }) {
               <SearchCheckbox
                 params={searchParams}
                 name="isUnrestricted"
-                value={isUnrestricted}
+                value={sanitizedParams.isUnrestricted}
                 label={dict['search.openAccess']}
               />
             </div>
           </div>
         )}
       </div>
-      {(filterArr?.length > 0 || color) && (
+      {(filterArr?.length > 0 || sanitizedParams.hexColor) && (
         <div className="flex flex-wrap gap-2 pt-2">
           {filterArr?.length > 0 &&
             filterArr.map(
@@ -118,25 +101,24 @@ export default async function Page({ params, searchParams }) {
                   />
                 )
             )}
-          {color && (
-            <SearchFilterTag params={searchParams} name="color" value={color} />
+          {sanitizedParams.hexColor && (
+            <SearchFilterTag
+              params={searchParams}
+              name="color"
+              value={sanitizedParams.hexColor}
+            />
           )}
         </div>
       )}
       <div className="gap-6 pb-8 pt-2 sm:grid sm:grid-cols-3 md:grid-cols-4 md:pt-4">
-        {isShowFilters && (
+        {sanitizedParams.isShowFilters && (
           <div className="hidden h-full space-y-2 sm:col-span-1 sm:block">
-            <SearchFilters
-              index={index}
-              params={searchParams}
-              options={options}
-              filters={aggFilters}
-            />
+            <SearchFilters searchParams={sanitizedParams} options={options} />
           </div>
         )}
         <div
           className={
-            isShowFilters
+            sanitizedParams.isShowFilters
               ? 'sm:col-span-2 md:col-span-3'
               : 'sm:col-span-3 md:col-span-4'
           }
@@ -184,20 +166,11 @@ export default async function Page({ params, searchParams }) {
           <div className="flex w-full">
             <div className="w-full">
               <SearchPagination
-                index={index}
-                params={searchParams}
-                count={count}
-                p={p}
-                size={size}
-                totalPages={totalPages}
-                sortField={sortField}
-                sortOrder={sortOrder}
-                isShowFilters={isShowFilters}
-                layout={layout}
-                card={cardType}
+                searchParams={sanitizedParams}
                 isShowViewOptions={true}
                 options={options}
-                filters={aggFilters}
+                count={count}
+                totalPages={totalPages}
               />
             </div>
           </div>
@@ -216,26 +189,26 @@ export default async function Page({ params, searchParams }) {
               </div>
             </>
           )}
-          <div className={getLayoutGridClass(layout)}>
+          <div className={getLayoutGridClass(sanitizedParams.layout)}>
             {items?.length > 0 &&
               items.map(
                 (item: any, i: Key) =>
                   item && (
                     <div className="" key={i}>
-                      {item.type === 'artwork' && cardType === '' && (
+                      {item.type === 'artwork' && !sanitizedParams.cardType && (
                         <ArtworkCard
                           item={item}
-                          layout={layout}
-                          showType={index === 'all'}
-                          showColor={color ? true : false}
+                          layout={sanitizedParams.layout}
+                          showType={sanitizedParams.index === 'all'}
+                          showColor={sanitizedParams.hexColor ? true : false}
                           isMultiSource={isMultiSource}
                         />
                       )}
                       {item.type === 'news' && (
                         <ContentCard
                           item={item}
-                          layout={layout}
-                          showType={index === 'all'}
+                          layout={sanitizedParams.layout}
+                          showType={sanitizedParams.index === 'all'}
                           isMultiSource={isMultiSource}
                         />
                       )}
@@ -243,16 +216,16 @@ export default async function Page({ params, searchParams }) {
                         item.type === 'event') && (
                         <EventCard
                           item={item}
-                          layout={layout}
-                          showType={index === 'all'}
+                          layout={sanitizedParams.layout}
+                          showType={sanitizedParams.index === 'all'}
                           isMultiSource={isMultiSource}
                         />
                       )}
                       {item.sourceId === 'newyorkercartoon' && (
                         <ImageNewsCard
                           item={item}
-                          layout={layout}
-                          showType={index === 'all'}
+                          layout={sanitizedParams.layout}
+                          showType={sanitizedParams.index === 'all'}
                           isMultiSource={isMultiSource}
                         />
                       )}
@@ -260,8 +233,8 @@ export default async function Page({ params, searchParams }) {
                         item.sourceId !== 'newyorkercartoon' && (
                           <NewsCard
                             item={item}
-                            layout={layout}
-                            showType={index === 'all'}
+                            layout={sanitizedParams.layout}
+                            showType={sanitizedParams.index === 'all'}
                             isMultiSource={isMultiSource}
                           />
                         )}
@@ -273,20 +246,11 @@ export default async function Page({ params, searchParams }) {
             )}
           </div>
           <SearchPagination
-            index={index}
-            params={searchParams}
-            count={count}
-            p={p}
-            size={size}
-            totalPages={totalPages}
-            sortField={sortField}
-            sortOrder={sortOrder}
-            isShowFilters={isShowFilters}
-            layout={layout}
-            card={cardType}
+            searchParams={sanitizedParams}
             isShowViewOptions={false}
             options={options}
-            filters={aggFilters}
+            count={count}
+            totalPages={totalPages}
           />
         </div>
       </div>

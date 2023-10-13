@@ -7,6 +7,10 @@ import { ChevronsUpDown, Plus, X } from 'lucide-react';
 
 import type { AggOption } from '@/types/aggOption';
 import { useDebounce } from '@/lib/debounce';
+import {
+  toURLSearchParams,
+  type SearchParams,
+} from '@/lib/elasticsearch/search/searchParams';
 import { getBooleanValue } from '@/lib/various';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -20,21 +24,19 @@ import { Label } from '@/components/ui/label';
 
 interface SearchAggProps {
   index: string;
-  params: any;
+  searchParams: SearchParams;
   aggDisplayName: string;
   aggName: string;
   options?: AggOption[];
-  filters?: any;
   isDefaultOpen?: boolean;
 }
 
 export function SearchAgg({
   index,
-  params,
+  searchParams,
   aggDisplayName,
   aggName,
   options,
-  filters,
   isDefaultOpen = false,
 }: SearchAggProps) {
   const router = useRouter();
@@ -60,7 +62,7 @@ export function SearchAgg({
       } else {
         setCheckedKeys(checkedKeys.filter((e) => e !== key));
       }
-      const updatedParams = new URLSearchParams(params);
+      const updatedParams = toURLSearchParams(searchParams);
       if (myChecked) updatedParams.set(aggName, key);
       else updatedParams.delete(aggName || '');
       updatedParams.delete('p');
@@ -75,12 +77,12 @@ export function SearchAgg({
   useEffect(() => {
     if (!isDefaultOpen) setIsOpen(false);
     const c: string[] = [];
-    if (filters?.[aggName]) {
-      c.push(filters[aggName]);
+    if (searchParams.aggFilters?.[aggName]) {
+      c.push(searchParams.aggFilters[aggName]);
     }
     setCheckedKeys(c);
     if (c.length > 0) setIsOpen(true);
-  }, [aggName, filters, isDefaultOpen]);
+  }, [aggName, searchParams.aggFilters, isDefaultOpen]);
 
   const debouncedRequest = useDebounce(() => {
     if (aggName) {

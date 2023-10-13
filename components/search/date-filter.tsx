@@ -6,6 +6,11 @@ import { getDictionary } from '@/dictionaries/dictionaries';
 import { ChevronsUpDown } from 'lucide-react';
 
 import { useDebounce } from '@/lib/debounce';
+import {
+  setYearRange,
+  toURLSearchParams,
+  type SearchParams,
+} from '@/lib/elasticsearch/search/searchParams';
 import { Button } from '@/components/ui/button';
 import {
   Collapsible,
@@ -16,39 +21,42 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 interface DateFilterProps {
-  params: any;
+  searchParams: SearchParams;
 }
 
-export function DateFilter({ params }: DateFilterProps) {
+export function DateFilter({ searchParams }: DateFilterProps) {
   const dict = getDictionary();
   const router = useRouter();
   const pathname = usePathname();
 
-  const [fromYear, setFromYear] = useState(params?.startYear || '');
-  const [toYear, setToYear] = useState(params?.endYear || '');
-  const [isOpen, setIsOpen] = useState(params?.startYear || params?.endYear);
+  const [startYear, setFromYear] = useState<number | null>(
+    searchParams?.startYear || null
+  );
+  const [endYear, setToYear] = useState<number | null>(
+    searchParams?.endYear || null
+  );
+  const [isOpen, setIsOpen] = useState(
+    searchParams?.startYear !== undefined || searchParams?.endYear !== undefined
+  );
 
   const displayName = dict['index.art.date'];
   const fromYearName = dict['index.art.date.from'];
   const toYearName = dict['index.art.date.to'];
 
   const debouncedRequest = useDebounce(() => {
-    const updatedParams = new URLSearchParams(params);
-    updatedParams.delete('startYear');
-    updatedParams.delete('endYear');
-    if (fromYear) updatedParams.set('startYear', fromYear);
-    if (toYear) updatedParams.set('endYear', toYear);
-    updatedParams.delete('p');
+    const updatedParams = toURLSearchParams(
+      setYearRange(searchParams, startYear, endYear)
+    );
     router.push(`${pathname}?${updatedParams}`);
   });
 
   const onFromYearChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFromYear(e.target.value);
+    setFromYear(e.target.value ? parseInt(e.target.value) : null);
     debouncedRequest();
   };
 
   const onToYearChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setToYear(e.target.value);
+    setToYear(e.target.value ? parseInt(e.target.value) : null);
     debouncedRequest();
   };
 
@@ -80,11 +88,11 @@ export function DateFilter({ params }: DateFilterProps) {
             </Label>
             <Input
               className="w-20"
-              name="fromYear"
+              name="startYear"
               type="number"
               placeholder={'YYYY'}
               onChange={onFromYearChange}
-              value={fromYear}
+              value={startYear !== null ? startYear : ''}
             />
           </div>
           <div>
@@ -93,11 +101,11 @@ export function DateFilter({ params }: DateFilterProps) {
             </Label>
             <Input
               className="w-20"
-              name="toYear"
+              name="endYear"
               type="number"
               placeholder={'YYYY'}
               onChange={onToYearChange}
-              value={toYear}
+              value={endYear !== null ? endYear : ''}
             />
           </div>
         </div>

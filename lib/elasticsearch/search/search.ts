@@ -9,84 +9,45 @@ import type {
 } from '@/types/apiResponseSearch';
 import type { Term } from '@/types/term';
 import { indicesMeta } from '@/lib/elasticsearch/indicesMeta';
+import { getBooleanValue } from '@/lib/various';
 import { getClient } from '../client';
+import {
+  getElasticsearchIndices,
+  getSanitizedSearchParams,
+  type SearchParams,
+} from './searchParams';
 import { getTerm, terms } from './terms';
 
-const ALL_INDICES = ['art', 'news', 'events'];
 const DEFAULT_INDEX = 'all';
-const DEFAULT_SEARCH_PAGE_SIZE = 24;
-const MAX_SEARCH_PAGE_SIZE = 100;
-const MAX_PAGES = 1000; // Don't allow more than 1000 pages of results
 const SEARCH_AGG_SIZE = 20; // 20 results per aggregation
-const MIN_SEARCH_QUERY_LENGTH = 3; // Minimum length of search query
-
-interface SearchParams {
-  index: string; // index or indices to search
-  p: number; // page number
-  size: number; // number of results per page
-  q?: string; // search query
-  sf?: string; // sort field
-  so?: T.SortOrder; // sort order (asc or desc)
-  color?: string; // hex color
-}
-
-function getSanitizedSearchParams(params: any): SearchParams {
-  let { index, p, size, q, sf, so, color } = params;
-  if (!index || !ALL_INDICES.includes(index)) {
-    index = DEFAULT_INDEX;
-  }
-  p = parseInt(p, 10);
-  p = p > 0 && p < MAX_PAGES ? p : 1;
-  size = parseInt(size, 10);
-  size =
-    size > 0 && size < MAX_SEARCH_PAGE_SIZE ? size : DEFAULT_SEARCH_PAGE_SIZE;
-  if (!sf || !isValidSortField(sf)) {
-    sf = undefined;
-  }
-  if (!so || !isValidSortOrder(so)) {
-    so = undefined;
-  }
-  color = /^[A-Fa-f0-9]{6}$/.test(color) ? color : undefined;
-  return { index, p, size, q, sf, so, color };
-}
-
-function isValidSortField(field: string | undefined): boolean {
-  return (
-    field !== undefined &&
-    ['title', 'startYear', 'primaryConstituent.canonicalName'].includes(field)
-  );
-}
-
-function isValidSortOrder(order: T.SortOrder | undefined): boolean {
-  return order !== undefined && ['asc', 'desc'].includes(order);
-}
+const MIN_SEARCH_QUERY_LENGTH = 3;
 
 /**
  * Search for documents in one or more indices
  *
- * @param params Search parameters
+ * @param searchParams Search parameters
  * @returns Elasticsearch search response
  */
-export async function search(params: any): Promise<ApiResponseSearch> {
-  const safeParams = getSanitizedSearchParams(params);
-  if (safeParams.index === 'art') {
-    return searchCollections(safeParams);
+export async function search(
+  searchParams: SearchParams
+): Promise<ApiResponseSearch> {
+  if (searchParams.index === 'art') {
+    return searchCollections(searchParams);
   }
-  const { index, p, size, q, sf, so } = safeParams;
-  const searchIndices = !index || index === DEFAULT_INDEX ? ALL_INDICES : index;
+  const elasticsearchIndices = getElasticsearchIndices(searchParams);
 
   const esQuery: T.SearchRequest = {
-    index: searchIndices,
+    index: elasticsearchIndices,
     query: { bool: { must: {} } },
-    from: (p - 1) * size || 0,
-    size,
+    from: (searchParams.pageNumber - 1) * searchParams.resultsPerPage || 0,
+    size: searchParams.resultsPerPage,
     track_total_hits: true,
   };
-  if (q && esQuery?.query?.bool) {
+  if (searchParams.query && esQuery?.query?.bool) {
     esQuery.query.bool.must = [
       {
         multi_match: {
-          query: q,
+          query: searchParams.query,
           type: 'cross_fields',
           operator: 'and',
           fields: [
@@ -108,16 +69,18 @@ export async function search(params: any): Promise<ApiResponseSearch> {
     ];
   }
 
-  if (index === DEFAULT_INDEX) {
+  if (searchParams.index === DEFAULT_INDEX) {
     esQuery.indices_boost = [{ news: 1.5 }, { events: 1.5 }, { art: 1 }];
   }
 
-  addQueryBoolDateRange(esQuery, params);
-  addQueryBoolFilterTerms(esQuery, index, params);
-  addQueryAggs(esQuery, index);
+  addQueryBoolDateRange(esQuery, searchParams);
+  addQueryBoolFilterTerms(esQuery, searchParams);
+  addQueryAggs(esQuery, searchParams.index);
 
-  if (sf && so) {
-    esQuery.sort = [{ [sf]: so as T.SortOrder }];
+  if (searchParams.sortField && searchParams.sortOrder) {
+    esQuery.sort = [
+      { [searchParams.sortField]: searchParams.sortOrder as T.SortOrder },
+    ];
   } else {
     esQuery.sort = [
       { sortPriority: 'desc' },
@@ -131,36 +94,37 @@ export async function search(params: any): Promise<ApiResponseSearch> {
   const response: T.SearchTemplateResponse = await client.search(esQuery);
 
   const options = getResponseOptions(response);
-  const metadata = getResponseMetadata(response, size);
+  const metadata = getResponseMetadata(response, searchParams.resultsPerPage);
   const data = response.hits.hits.map((hit) => ({
     _id: hit._id,
     _index: hit._index,
     ...(hit._source || {}),
   }));
   const res: ApiResponseSearch = { query: esQuery, data, options, metadata };
-  const qt = await getSearchQueryTerms(q, p, client);
+  const qt = await getSearchQueryTerms(
+    searchParams.query,
+    searchParams.pageNumber,
+    client
+  );
   if (qt !== undefined && qt?.length > 0) res.terms = qt;
   return res;
 }
 
 export async function searchCollections(
-  safeParams: SearchParams
+  searchParams: SearchParams
 ): Promise<ApiResponseSearch> {
-  const { p, size, q, sf, so, color } = safeParams;
-  const index = 'art';
-
   const esQuery: T.SearchRequest = {
-    index,
+    index: searchParams.index,
     query: { bool: { must: {} } },
-    from: (p - 1) * size || 0,
-    size,
+    from: (searchParams.pageNumber - 1) * searchParams.resultsPerPage || 0,
+    size: searchParams.resultsPerPage,
     track_total_hits: true,
   };
-  if (q && esQuery?.query?.bool) {
+  if (searchParams.query && esQuery?.query?.bool) {
     esQuery.query.bool.must = [
       {
         multi_match: {
-          query: q,
+          query: searchParams.query,
           type: 'cross_fields',
           operator: 'and',
           fields: [
@@ -186,32 +150,36 @@ export async function searchCollections(
     ];
   }
 
-  if (color) {
-    addColorQuery(esQuery, color);
-  } else if (sf && so) {
-    esQuery.sort = [{ [sf]: so }];
+  if (searchParams.hexColor) {
+    addColorQuery(esQuery, searchParams.hexColor);
+  } else if (searchParams.sortField && searchParams.sortOrder) {
+    esQuery.sort = [{ [searchParams.sortField]: searchParams.sortOrder }];
   } else {
     esQuery.sort = [{ sortPriority: 'desc' }, { startYear: 'desc' }];
   }
 
-  addQueryBoolDateRange(esQuery, safeParams);
-  addQueryBoolFilterTerms(esQuery, index, safeParams);
-  addQueryAggs(esQuery, index);
+  addQueryBoolDateRange(esQuery, searchParams);
+  addQueryBoolFilterTerms(esQuery, searchParams);
+  addQueryAggs(esQuery, searchParams.index);
 
   const client = getClient();
 
   const response: T.SearchTemplateResponse = await client.search(esQuery);
   const options = getResponseOptions(response);
-  const metadata = getResponseMetadata(response, size);
+  const metadata = getResponseMetadata(response, searchParams.resultsPerPage);
   const data = response.hits.hits.map((hit) => ({
     _id: hit._id,
     _index: hit._index,
     ...(hit._source || {}),
   }));
   const res: ApiResponseSearch = { query: esQuery, data, options, metadata };
-  const qt = await getSearchQueryTerms(q, p, client);
+  const qt = await getSearchQueryTerms(
+    searchParams.query,
+    searchParams.pageNumber,
+    client
+  );
   if (qt !== undefined && qt?.length > 0) res.terms = qt;
-  const term = await getFilterTerm(index, safeParams, client);
+  const term = await getFilterTerm(searchParams, client);
   if (term !== undefined) res.filters = [term];
   return res;
 }
@@ -258,35 +226,36 @@ function getResponseMetadata(
 /**
  * If there was a search query, search for matching terms:
  *
- * @param q Search query
- * @param p Page number
+ * @param query Search query
+ * @param pageNumber Page number
  * @param client ES client
  * @returns Array of matching terms
  */
 async function getSearchQueryTerms(
-  q: string | undefined,
-  p: number,
+  query: string | undefined,
+  pageNumber: number,
   client: Client
 ): Promise<Term[] | undefined> {
-  if (q && q?.length > MIN_SEARCH_QUERY_LENGTH && p === 1) {
-    return await terms(q, undefined, client);
+  if (query && query?.length > MIN_SEARCH_QUERY_LENGTH && pageNumber === 1) {
+    return await terms(query, undefined, client);
   }
 }
 
 async function getFilterTerm(
-  indexName: string,
-  params: any,
+  searchParams: SearchParams,
   client: Client
 ): Promise<Term | undefined> {
-  if (Array.isArray(indexName)) return; // TODO: Remove when we implement cross-index filters
-  if (indicesMeta[indexName]?.filters?.length > 0) {
-    for (const filter of indicesMeta[indexName].filters) {
-      if (params?.[filter] && filter === 'primaryConstituent.canonicalName') {
+  if (indicesMeta[searchParams.index]?.filters?.length > 0) {
+    for (const filter of indicesMeta[searchParams.index].filters) {
+      if (
+        searchParams?.[filter] &&
+        filter === 'primaryConstituent.canonicalName'
+      ) {
         // TODO: Only returns primaryConstituent.canonicalName filter term
         // TODO: term fix naming conventions
         const response = await getTerm(
           'primaryConstituent.canonicalName',
-          params?.[filter],
+          searchParams?.[filter],
           client
         );
         return response?.data as Term;
@@ -299,40 +268,43 @@ async function getFilterTerm(
  * Currently only supports year ranges
  *
  * @param esQuery The ES query to modify in place
- * @param params The search params
+ * @param searchParams The search params
  */
-function addQueryBoolDateRange(esQuery: any, params: any) {
+function addQueryBoolDateRange(esQuery: any, searchParams: SearchParams) {
   const ranges: T.QueryDslQueryContainer[] = [];
-  if (params?.startYear !== undefined && params?.endYear !== undefined) {
+  if (
+    searchParams.startYear !== undefined &&
+    searchParams.endYear !== undefined
+  ) {
     ranges.push({
       range: {
         startYear: {
-          gte: params.startYear,
-          lte: params.endYear,
+          gte: searchParams.startYear,
+          lte: searchParams.endYear,
         },
       },
     });
     ranges.push({
       range: {
         endYear: {
-          gte: params.startYear,
-          lte: params.endYear,
+          gte: searchParams.startYear,
+          lte: searchParams.endYear,
         },
       },
     });
-  } else if (params?.startYear !== undefined) {
+  } else if (searchParams.startYear !== undefined) {
     ranges.push({
       range: {
         startYear: {
-          gte: params.startYear,
+          gte: searchParams.startYear,
         },
       },
     });
-  } else if (params?.endYear !== undefined) {
+  } else if (searchParams.endYear !== undefined) {
     ranges.push({
       range: {
         endYear: {
-          lte: params.endYear,
+          lte: searchParams.endYear,
         },
       },
     });
@@ -345,17 +317,34 @@ function addQueryBoolDateRange(esQuery: any, params: any) {
   }
 }
 
-function addQueryBoolFilterTerms(esQuery: any, indexName: any, params: any) {
-  if (Array.isArray(indexName)) return;
-  if (indicesMeta[indexName]?.filters?.length > 0) {
-    for (const filter of indicesMeta[indexName].filters) {
-      if (filter === 'onView' && params?.[filter] === 'true')
-        addQueryBoolFilterTerm(esQuery, 'onView', true);
-      else if (filter === 'hasPhoto' && params?.[filter] === 'true')
-        addQueryBoolFilterExists(esQuery, 'image.url');
-      else if (filter === 'isUnrestricted' && params?.[filter] === 'true')
-        addQueryBoolFilterTerm(esQuery, 'copyrightRestricted', false);
-      else addQueryBoolFilterTerm(esQuery, filter, params?.[filter]);
+function addQueryBoolFilterTerms(esQuery: any, searchParams: SearchParams) {
+  if (indicesMeta[searchParams.index]?.filters?.length > 0) {
+    for (const filter of indicesMeta[searchParams.index].filters) {
+      switch (filter) {
+        case 'onView':
+          if (searchParams.onView) {
+            addQueryBoolFilterTerm(esQuery, 'onView', true);
+          }
+          break;
+        case 'hasPhoto':
+          if (searchParams.hasPhoto) {
+            addQueryBoolFilterExists(esQuery, 'image.url');
+          }
+          break;
+        case 'isUnrestricted':
+          if (searchParams.isUnrestricted) {
+            addQueryBoolFilterTerm(esQuery, 'copyrightRestricted', true);
+          }
+          break;
+        default:
+          if (searchParams?.aggFilters[filter]) {
+            addQueryBoolFilterTerm(
+              esQuery,
+              filter,
+              searchParams?.aggFilters[filter]
+            );
+          }
+      }
     }
   }
 }
