@@ -14,3 +14,11 @@ jobs:
         run: npx playwright test
         env:
           BASE_URL: ${{ github.event.deployment_status.environment_url }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+          API_SECRET: ${{ secrets.API_SECRET }}
+          ELASTICSEARCH_CLOUD_ID: ${{ secrets.ELASTICSEARCH_CLOUD_ID }}
+          ELASTICSEARCH_CLOUD_USERNAME: ${{ secrets.ELASTICSEARCH_CLOUD_USERNAME }}
+          ELASTICSEARCH_CLOUD_PASSWORD: ${{ secrets.ELASTICSEARCH_CLOUD_PASSWORD }}
+          FORMSPREE_FORM_ID: ${{ secrets.FORMSPREE_FORM_ID }}
+          ELASTICSEARCH_USE_CLOUD: ${{ secrets.ELASTICSEARCH_USE_CLOUD }}
