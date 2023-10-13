@@ -8,7 +8,7 @@ import { stripHtmlTags } from '@/lib/various';
  * @param item RSS <item> element
  * @returns string representing URL of image
  */
-function getRssItemImageUrl(item: any): string | undefined {
+export function getRssItemImageUrl(item: any): string | undefined {
   const mediaContentUrl = item['media:content']?.[0]?.['$']?.url;
   if (mediaContentUrl) return mediaContentUrl;
 

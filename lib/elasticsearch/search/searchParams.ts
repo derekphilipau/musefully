@@ -13,8 +13,6 @@ export const SORT_FIELDS = [
   'startYear',
   'primaryConstituent.canonicalName',
 ];
-export const SORT_DEFAULT_FIELD = 'startYear';
-export const SORT_DEFAULT_ORDER = 'desc';
 export const LAYOUT_DEFAULT = 'grid';
 
 export interface SearchParams {
@@ -68,10 +66,10 @@ export function getSanitizedSearchParams(
   // sf (sort field), so (sort order)
   sanitizedParams.sortField = isValidSortField(params.sf)
     ? params.sf
-    : SORT_DEFAULT_FIELD;
+    : undefined;
   sanitizedParams.sortOrder = isValidSortOrder(params.so)
     ? params.so
-    : SORT_DEFAULT_ORDER;
+    : undefined;
 
   // color (hex w/o hash)
   sanitizedParams.hexColor = /^[A-Fa-f0-9]{6}$/.test(params.color)
@@ -141,10 +139,8 @@ export function toURLSearchParams(searchParams: SearchParams): URLSearchParams {
 
   // Setting optional properties
   if (searchParams.query) urlParams.set('q', searchParams.query);
-  if (searchParams.sortField && searchParams.sortField !== SORT_DEFAULT_FIELD)
-    urlParams.set('sf', searchParams.sortField);
-  if (searchParams.sortOrder && searchParams.sortOrder !== SORT_DEFAULT_ORDER)
-    urlParams.set('so', searchParams.sortOrder);
+  if (searchParams.sortField) urlParams.set('sf', searchParams.sortField);
+  if (searchParams.sortOrder) urlParams.set('so', searchParams.sortOrder);
   if (searchParams.hexColor) urlParams.set('color', searchParams.hexColor);
 
   // Setting boolean properties
