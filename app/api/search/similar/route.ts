@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
-import { similarArtworksById } from '@/util/elasticsearch/search/similarArtworks';
-import { getBooleanValue } from '@/util/various';
+
+import { similarArtworksById } from '@/lib/elasticsearch/search/similarArtworks';
+import { getBooleanValue } from '@/lib/various';
 
 /**
  * @swagger
@@ -55,7 +56,7 @@ export async function GET(request: Request) {
   const hasPhoto = searchParams.get('hasPhoto');
 
   if (!id || Array.isArray(id))
-    return NextResponse.json({ error: "Invalid id" }, { status: 400 });
+    return NextResponse.json({ error: 'Invalid id' }, { status: 400 });
 
   try {
     const result = await similarArtworksById(id, getBooleanValue(hasPhoto));

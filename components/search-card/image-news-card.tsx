@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
-import { truncate } from '@/util/various';
 
 import type { BaseDocument } from '@/types/baseDocument';
+import { truncate } from '@/lib/various';
 import { SourceHeader } from '../source/source-header';
 
 function getContainerClass(layout) {
@@ -33,7 +33,7 @@ export function ImageNewsCard({
   const dict = getDictionary();
 
   return (
-    <div className=''>
+    <div className="">
       <div>
         {isMultiSource && (
           <SourceHeader item={item} showDate={true} isSmall={true} />
@@ -52,11 +52,12 @@ export function ImageNewsCard({
                 {item.description && (
                   <figcaption className="mt-3">
                     <span className="font-serif text-base italic">
-                    {item.description}
+                      {item.description}
                     </span>
                     {item.primaryConstituent?.name && (
                       <div className="mt-2 text-sm text-muted-foreground">
-                        {dict['news.cartoon.by']} {item.primaryConstituent?.name}
+                        {dict['news.cartoon.by']}{' '}
+                        {item.primaryConstituent?.name}
                       </div>
                     )}
                   </figcaption>

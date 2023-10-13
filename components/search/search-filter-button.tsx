@@ -4,6 +4,11 @@ import { useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
+import {
+  toURLSearchParams,
+  toggleIsShowFilters,
+  type SearchParams,
+} from '@/lib/elasticsearch/search/searchParams';
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -12,7 +17,7 @@ import { SearchFilters } from './search-filters';
 
 interface SearchFilterButtonProps {
   index: string;
-  params: any;
+  searchParams: SearchParams;
   options: any;
   filters: any;
   isShowFilters: boolean;
@@ -20,7 +25,7 @@ interface SearchFilterButtonProps {
 
 export function SearchFilterButton({
   index,
-  params,
+  searchParams,
   options,
   filters,
   isShowFilters,
@@ -29,16 +34,14 @@ export function SearchFilterButton({
   const dict = getDictionary();
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const currentSearchParams = useSearchParams();
 
   useEffect(() => {
     setOpen(false);
-  }, [pathname, searchParams]);
+  }, [pathname, currentSearchParams]);
 
   function toggleFilters() {
-    const updatedParams = new URLSearchParams(params);
-    if (isShowFilters) updatedParams.delete('f');
-    else updatedParams.set('f', 'true');
+    const updatedParams = toURLSearchParams(toggleIsShowFilters(searchParams));
     router.push(`${pathname}?${updatedParams}`);
   }
 
@@ -63,12 +66,7 @@ export function SearchFilterButton({
           <ScrollArea className="h-[calc(100vh-3rem)] pr-4">
             <h4 className="mb-4 font-medium">Search Filters</h4>
             <div className="flex flex-col items-start justify-between gap-y-2">
-              <SearchFilters
-                index={index}
-                params={params}
-                options={options}
-                filters={filters}
-              />
+              <SearchFilters searchParams={searchParams} options={options} />
             </div>
           </ScrollArea>
         </SheetContent>

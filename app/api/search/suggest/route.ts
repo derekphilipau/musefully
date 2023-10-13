@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { suggest } from '@/util/elasticsearch/search/suggest';
+
+import { suggest } from '@/lib/elasticsearch/search/suggest';
 
 /**
  * @swagger

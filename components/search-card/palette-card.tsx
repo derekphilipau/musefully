@@ -1,10 +1,11 @@
 import { Key } from 'react';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
+
 import {
   getArtworkUrlWithSlug,
   trimStringToLengthAtWordBoundary,
-} from '@/util/various';
+} from '@/lib/various';
 
 function getContainerClass(layout) {
   if (layout === 'grid') return '';

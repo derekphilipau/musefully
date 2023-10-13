@@ -3,11 +3,15 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
-import { useDebounce } from '@/util/debounce';
-import { getBooleanValue } from '@/util/various';
 import { ChevronsUpDown, Plus, X } from 'lucide-react';
 
 import type { AggOption } from '@/types/aggOption';
+import { useDebounce } from '@/lib/debounce';
+import {
+  toURLSearchParams,
+  type SearchParams,
+} from '@/lib/elasticsearch/search/searchParams';
+import { getBooleanValue } from '@/lib/various';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -20,21 +24,19 @@ import { Label } from '@/components/ui/label';
 
 interface SearchAggProps {
   index: string;
-  params: any;
+  searchParams: SearchParams;
   aggDisplayName: string;
   aggName: string;
   options?: AggOption[];
-  filters?: any;
   isDefaultOpen?: boolean;
 }
 
 export function SearchAgg({
   index,
-  params,
+  searchParams,
   aggDisplayName,
   aggName,
   options,
-  filters,
   isDefaultOpen = false,
 }: SearchAggProps) {
   const router = useRouter();
@@ -43,7 +45,6 @@ export function SearchAgg({
   const [checkedKeys, setCheckedKeys] = useState<string[]>([]);
   const [searchOptions, setSearchOptions] = useState<AggOption[]>([]);
   const [isOpen, setIsOpen] = useState(isDefaultOpen);
-  console.log('agg is open? ', isOpen, isDefaultOpen)
 
   const dict = getDictionary();
 
@@ -61,7 +62,7 @@ export function SearchAgg({
       } else {
         setCheckedKeys(checkedKeys.filter((e) => e !== key));
       }
-      const updatedParams = new URLSearchParams(params);
+      const updatedParams = toURLSearchParams(searchParams);
       if (myChecked) updatedParams.set(aggName, key);
       else updatedParams.delete(aggName || '');
       updatedParams.delete('p');
@@ -76,21 +77,26 @@ export function SearchAgg({
   useEffect(() => {
     if (!isDefaultOpen) setIsOpen(false);
     const c: string[] = [];
-    if (filters?.[aggName]) {
-      c.push(filters[aggName]);
+    if (searchParams.aggFilters?.[aggName]) {
+      c.push(searchParams.aggFilters[aggName]);
     }
     setCheckedKeys(c);
     if (c.length > 0) setIsOpen(true);
-  }, [aggName, filters, isDefaultOpen]);
+  }, [aggName, searchParams.aggFilters, isDefaultOpen]);
 
   const debouncedRequest = useDebounce(() => {
-    if (aggName && value)
-      fetch(`/api/search/options?index=${index}&field=${aggName}&q=${value}`)
+    if (aggName) {
+      let url = `/api/search/options?index=${index}&field=${aggName}`;
+      if (value) {
+        url += `&q=${value}`;
+      }
+      fetch(url)
         .then((res) => res.json())
         .then((data) => {
           if (data?.length > 0) setSearchOptions(data);
           else setSearchOptions([]);
         });
+    }
   });
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {

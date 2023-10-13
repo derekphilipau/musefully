@@ -20,15 +20,19 @@ export function MainNav({ items }: MainNavProps) {
 
   return (
     <div className="flex gap-6 md:gap-10">
-      <Link
-        href="/"
-        className="inline-flex items-center space-x-2 text-xl font-bold"
-      >
-        <Logo className="h-10 fill-black object-contain dark:fill-white md:mr-2" />
-        <span className="hidden md:block">{dict['site.title']}</span>
-      </Link>
       {items?.length ? (
-        <nav className="flex gap-6" aria-label={dict['button.mainMenu']}>
+        <nav
+          className="flex gap-6"
+          role="navigation"
+          aria-label={dict['nav.mainMenu']}
+        >
+          <Link
+            href="/"
+            className="inline-flex items-center space-x-2 text-xl font-bold"
+          >
+            <Logo className="h-10 fill-black object-contain dark:fill-white md:mr-2" />
+            <span className="hidden md:block">{dict['site.title']}</span>
+          </Link>
           {items?.map(
             (item, index) =>
               item.href && (

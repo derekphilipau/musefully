@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
-import { truncate } from '@/util/various';
 
 import type { BaseDocument } from '@/types/baseDocument';
+import { truncate } from '@/lib/various';
 import { SourceHeader } from '../source/source-header';
 
 function getContainerClass(layout) {

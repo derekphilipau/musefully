@@ -2,11 +2,11 @@ import { Key } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
+
 import {
   getArtworkUrlWithSlug,
   trimStringToLengthAtWordBoundary,
-} from '@/util/various';
-
+} from '@/lib/various';
 import { Icons } from '@/components/icons';
 
 function getContainerClass(layout) {
@@ -29,7 +29,8 @@ export function SwatchCard({ item, layout, showType }) {
   if (!item) return null;
   const dict = getDictionary();
 
-  const primaryConstituentName = item.primaryConstituent?.name || 'Maker Unknown';
+  const primaryConstituentName =
+    item.primaryConstituent?.name || 'Maker Unknown';
 
   const href = getArtworkUrlWithSlug(item._id, item.title);
 

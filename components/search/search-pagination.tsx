@@ -3,6 +3,14 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
+import {
+  setPageNumber,
+  setResultsPerPage,
+  setSearchParam,
+  setSortBy,
+  toURLSearchParams,
+  type SearchParams,
+} from '@/lib/elasticsearch/search/searchParams';
 import { Icons } from '@/components/icons';
 import { SearchFilterButton } from '@/components/search/search-filter-button';
 import { Button } from '@/components/ui/button';
@@ -30,37 +38,19 @@ import {
 } from '@/components/ui/tooltip';
 
 interface SearchPaginationProps {
-  index: string;
-  params: any;
-  count: number;
-  p: number;
-  size: string;
-  totalPages: number;
-  sortField: string;
-  sortOrder: string;
-  isShowFilters: boolean;
-  layout: string;
-  card: string;
+  searchParams: SearchParams;
   isShowViewOptions: boolean;
   options: any;
-  filters: any;
+  count: number;
+  totalPages: number;
 }
 
 export function SearchPagination({
-  index,
-  params,
-  count,
-  p,
-  size,
-  totalPages,
-  sortField,
-  sortOrder,
-  isShowFilters,
-  layout,
-  card,
+  searchParams,
   isShowViewOptions,
   options,
-  filters,
+  count,
+  totalPages,
 }: SearchPaginationProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -68,66 +58,41 @@ export function SearchPagination({
 
   const showExperimental = false;
 
-  function pageClick(newPage) {
-    const updatedParams = new URLSearchParams(params);
-    if (newPage > 1) updatedParams.set('p', newPage + '');
-    else updatedParams.delete('p');
+  function pageClick(newPage: number) {
+    const updatedParams = toURLSearchParams(
+      setPageNumber(searchParams, newPage)
+    );
     router.push(`${pathname}?${updatedParams}`);
     window.scroll(0, 0);
   }
 
-  function sizeChange(value) {
-    const updatedParams = new URLSearchParams(params);
-    if (value && value != '24') updatedParams.set('size', value);
-    else updatedParams.delete('size');
-    updatedParams.delete('p');
+  function sizeChange(value: string) {
+    const updatedParams = toURLSearchParams(
+      setResultsPerPage(searchParams, value)
+    );
     router.push(`${pathname}?${updatedParams}`);
     window.scroll(0, 0);
   }
 
-  function sortBy(field: string, order: string = 'asc') {
-    const updatedParams = new URLSearchParams(params);
-    if (!field || (field === sortField && order === sortOrder)) {
-      updatedParams.delete('sf');
-      updatedParams.delete('so');
-    } else {
-      updatedParams.set('sf', field);
-      updatedParams.set('so', order);
-    }
-    updatedParams.delete('p');
+  function sortBy(field: string, order: 'asc' | 'desc' = 'asc') {
+    const updatedParams = toURLSearchParams(
+      setSortBy(searchParams, field, order)
+    );
     router.push(`${pathname}?${updatedParams}`);
     window.scroll(0, 0);
   }
 
-  function clickChangeLayout(layout: string) {
-    const updatedParams = new URLSearchParams(params);
-    updatedParams.set('layout', layout);
+  function clickChangeSearchType(name: string, value: string) {
+    const updatedParams = toURLSearchParams(
+      setSearchParam(searchParams, name, value)
+    );
     router.push(`${pathname}?${updatedParams}`);
   }
 
-  function clickChangeSearchType(
-    name: string,
-    value: string,
-    isDelete = false
-  ) {
-    const updatedParams = new URLSearchParams(params);
-    if (isDelete) updatedParams.delete(name);
-    else updatedParams.set(name, value);
-    router.push(`${pathname}?${updatedParams}`);
-  }
-
-  function sortDropdownMenuItem(
-    fieldName: string,
-    order: string,
-    dictKey: string
-  ) {
+  function sortDropdownMenuItem(fieldName: string, order: 'asc' | 'desc') {
     const label = dict[`search.sort.${fieldName}.${order}`];
-    let mySortField = sortField;
-    let mySortOrder = sortOrder;
-    if (!sortField && !sortOrder) {
-      mySortField = 'startYear'; // Default order
-      mySortOrder = 'desc';
-    }
+    let mySortField = searchParams.sortField;
+    let mySortOrder = searchParams.sortOrder;
 
     return (
       <DropdownMenuItem
@@ -157,11 +122,11 @@ export function SearchPagination({
           <>
             <div>
               <SearchFilterButton
-                index={index}
-                params={params}
+                index={searchParams.index}
+                searchParams={searchParams}
                 options={options}
-                filters={filters}
-                isShowFilters={isShowFilters}
+                filters={searchParams.aggFilters}
+                isShowFilters={searchParams.isShowFilters}
               />
             </div>
             <div>
@@ -172,7 +137,7 @@ export function SearchPagination({
                       onClick={() => clickChangeSearchType('layout', 'grid')}
                       variant="ghost"
                       size="sm"
-                      disabled={layout === 'grid'}
+                      disabled={searchParams.layout === 'grid'}
                       aria-label={dict['search.layoutGrid']}
                     >
                       <Icons.layoutGrid className="h-5 w-5" />
@@ -192,7 +157,7 @@ export function SearchPagination({
                       onClick={() => clickChangeSearchType('layout', 'list')}
                       variant="ghost"
                       size="sm"
-                      disabled={layout === 'list'}
+                      disabled={searchParams.layout === 'list'}
                       aria-label={dict['search.layoutList']}
                     >
                       <Icons.layoutList className="h-5 w-5" />
@@ -221,19 +186,17 @@ export function SearchPagination({
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                    {sortDropdownMenuItem('startYear', 'asc', 'field.date')}
-                    {sortDropdownMenuItem('startYear', 'desc', 'field.date')}
-                    {sortDropdownMenuItem('title', 'asc', 'field.title')}
-                    {sortDropdownMenuItem('title', 'desc', 'field.title')}
+                    {sortDropdownMenuItem('startYear', 'asc')}
+                    {sortDropdownMenuItem('startYear', 'desc')}
+                    {sortDropdownMenuItem('title', 'asc')}
+                    {sortDropdownMenuItem('title', 'desc')}
                     {sortDropdownMenuItem(
                       'primaryConstituent.canonicalName',
-                      'asc',
-                      'field.primaryConstituent.canonicalName'
+                      'asc'
                     )}
                     {sortDropdownMenuItem(
                       'primaryConstituent.canonicalName',
-                      'desc',
-                      'field.primaryConstituent.canonicalName'
+                      'desc'
                     )}
                   </DropdownMenuGroup>
                 </DropdownMenuContent>
@@ -247,13 +210,13 @@ export function SearchPagination({
                       <TooltipTrigger asChild>
                         <Button
                           onClick={() =>
-                            clickChangeSearchType(
-                              'card',
-                              'swatch',
-                              card === 'swatch'
-                            )
+                            clickChangeSearchType('card', 'swatch')
                           }
-                          variant={card === 'swatch' ? 'default' : 'ghost'}
+                          variant={
+                            searchParams.cardType === 'swatch'
+                              ? 'default'
+                              : 'ghost'
+                          }
                           size="sm"
                           aria-label={dict['search.cardSwatch']}
                         >
@@ -272,13 +235,13 @@ export function SearchPagination({
                       <TooltipTrigger asChild>
                         <Button
                           onClick={() =>
-                            clickChangeSearchType(
-                              'card',
-                              'palette',
-                              card === 'palette'
-                            )
+                            clickChangeSearchType('card', 'palette')
                           }
-                          variant={card === 'palette' ? 'default' : 'ghost'}
+                          variant={
+                            searchParams.cardType === 'palette'
+                              ? 'default'
+                              : 'ghost'
+                          }
                           size="sm"
                           aria-label={dict['search.cardPalette']}
                         >
@@ -296,14 +259,12 @@ export function SearchPagination({
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button
-                          onClick={() =>
-                            clickChangeSearchType(
-                              'card',
-                              'color',
-                              card === 'color'
-                            )
+                          onClick={() => clickChangeSearchType('card', 'color')}
+                          variant={
+                            searchParams.cardType === 'color'
+                              ? 'default'
+                              : 'ghost'
                           }
-                          variant={card === 'color' ? 'default' : 'ghost'}
                           size="sm"
                           aria-label={dict['search.cardColor']}
                         >
@@ -319,7 +280,10 @@ export function SearchPagination({
               </>
             )}
             <div className="flex w-16">
-              <Select value={size} onValueChange={(value) => sizeChange(value)}>
+              <Select
+                value={searchParams.resultsPerPage.toString()}
+                onValueChange={(value) => sizeChange(value)}
+              >
                 <SelectTrigger
                   className="w-[180px]"
                   aria-label={dict['button.resultsPerPage']}
@@ -337,14 +301,14 @@ export function SearchPagination({
         )}
 
         <div className="ml-2 text-xs">
-          {count} {dict['search.resultsPage']} {p} {dict['search.of']}{' '}
-          {totalPages}.
+          {count} {dict['search.resultsPage']} {searchParams.pageNumber}{' '}
+          {dict['search.of']} {totalPages}.
         </div>
       </div>
       <div className="mt-4 flex items-center justify-end gap-x-4 sm:mt-0">
         <Button
-          disabled={p <= 1}
-          onClick={() => pageClick(p - 1)}
+          disabled={searchParams.pageNumber <= 1}
+          onClick={() => pageClick(searchParams.pageNumber - 1)}
           variant="ghost"
           size="sm"
           aria-label={dict['search.previous']}
@@ -353,8 +317,8 @@ export function SearchPagination({
           <span className="">{dict['search.previous']}</span>
         </Button>
         <Button
-          disabled={p >= totalPages}
-          onClick={() => pageClick(p + 1)}
+          disabled={searchParams.pageNumber >= totalPages}
+          onClick={() => pageClick(searchParams.pageNumber + 1)}
           variant="ghost"
           size="sm"
           aria-label={dict['search.next']}

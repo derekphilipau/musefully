@@ -4,7 +4,7 @@ import { ChangeEvent, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import { useDebounce } from '@/util/debounce';
+import { useDebounce } from '@/lib/debounce';
 import { Input } from '@/components/ui/input';
 
 interface SearchQueryInputProps {

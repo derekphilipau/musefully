@@ -1,46 +1,41 @@
 import { getDictionary } from '@/dictionaries/dictionaries';
-import { indicesMeta } from '@/util/elasticsearch/indicesMeta';
 
+import { indicesMeta } from '@/lib/elasticsearch/indicesMeta';
+import type { SearchParams } from '@/lib/elasticsearch/search/searchParams';
 import { SearchAgg } from '@/components/search/search-agg';
 import { ColorPicker } from './color-picker';
 import { DateFilter } from './date-filter';
 
 interface SearchFiltersProps {
-  index: string;
-  params: any;
+  searchParams: SearchParams;
   options: any;
-  filters: any;
 }
 
-export function SearchFilters({
-  index,
-  params,
-  options,
-  filters,
-}: SearchFiltersProps) {
+export function SearchFilters({ searchParams, options }: SearchFiltersProps) {
   const dict = getDictionary();
 
   return (
     <>
-      {index === 'art' && (
+      {searchParams.index === 'art' && (
         <div className="color-picker mb-2">
-          <ColorPicker params={params} />
+          <ColorPicker searchParams={searchParams} />
         </div>
       )}
-      {index === 'art' && <DateFilter params={params} />}
-      {indicesMeta?.[index]?.aggs?.map(
+      {searchParams.index === 'art' && (
+        <DateFilter searchParams={searchParams} />
+      )}
+      {indicesMeta?.[searchParams.index]?.aggs?.map(
         (aggName, i) =>
           aggName &&
           options[aggName]?.length > 0 && (
             <SearchAgg
-              index={index}
-              params={params}
+              index={searchParams.index}
+              searchParams={searchParams}
               key={i}
-              aggDisplayName={dict[`agg.${aggName}`]}
+              aggDisplayName={dict[`field.${aggName}`]}
               aggName={aggName}
               options={options[aggName]}
-              filters={filters}
-              isDefaultOpen={indicesMeta[index].aggs.length === 1}
+              isDefaultOpen={indicesMeta[searchParams.index].aggs.length === 1}
             />
           )
       )}

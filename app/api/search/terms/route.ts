@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { terms } from '@/util/elasticsearch/search/terms';
+
+import { terms } from '@/lib/elasticsearch/search/terms';
 
 /**
  * @swagger

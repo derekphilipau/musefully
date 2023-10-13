@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
+
 import {
   getArtworkUrlWithSlug,
   trimStringToLengthAtWordBoundary,
-} from '@/util/various';
+} from '@/lib/various';
 
 function getContainerClass(layout) {
   if (layout === 'grid') return '';
@@ -31,7 +32,8 @@ export function ColorCard({ item, layout, showType }) {
   if (!item) return null;
   const dict = getDictionary();
 
-  const primaryConstituentName = item.primaryConstituent?.name || 'Maker Unknown';
+  const primaryConstituentName =
+    item.primaryConstituent?.name || 'Maker Unknown';
 
   const href = getArtworkUrlWithSlug(item._id, item.title);
 
