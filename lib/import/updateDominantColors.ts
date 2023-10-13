@@ -1,6 +1,6 @@
 import { getClient } from '@/lib/elasticsearch/client';
 import { bulk, getBulkOperationArray } from '@/lib/elasticsearch/import';
-import { searchAll } from '@/lib/elasticsearch/search/search';
+import { searchAll } from '@/lib/elasticsearch/search/searchAll';
 import dominantColors from '@/lib/image/dominantColors';
 
 const INDEX_NAME = 'art';

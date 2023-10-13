@@ -1,5 +1,4 @@
 import { Key } from 'react';
-import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
 import type { AggOptions } from '@/types/aggOptions';
@@ -14,10 +13,10 @@ import { ContentCard } from '@/components/search-card/content-card';
 import { EventCard } from '@/components/search-card/event-card';
 import { ImageNewsCard } from '@/components/search-card/image-news-card';
 import { NewsCard } from '@/components/search-card/news-card';
-import { TermCard } from '@/components/search-card/term-card';
 import { ArtistTermCard } from '@/components/search/artist-term-card';
 import { SearchAsYouTypeInput } from '@/components/search/search-as-you-type-input';
 import { SearchCheckbox } from '@/components/search/search-checkbox';
+import { SearchDidYouMean } from '@/components/search/search-did-you-mean';
 import { SearchFilterTag } from '@/components/search/search-filter-tag';
 import { SearchFilters } from '@/components/search/search-filters';
 import { SearchPagination } from '@/components/search/search-pagination';
@@ -144,20 +143,8 @@ export default async function Page({ params, searchParams }: Props) {
             </div>
           </div>
 
-          {terms?.length > 0 && (
-            <>
-              <h4 className="mb-2 mt-4 text-lg text-neutral-900 dark:text-white">
-                Did you mean:
-              </h4>
-              <div className="grid grid-cols-1 gap-2 md:grid-cols-3 md:pb-6 lg:grid-cols-4">
-                {terms?.length > 0 &&
-                  terms.map(
-                    (term: Term, i: Key) =>
-                      term && <TermCard key={i} term={term} />
-                  )}
-              </div>
-            </>
-          )}
+          <SearchDidYouMean terms={terms} />
+
           <div className={getLayoutGridClass(sanitizedParams.layout)}>
             {items?.length > 0 &&
               items.map(

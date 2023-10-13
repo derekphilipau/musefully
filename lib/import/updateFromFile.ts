@@ -13,7 +13,7 @@ import {
   createIndexIfNotExist,
   getBulkOperationArray,
 } from '@/lib/elasticsearch/import';
-import { searchAll } from '@/lib/elasticsearch/search/search';
+import { searchAll } from '@/lib/elasticsearch/search/searchAll';
 import { processDocumentImage } from '@/lib/image/imageProcessor';
 
 async function* readFileData(
