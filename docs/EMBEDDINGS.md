@@ -1,5 +1,7 @@
 # CLIP Embedding Similarity Examples
 
+No longer used due to cost.  Original code is in [feature-experimental-clip](https://github.com/derekphilipau/museum-nextjs-search/tree/feature-experimental-clip) branch. [The code here](https://github.com/derekphilipau/elastic-clip-museum-search) was used to add the embeddings via a Colab notebook.
+
 Below are some screenshots of CLIP Embedding similarity results.
 
 Embeddings were added to Elasticsearch as dense vectors:
