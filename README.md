@@ -8,7 +8,8 @@ Based on [shadcn/next-template](https://github.com/shadcn/next-template), which 
 
 This project has been deployed on Vercel at [https://musefully.org](https://musefully.org)
 
-Documentation:
+## Documentation:
+
 * [Setup Guide](./docs/SETUP.md)
 * [Architecture](./docs/ARCHITECTURE.md)
 * [Datasets, Vocabularies & Schema](./docs/SCHEMA.md)
