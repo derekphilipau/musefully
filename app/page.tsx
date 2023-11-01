@@ -20,6 +20,7 @@ import { SearchDidYouMean } from '@/components/search/search-did-you-mean';
 import { SearchFilterTag } from '@/components/search/search-filter-tag';
 import { SearchFilters } from '@/components/search/search-filters';
 import { SearchPagination } from '@/components/search/search-pagination';
+import type { GenericSearchParams } from '@/lib/elasticsearch/search/searchParams';
 
 function getLayoutGridClass(layout: string) {
   if (layout === 'grid')
@@ -29,7 +30,7 @@ function getLayoutGridClass(layout: string) {
 
 type Props = {
   params: { index: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: GenericSearchParams;
 };
 
 export default async function Page({ params, searchParams }: Props) {

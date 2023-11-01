@@ -1,4 +1,7 @@
-import * as T from '@elastic/elasticsearch/lib/api/types';
+/**
+ * Encapsulates & validates search parameters.
+ */
+import { SortOrder } from '@elastic/elasticsearch/lib/api/types';
 
 import { getBooleanValue } from '@/lib/various';
 import { indicesMeta } from '../indicesMeta';
@@ -21,7 +24,7 @@ export interface SearchParams {
   resultsPerPage: number; // number of results per page
   query?: string; // search query
   sortField?: string; // sort field
-  sortOrder?: 'asc' | 'desc'; // sort order (asc or desc)
+  sortOrder?: SortOrder; // sort order (asc or desc)
   hexColor?: string; // hex color
   isUnrestricted: boolean; // is copyright unrestricted?
   hasPhoto: boolean; // does it have a photo?
@@ -34,15 +37,21 @@ export interface SearchParams {
   endYear?: number;
 }
 
+// Type: See: https://github.com/vercel/next.js/discussions/46131
+export type GenericSearchParams = {
+  [key: string]: string | string[] | undefined;
+};
+
 /**
  * Sanitize query string params.
  * TODO: make sure all params including filters are sanitized
+ *
  * @param params
  * @returns
  */
 export function getSanitizedSearchParams(
   index: string,
-  params: any
+  params: GenericSearchParams
 ): SearchParams {
   const sanitizedParams: Partial<SearchParams> = {};
 
@@ -50,49 +59,55 @@ export function getSanitizedSearchParams(
     index && ALL_INDICES.includes(index) ? index : DEFAULT_INDEX;
 
   // page number between 1 and MAX_PAGES
-  const tmpP = parseInt(params.p, 10);
-  sanitizedParams.pageNumber = tmpP > 0 && tmpP < MAX_PAGES ? tmpP : 1;
+  const pageNumber =
+    typeof params.p === 'string' ? parseInt(params.p, 10) : undefined;
+  sanitizedParams.pageNumber =
+    pageNumber && pageNumber > 0 && pageNumber <= MAX_PAGES ? pageNumber : 1;
 
   // size (number of results shown per page)
-  const tmpSize = parseInt(params.size, 10);
+  const size =
+    typeof params.size === 'string' ? parseInt(params.size, 10) : undefined;
   sanitizedParams.resultsPerPage =
-    tmpSize > 0 && tmpSize < MAX_SEARCH_PAGE_SIZE
-      ? tmpSize
+    size && size > 0 && size < MAX_SEARCH_PAGE_SIZE
+      ? size
       : DEFAULT_SEARCH_PAGE_SIZE;
 
   // q (search query)
-  sanitizedParams.query = params.q || '';
+  sanitizedParams.query =
+    typeof params.q === 'string' && params.q ? params.q : '';
 
-  // sf (sort field), so (sort order)
-  sanitizedParams.sortField = isValidSortField(params.sf)
-    ? params.sf
-    : undefined;
-  sanitizedParams.sortOrder = isValidSortOrder(params.so)
-    ? params.so
-    : undefined;
+  sanitizedParams.sortField = getSortField(params.sf); // sf (sort field)
+  sanitizedParams.sortOrder = getSortOrder(params.so); // so (sort order)
 
   // color (hex w/o hash)
-  sanitizedParams.hexColor = /^[A-Fa-f0-9]{6}$/.test(params.color)
-    ? params.color
-    : undefined;
+  sanitizedParams.hexColor =
+    typeof params.color === 'string' && isHexColor(params.color)
+      ? params.color
+      : undefined;
 
   // various filters
-  sanitizedParams.isUnrestricted = getBooleanValue(params?.isUnrestricted);
-  sanitizedParams.hasPhoto = getBooleanValue(params?.hasPhoto);
-  sanitizedParams.onView = getBooleanValue(params?.onView);
+  sanitizedParams.isUnrestricted = getBooleanValue(params.isUnrestricted);
+  sanitizedParams.hasPhoto = getBooleanValue(params.hasPhoto);
+  sanitizedParams.onView = getBooleanValue(params.onView);
 
   // ui layout
-  sanitizedParams.layout = params?.layout === 'list' ? 'list' : LAYOUT_DEFAULT;
-  sanitizedParams.cardType = params?.card || undefined;
-  sanitizedParams.isShowFilters = getBooleanValue(params?.f);
+  sanitizedParams.layout =
+    typeof params.layout === 'string' && params.layout === 'list'
+      ? 'list'
+      : LAYOUT_DEFAULT;
+  sanitizedParams.cardType =
+    (typeof params.card === 'string' && params.card) || undefined;
+  sanitizedParams.isShowFilters = getBooleanValue(params.f);
 
   // date range
-  sanitizedParams.startYear = params?.startYear
-    ? parseInt(params.startYear, 10)
-    : undefined;
-  sanitizedParams.endYear = params?.endYear
-    ? parseInt(params.endYear, 10)
-    : undefined;
+  sanitizedParams.startYear =
+    typeof params.startYear === 'string' && params.startYear
+      ? parseInt(params.startYear, 10)
+      : undefined;
+  sanitizedParams.endYear =
+    typeof params.endYear === 'string' && params.endYear
+      ? parseInt(params.endYear, 10)
+      : undefined;
 
   sanitizedParams.aggFilters = {};
   if (
@@ -101,8 +116,8 @@ export function getSanitizedSearchParams(
     Array.isArray(indicesMeta[sanitizedParams.index]?.aggs)
   ) {
     for (const aggName of indicesMeta[sanitizedParams.index].aggs) {
-      if (params[aggName]) {
-        sanitizedParams.aggFilters[aggName] = params[aggName] || '';
+      if (typeof params[aggName] === 'string' && params[aggName]) {
+        sanitizedParams.aggFilters[aggName] = params[aggName] as string;
       }
     }
   }
@@ -119,12 +134,30 @@ export function getElasticsearchIndices(
   return ALL_INDICES;
 }
 
-function isValidSortField(field: string | undefined): boolean {
-  return field !== undefined && SORT_FIELDS.includes(field);
+function getSortField(
+  field: string | string[] | undefined
+): string | undefined {
+  if (
+    typeof field === 'string' &&
+    field !== undefined &&
+    SORT_FIELDS.includes(field)
+  ) {
+    return field;
+  }
+  return undefined;
 }
 
-function isValidSortOrder(order: T.SortOrder | undefined): boolean {
-  return order !== undefined && ['asc', 'desc'].includes(order);
+function getSortOrder(
+  order: string | string[] | undefined
+): SortOrder | undefined {
+  if (
+    typeof order === 'string' &&
+    order !== undefined &&
+    ['asc', 'desc'].includes(order)
+  ) {
+    return order as SortOrder;
+  }
+  return undefined;
 }
 
 export function toURLSearchParams(searchParams: SearchParams): URLSearchParams {
@@ -188,7 +221,7 @@ export function setResultsPerPage(
 ): SearchParams {
   const params = { ...searchParams };
   const resultsPerPageInt = parseInt(resultsPerPage, 10);
-  if (resultsPerPageInt > 0 && resultsPerPageInt < MAX_SEARCH_PAGE_SIZE) {
+  if (resultsPerPageInt > 0 && resultsPerPageInt <= MAX_SEARCH_PAGE_SIZE) {
     params.resultsPerPage = resultsPerPageInt;
   } else {
     params.resultsPerPage = DEFAULT_SEARCH_PAGE_SIZE;
@@ -200,7 +233,7 @@ export function setResultsPerPage(
 export function setSortBy(
   searchParams: SearchParams,
   sortField: string,
-  sortOrder: 'asc' | 'desc'
+  sortOrder: SortOrder
 ): SearchParams {
   const params = { ...searchParams };
   if (sortField && sortOrder) {
@@ -258,4 +291,8 @@ export function setYearRange(
   updatedParams.endYear = endYear || undefined;
   updatedParams.pageNumber = 1;
   return updatedParams;
+}
+
+export function isHexColor(color: string): boolean {
+  return /^[A-Fa-f0-9]{6}$/.test(color);
 }
