@@ -10,7 +10,7 @@ import type { ArtworkDocument } from '@/types/artworkDocument';
  * @param html the string to strip html from
  * @returns the string with html tags removed
  */
-export function stripHtmlTags(html: string): string {
+export function stripHtmlTags(html: string | null | undefined): string {
   if (!html) return '';
   let text = '';
   const parser = new Parser({
@@ -63,7 +63,7 @@ export function getCaption(
   caption += item?.copyright ? `${item.copyright} ` : '';
   caption += item?.rightsType ? `${item.rightsType}. ` : '';
   caption += !item?.rightsType && item?.source ? `(Photo: ${item.source})` : '';
-  return stripHtmlTags(caption);
+  return stripHtmlTags(caption.trim());
 }
 
 /**

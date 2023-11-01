@@ -37,7 +37,7 @@ export function getRssItemId(item: any) {
   if (item.link?.[0]) return item.link[0];
 }
 
-function getRssConstituent(item: any) {
+export function getRssConstituent(item: any) {
   const creator = item['dc:creator']?.[0];
   if (creator) {
     return {
@@ -48,7 +48,7 @@ function getRssConstituent(item: any) {
   }
 }
 
-function parseDate(item: any): Date {
+export function parseDate(item: any): Date {
   const dateFormats = [
     "EEE, dd MMM yyyy HH:mm:ss 'GMT'",
     'EEE, dd MMM yyyy HH:mm:ss xx',
