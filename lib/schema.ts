@@ -4,6 +4,8 @@
  * Functions to transform data into JSON-LD for Schema.org.
  * Currently only supports VisualArtwork.
  */
+import type { VisualArtwork, WithContext } from 'schema-dts';
+
 import type { ArtworkDocument } from '@/types/artworkDocument';
 
 /**
@@ -38,7 +40,7 @@ function getDimensionsCM(dimensions: string | undefined) {
  */
 export function getSchemaVisualArtwork(item: ArtworkDocument | undefined) {
   if (!item) return '';
-  const schema: any = {
+  const schema: WithContext<VisualArtwork> = {
     '@context': 'https://schema.org',
     '@type': 'VisualArtwork',
   };
@@ -53,8 +55,7 @@ export function getSchemaVisualArtwork(item: ArtworkDocument | undefined) {
       },
     ];
   }
-  if (item.medium) schema.medium = item.medium;
-  if (item.medium) schema.artMedium = item.medium; // TODO
+  if (item.medium) schema.artMedium = item.medium;
   if (item.classification) schema.artform = item.classification;
   const dimensions = getDimensionsCM(item.dimensions);
   if (dimensions?.height)
