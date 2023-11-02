@@ -61,11 +61,13 @@ describe('getBooleanValue', () => {
     expect(getBooleanValue(true)).toBe(true);
     expect(getBooleanValue('true')).toBe(true);
     expect(getBooleanValue('1')).toBe(true);
+    expect(getBooleanValue(1)).toBe(true);
   });
   it('should return false for false boolean values', () => {
     expect(getBooleanValue(false)).toBe(false);
     expect(getBooleanValue('false')).toBe(false);
     expect(getBooleanValue('0')).toBe(false);
+    expect(getBooleanValue(0)).toBe(false);
     expect(getBooleanValue(null)).toBe(false);
     expect(getBooleanValue(undefined)).toBe(false);
   });
