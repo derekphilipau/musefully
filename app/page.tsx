@@ -8,6 +8,7 @@ import type { Term } from '@/types/term';
 import { siteConfig } from '@/config/site';
 import { search } from '@/lib/elasticsearch/search/search';
 import { getSanitizedSearchParams } from '@/lib/elasticsearch/search/searchParams';
+import type { GenericSearchParams } from '@/lib/elasticsearch/search/searchParams';
 import { ArtworkCard } from '@/components/artwork/artwork-card';
 import { ContentCard } from '@/components/search-card/content-card';
 import { EventCard } from '@/components/search-card/event-card';
@@ -20,12 +21,11 @@ import { SearchDidYouMean } from '@/components/search/search-did-you-mean';
 import { SearchFilterTag } from '@/components/search/search-filter-tag';
 import { SearchFilters } from '@/components/search/search-filters';
 import { SearchPagination } from '@/components/search/search-pagination';
-import type { GenericSearchParams } from '@/lib/elasticsearch/search/searchParams';
 
 function getLayoutGridClass(layout: string) {
   if (layout === 'grid')
     return 'my-4 relative grid grid-cols-1 gap-8 pb-8 md:grid-cols-2 md:pb-10 lg:grid-cols-3';
-  return 'relative grid grid-cols-1 gap-8 pb-8 md:pb-10';
+  return 'my-4 relative grid grid-cols-1 gap-8 pb-8 md:pb-10';
 }
 
 type Props = {

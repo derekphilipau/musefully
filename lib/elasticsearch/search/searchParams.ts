@@ -1,10 +1,29 @@
 /**
  * Encapsulates & validates search parameters.
  */
-import { SortOrder } from '@elastic/elasticsearch/lib/api/types';
+import { SortOrder as ElasticsearchSortOrder } from '@elastic/elasticsearch/lib/api/types';
 
 import { getBooleanValue } from '@/lib/various';
 import { indicesMeta } from '../indicesMeta';
+
+export type SortOrder = ElasticsearchSortOrder;
+export const SORT_ORDER_ASC: SortOrder = 'asc';
+export const SORT_ORDER_DESC: SortOrder = 'desc';
+export const SORT_ORDER_DEFAULT = SORT_ORDER_ASC;
+export const SORT_ORDERS = [SORT_ORDER_ASC, SORT_ORDER_DESC];
+
+export type LayoutType = 'grid' | 'list';
+export const LAYOUT_GRID: LayoutType = 'grid';
+export const LAYOUT_LIST: LayoutType = 'list';
+export const LAYOUT_DEFAULT = LAYOUT_GRID;
+export const LAYOUTS = [LAYOUT_GRID, LAYOUT_LIST];
+
+export type CardType = 'swatch' | 'palette' | 'color';
+export const CARD_SWATCH: CardType = 'swatch';
+export const CARD_PALETTE: CardType = 'palette';
+export const CARD_COLOR: CardType = 'color';
+export const CARD_DEFAULT = CARD_SWATCH;
+export const CARDS = [CARD_SWATCH, CARD_PALETTE, CARD_COLOR];
 
 export const ALL_INDICES = ['art', 'news', 'events'];
 export const DEFAULT_INDEX = 'all';
@@ -16,7 +35,6 @@ export const SORT_FIELDS = [
   'startYear',
   'primaryConstituent.canonicalName',
 ];
-export const LAYOUT_DEFAULT = 'grid';
 
 export interface SearchParams {
   index: string; // index or indices to search
@@ -29,7 +47,7 @@ export interface SearchParams {
   isUnrestricted: boolean; // is copyright unrestricted?
   hasPhoto: boolean; // does it have a photo?
   onView: boolean; // is it on view?
-  layout: 'grid' | 'list'; // layout
+  layout: LayoutType; // layout type
   cardType?: string; // card type
   isShowFilters: boolean; // show filters?
   aggFilters: Record<string, string>; // aggregation filters
@@ -43,11 +61,11 @@ export type GenericSearchParams = {
 };
 
 /**
- * Sanitize query string params.
- * TODO: make sure all params including filters are sanitized
+ * Validate and transform raw search parameters.
  *
- * @param params
- * @returns
+ * @param index - The index to search in.
+ * @param params - Raw query string parameters.
+ * @returns Validated and transformed search parameters.
  */
 export function getSanitizedSearchParams(
   index: string,
@@ -125,6 +143,13 @@ export function getSanitizedSearchParams(
   return sanitizedParams as SearchParams;
 }
 
+/**
+ * Determine the appropriate Elasticsearch indices to search in.
+ * If index is 'all' or a value not in ALL_INDICES, return ALL_INDICES.
+ *
+ * @param searchParams - The search parameters.
+ * @returns The indices to search in.
+ */
 export function getElasticsearchIndices(
   searchParams: SearchParams
 ): string | string[] {
@@ -134,6 +159,12 @@ export function getElasticsearchIndices(
   return ALL_INDICES;
 }
 
+/**
+ * Transform a sort field parameter to a valid sort field.
+ *
+ * @param field - The raw sort field parameter.
+ * @returns The valid sort field or undefined.
+ */
 function getSortField(
   field: string | string[] | undefined
 ): string | undefined {
@@ -147,36 +178,45 @@ function getSortField(
   return undefined;
 }
 
+/**
+ * Transform a sort order parameter to a valid sort order.
+ *
+ * @param order - The raw sort order parameter.
+ * @returns The valid sort order or undefined.
+ */
 function getSortOrder(
   order: string | string[] | undefined
 ): SortOrder | undefined {
   if (
     typeof order === 'string' &&
     order !== undefined &&
-    ['asc', 'desc'].includes(order)
+    SORT_ORDERS.includes(order as SortOrder)
   ) {
     return order as SortOrder;
   }
   return undefined;
 }
 
+/**
+ * Convert search parameters to URL query parameters for client-side navigation.
+ *
+ * @param searchParams - The search parameters.
+ * @returns The URLSearchParams object.
+ */
 export function toURLSearchParams(searchParams: SearchParams): URLSearchParams {
   const urlParams = new URLSearchParams();
 
-  // Setting properties directly
   urlParams.set('index', searchParams.index);
   if (searchParams.pageNumber > 1)
     urlParams.set('p', searchParams.pageNumber.toString());
   if (searchParams.resultsPerPage !== DEFAULT_SEARCH_PAGE_SIZE)
     urlParams.set('size', searchParams.resultsPerPage.toString());
 
-  // Setting optional properties
   if (searchParams.query) urlParams.set('q', searchParams.query);
   if (searchParams.sortField) urlParams.set('sf', searchParams.sortField);
   if (searchParams.sortOrder) urlParams.set('so', searchParams.sortOrder);
   if (searchParams.hexColor) urlParams.set('color', searchParams.hexColor);
 
-  // Setting boolean properties
   if (searchParams.isUnrestricted)
     urlParams.set('isUnrestricted', searchParams.isUnrestricted.toString());
   if (searchParams.hasPhoto)
@@ -185,7 +225,6 @@ export function toURLSearchParams(searchParams: SearchParams): URLSearchParams {
     urlParams.set('onView', searchParams.onView.toString());
   if (searchParams.isShowFilters === true) urlParams.set('f', 'true');
 
-  // Setting other properties
   if (searchParams.layout && searchParams.layout !== LAYOUT_DEFAULT)
     urlParams.set('layout', searchParams.layout);
   if (searchParams.cardType) urlParams.set('card', searchParams.cardType);
@@ -197,12 +236,22 @@ export function toURLSearchParams(searchParams: SearchParams): URLSearchParams {
 
   // Setting aggFilters (assuming their values are strings or can be stringified)
   for (const key in searchParams.aggFilters) {
-    urlParams.set(key, searchParams.aggFilters[key].toString());
+    const value = searchParams.aggFilters[key]?.toString();
+    if (value) {
+      urlParams.set(key, value);
+    }
   }
 
   return urlParams;
 }
 
+/**
+ * Immutable update of the search query in the search parameters.
+ *
+ * @param searchParams - The current search parameters.
+ * @param pageNumber - The new page number.
+ * @returns New search parameters.
+ */
 export function setPageNumber(
   searchParams: SearchParams,
   pageNumber: number
@@ -215,6 +264,15 @@ export function setPageNumber(
   return params;
 }
 
+/**
+ * Immutable update of the number of results per page in the search parameters.
+ *
+ * If results per page is invalid, default to DEFAULT_SEARCH_PAGE_SIZE.
+ *
+ * @param searchParams - The current search parameters.
+ * @param resultsPerPage - The new number of results per page.
+ * @returns New search parameters.
+ */
 export function setResultsPerPage(
   searchParams: SearchParams,
   resultsPerPage: string
@@ -230,6 +288,14 @@ export function setResultsPerPage(
   return params;
 }
 
+/**
+ * Immutable update of the sort field and sort order in the search parameters.
+ *
+ * @param searchParams - The current search parameters.
+ * @param sortField - The new sort field.
+ * @param sortOrder - The new sort order.
+ * @returns New search parameters.
+ */
 export function setSortBy(
   searchParams: SearchParams,
   sortField: string,
@@ -247,16 +313,50 @@ export function setSortBy(
   return params;
 }
 
-export function setSearchParam(
+/**
+ * Immutable update of the search UI layout type.
+ *
+ * @param searchParams - The current search parameters.
+ * @param layoutType - The new layout type.
+ * @returns New search parameters.
+ */
+export function setLayoutType(
   searchParams: SearchParams,
-  key: string,
-  value: string
+  layout: string
 ): SearchParams {
   const params = { ...searchParams };
-  params[key] = value;
+  params.layout = LAYOUT_DEFAULT;
+  if (layout && LAYOUTS.includes(layout as LayoutType)) {
+    params.layout = layout as LayoutType;
+  }
   return params;
 }
 
+/**
+ * Immutable update of the card type. (Expiremental only)
+ *
+ * @param searchParams - The current search parameters.
+ * @param cardType - The new card type.
+ * @returns New search parameters.
+ */
+export function setCardType(
+  searchParams: SearchParams,
+  cardType?: string
+): SearchParams {
+  const params = { ...searchParams };
+  if (cardType && CARDS.includes(cardType as CardType)) {
+    params.cardType = cardType as CardType;
+  }
+  return params;
+}
+
+/**
+ * Immutable update of the color filter in search parameters.
+ *
+ * @param searchParams - The current search parameters.
+ * @param hexColor - The new hex color (without the hash)
+ * @returns New search parameters.
+ */
 export function setColor(
   searchParams: SearchParams,
   hexColor?: string
@@ -267,6 +367,12 @@ export function setColor(
   return params;
 }
 
+/**
+ * Immutable toggle the show filters flag in search parameters.
+ *
+ * @param searchParams - The current search parameters.
+ * @returns New search parameters.
+ */
 export function toggleIsShowFilters(searchParams: SearchParams): SearchParams {
   const params = { ...searchParams };
   params.isShowFilters = !params.isShowFilters;
@@ -274,6 +380,7 @@ export function toggleIsShowFilters(searchParams: SearchParams): SearchParams {
 }
 
 /**
+ * Immutable update of start & end years in search parameters.
  * Note that years can be negative to indicate B.C.E.
  *
  * @param params search params
@@ -293,6 +400,12 @@ export function setYearRange(
   return updatedParams;
 }
 
+/**
+ * Detect if a string is a valid hex color (without the hash).
+ *
+ * @param color - String to test
+ * @returns True if the string is a valid hex color
+ */
 export function isHexColor(color: string): boolean {
   return /^[A-Fa-f0-9]{6}$/.test(color);
 }

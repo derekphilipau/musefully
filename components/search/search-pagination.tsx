@@ -4,12 +4,22 @@ import { usePathname, useRouter } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
 import {
+  CARD_COLOR,
+  CARD_PALETTE,
+  CARD_SWATCH,
+  LAYOUT_GRID,
+  LAYOUT_LIST,
+  setCardType,
+  setLayoutType,
   setPageNumber,
   setResultsPerPage,
-  setSearchParam,
   setSortBy,
+  SORT_ORDER_ASC,
+  SORT_ORDER_DEFAULT,
+  SORT_ORDER_DESC,
   toURLSearchParams,
   type SearchParams,
+  type SortOrder,
 } from '@/lib/elasticsearch/search/searchParams';
 import { Icons } from '@/components/icons';
 import { SearchFilterButton } from '@/components/search/search-filter-button';
@@ -74,7 +84,7 @@ export function SearchPagination({
     window.scroll(0, 0);
   }
 
-  function sortBy(field: string, order: 'asc' | 'desc' = 'asc') {
+  function sortBy(field: string, order: SortOrder = SORT_ORDER_DEFAULT) {
     const updatedParams = toURLSearchParams(
       setSortBy(searchParams, field, order)
     );
@@ -82,14 +92,19 @@ export function SearchPagination({
     window.scroll(0, 0);
   }
 
-  function clickChangeSearchType(name: string, value: string) {
+  function onClickChangeLayoutType(layout: string) {
     const updatedParams = toURLSearchParams(
-      setSearchParam(searchParams, name, value)
+      setLayoutType(searchParams, layout)
     );
     router.push(`${pathname}?${updatedParams}`);
   }
 
-  function sortDropdownMenuItem(fieldName: string, order: 'asc' | 'desc') {
+  function onClickChangeCardType(card: string) {
+    const updatedParams = toURLSearchParams(setCardType(searchParams, card));
+    router.push(`${pathname}?${updatedParams}`);
+  }
+
+  function sortDropdownMenuItem(fieldName: string, order: SortOrder) {
     const label = dict[`search.sort.${fieldName}.${order}`];
     let mySortField = searchParams.sortField;
     let mySortOrder = searchParams.sortOrder;
@@ -99,7 +114,7 @@ export function SearchPagination({
         onClick={() => sortBy(fieldName, order)}
         disabled={mySortField === fieldName && mySortOrder === order}
       >
-        {order === 'asc' ? (
+        {order === SORT_ORDER_ASC ? (
           <Icons.arrowDown className="mr-2 h-5 w-5" />
         ) : (
           <Icons.arrowUp className="mr-2 h-5 w-5" />
@@ -134,10 +149,10 @@ export function SearchPagination({
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
-                      onClick={() => clickChangeSearchType('layout', 'grid')}
+                      onClick={() => onClickChangeLayoutType(LAYOUT_GRID)}
                       variant="ghost"
                       size="sm"
-                      disabled={searchParams.layout === 'grid'}
+                      disabled={searchParams.layout === LAYOUT_GRID}
                       aria-label={dict['search.layoutGrid']}
                     >
                       <Icons.layoutGrid className="h-5 w-5" />
@@ -154,10 +169,10 @@ export function SearchPagination({
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
-                      onClick={() => clickChangeSearchType('layout', 'list')}
+                      onClick={() => onClickChangeLayoutType(LAYOUT_LIST)}
                       variant="ghost"
                       size="sm"
-                      disabled={searchParams.layout === 'list'}
+                      disabled={searchParams.layout === LAYOUT_LIST}
                       aria-label={dict['search.layoutList']}
                     >
                       <Icons.layoutList className="h-5 w-5" />
@@ -186,17 +201,17 @@ export function SearchPagination({
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                    {sortDropdownMenuItem('startYear', 'asc')}
-                    {sortDropdownMenuItem('startYear', 'desc')}
-                    {sortDropdownMenuItem('title', 'asc')}
-                    {sortDropdownMenuItem('title', 'desc')}
+                    {sortDropdownMenuItem('startYear', SORT_ORDER_ASC)}
+                    {sortDropdownMenuItem('startYear', SORT_ORDER_DESC)}
+                    {sortDropdownMenuItem('title', SORT_ORDER_ASC)}
+                    {sortDropdownMenuItem('title', SORT_ORDER_DESC)}
                     {sortDropdownMenuItem(
                       'primaryConstituent.canonicalName',
-                      'asc'
+                      SORT_ORDER_ASC
                     )}
                     {sortDropdownMenuItem(
                       'primaryConstituent.canonicalName',
-                      'desc'
+                      SORT_ORDER_DESC
                     )}
                   </DropdownMenuGroup>
                 </DropdownMenuContent>
@@ -209,11 +224,9 @@ export function SearchPagination({
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button
-                          onClick={() =>
-                            clickChangeSearchType('card', 'swatch')
-                          }
+                          onClick={() => onClickChangeCardType(CARD_SWATCH)}
                           variant={
-                            searchParams.cardType === 'swatch'
+                            searchParams.cardType === CARD_SWATCH
                               ? 'default'
                               : 'ghost'
                           }
@@ -234,11 +247,9 @@ export function SearchPagination({
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button
-                          onClick={() =>
-                            clickChangeSearchType('card', 'palette')
-                          }
+                          onClick={() => onClickChangeCardType(CARD_PALETTE)}
                           variant={
-                            searchParams.cardType === 'palette'
+                            searchParams.cardType === CARD_PALETTE
                               ? 'default'
                               : 'ghost'
                           }
@@ -259,9 +270,9 @@ export function SearchPagination({
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Button
-                          onClick={() => clickChangeSearchType('card', 'color')}
+                          onClick={() => onClickChangeCardType(CARD_COLOR)}
                           variant={
-                            searchParams.cardType === 'color'
+                            searchParams.cardType === CARD_COLOR
                               ? 'default'
                               : 'ghost'
                           }

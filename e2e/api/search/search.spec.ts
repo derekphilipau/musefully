@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
-import { SortOrder } from '@elastic/elasticsearch/lib/api/types';
+
+import type { SortOrder } from '@/lib/elasticsearch/search/searchParams';
 
 function buildSearchURL(params: {
   index?: string;
