@@ -1,4 +1,4 @@
-import type { UlanArtist } from "./ulanArtist";
+import type { UlanArtist } from './ulanArtist';
 
 export interface DocumentConstituent {
   id?: string;

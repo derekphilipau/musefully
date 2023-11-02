@@ -13,7 +13,7 @@ import { Icons } from '../icons';
 interface SearchFilterTagProps {
   params?: SearchParams;
   name: string;
-  value: any;
+  value: string;
 }
 
 export function SearchFilterTag({ params, name, value }: SearchFilterTagProps) {
