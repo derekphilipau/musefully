@@ -24,7 +24,7 @@ import { ArtSearchCheckboxes } from '@/components/search/art-search-checkboxes';
 import { ArtistTermCard } from '@/components/search/artist-term-card';
 import { SearchAsYouTypeInput } from '@/components/search/search-as-you-type-input';
 import { SearchDidYouMean } from '@/components/search/search-did-you-mean';
-import { SearchFilterTag } from '@/components/search/search-filter-tag';
+import { SearchFilterTags } from '@/components/search/search-filter-tags';
 import { SearchFilters } from '@/components/search/search-filters';
 import { SearchPagination } from '@/components/search/search-pagination';
 
@@ -47,8 +47,6 @@ export default async function Page({ params, searchParams }: Props) {
 
   const sanitizedParams = getSanitizedSearchParams(params.index, searchParams);
 
-  const filterArr = Object.entries(sanitizedParams.aggFilters);
-
   // Query Elasticsearch
   let response: ApiResponseSearch = await search(sanitizedParams);
   const items: BaseDocument[] = response?.data || [];
@@ -69,29 +67,7 @@ export default async function Page({ params, searchParams }: Props) {
           <ArtSearchCheckboxes params={sanitizedParams} />
         )}
       </div>
-      {(filterArr?.length > 0 || sanitizedParams.hexColor) && (
-        <div className="flex flex-wrap gap-2 pt-2">
-          {filterArr?.length > 0 &&
-            filterArr.map(
-              (filter, i) =>
-                filter && (
-                  <SearchFilterTag
-                    key={i}
-                    params={sanitizedParams}
-                    name={filter[0]}
-                    value={filter[1]}
-                  />
-                )
-            )}
-          {sanitizedParams.hexColor && (
-            <SearchFilterTag
-              params={sanitizedParams}
-              name="color"
-              value={sanitizedParams.hexColor}
-            />
-          )}
-        </div>
-      )}
+      <SearchFilterTags params={sanitizedParams} />
       <div className="gap-6 pb-8 pt-2 sm:grid sm:grid-cols-3 md:grid-cols-4 md:pt-4">
         {sanitizedParams.isShowFilters && (
           <div className="hidden h-full space-y-2 sm:col-span-1 sm:block">
