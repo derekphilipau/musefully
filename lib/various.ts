@@ -45,25 +45,47 @@ export function stripLineBreaks(str: string, replaceStr: string = ' ') {
  * @param item the artwork
  * @param filename the filename of the image
  */
-export function getCaption(
-  item: ArtworkDocument,
-  filename: string = ''
-): string {
+export function getCaption(item: ArtworkDocument): string {
   if (!item) return '';
-  let caption = '';
-  caption += item?.primaryConstituent?.name
-    ? `${item.primaryConstituent.canonicalName}. `
-    : '';
-  caption += item?.title ? `${item.title}, ` : '';
-  caption += item?.formattedDate ? `${item.formattedDate}. ` : '';
-  caption += item?.formattedMedium ? `${item.formattedMedium}, ` : '';
-  caption += item?.dimensions ? `${item.dimensions}. ` : '';
-  caption += item?.creditLine ? `${item.creditLine}, ` : '';
-  caption += item?.accessionNumber ? `${item.accessionNumber}. ` : '';
-  caption += item?.copyright ? `${item.copyright} ` : '';
-  caption += item?.rightsType ? `${item.rightsType}. ` : '';
-  caption += !item?.rightsType && item?.source ? `(Photo: ${item.source})` : '';
-  return stripHtmlTags(caption.trim());
+
+  const parts: string[] = [];
+
+  if (item.primaryConstituent?.name) {
+    parts.push(`${item.primaryConstituent.canonicalName}.`);
+  }
+  if (item.title) {
+    parts.push(`${item.title},`);
+  }
+  if (item.formattedDate) {
+    parts.push(`${item.formattedDate}.`);
+  }
+  if (item.formattedMedium) {
+    parts.push(`${item.formattedMedium},`);
+  }
+  if (item.dimensions) {
+    parts.push(`${item.dimensions}.`);
+  }
+  if (item.creditLine) {
+    parts.push(`${item.creditLine},`);
+  }
+  if (item.accessionNumber) {
+    parts.push(`${item.accessionNumber}.`);
+  }
+  if (item.copyright) {
+    parts.push(item.copyright);
+  }
+  if (item.rightsType) {
+    parts.push(`${item.rightsType}.`);
+  }
+  if (!item.rightsType && item.source) {
+    parts.push(`(Photo: ${item.source})`);
+  }
+
+  // Now, join the array parts with a space, and then trim any leading/trailing whitespace
+  const caption = parts.join(' ').trim();
+
+  // Use your existing function to strip HTML tags from the caption
+  return stripHtmlTags(caption);
 }
 
 /**

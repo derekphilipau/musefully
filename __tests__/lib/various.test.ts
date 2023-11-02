@@ -49,7 +49,7 @@ describe('getCaption', () => {
       rightsType: 'All rights reserved',
       source: 'museum.jpg',
     } as any;
-    const caption = getCaption(artwork, 'museum.jpg');
+    const caption = getCaption(artwork);
     expect(caption).toBe(
       'Artist Name. Artwork Title, 2023. Oil on Canvas, 100x100cm. Gifted by Someone, 12345. © Artist All rights reserved.'
     );
