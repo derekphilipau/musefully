@@ -1,6 +1,6 @@
 # API
 
-API endpoints for search, document retrieval, and RSS feed updates.  Next.js API Routes with Route Handlers located in `/app/api` directory.
+API endpoints for search, document retrieval, and RSS feed updates. Next.js API Routes with Route Handlers located in `/app/api` directory.
 
 ## Search
 
@@ -9,51 +9,57 @@ API endpoints for search, document retrieval, and RSS feed updates.  Next.js API
 **GET**: Execute a search on an Elasticsearch index
 
 - **Summary**: Execute a search on an Elasticsearch index
-- **Description**: Endpoint to execute a search on the provided Elasticsearch index based on the given parameters.  Querystring parameters are the same as those for the Web UI:
-GET `http://localhost:3000/api/search?index=art&f=true&primaryConstituent.canonicalName=George%20Bradford%20Brainerd`
+- **Description**: Endpoint to execute a search on the provided Elasticsearch index based on the given parameters. Querystring parameters are the same as those for the Web UI:
+  GET `http://localhost:3000/api/search?index=art&f=true&primaryConstituent.canonicalName=George%20Bradford%20Brainerd`
 
 #### Parameters:
 
 - **In**: query
+
   - **Name**: index
   - **Required**: true
   - **Description**: Name of the Elasticsearch index to search.
-  - **Schema**: 
+  - **Schema**:
     - **Type**: string
 
 - **In**: query
+
   - **Name**: p
   - **Required**: false
   - **Description**: Page number.
-  - **Schema**: 
+  - **Schema**:
     - **Type**: integer
 
 - **In**: query
+
   - **Name**: size
   - **Required**: false
   - **Description**: Page size.
-  - **Schema**: 
+  - **Schema**:
     - **Type**: integer
 
 - **In**: query
+
   - **Name**: q
   - **Required**: false
   - **Description**: Query to search for.
-  - **Schema**: 
+  - **Schema**:
     - **Type**: string
 
 - **In**: query
+
   - **Name**: sf
   - **Required**: false
   - **Description**: Sort field.
-  - **Schema**: 
+  - **Schema**:
     - **Type**: string
 
 - **In**: query
+
   - **Name**: so
   - **Required**: false
   - **Description**: Sort order.
-  - **Schema**: 
+  - **Schema**:
     - **Type**: string
     - **Enum**:
       - asc
@@ -63,20 +69,21 @@ GET `http://localhost:3000/api/search?index=art&f=true&primaryConstituent.canoni
   - **Name**: color
   - **Required**: false
   - **Description**: Hex string representing the color to search for.
-  - **Schema**: 
+  - **Schema**:
     - **Type**: string
 
 #### Responses:
 
 **200**: Successfully executed search.
+
 - **Content**: application/json
 - **Schema**:
   - **Type**: array
-  - **Items**: 
+  - **Items**:
     - **Type**: object
-    - *TODO add schemas*
 
 **500**: Internal server error.
+
 - **Content**: application/json
 - **Schema**:
   - **Type**: object
@@ -97,22 +104,24 @@ GET `http://localhost:3000/api/search?index=art&f=true&primaryConstituent.canoni
 ##### Parameters:
 
 - **name**: index
+
   - **in**: query
   - **required**: true
   - **description**: The index in which the document is stored.
-  - **schema**: 
+  - **schema**:
     - **type**: string
 
 - **name**: id
   - **in**: query
   - **required**: true
   - **description**: The ID of the document to retrieve.
-  - **schema**: 
+  - **schema**:
     - **type**: string
 
 ##### Responses:
 
 **200**: Successfully retrieved document.
+
 - **content**: application/json
 - **schema**:
   - **type**: object
@@ -123,6 +132,7 @@ GET `http://localhost:3000/api/search?index=art&f=true&primaryConstituent.canoni
       - **type**: number
 
 **400**: Either 'id' or 'index' not provided.
+
 - **content**: application/json
 - **schema**:
   - **type**: object
@@ -131,6 +141,7 @@ GET `http://localhost:3000/api/search?index=art&f=true&primaryConstituent.canoni
       - **type**: string
 
 **500**: Internal server error.
+
 - **content**: application/json
 - **schema**:
   - **type**: object
@@ -148,36 +159,40 @@ GET `http://localhost:3000/api/search?index=art&f=true&primaryConstituent.canoni
 ##### Parameters:
 
 - **Name**: index
+
   - **In**: query
   - **Description**: Index to search on.
   - **Required**: true
-  - **Schema**: 
+  - **Schema**:
     - **Type**: string
 
 - **Name**: field
+
   - **In**: query
   - **Description**: Field to aggregate on.
   - **Required**: true
-  - **Schema**: 
+  - **Schema**:
     - **Type**: string
 
 - **Name**: q
   - **In**: query
   - **Description**: Optional query string to further filter the results.
   - **Required**: false
-  - **Schema**: 
+  - **Schema**:
     - **Type**: string
 
 ##### Responses:
 
 **200**: Successful response containing a list of aggregation options.
+
 - **Content**: application/json
 - **Schema**:
   - **Type**: array
-  - **Items**: 
+  - **Items**:
     - **$ref**: `#/components/schemas/AggOption`
 
 **400**: Bad request, typically when "index" or "field" are not provided.
+
 - **Content**: application/json
 - **Schema**:
   - **Type**: object
@@ -186,6 +201,7 @@ GET `http://localhost:3000/api/search?index=art&f=true&primaryConstituent.canoni
       - **Type**: string
 
 **500**: Internal server error.
+
 - **Content**: application/json
 - **Schema**:
   - **Type**: object
@@ -212,7 +228,6 @@ GET `http://localhost:3000/api/search?index=art&f=true&primaryConstituent.canoni
   - Key
   - Doc_count
 
-
 ### `/api/search/similar`
 
 **GET**: Retrieve Similar Artworks by ID
@@ -223,30 +238,32 @@ GET `http://localhost:3000/api/search?index=art&f=true&primaryConstituent.canoni
 ##### Parameters:
 
 - **In**: query
+
   - **Name**: id
   - **Required**: true
   - **Description**: The ID of the artwork.
-  - **Schema**: 
+  - **Schema**:
     - **Type**: string
 
 - **In**: query
   - **Name**: hasPhoto
   - **Required**: false
   - **Description**: Flag to indicate if the artwork should have a photo.
-  - **Schema**: 
+  - **Schema**:
     - **Type**: boolean
 
 ##### Responses:
 
 **200**: Successfully retrieved similar artworks.
+
 - **Content**: application/json
 - **Schema**:
   - **Type**: array
-  - **Items**: 
+  - **Items**:
     - **Type**: object
-    - *TODO: Add schemas*
 
 **400**: Invalid ID or other bad request.
+
 - **Content**: application/json
 - **Schema**:
   - **Type**: object
@@ -255,6 +272,7 @@ GET `http://localhost:3000/api/search?index=art&f=true&primaryConstituent.canoni
       - **Type**: string
 
 **500**: Internal server error.
+
 - **Content**: application/json
 - **Schema**:
   - **Type**: object
@@ -275,20 +293,22 @@ GET `http://localhost:3000/api/search?index=art&f=true&primaryConstituent.canoni
   - **Name**: q
   - **Required**: true
   - **Description**: The query string for which to fetch suggestions.
-  - **Schema**: 
+  - **Schema**:
     - **Type**: string
 
 ##### Responses:
 
 **200**: Successfully retrieved suggestions.
+
 - **Content**: application/json
 - **Schema**:
   - **Type**: array
-  - **Items**: 
+  - **Items**:
     - **Type**: object
-    - *Placeholder for the structure of suggestions*
+    - _Placeholder for the structure of suggestions_
 
 **500**: Internal server error.
+
 - **Content**: application/json
 - **Schema**:
   - **Type**: object
@@ -309,20 +329,21 @@ GET `http://localhost:3000/api/search?index=art&f=true&primaryConstituent.canoni
   - **Name**: q
   - **Required**: true
   - **Description**: The query string for which to fetch terms.
-  - **Schema**: 
+  - **Schema**:
     - **Type**: string
 
 #### Responses:
 
 **200**: Successfully retrieved terms.
+
 - **Content**: application/json
 - **Schema**:
   - **Type**: array
-  - **Items**: 
+  - **Items**:
     - **Type**: object
-    - *TODO: Add schemas*
 
 **500**: Internal server error.
+
 - **Content**: application/json
 - **Schema**:
   - **Type**: object
@@ -330,12 +351,11 @@ GET `http://localhost:3000/api/search?index=art&f=true&primaryConstituent.canoni
     - **Error**:
       - **Type**: object
 
-
 ## Sync
 
 ### `/api/import/rss`
 
-**GET**: Updates RSS feeds.  TODO: Insecure due to "secret" key.
+**GET**: Updates RSS feeds. TODO: Insecure due to "secret" key.
 
 - **Summary**: Updates RSS feeds
 - **Description**: Endpoint to update RSS feeds. Requires secret for authentication.
@@ -344,12 +364,13 @@ GET `http://localhost:3000/api/search?index=art&f=true&primaryConstituent.canoni
   - **in**: query
   - **required**: true
   - **description**: The secret key for authentication.
-  - **schema**: 
+  - **schema**:
     - **type**: string
 
 ##### Responses:
 
 **200**: RSS feeds successfully updated.
+
 - **content**: application/json
 - **schema**:
   - **type**: object

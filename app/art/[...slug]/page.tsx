@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Script from 'next/script';
 import { getDictionary } from '@/dictionaries/dictionaries';
 import { encode } from 'html-entities';
 
@@ -8,9 +7,9 @@ import type { ApiResponseDocument } from '@/types/apiResponseDocument';
 import type { ArtworkDocument } from '@/types/artworkDocument';
 import { siteConfig } from '@/config/site';
 import { getDocument } from '@/lib/elasticsearch/search/document';
-import { getSchemaVisualArtworkJson } from '@/lib/schema';
 import { getCaption } from '@/lib/various';
 import { ArtworkDescription } from '@/components/artwork/artwork-description';
+import { ArtworkJsonLdScript } from '@/components/artwork/artwork-json-ld-script';
 import { ArtworkShare } from '@/components/artwork/artwork-share';
 import { LanguageDisclaimer } from '@/components/artwork/language-disclaimer';
 import { SimilarArtworkList } from '@/components/artwork/similar-artwork-list';
@@ -61,7 +60,6 @@ export default async function Page({ params }) {
 
   const artwork = data?.data as ArtworkDocument;
   const similarArtworks = data?.similar as ArtworkDocument[];
-  const jsonLd = getSchemaVisualArtworkJson(artwork);
 
   const IMAGE_DOMAIN = process.env.IMAGE_DOMAIN || '';
 
@@ -140,10 +138,7 @@ export default async function Page({ params }) {
         imageDomain={IMAGE_DOMAIN}
       />
 
-      {/* https://beta.nextjs.org/docs/guides/seo */}
-      <Script id="json-ld-script" type="application/ld+json">
-        {jsonLd}
-      </Script>
+      <ArtworkJsonLdScript artwork={artwork} />
     </>
   );
 }

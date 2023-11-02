@@ -4,6 +4,7 @@
  * Functions to transform data into JSON-LD for Schema.org.
  * Currently only supports VisualArtwork.
  */
+import { vi } from 'date-fns/locale';
 import type { VisualArtwork, WithContext } from 'schema-dts';
 
 import type { ArtworkDocument } from '@/types/artworkDocument';
@@ -34,12 +35,15 @@ function getDimensionsCM(dimensions: string | undefined) {
 }
 
 /**
+ * Transform ArtworkDocument into Schema.org VisualArtwork JSON-LD.
+ *
  * https://schema.org/VisualArtwork
  *
- * TODO: import JSON-LD schema typescript def
+ * @param item ArtworkDocument
+ * @returns Schema.org VisualArtwork JSON-LD
  */
 export function getSchemaVisualArtwork(item: ArtworkDocument | undefined) {
-  if (!item) return '';
+  if (!item) return;
   const schema: WithContext<VisualArtwork> = {
     '@context': 'https://schema.org',
     '@type': 'VisualArtwork',
@@ -74,5 +78,7 @@ export function getSchemaVisualArtwork(item: ArtworkDocument | undefined) {
 }
 
 export function getSchemaVisualArtworkJson(item: ArtworkDocument | undefined) {
-  return JSON.stringify(getSchemaVisualArtwork(item), null, 2);
+  const visualArtwork = getSchemaVisualArtwork(item);
+  if (!visualArtwork) return;
+  return JSON.stringify(visualArtwork, null, 2);
 }
