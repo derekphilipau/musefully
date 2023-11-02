@@ -61,8 +61,6 @@ export default async function Page({ params }) {
   const artwork = data?.data as ArtworkDocument;
   const similarArtworks = data?.similar as ArtworkDocument[];
 
-  const IMAGE_DOMAIN = process.env.IMAGE_DOMAIN || '';
-
   return (
     <>
       <section className="container grid gap-x-12 gap-y-6 pb-8 pt-2 md:grid-cols-2 md:pb-10 md:pt-4 lg:grid-cols-8">
@@ -70,12 +68,11 @@ export default async function Page({ params }) {
           {artwork?.copyrightRestricted || !artwork?.publicAccess ? (
             <DocumentImage
               item={artwork}
-              imageDomain={IMAGE_DOMAIN}
               className="mb-4"
               caption={getCaption(artwork, artwork?.image?.url)}
             />
           ) : (
-            <ImageZoom item={artwork} imageDomain={IMAGE_DOMAIN} />
+            <ImageZoom item={artwork} />
           )}
         </div>
         <div className="md:col-span-1 lg:col-span-5">
@@ -135,7 +132,6 @@ export default async function Page({ params }) {
         title={dict['artwork.similar']}
         similar={similarArtworks}
         isMultiSource={isMultiSource}
-        imageDomain={IMAGE_DOMAIN}
       />
 
       <ArtworkJsonLdScript artwork={artwork} />

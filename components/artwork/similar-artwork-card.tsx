@@ -9,11 +9,9 @@ import { SourceHeader } from '../source/source-header';
 export function SimilarArtworkCard({
   item,
   isMultiSource,
-  imageDomain,
 }: {
   item: ArtworkDocument;
   isMultiSource: boolean;
-  imageDomain: string;
 }) {
   if (!item || !item._id) return null;
   const dict = getDictionary();
@@ -27,11 +25,7 @@ export function SimilarArtworkCard({
       {isMultiSource && <SourceHeader item={item} isSmall={true} />}
       <div className="flex items-center justify-center bg-neutral-200 text-neutral-300 hover:bg-neutral-300 hover:text-neutral-400  dark:bg-neutral-900 dark:text-neutral-800 dark:hover:bg-neutral-800 dark:hover:text-neutral-700">
         <Link href={href}>
-          <DocumentImage
-            item={item}
-            imageDomain={imageDomain}
-            className="h-48 object-contain"
-          />
+          <DocumentImage item={item} className="h-48 object-contain" />
         </Link>
       </div>
       <div className="pt-2">

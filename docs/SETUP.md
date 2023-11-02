@@ -1,6 +1,6 @@
 # Setup Guide
 
-Download & install the project, set up an Elasticsearch service, and load the data.  Optionally, add your own data & ingesters.
+Download & install the project, set up an Elasticsearch service, and load the data. Optionally, add your own data & ingesters.
 
 ## Download & Install
 
@@ -16,14 +16,15 @@ You can run Elasticsearch in a Docker container locally or in the cloud.
 
 ### Cloud Elasticsearch
 
-1. [Sign up for an Elasticsearch Cloud account](https://cloud.elastic.co/).  
-2. Create a deployment.  The free tier is sufficient for development.
+1. [Sign up for an Elasticsearch Cloud account](https://cloud.elastic.co/).
+2. Create a deployment. The free tier is sufficient for development.
 
 Note that [musefully.org](https://musefully.org) with >300k documents currently runs on Elasticsearch Cloud with a minimal storage optimized AWS deployment for about $20/month.
 
 ### Non-cloud Elasticsearch
 
-The `/docker` folder contains a `docker-compose` file for running Elasticsearch locally. 
+The `/docker` folder contains a `docker-compose` file for running Elasticsearch locally.
+
 1. `cd docker`
 2. `docker compose up`.
 
@@ -65,7 +66,7 @@ ELASTICSEARCH_CA_FILE=./secrets/es01.crt
 ELASTICSEARCH_API_KEY=MVE2aWxZUIJBWkNOUzYwU1ZKbUg6dEllY4JjQkVTZ3lFWlU3RRdLUm5mQQ==
 ELASTICSEARCH_BULK_LIMIT=2000
 API_SECRET=dfJtqJDG9VwN69edUU283qnD
-IMAGE_DOMAIN=rx3rxq8hyni2c.cloudfront.net
+NEXT_PUBLIC_IMAGE_DOMAIN=rx3rxq8hyni2c.cloudfront.net
 PROCESS_IMAGES=true
 OPENAI_ORGANIZATION_ID=org-w82VoqIeNar3SuG3kBcnZ
 OPENAI_API_KEY=sk-231rZaTl2w2MnRPOrsT1T9BlckFJes7O2D1RIOqEkvV2SEAZ
@@ -94,6 +95,7 @@ The import process will take some time, as it inserts 2000 documents at a time u
 ## Add your data
 
 Add a collections dataset:
+
 1. Export collections data to JSON
 2. Write an ingester which maps data to the Elasticsearch index.
    - Create ingester in `lib/import/ingesters/`
@@ -101,6 +103,7 @@ Add a collections dataset:
    - Run `npm run import` to import the dataset.
 
 Add an RSS feed:
+
 1. Add the RSS feed URL to `config/site.ts` in the `rssFeeds` array.
 
 ## Deploy
