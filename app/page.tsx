@@ -7,8 +7,14 @@ import type { BaseDocument } from '@/types/baseDocument';
 import type { Term } from '@/types/term';
 import { siteConfig } from '@/config/site';
 import { search } from '@/lib/elasticsearch/search/search';
-import { getSanitizedSearchParams } from '@/lib/elasticsearch/search/searchParams';
-import type { GenericSearchParams } from '@/lib/elasticsearch/search/searchParams';
+import {
+  getSanitizedSearchParams,
+  LAYOUT_GRID,
+} from '@/lib/elasticsearch/search/searchParams';
+import type {
+  GenericSearchParams,
+  LayoutType,
+} from '@/lib/elasticsearch/search/searchParams';
 import { ArtworkCard } from '@/components/artwork/artwork-card';
 import { ContentCard } from '@/components/search-card/content-card';
 import { EventCard } from '@/components/search-card/event-card';
@@ -22,8 +28,8 @@ import { SearchFilterTag } from '@/components/search/search-filter-tag';
 import { SearchFilters } from '@/components/search/search-filters';
 import { SearchPagination } from '@/components/search/search-pagination';
 
-function getLayoutGridClass(layout: string) {
-  if (layout === 'grid')
+function getLayoutGridClass(layout: LayoutType) {
+  if (layout === LAYOUT_GRID)
     return 'my-4 relative grid grid-cols-1 gap-8 pb-8 md:grid-cols-2 md:pb-10 lg:grid-cols-3';
   return 'my-4 relative grid grid-cols-1 gap-8 pb-8 md:pb-10';
 }

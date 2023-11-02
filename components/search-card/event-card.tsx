@@ -3,22 +3,27 @@ import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
 import type { EventDocument } from '@/types/eventDocument';
+import {
+  LAYOUT_GRID,
+  LAYOUT_LIST,
+} from '@/lib/elasticsearch/search/searchParams';
+import type { LayoutType } from '@/lib/elasticsearch/search/searchParams';
 import { Icons } from '@/components/icons';
 import { SourceHeader } from '@/components/source/source-header';
 
 function getContainerClass(layout) {
-  if (layout === 'grid') return '';
+  if (layout === LAYOUT_GRID) return '';
   return 'grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 gap-x-6 gap-y-3';
 }
 
 function getDetailsClass(layout) {
-  if (layout === 'grid') return 'pt-3';
+  if (layout === LAYOUT_GRID) return 'pt-3';
   return 'lg:col-span-2';
 }
 
 interface EventCardProps {
   item: EventDocument;
-  layout: 'grid' | 'list';
+  layout: LayoutType;
   showType: boolean;
   isMultiSource: boolean;
 }
@@ -36,7 +41,7 @@ export function EventCard({
     <Link href={item.url}>
       <div className={getContainerClass(layout)}>
         <div>
-          {isMultiSource && layout === 'grid' && (
+          {isMultiSource && layout === LAYOUT_GRID && (
             <SourceHeader item={item} showDate={true} isSmall={true} />
           )}
           <div className="flex items-center justify-center bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-800 dark:hover:bg-neutral-700">
@@ -60,8 +65,10 @@ export function EventCard({
           </div>
         </div>
         <div className={getDetailsClass(layout)}>
-          {isMultiSource && layout !== 'grid' && <SourceHeader item={item} />}
-          {showType && layout === 'list' && (
+          {isMultiSource && layout !== LAYOUT_GRID && (
+            <SourceHeader item={item} />
+          )}
+          {showType && layout === LAYOUT_LIST && (
             <h4 className="mb-2 text-base font-semibold uppercase text-neutral-500 dark:text-neutral-600">
               {dict['index.events.itemTitle']}
             </h4>

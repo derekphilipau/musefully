@@ -3,22 +3,24 @@ import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
 import type { BaseDocument } from '@/types/baseDocument';
+import { LAYOUT_GRID } from '@/lib/elasticsearch/search/searchParams';
+import type { LayoutType } from '@/lib/elasticsearch/search/searchParams';
 import { truncate } from '@/lib/various';
 import { SourceHeader } from '../source/source-header';
 
 function getContainerClass(layout) {
-  if (layout === 'grid') return '';
+  if (layout === LAYOUT_GRID) return '';
   return 'grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 gap-x-6 gap-y-3';
 }
 
 function getDetailsClass(layout) {
-  if (layout === 'grid') return '';
+  if (layout === LAYOUT_GRID) return '';
   return 'lg:col-span-2';
 }
 
 interface ImageNewsCardProps {
   item: BaseDocument;
-  layout: 'grid' | 'list';
+  layout: LayoutType;
   showType: boolean;
   isMultiSource: boolean;
 }

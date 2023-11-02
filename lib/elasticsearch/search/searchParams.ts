@@ -110,8 +110,8 @@ export function getSanitizedSearchParams(
 
   // ui layout
   sanitizedParams.layout =
-    typeof params.layout === 'string' && params.layout === 'list'
-      ? 'list'
+    typeof params.layout === 'string' && params.layout === LAYOUT_LIST
+      ? LAYOUT_LIST
       : LAYOUT_DEFAULT;
   sanitizedParams.cardType =
     (typeof params.card === 'string' && params.card) || undefined;
