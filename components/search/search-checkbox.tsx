@@ -1,11 +1,14 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
+
+import type { SearchParams } from '@/lib/elasticsearch/search/searchParams';
+import { toURLSearchParams } from '@/lib/elasticsearch/search/searchParams';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 
 interface SearchCheckboxProps {
-  params?: any;
+  params?: SearchParams;
   name: string;
   value: boolean;
   label: string;
@@ -21,7 +24,7 @@ export function SearchCheckbox({
   const pathname = usePathname();
 
   function checkValue(checked: boolean) {
-    const updatedParams = new URLSearchParams(params);
+    const updatedParams = toURLSearchParams(params);
     if (checked) updatedParams.set(name, checked + '');
     else updatedParams.delete(name);
     updatedParams.delete('p');

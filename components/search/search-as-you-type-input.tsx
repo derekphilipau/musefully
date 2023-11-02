@@ -6,6 +6,8 @@ import { getDictionary } from '@/dictionaries/dictionaries';
 
 import type { Term } from '@/types/term';
 import { useDebounce } from '@/lib/debounce';
+import type { SearchParams } from '@/lib/elasticsearch/search/searchParams';
+import { toURLSearchParams } from '@/lib/elasticsearch/search/searchParams';
 import { Icons } from '@/components/icons';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -18,7 +20,7 @@ import {
 } from '@/components/ui/popover-local';
 
 interface SearchAsYouTypeInputProps {
-  params?: any;
+  params?: SearchParams;
 }
 
 export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
@@ -52,7 +54,7 @@ export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
   }, 50);
 
   function searchForQuery(currentValue = '') {
-    const updatedParams = new URLSearchParams(params);
+    const updatedParams = toURLSearchParams(params);
     if (currentValue) updatedParams.set('q', currentValue);
     else updatedParams.delete('q');
     updatedParams.delete('p');
@@ -63,7 +65,7 @@ export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
   }
 
   function searchForTerm(term: Term) {
-    const updatedParams = new URLSearchParams(params);
+    const updatedParams = toURLSearchParams(params);
     if (!term.value || !term.field) return;
     if (term.field === 'primaryConstituent.canonicalName') {
       updatedParams.set('primaryConstituent.canonicalName', term.value);

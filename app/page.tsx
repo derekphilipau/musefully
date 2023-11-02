@@ -20,9 +20,9 @@ import { ContentCard } from '@/components/search-card/content-card';
 import { EventCard } from '@/components/search-card/event-card';
 import { ImageNewsCard } from '@/components/search-card/image-news-card';
 import { NewsCard } from '@/components/search-card/news-card';
+import { ArtSearchCheckboxes } from '@/components/search/art-search-checkboxes';
 import { ArtistTermCard } from '@/components/search/artist-term-card';
 import { SearchAsYouTypeInput } from '@/components/search/search-as-you-type-input';
-import { SearchCheckbox } from '@/components/search/search-checkbox';
 import { SearchDidYouMean } from '@/components/search/search-did-you-mean';
 import { SearchFilterTag } from '@/components/search/search-filter-tag';
 import { SearchFilters } from '@/components/search/search-filters';
@@ -63,35 +63,10 @@ export default async function Page({ params, searchParams }: Props) {
     <section className="container pt-2">
       <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
         <div className="grow">
-          <SearchAsYouTypeInput params={searchParams} />
+          <SearchAsYouTypeInput params={sanitizedParams} />
         </div>
         {sanitizedParams.index === 'art' && (
-          <div className="flex flex-wrap gap-x-4 gap-y-2">
-            <div className="flex items-center space-x-2">
-              <SearchCheckbox
-                params={searchParams}
-                name="hasPhoto"
-                value={sanitizedParams.hasPhoto}
-                label={dict['search.hasPhoto']}
-              />
-            </div>
-            <div className="flex items-center space-x-2">
-              <SearchCheckbox
-                params={searchParams}
-                name="onView"
-                value={sanitizedParams.onView}
-                label={dict['search.onView']}
-              />
-            </div>
-            <div className="flex items-center space-x-2">
-              <SearchCheckbox
-                params={searchParams}
-                name="isUnrestricted"
-                value={sanitizedParams.isUnrestricted}
-                label={dict['search.openAccess']}
-              />
-            </div>
-          </div>
+          <ArtSearchCheckboxes params={sanitizedParams} />
         )}
       </div>
       {(filterArr?.length > 0 || sanitizedParams.hexColor) && (
@@ -102,7 +77,7 @@ export default async function Page({ params, searchParams }: Props) {
                 filter && (
                   <SearchFilterTag
                     key={i}
-                    params={searchParams}
+                    params={sanitizedParams}
                     name={filter[0]}
                     value={filter[1]}
                   />
@@ -110,7 +85,7 @@ export default async function Page({ params, searchParams }: Props) {
             )}
           {sanitizedParams.hexColor && (
             <SearchFilterTag
-              params={searchParams}
+              params={sanitizedParams}
               name="color"
               value={sanitizedParams.hexColor}
             />

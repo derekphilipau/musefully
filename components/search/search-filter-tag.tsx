@@ -3,11 +3,15 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
+import {
+  SearchParams,
+  toURLSearchParams,
+} from '@/lib/elasticsearch/search/searchParams';
 import { Button } from '@/components/ui/button';
 import { Icons } from '../icons';
 
 interface SearchFilterTagProps {
-  params?: any;
+  params?: SearchParams;
   name: string;
   value: any;
 }
@@ -19,7 +23,7 @@ export function SearchFilterTag({ params, name, value }: SearchFilterTagProps) {
   const dict = getDictionary();
 
   function buttonClick() {
-    const updatedParams = new URLSearchParams(params);
+    const updatedParams = toURLSearchParams(params);
     updatedParams.delete(name);
     updatedParams.delete('p');
     router.push(`${pathname}?${updatedParams}`);
