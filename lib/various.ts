@@ -72,13 +72,15 @@ export function getCaption(
  * @param x the value to check
  * @returns  true if x is a boolean or a string that is 'true', false otherwise
  */
-export function getBooleanValue(x?: boolean | string | number | null) {
+export function getBooleanValue(
+  x?: boolean | string | string[] | number | null
+) {
   if (typeof x === 'boolean') return x;
   if (typeof x === 'string') {
     return x.toLowerCase() === 'true' || x === '1';
   }
   if (typeof x === 'number') return x === 1;
-  return false; // undefined, null, or other
+  return false; // undefined, null, string[]
 }
 
 /**
