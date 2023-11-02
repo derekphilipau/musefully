@@ -1,12 +1,14 @@
 import { expect, test } from '@playwright/test';
 
+import type { SortOrder } from '@/lib/elasticsearch/search/searchParams';
+
 function buildSearchURL(params: {
   index?: string;
   p?: number;
   size?: number;
   q?: string;
   sf?: string;
-  so?: 'asc' | 'desc';
+  so?: SortOrder;
   color?: string;
 }): string {
   const baseURL = '/api/search';
