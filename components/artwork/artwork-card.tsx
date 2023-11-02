@@ -60,12 +60,12 @@ export function ArtworkCard({
             />
           </Link>
         </div>
+        {showColor && (
+          <div className="mt-2">
+            <DominantColors item={item} height={4} isLinked={false} />
+          </div>
+        )}
       </div>
-      {showColor && (
-        <div className="mt-2">
-          <DominantColors item={item} height={4} isLinked={false} />
-        </div>
-      )}
       <div className={getDetailsClass(layout)}>
         {isMultiSource && layout !== 'grid' && (
           <SourceHeader item={item} showDate={false} />
