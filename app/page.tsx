@@ -106,7 +106,7 @@ export default async function Page({ params, searchParams }: Props) {
           <div className={getLayoutGridClass(sanitizedParams.layout)}>
             {items?.length > 0 &&
               items.map(
-                (item: any, i: Key) =>
+                (item: BaseDocument, i: Key) =>
                   item && (
                     <div className="" key={i}>
                       {item.type === 'artwork' && !sanitizedParams.cardType && (

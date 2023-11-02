@@ -4,9 +4,10 @@ import { useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
+import type { AggOptions } from '@/types/aggOptions';
 import {
-  toURLSearchParams,
   toggleIsShowFilters,
+  toURLSearchParams,
   type SearchParams,
 } from '@/lib/elasticsearch/search/searchParams';
 import { Icons } from '@/components/icons';
@@ -16,18 +17,14 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { SearchFilters } from './search-filters';
 
 interface SearchFilterButtonProps {
-  index: string;
   searchParams: SearchParams;
-  options: any;
-  filters: any;
+  options: AggOptions;
   isShowFilters: boolean;
 }
 
 export function SearchFilterButton({
-  index,
   searchParams,
   options,
-  filters,
   isShowFilters,
 }: SearchFilterButtonProps) {
   const [open, setOpen] = useState(false);
