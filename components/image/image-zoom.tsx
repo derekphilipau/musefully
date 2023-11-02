@@ -48,7 +48,7 @@ export function ImageZoom({ item }: ImageZoomProps) {
                   item={item}
                   className="max-h-[32rem] cursor-pointer object-contain"
                   size="m"
-                  caption={getCaption(item, item.image.url)}
+                  caption={getCaption(item)}
                 />
               </div>
             )}

@@ -69,7 +69,7 @@ export default async function Page({ params }) {
             <DocumentImage
               item={artwork}
               className="mb-4"
-              caption={getCaption(artwork, artwork?.image?.url)}
+              caption={getCaption(artwork)}
             />
           ) : (
             <ImageZoom item={artwork} />
