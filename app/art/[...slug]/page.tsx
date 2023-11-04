@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
 import { encode } from 'html-entities';
 
@@ -25,7 +26,6 @@ export async function generateMetadata({ params }): Promise<Metadata> {
   try {
     data = await getDocument('art', id);
   } catch (error) {
-    console.log(error);
     return {};
     // don't do anything so that the error page can be rendered later
   }
@@ -52,10 +52,20 @@ export default async function Page({ params }) {
   const dict = getDictionary();
   const isMultiSource = siteConfig.isMultiSource;
 
-  let data: ApiResponseDocument = await getDocument('art', id);
+  let data: ApiResponseDocument;
+  try {
+    data = await getDocument('art', id);
+  } catch (error) {
+    console.error(error);
+    if (error?.body?.found === false) {
+      return notFound();
+    } else {
+      throw error;
+    }
+  }
 
   if (!data?.data) {
-    throw new Error('Artwork not found.');
+    return notFound();
   }
 
   const artwork = data?.data as ArtworkDocument;
