@@ -2,6 +2,17 @@
 
 API endpoints for search, document retrieval, and RSS feed updates. Next.js API Routes with Route Handlers located in `/app/api` directory.
 
+[Search](#search)
+- [GET `/api/search`](#apisearch): Search documents
+- [GET `/api/search/document`](#apisearchdocument): Get a document
+- [GET `/api/search/options`](#apisearchoptions): Get agg options
+- [GET `/api/search/similar`](#apisearchsimilar): Get similar artworks
+- [GET `/api/search/suggest`](#apisearchsuggest): Get term suggestions
+- [GET `/api/search/terms`](#apisearchterms): Get terms
+
+[Sync](#sync)
+- [GET `/api/import/rss`](#apiimportrss): Import/upsert RSS feeds
+
 ## Search
 
 ### `/api/search`
@@ -208,25 +219,6 @@ API endpoints for search, document retrieval, and RSS feed updates. Next.js API 
   - **Properties**:
     - **Error**:
       - **Type**: string
-
-##### Components:
-
-####### Schemas:
-
-######## AggOption:
-
-- **Type**: object
-- **Properties**:
-  - **Key**:
-    - **Type**: string
-    - **Description**: The aggregation key or name.
-  - **Doc_count**:
-    - **Type**: integer
-    - **Format**: int32
-    - **Description**: The count of documents associated with the key.
-- **Required**:
-  - Key
-  - Doc_count
 
 ### `/api/search/similar`
 
