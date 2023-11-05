@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { ArtworkDocument } from '@/types/artworkDocument';
+import type { ArtworkDocument } from '@/types/document';
 import { getCaption } from '@/lib/various';
 import { Icons } from '@/components/icons';
 import { buttonVariants } from '@/components/ui/button';

@@ -6,7 +6,7 @@ import type {
   ApiResponseSearch,
   ApiResponseSearchMetadata,
 } from '@/types/apiResponseSearch';
-import type { Term } from '@/types/term';
+import type { TermDocument } from '@/types/document';
 import { indicesMeta } from '@/lib/elasticsearch/indicesMeta';
 import { getClient } from '../client';
 import { getElasticsearchIndices, type SearchParams } from './searchParams';
@@ -234,7 +234,7 @@ async function getSearchQueryTerms(
   query: string | undefined,
   pageNumber: number,
   client: Client
-): Promise<Term[] | undefined> {
+): Promise<TermDocument[] | undefined> {
   if (query && query?.length > MIN_SEARCH_QUERY_LENGTH && pageNumber === 1) {
     return await terms(query, undefined, client);
   }
@@ -243,7 +243,7 @@ async function getSearchQueryTerms(
 async function getFilterTerm(
   searchParams: SearchParams,
   client: Client
-): Promise<Term | undefined> {
+): Promise<TermDocument | undefined> {
   if (indicesMeta[searchParams.index]?.filters?.length > 0) {
     for (const filter of indicesMeta[searchParams.index].filters) {
       if (
@@ -257,7 +257,7 @@ async function getFilterTerm(
           searchParams.aggFilters?.[filter],
           client
         );
-        return response?.data as Term;
+        return response?.data as TermDocument;
       }
     }
   }

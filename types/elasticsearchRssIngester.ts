@@ -1,4 +1,4 @@
-import type { BaseDocument } from './baseDocument';
+import type { BaseDocument } from './document';
 
 /**
  * Function type for generating an ID for Elasticsearch documents.

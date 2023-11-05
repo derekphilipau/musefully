@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import type { BaseDocument } from '@/types/baseDocument';
+import type { BaseDocument } from '@/types/document';
 import { cn } from '@/lib/utils';
 import { timeAgo } from '@/lib/various';
 

@@ -4,7 +4,7 @@ import zlib from 'zlib';
 import csvParser from 'csv-parser';
 
 import type { ElasticsearchIngester } from '@/types/elasticsearchIngester';
-import { TermIdMap } from '@/types/term';
+import {  TermDocumentIdMap } from '@/types/document';
 import { getClient } from '@/lib/elasticsearch/client';
 import {
   bulk,
@@ -74,7 +74,7 @@ export default async function updateFromFile(
   const client = getClient();
   await createIndexIfNotExist(client, indexName);
   const allIds: string[] = [];
-  let allTerms: TermIdMap = {};
+  let allTerms:  TermDocumentIdMap = {};
   let operations: any[] = [];
 
   for await (const obj of readFileData(dataFilename)) {

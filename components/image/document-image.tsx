@@ -1,6 +1,6 @@
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { BaseDocument } from '@/types/baseDocument';
+import type { BaseDocument } from '@/types/document';
 import { Icons } from '@/components/icons';
 
 type ImageSize = 's' | 'm' | 'l';

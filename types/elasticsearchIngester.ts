@@ -1,5 +1,4 @@
-import type { BaseDocument } from './baseDocument';
-import type { TermIdMap } from './term';
+import type { BaseDocument, TermDocumentIdMap } from './document';
 
 /**
  * Function type for generating an ID for Elasticsearch documents.
@@ -14,11 +13,11 @@ export interface ElasticsearchIdGenerator {
  * Function type for extracting terms from a `BaseDocument`.  Optional.
  */
 export interface ElasticsearchTermsExtractor {
-  (doc: BaseDocument): Promise<TermIdMap | undefined>;
+  (doc: BaseDocument): Promise<TermDocumentIdMap | undefined>;
 }
 
 /**
- * Function type for transforming any document to a `BaseDocument` or `Term`.
+ * Function type for transforming any document to a `BaseDocument` or `TermDocument`.
  */
 export interface ElasticsearchTransform {
   (doc: any): Promise<BaseDocument | undefined>;

@@ -1,11 +1,11 @@
 import type { Key } from 'react';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { Term } from '@/types/term';
+import type { TermDocument } from '@/types/document';
 import { TermCard } from '../search-card/term-card';
 
 interface SearchDidYouMeanProps {
-  terms: Term[];
+  terms: TermDocument[];
 }
 
 export function SearchDidYouMean({ terms }: SearchDidYouMeanProps) {
@@ -23,7 +23,7 @@ export function SearchDidYouMean({ terms }: SearchDidYouMeanProps) {
       <div className="grid grid-cols-1 gap-2 md:grid-cols-3 md:pb-6 lg:grid-cols-4">
         {terms?.length > 0 &&
           terms.map(
-            (term: Term, i: Key) => term && <TermCard key={i} term={term} />
+            (term: TermDocument, i: Key) => term && <TermCard key={i} term={term} />
           )}
       </div>
     </div>

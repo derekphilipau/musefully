@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { ArtworkDocument } from '@/types/artworkDocument';
+import type { ArtworkDocument } from '@/types/document';
 import type { LayoutType } from '@/lib/elasticsearch/search/searchParams';
 import {
   LAYOUT_GRID,

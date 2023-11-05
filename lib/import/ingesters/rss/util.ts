@@ -1,6 +1,6 @@
 import { format, getYear, isValid, parse } from 'date-fns';
 
-import type { BaseDocument, DocumentConstituent } from '@/types/baseDocument';
+import type { BaseDocument, DocumentConstituent } from '@/types/document';
 import { stripHtmlTags } from '@/lib/various';
 
 /**

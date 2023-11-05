@@ -4,7 +4,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { Term } from '@/types/term';
+import type { TermDocument } from '@/types/document';
 import { useDebounce } from '@/lib/debounce';
 import type { SearchParams } from '@/lib/elasticsearch/search/searchParams';
 import { toURLSearchParams } from '@/lib/elasticsearch/search/searchParams';
@@ -31,7 +31,7 @@ export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(searchParams?.get('q') || '');
-  const [searchOptions, setSearchOptions] = useState<Term[]>([]);
+  const [searchOptions, setSearchOptions] = useState<TermDocument[]>([]);
 
   const debouncedSuggest = useDebounce(() => {
     if (value?.length < 3) {
@@ -64,7 +64,7 @@ export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
     router.push(`${pathname}?${updatedParams}`);
   }
 
-  function searchForTerm(term: Term) {
+  function searchForTerm(term: TermDocument) {
     const updatedParams = toURLSearchParams(params);
     if (!term.value || !term.field) return;
     if (term.field === 'primaryConstituent.canonicalName') {

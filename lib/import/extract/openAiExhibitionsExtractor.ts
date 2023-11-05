@@ -13,7 +13,7 @@ import { Configuration, CreateChatCompletionRequest, OpenAIApi } from 'openai';
 import TurndownService from 'turndown';
 
 import type { ElasticsearchExtractor } from '@/types/elasticsearchExtractor';
-import { EventDocument } from '@/types/eventDocument';
+import { EventDocument } from '@/types/document';
 import { parseDateRange, type DateRange } from './dateParser';
 
 loadEnvConfig(process.cwd());

@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { EventDocument } from '@/types/eventDocument';
+import type { EventDocument } from '@/types/document';
 import {
   LAYOUT_GRID,
   LAYOUT_LIST,

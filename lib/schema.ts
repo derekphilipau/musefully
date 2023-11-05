@@ -7,7 +7,7 @@
 import { vi } from 'date-fns/locale';
 import type { VisualArtwork, WithContext } from 'schema-dts';
 
-import type { ArtworkDocument } from '@/types/artworkDocument';
+import type { ArtworkDocument } from '@/types/document';
 
 /**
  * Parse dimensions string into cm.

@@ -1,4 +1,4 @@
-import type { BaseDocument } from '@/types/baseDocument';
+import type { BaseDocument } from '@/types/document';
 import type { ElasticsearchRssIngester } from '@/types/elasticsearchRssIngester';
 import { transformRssItem } from './util';
 

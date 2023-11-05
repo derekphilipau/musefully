@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Script from 'next/script';
 
-import type { ArtworkDocument } from '@/types/artworkDocument';
+import type { ArtworkDocument } from '@/types/document';
 import { getSchemaVisualArtworkJson } from '@/lib/schema';
 
 interface ArtworkJsonLdScriptProps {

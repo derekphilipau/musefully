@@ -2,8 +2,7 @@ import { Key } from 'react';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import { type DocumentGeographicalLocation } from '@/types/baseDocument';
-import type { ArtworkDocument } from '@/types/artworkDocument';
+import type { ArtworkDocument, DocumentGeographicalLocation } from '@/types/document';
 
 interface DescriptionRowProps {
   item?: ArtworkDocument;

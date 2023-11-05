@@ -1,16 +1,16 @@
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { Term } from '@/types/term';
+import type { TermDocument } from '@/types/document';
 
 interface ArtistTermCardProps {
-  filters: Term[];
+  filters: TermDocument[];
 }
 
 export function ArtistTermCard({ filters }: ArtistTermCardProps) {
   const dict = getDictionary();
   const term = filters.find(
-    (term: Term) => term?.field === 'primaryConstituent.canonicalName'
+    (term: TermDocument) => term?.field === 'primaryConstituent.canonicalName'
   );
 
   if (!term) {

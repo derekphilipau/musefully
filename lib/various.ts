@@ -2,7 +2,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { Parser } from 'htmlparser2';
 import slugify from 'slugify';
 
-import type { ArtworkDocument } from '@/types/artworkDocument';
+import type { ArtworkDocument } from '@/types/document';
 
 /**
  * Strips html tags from a string

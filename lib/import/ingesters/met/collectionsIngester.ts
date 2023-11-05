@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { load } from 'cheerio';
 
-import type { ArtworkDocument } from '@/types/artworkDocument';
 import type {
+  ArtworkDocument,
   DocumentConstituent,
   DocumentGeographicalLocation,
   DocumentImage,
-} from '@/types/baseDocument';
+} from '@/types/document';
 import type { ElasticsearchIngester } from '@/types/elasticsearchIngester';
 import countryByContinent from '@/lib/country-by-continent.json';
 import { searchUlanArtistById } from '@/lib/import/ulan/searchUlanArtists';

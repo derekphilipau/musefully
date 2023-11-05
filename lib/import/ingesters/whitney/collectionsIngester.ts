@@ -1,8 +1,7 @@
 import * as fs from 'fs';
 import csv from 'csv-parser';
 
-import type { ArtworkDocument } from '@/types/artworkDocument';
-import type { DocumentConstituent } from '@/types/baseDocument';
+import type { ArtworkDocument, DocumentConstituent } from '@/types/document';
 import type { ElasticsearchIngester } from '@/types/elasticsearchIngester';
 import { searchUlanArtists } from '@/lib/import/ulan/searchUlanArtists';
 import { artworkTermsExtractor } from '../artworkTermsExtractor';

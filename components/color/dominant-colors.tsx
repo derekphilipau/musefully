@@ -1,7 +1,7 @@
 import { Key } from 'react';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
-import type { DocumentImageDominantColor } from '@/types/baseDocument';
+import type { DocumentImageDominantColor } from '@/types/document';
 
 export function DominantColors({ item, height = 10, isLinked = true }) {
   const dict = getDictionary();

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { ArtworkDocument } from '@/types/artworkDocument';
+import type { ArtworkDocument } from '@/types/document';
 import { DominantColors } from '@/components/color/dominant-colors';
 import { DescriptionRow } from './description-row';
 import { GeographicalDescriptionRow } from './geographical-description-row';

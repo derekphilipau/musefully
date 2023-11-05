@@ -127,7 +127,7 @@ Museum Location:
 
 #### Base Document
 
-The base document defines common fields for all indices, these are the fields used for cross-index search. The Elasticsearch Base Document fields are defined in `indices.ts` and the associated Typescript interface is defined in `/types/baseDocument.ts`.
+The base document defines common fields for all indices, these are the fields used for cross-index search. The Elasticsearch Base Document fields are defined in `indices.ts` and the associated Typescript interface is defined in `/types/document.ts`.
 
 - `type` - The type of document, e.g. "object", "terms"
 - `source` - The source of the document, e.g. "Brooklyn Museum", "Getty ULAN"

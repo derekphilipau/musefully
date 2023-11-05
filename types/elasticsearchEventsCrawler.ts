@@ -1,4 +1,4 @@
-import type { EventDocument } from './eventDocument';
+import type { EventDocument } from './document';
 
 /**
  * Function type for crawling web resources and returning arrays of `BaseDocument`.

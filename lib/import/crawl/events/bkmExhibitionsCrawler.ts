@@ -3,7 +3,7 @@ import { load } from 'cheerio';
 import { endOfMonth, formatISO, parse } from 'date-fns';
 
 import type { ElasticsearchEventsCrawler } from '@/types/elasticsearchEventsCrawler';
-import type { EventDocument } from '@/types/eventDocument';
+import type { EventDocument } from '@/types/document';
 
 const TYPE = 'exhibition';
 const SOURCE = 'Brooklyn Museum';
