@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { AggOptions } from '@/types/aggOptions';
+import type { AggOptions } from '@/types/aggregation';
 import {
   CARD_COLOR,
   CARD_PALETTE,

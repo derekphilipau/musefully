@@ -1,7 +1,7 @@
 import { Key } from 'react';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { AggOptions } from '@/types/aggOptions';
+import type { AggOptions } from '@/types/aggregation';
 import type { ApiResponseSearch } from '@/types/apiResponseSearch';
 import type { BaseDocument } from '@/types/baseDocument';
 import type { Term } from '@/types/term';

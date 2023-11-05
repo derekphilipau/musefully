@@ -1,6 +1,6 @@
 import * as T from '@elastic/elasticsearch/lib/api/types';
 
-import type { AggOptions } from './aggOptions';
+import type { AggOptions } from './aggregation';
 import type { BaseDocument } from './baseDocument';
 import type { Term } from './term';
 

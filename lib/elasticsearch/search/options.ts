@@ -1,6 +1,6 @@
 import * as T from '@elastic/elasticsearch/lib/api/types';
 
-import type { AggOption } from '@/types/aggOption';
+import type { AggOption } from '@/types/aggregation';
 import { getClient } from '../client';
 
 const OPTIONS_PAGE_SIZE = 20; // 20 results per aggregation options search

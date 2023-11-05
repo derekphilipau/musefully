@@ -1,7 +1,7 @@
 import { Client } from '@elastic/elasticsearch';
 import * as T from '@elastic/elasticsearch/lib/api/types';
 
-import type { AggOptions } from '@/types/aggOptions';
+import type { AggOptions } from '@/types/aggregation';
 import type {
   ApiResponseSearch,
   ApiResponseSearchMetadata,

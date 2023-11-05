@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-import type { AggOption } from '@/types/aggOption';
+import type { AggOption } from '@/types/aggregation';
 import { options } from '@/lib/elasticsearch/search/options';
 
 /**

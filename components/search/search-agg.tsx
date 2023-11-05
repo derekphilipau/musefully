@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
 import { ChevronsUpDown, Plus, X } from 'lucide-react';
 
-import type { AggOption } from '@/types/aggOption';
+import type { AggOption } from '@/types/aggregation';
 import { useDebounce } from '@/lib/debounce';
 import {
   toURLSearchParams,
