@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
+import type { AggOptions } from '@/types/aggOptions';
 import {
   CARD_COLOR,
   CARD_PALETTE,
@@ -50,7 +51,7 @@ import {
 interface SearchPaginationProps {
   searchParams: SearchParams;
   isShowViewOptions: boolean;
-  options: any;
+  options: AggOptions;
   count: number;
   totalPages: number;
 }
@@ -137,10 +138,8 @@ export function SearchPagination({
           <>
             <div>
               <SearchFilterButton
-                index={searchParams.index}
                 searchParams={searchParams}
                 options={options}
-                filters={searchParams.aggFilters}
                 isShowFilters={searchParams.isShowFilters}
               />
             </div>

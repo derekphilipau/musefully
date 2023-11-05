@@ -2,8 +2,6 @@ import * as fs from 'fs';
 import * as readline from 'node:readline';
 import zlib from 'zlib';
 
-// TODO remove zlib from package.json
-
 import type { UlanArtist } from '@/types/ulanArtist';
 
 const ULAN_ARTISTS_FILE = './data/ULAN/json/ulanArtists.jsonl.gz';

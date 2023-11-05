@@ -7,18 +7,16 @@ type ImageSize = 's' | 'm' | 'l';
 type ImageType = 'webp' | 'jpg';
 
 export function getImageURL(
-  imageDomain: string,
   indexName: string,
   id: string,
   size: ImageSize,
   type: ImageType
 ): string {
-  return `https://${imageDomain}/${indexName}/${id}-${size}.${type}`;
+  return `https://${process.env.NEXT_PUBLIC_IMAGE_DOMAIN}/${indexName}/${id}-${size}.${type}`;
 }
 
 interface DocumentImageProps {
   item: BaseDocument;
-  imageDomain: string;
   caption?: string;
   className?: string;
   size?: ImageSize;
@@ -26,7 +24,6 @@ interface DocumentImageProps {
 
 export function DocumentImage({
   item,
-  imageDomain,
   caption,
   className,
   size = 's',
@@ -39,25 +36,25 @@ export function DocumentImage({
   let srcSet = '';
   let sizesValue = '';
 
-  const fallbackSrc = getImageURL(imageDomain, indexName, id, 's', 'jpg');
+  const fallbackSrc = getImageURL(indexName, id, 's', 'jpg');
 
   switch (size) {
     case 's':
       srcSet = `
-        ${getImageURL(imageDomain, indexName, id, 's', 'webp')} 1x,
-        ${getImageURL(imageDomain, indexName, id, 'm', 'webp')} 2x
+        ${getImageURL(indexName, id, 's', 'webp')} 1x,
+        ${getImageURL(indexName, id, 'm', 'webp')} 2x
       `;
       sizesValue = '(max-width: 600px) 300px'; // Adjust to medium (600px) on retina.
       break;
     case 'm':
       srcSet = `
-        ${getImageURL(imageDomain, indexName, id, 'm', 'webp')} 1x,
-        ${getImageURL(imageDomain, indexName, id, 'l', 'webp')} 2x
+        ${getImageURL(indexName, id, 'm', 'webp')} 1x,
+        ${getImageURL(indexName, id, 'l', 'webp')} 2x
       `;
       sizesValue = '(max-width: 1200px) 600px'; // Adjust to large (1200px) on retina.
       break;
     case 'l':
-      srcSet = getImageURL(imageDomain, indexName, id, 'l', 'webp');
+      srcSet = getImageURL(indexName, id, 'l', 'webp');
       sizesValue = '';
       break;
   }

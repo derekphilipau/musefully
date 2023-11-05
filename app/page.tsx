@@ -7,23 +7,29 @@ import type { BaseDocument } from '@/types/baseDocument';
 import type { Term } from '@/types/term';
 import { siteConfig } from '@/config/site';
 import { search } from '@/lib/elasticsearch/search/search';
-import { getSanitizedSearchParams } from '@/lib/elasticsearch/search/searchParams';
-import type { GenericSearchParams } from '@/lib/elasticsearch/search/searchParams';
+import {
+  getSanitizedSearchParams,
+  LAYOUT_GRID,
+} from '@/lib/elasticsearch/search/searchParams';
+import type {
+  GenericSearchParams,
+  LayoutType,
+} from '@/lib/elasticsearch/search/searchParams';
 import { ArtworkCard } from '@/components/artwork/artwork-card';
 import { ContentCard } from '@/components/search-card/content-card';
 import { EventCard } from '@/components/search-card/event-card';
 import { ImageNewsCard } from '@/components/search-card/image-news-card';
 import { NewsCard } from '@/components/search-card/news-card';
+import { ArtSearchCheckboxes } from '@/components/search/art-search-checkboxes';
 import { ArtistTermCard } from '@/components/search/artist-term-card';
 import { SearchAsYouTypeInput } from '@/components/search/search-as-you-type-input';
-import { SearchCheckbox } from '@/components/search/search-checkbox';
 import { SearchDidYouMean } from '@/components/search/search-did-you-mean';
-import { SearchFilterTag } from '@/components/search/search-filter-tag';
+import { SearchFilterTags } from '@/components/search/search-filter-tags';
 import { SearchFilters } from '@/components/search/search-filters';
 import { SearchPagination } from '@/components/search/search-pagination';
 
-function getLayoutGridClass(layout: string) {
-  if (layout === 'grid')
+function getLayoutGridClass(layout: LayoutType) {
+  if (layout === LAYOUT_GRID)
     return 'my-4 relative grid grid-cols-1 gap-8 pb-8 md:grid-cols-2 md:pb-10 lg:grid-cols-3';
   return 'my-4 relative grid grid-cols-1 gap-8 pb-8 md:pb-10';
 }
@@ -41,8 +47,6 @@ export default async function Page({ params, searchParams }: Props) {
 
   const sanitizedParams = getSanitizedSearchParams(params.index, searchParams);
 
-  const filterArr = Object.entries(sanitizedParams.aggFilters);
-
   // Query Elasticsearch
   let response: ApiResponseSearch = await search(sanitizedParams);
   const items: BaseDocument[] = response?.data || [];
@@ -57,60 +61,13 @@ export default async function Page({ params, searchParams }: Props) {
     <section className="container pt-2">
       <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
         <div className="grow">
-          <SearchAsYouTypeInput params={searchParams} />
+          <SearchAsYouTypeInput params={sanitizedParams} />
         </div>
         {sanitizedParams.index === 'art' && (
-          <div className="flex flex-wrap gap-x-4 gap-y-2">
-            <div className="flex items-center space-x-2">
-              <SearchCheckbox
-                params={searchParams}
-                name="hasPhoto"
-                value={sanitizedParams.hasPhoto}
-                label={dict['search.hasPhoto']}
-              />
-            </div>
-            <div className="flex items-center space-x-2">
-              <SearchCheckbox
-                params={searchParams}
-                name="onView"
-                value={sanitizedParams.onView}
-                label={dict['search.onView']}
-              />
-            </div>
-            <div className="flex items-center space-x-2">
-              <SearchCheckbox
-                params={searchParams}
-                name="isUnrestricted"
-                value={sanitizedParams.isUnrestricted}
-                label={dict['search.openAccess']}
-              />
-            </div>
-          </div>
+          <ArtSearchCheckboxes params={sanitizedParams} />
         )}
       </div>
-      {(filterArr?.length > 0 || sanitizedParams.hexColor) && (
-        <div className="flex flex-wrap gap-2 pt-2">
-          {filterArr?.length > 0 &&
-            filterArr.map(
-              (filter, i) =>
-                filter && (
-                  <SearchFilterTag
-                    key={i}
-                    params={searchParams}
-                    name={filter[0]}
-                    value={filter[1]}
-                  />
-                )
-            )}
-          {sanitizedParams.hexColor && (
-            <SearchFilterTag
-              params={searchParams}
-              name="color"
-              value={sanitizedParams.hexColor}
-            />
-          )}
-        </div>
-      )}
+      <SearchFilterTags params={sanitizedParams} />
       <div className="gap-6 pb-8 pt-2 sm:grid sm:grid-cols-3 md:grid-cols-4 md:pt-4">
         {sanitizedParams.isShowFilters && (
           <div className="hidden h-full space-y-2 sm:col-span-1 sm:block">
@@ -149,7 +106,7 @@ export default async function Page({ params, searchParams }: Props) {
           <div className={getLayoutGridClass(sanitizedParams.layout)}>
             {items?.length > 0 &&
               items.map(
-                (item: any, i: Key) =>
+                (item: BaseDocument, i: Key) =>
                   item && (
                     <div className="" key={i}>
                       {item.type === 'artwork' && !sanitizedParams.cardType && (

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Script from 'next/script';
+import { notFound } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
 import { encode } from 'html-entities';
 
@@ -8,9 +8,9 @@ import type { ApiResponseDocument } from '@/types/apiResponseDocument';
 import type { ArtworkDocument } from '@/types/artworkDocument';
 import { siteConfig } from '@/config/site';
 import { getDocument } from '@/lib/elasticsearch/search/document';
-import { getSchemaVisualArtworkJson } from '@/lib/schema';
 import { getCaption } from '@/lib/various';
 import { ArtworkDescription } from '@/components/artwork/artwork-description';
+import { ArtworkJsonLdScript } from '@/components/artwork/artwork-json-ld-script';
 import { ArtworkShare } from '@/components/artwork/artwork-share';
 import { LanguageDisclaimer } from '@/components/artwork/language-disclaimer';
 import { SimilarArtworkList } from '@/components/artwork/similar-artwork-list';
@@ -26,7 +26,6 @@ export async function generateMetadata({ params }): Promise<Metadata> {
   try {
     data = await getDocument('art', id);
   } catch (error) {
-    console.log(error);
     return {};
     // don't do anything so that the error page can be rendered later
   }
@@ -53,17 +52,24 @@ export default async function Page({ params }) {
   const dict = getDictionary();
   const isMultiSource = siteConfig.isMultiSource;
 
-  let data: ApiResponseDocument = await getDocument('art', id);
+  let data: ApiResponseDocument;
+  try {
+    data = await getDocument('art', id);
+  } catch (error) {
+    console.error(error);
+    if (error?.body?.found === false) {
+      return notFound();
+    } else {
+      throw error;
+    }
+  }
 
   if (!data?.data) {
-    throw new Error('Artwork not found.');
+    return notFound();
   }
 
   const artwork = data?.data as ArtworkDocument;
   const similarArtworks = data?.similar as ArtworkDocument[];
-  const jsonLd = getSchemaVisualArtworkJson(artwork);
-
-  const IMAGE_DOMAIN = process.env.IMAGE_DOMAIN || '';
 
   return (
     <>
@@ -72,12 +78,11 @@ export default async function Page({ params }) {
           {artwork?.copyrightRestricted || !artwork?.publicAccess ? (
             <DocumentImage
               item={artwork}
-              imageDomain={IMAGE_DOMAIN}
               className="mb-4"
-              caption={getCaption(artwork, artwork?.image?.url)}
+              caption={getCaption(artwork)}
             />
           ) : (
-            <ImageZoom item={artwork} imageDomain={IMAGE_DOMAIN} />
+            <ImageZoom item={artwork} />
           )}
         </div>
         <div className="md:col-span-1 lg:col-span-5">
@@ -137,13 +142,9 @@ export default async function Page({ params }) {
         title={dict['artwork.similar']}
         similar={similarArtworks}
         isMultiSource={isMultiSource}
-        imageDomain={IMAGE_DOMAIN}
       />
 
-      {/* https://beta.nextjs.org/docs/guides/seo */}
-      <Script id="json-ld-script" type="application/ld+json">
-        {jsonLd}
-      </Script>
+      <ArtworkJsonLdScript artwork={artwork} />
     </>
   );
 }

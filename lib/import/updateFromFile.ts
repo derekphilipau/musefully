@@ -1,5 +1,3 @@
-// TODO remove zlib from package.json
-
 import * as fs from 'fs';
 import * as readline from 'node:readline';
 import zlib from 'zlib';

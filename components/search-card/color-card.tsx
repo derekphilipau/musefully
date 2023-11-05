@@ -2,17 +2,22 @@ import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
 import {
+  LAYOUT_GRID,
+  LAYOUT_LIST,
+} from '@/lib/elasticsearch/search/searchParams';
+import type { LayoutType } from '@/lib/elasticsearch/search/searchParams';
+import {
   getArtworkUrlWithSlug,
   trimStringToLengthAtWordBoundary,
 } from '@/lib/various';
 
-function getContainerClass(layout) {
-  if (layout === 'grid') return '';
+function getContainerClass(layout: LayoutType) {
+  if (layout === LAYOUT_GRID) return '';
   return 'grid grid-cols-1 lg:grid-cols-3 sm:grid-cols-2 gap-x-6 gap-y-3';
 }
 
-function getDetailsClass(layout) {
-  if (layout === 'grid') return '';
+function getDetailsClass(layout: LayoutType) {
+  if (layout === LAYOUT_GRID) return '';
   return 'lg:col-span-2';
 }
 
@@ -41,7 +46,7 @@ export function ColorCard({ item, layout, showType }) {
     <Link href={href}>
       <div className={getContainerClass(layout)}>
         <div>
-          {showType && layout === 'grid' && (
+          {showType && layout === LAYOUT_GRID && (
             <h4 className="text-base font-semibold uppercase text-neutral-500 dark:text-neutral-600">
               {dict['index.art.itemTitle']}
             </h4>
@@ -59,19 +64,19 @@ export function ColorCard({ item, layout, showType }) {
           )}
         </div>
         <div className={getDetailsClass(layout)}>
-          {showType && layout === 'list' && (
+          {showType && layout === LAYOUT_LIST && (
             <h4 className="mb-2 text-base font-semibold uppercase text-neutral-500 dark:text-neutral-600">
               {dict['index.art.itemTitle']}
             </h4>
           )}
 
-          {layout !== 'list' && (
+          {layout !== LAYOUT_LIST && (
             <h4 className="text-sm">
               {item.formattedDate ? `${item.formattedDate},` : ''}
               {primaryConstituentName}
             </h4>
           )}
-          {layout === 'list' && (
+          {layout === LAYOUT_LIST && (
             <>
               <h4 className="mb-2 text-xl font-semibold">
                 {item.title}

@@ -1,4 +1,10 @@
-import type { DocumentGeographicalLocation, DocumentMuseumLocation, DocumentConstituent, DocumentImage, BaseDocument } from './baseDocument';
+import type {
+  BaseDocument,
+  DocumentConstituent,
+  DocumentGeographicalLocation,
+  DocumentImage,
+  DocumentMuseumLocation,
+} from './baseDocument';
 
 export interface ArtworkDocument extends BaseDocument {
   constituents?: DocumentConstituent[];

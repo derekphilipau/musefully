@@ -110,8 +110,8 @@ export function getSanitizedSearchParams(
 
   // ui layout
   sanitizedParams.layout =
-    typeof params.layout === 'string' && params.layout === 'list'
-      ? 'list'
+    typeof params.layout === 'string' && params.layout === LAYOUT_LIST
+      ? LAYOUT_LIST
       : LAYOUT_DEFAULT;
   sanitizedParams.cardType =
     (typeof params.card === 'string' && params.card) || undefined;
@@ -200,13 +200,18 @@ function getSortOrder(
 /**
  * Convert search parameters to URL query parameters for client-side navigation.
  *
+ * Only set parameters that differ from the default values.
+ *
  * @param searchParams - The search parameters.
  * @returns The URLSearchParams object.
  */
-export function toURLSearchParams(searchParams: SearchParams): URLSearchParams {
+export function toURLSearchParams(
+  searchParams?: SearchParams
+): URLSearchParams {
   const urlParams = new URLSearchParams();
 
-  urlParams.set('index', searchParams.index);
+  if (!searchParams) return urlParams;
+
   if (searchParams.pageNumber > 1)
     urlParams.set('p', searchParams.pageNumber.toString());
   if (searchParams.resultsPerPage !== DEFAULT_SEARCH_PAGE_SIZE)

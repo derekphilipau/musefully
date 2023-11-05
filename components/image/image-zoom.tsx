@@ -23,22 +23,15 @@ const OpenSeaDragonViewer = dynamic(() => import('./open-seadragon-viewer'), {
 
 interface ImageZoomProps {
   item: ArtworkDocument;
-  imageDomain: string;
 }
 
-export function ImageZoom({ item, imageDomain }: ImageZoomProps) {
+export function ImageZoom({ item }: ImageZoomProps) {
   const dict = getDictionary();
   const [open, setOpen] = useState(false);
 
   if (!item || !item._index || !item?._id) return null;
 
-  const largeImageUrl = getImageURL(
-    imageDomain,
-    item._index,
-    item._id,
-    'l',
-    'webp'
-  );
+  const largeImageUrl = getImageURL(item._index, item._id, 'l', 'webp');
 
   return (
     <div className="flex flex-col items-center">
@@ -53,10 +46,9 @@ export function ImageZoom({ item, imageDomain }: ImageZoomProps) {
               >
                 <DocumentImage
                   item={item}
-                  imageDomain={imageDomain}
                   className="max-h-[32rem] cursor-pointer object-contain"
                   size="m"
-                  caption={getCaption(item, item.image.url)}
+                  caption={getCaption(item)}
                 />
               </div>
             )}
