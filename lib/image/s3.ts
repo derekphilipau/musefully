@@ -1,7 +1,6 @@
 import { PutObjectCommand, S3Client, HeadObjectCommand } from '@aws-sdk/client-s3';
 
 const REGION = process.env.AWS_REGION;
-console.log(REGION);
 const s3Client = new S3Client({ region: REGION });
 
 export async function uploadToS3(key: string, buffer: Buffer) {

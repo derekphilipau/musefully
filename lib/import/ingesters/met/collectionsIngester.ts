@@ -169,7 +169,6 @@ async function getImage(doc: MetDocument): Promise<DocumentImage | undefined> {
 
     const $ = load(html);
     const ogImage = $('meta[property="og:image"]').attr('content');
-    console.log('got met image: ' + ogImage);
     if (ogImage) {
       await snooze(1); // be nice
       return {
@@ -235,7 +234,6 @@ async function transformDoc(doc: MetDocument): Promise<ArtworkDocument> {
 
   esDoc.image = await getImage(doc);
 
-  console.log(esDoc);
   return esDoc;
 }
 

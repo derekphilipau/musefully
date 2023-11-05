@@ -73,7 +73,6 @@ export function parseDateRange(dateStr: string): DateRange {
     .replace(/Fall/g, 'December 31')
     .replace(/Winter/g, 'March 31')
     .trim();
-  //console.log('cleanedDateStr: ', dateStr, cleanedDateStr)
   if (!cleanedDateStr || cleanedDateStr === 'Ongoing') {
     return {};
   }
@@ -85,7 +84,6 @@ export function parseDateRange(dateStr: string): DateRange {
   for (const pattern of patterns) {
     const match = cleanedDateStr.match(pattern);
     if (match?.length === 3) {
-      //console.log('found 3: ', dateStr, match)
       return {
         startDate: parseDate(match[1]),
         endDate: parseDate(match[2]),
@@ -98,39 +96,3 @@ export function parseDateRange(dateStr: string): DateRange {
     endDate: parseDate(cleanedDateStr),
   };
 }
-
-/*
-const dates = [
-  'June 4th, 2024 - January 4th, 2026',
-  'June 4th, 2024-January 4th, 2026',
-  'June 4-March 23, 2026',
-  'June 4-March 23',
-  'October 22nd-November 4th',
-  'June 4th, 2024',
-  'September 2024',
-  'September',
-  'Jan 4th',
-  'Jan 4th, 2025',
-  'June 2, 2023',
-  'Jan 4th 2025',
-  'June 2 2023',
-  '4 June 2023',
-  '4th June, 2023',
-  'March 3',
-  'May 4th',
-  'Through March',
-  'Through March 3',
-  'Through May 4th',
-  'Ongoing',
-  'Through Aug 13',
-  'Through Dec 1',
-  'Member Last Look, Aug 13\n\nThrough Aug 12',
-  'Through Sep 9',
-  'Through Spring 2024',
-  'Last chance\n\nThrough Aug 13',
-];
-
-dates.forEach((date) => {
-  console.log(date, parseDateRange(date));
-});
-*/
