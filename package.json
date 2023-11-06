@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "import": "npx ts-node ./util/import/importDataCommand.ts",
+    "import": "npx ts-node ./lib/import/importDataCommand.ts",
     "preview": "next build && next start",
     "test": "jest --watch",
     "test:ci": "jest --ci",
