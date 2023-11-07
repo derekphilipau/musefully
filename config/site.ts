@@ -14,6 +14,17 @@ export interface RssFeedConfig {
   url: string;
 }
 
+export interface ExhibitionUrl {
+  /** URL of exhibition web page */
+  url: string;
+  /** Human-readable name of source */
+  source: string;
+  /** ID of source */
+  sourceId: string;
+  /** Base URL of source */
+  baseUrl: string;
+}
+
 /**
  * Represents the site configuration.
  */
@@ -28,6 +39,8 @@ interface SiteConfig {
   eventCrawlers: string[];
   /** List of extractors in /util/import/extract/ directory */
   extractors: string[];
+  /** List of exhibition URLs */
+  exhibitionUrls: ExhibitionUrl[];
   /** List of RSS feeds to ingest */
   rssFeeds: RssFeedConfig[];
   /** List of nav items */
@@ -61,6 +74,74 @@ export const siteConfig: SiteConfig = {
   ],
   extractors: [
     'openAiExhibitionsExtractor',
+  ],
+  exhibitionUrls: [
+    {
+      url: 'https://www.moma.org/calendar/exhibitions/',
+      source: 'MoMA',
+      sourceId: 'moma',
+      baseUrl: 'https://www.moma.org',
+    },
+    {
+      url: 'https://www.brooklynmuseum.org/exhibitions',
+      source: 'Brooklyn Museum',
+      sourceId: 'bkm',
+      baseUrl: 'https://www.brooklynmuseum.org',
+    },
+    {
+      url: 'https://www.metmuseum.org/exhibitions',
+      source: 'Metropolitan Museum of Art',
+      sourceId: 'met',
+      baseUrl: 'https://www.metmuseum.org',
+    },
+    {
+      url: 'https://www.lacma.org/art/exhibitions/current',
+      source: 'LACMA',
+      sourceId: 'lacma',
+      baseUrl: 'https://www.lacma.org',
+    },
+    {
+      url: 'https://www.lacma.org/art/exhibitions/coming-soon',
+      source: 'LACMA',
+      sourceId: 'lacma',
+      baseUrl: 'https://www.lacma.org',
+    },
+    {
+      url: 'https://www.artic.edu/exhibitions',
+      source: 'Art Institute of Chicago',
+      sourceId: 'aic',
+      baseUrl: 'https://www.artic.edu',
+    },
+    {
+      url: 'https://www.nga.gov/exhibitions/current.html',
+      source: 'National Gallery of Art',
+      sourceId: 'nga',
+      baseUrl: 'https://www.nga.gov',
+    },
+    {
+      url: 'https://www.nga.gov/exhibitions/upcoming.html',
+      source: 'National Gallery of Art',
+      sourceId: 'nga',
+      baseUrl: 'https://www.nga.gov',
+    },
+    {
+      url: 'https://whitney.org/exhibitions',
+      source: 'Whitney Museum of American Art',
+      sourceId: 'whitney',
+      baseUrl: 'https://whitney.org',
+    },
+    {
+      url: 'https://hirshhorn.si.edu/exhibitions-events/',
+      source: 'Hirshhorn Museum and Sculpture Garden',
+      sourceId: 'hirshhorn',
+      baseUrl: 'https://hirshhorn.si.edu', 
+    },
+    {
+      url: 'https://philamuseum.org/calendar/view-all/all/exhibitions',
+      source: 'Philadelphia Museum of Art',
+      sourceId: 'pma',
+      baseUrl: 'https://philamuseum.org', 
+    }
   ],
   rssFeeds: [
     {

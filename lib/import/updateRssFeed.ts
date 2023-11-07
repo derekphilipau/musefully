@@ -2,7 +2,7 @@ import { Client } from '@elastic/elasticsearch';
 import { parseStringPromise } from 'xml2js';
 
 import type { ElasticsearchRssIngester } from '@/types/elasticsearchRssIngester';
-import { siteConfig, type RssFeedConfig } from '@/config/site';
+import { siteConfig } from '@/config/site';
 import { getClient } from '@/lib/elasticsearch/client';
 import {
   bulk,

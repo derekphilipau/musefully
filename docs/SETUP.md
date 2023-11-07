@@ -52,6 +52,8 @@ For local development, add a local `.env.local` file in the root directory. If `
 
 On [Formspree](https://formspree.io/) you should set up a basic contact form and enter the `FORMSPREE_FORM_ID` env variable.
 
+OpenAI & Google vars only necessary if using OpenAI to extract exhibition & event data from URL's.  In that case, a Google sheet is used to store the extracted content.
+
 For cloud deployments (for example on Vercel), add the same variables to the Environment Variables of your deployment.
 
 ```
@@ -68,9 +70,12 @@ ELASTICSEARCH_BULK_LIMIT=2000
 API_SECRET=dfJtqJDG9VwN69edUU283qnD
 NEXT_PUBLIC_IMAGE_DOMAIN=rx3rxq8hyni2c.cloudfront.net
 PROCESS_IMAGES=true
-OPENAI_API_KEY=sk-231rZaTl2w2MnRPOrsT1T9BlckFJes7O2D1RIOqEkvV2SEAZ
-OPENAI_MODEL=gpt-3.5-turbo-16k
 FORMSPREE_FORM_ID=rwejcdbw
+OPENAI_API_KEY=sk-231rZaTl2w2MnRPOrsT1T9BlckFJes7O2D1RIOqEkvV2SEAZ
+OPENAI_MODEL=gpt-4-1106-preview
+GOOGLE_SERVICE_ACCOUNT_EMAIL=my-service-account@my-service-account.iam.gserviceaccount.com
+GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nVih4dOFRfzXT....UV2Xdw==\n-----END PRIVATE KEY-----\n"
+GOOGLE_SPREADSHEET_ID=1Vih4dOFRfzXTBopWmsi65_Xn5CNfuGnVe14_Pt7EncOr
 ```
 
 ## Loading the data

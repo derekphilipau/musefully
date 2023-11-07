@@ -20,6 +20,7 @@ export interface ElasticsearchDocumentExtractor {
  */
 export interface ElasticsearchExtractor {
   indexName: string;
+  typeName: string;
   generateId: ElasticsearchIdGenerator;
   extract: ElasticsearchDocumentExtractor;
 }

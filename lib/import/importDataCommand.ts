@@ -1,14 +1,11 @@
 /**
  * Import Elasticsearch data from JSON files.
- *
- * npx ts-node --compiler-options {\"module\":\"CommonJS\"} ./util/import/importDataCommand.ts
  */
-
 import { loadEnvConfig } from '@next/env';
 
 import { siteConfig } from '@/config/site';
 import { abort, askYesNo, info, questionsDone, warn } from '@/lib/command';
-import extractDocuments from './extractDocuments';
+import extractDocumentsToSheet from './extract/extractDocumentsToSheet';
 import { updateAdditionalMetadata } from './updateAdditionalMetadata';
 import { updateDominantColors } from './updateDominantColors';
 import updateEvents from './updateEvents';
@@ -76,8 +73,8 @@ async function run() {
     await updateEvents();
   }
 
-  if (await askYesNo(`Experiment: Extract documents (OpenAI parser)?`)) {
-    await extractDocuments();
+  if (await askYesNo(`Extract documents using OpenAI GPT?`)) {
+    await extractDocumentsToSheet();
   }
 
   questionsDone();
