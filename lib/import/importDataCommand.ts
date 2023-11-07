@@ -8,7 +8,6 @@ import { abort, askYesNo, info, questionsDone, warn } from '@/lib/command';
 import extractDocumentsToSheet from './extract/extractDocumentsToSheet';
 import { updateAdditionalMetadata } from './updateAdditionalMetadata';
 import { updateDominantColors } from './updateDominantColors';
-import updateEvents from './updateEvents';
 import updateFromFile from './updateFromFile';
 import updateRssFeeds from './updateRssFeed';
 
@@ -67,10 +66,6 @@ async function run() {
 
   if (await askYesNo(`Update RSS Feeds to news index?`)) {
     await updateRssFeeds();
-  }
-
-  if (await askYesNo(`Update events to events index?`)) {
-    await updateEvents();
   }
 
   if (await askYesNo(`Extract documents using OpenAI GPT?`)) {

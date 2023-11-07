@@ -35,8 +35,6 @@ interface SiteConfig {
   isMultiSource: boolean;
   /** List of ingesters */
   ingesters: string[];
-  /** List of crawlers in /util/import/crawl/events/ directory */
-  eventCrawlers: string[];
   /** List of extractors in /util/import/extract/ directory */
   extractors: string[];
   /** List of exhibition URLs */
@@ -68,9 +66,6 @@ export const siteConfig: SiteConfig = {
     'moma/collectionsIngester',
     'whitney/collectionsIngester',
     'met/collectionsIngester',
-  ],
-  eventCrawlers: [
-    'bkmExhibitionsCrawler',
   ],
   extractors: [
     'openAiExhibitionsExtractor',
