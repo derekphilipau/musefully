@@ -1,50 +1,42 @@
 import type { NavItem } from '@/types/nav';
 
+export interface GoogleSheetConfig {
+  sheetName: string; // Name of sheet
+  indexName: string; // Name of index to populate
+  typeName: string; // Type of document
+}
+
 /**
  * Represents an RSS feed with necessary information for ingestion.
  */
 export interface RssFeedConfig {
-  /** Transformer to use, typically rssIngester */
-  ingester: string;
-  /** Human-readable name */
-  sourceName: string;
-  /** ID of source */
-  sourceId: string;
-  /** URL of RSS feed */
-  url: string;
+  ingester: string; // Transformer to use, typically rssIngester
+  sourceName: string; // Human-readable name
+  sourceId: string; // ID of source
+  url: string; // URL of RSS feed
 }
 
 export interface ExhibitionUrl {
-  /** URL of exhibition web page */
-  url: string;
-  /** Human-readable name of source */
-  source: string;
-  /** ID of source */
-  sourceId: string;
-  /** Base URL of source */
-  baseUrl: string;
+  url: string; // URL of exhibition web page
+  source: string; // Human-readable name of source
+  sourceId: string; // ID of source
+  baseUrl: string; // Base URL of source
 }
 
 /**
  * Represents the site configuration.
  */
 interface SiteConfig {
-  /** Default locale for the site.  Currently only en supported. */
-  defaultLocale: string;
-  /** Whether the site is multi-source. */
-  isMultiSource: boolean;
-  /** List of ingesters */
-  ingesters: string[];
-  /** List of extractors in /util/import/extract/ directory */
-  extractors: string[];
-  /** List of exhibition URLs */
-  exhibitionUrls: ExhibitionUrl[];
-  /** List of RSS feeds to ingest */
-  rssFeeds: RssFeedConfig[];
-  /** List of nav items */
-  mainNav: NavItem[];
-  /** List of secondary/social links */
+  defaultLocale: string; // Default locale for the site.  Currently only en supported.
+  isMultiSource: boolean; // Whether the site is multi-source.
+  ingesters: string[]; // List of ingesters
+  extractors: string[]; // List of extractors in /util/import/extract/ directory
+  exhibitionUrls: ExhibitionUrl[]; // List of exhibition URLs
+  googleSheets: GoogleSheetConfig[]; // List of Google sheets to ingest
+  rssFeeds: RssFeedConfig[]; // List of RSS feeds to ingest
+  mainNav: NavItem[]; // List of nav items
   links?: {
+    // List of secondary/social links
     github?: string;
     twitter?: string;
     instagram?: string;
@@ -59,7 +51,7 @@ export const siteConfig: SiteConfig = {
   isMultiSource: true,
   /**
    * Dynamically load from ./util/import/ingesters/{ingester}.ts
-   */ 
+   */
   ingesters: [
     'cma/collectionsIngester',
     'bkm/collectionsIngester',
@@ -67,9 +59,7 @@ export const siteConfig: SiteConfig = {
     'whitney/collectionsIngester',
     'met/collectionsIngester',
   ],
-  extractors: [
-    'openAiExhibitionsExtractor',
-  ],
+  extractors: ['openAiExhibitionsExtractor'],
   exhibitionUrls: [
     {
       url: 'https://www.moma.org/calendar/exhibitions/',
@@ -129,14 +119,21 @@ export const siteConfig: SiteConfig = {
       url: 'https://hirshhorn.si.edu/exhibitions-events/',
       source: 'Hirshhorn Museum and Sculpture Garden',
       sourceId: 'hirshhorn',
-      baseUrl: 'https://hirshhorn.si.edu', 
+      baseUrl: 'https://hirshhorn.si.edu',
     },
     {
       url: 'https://philamuseum.org/calendar/view-all/all/exhibitions',
       source: 'Philadelphia Museum of Art',
       sourceId: 'pma',
-      baseUrl: 'https://philamuseum.org', 
-    }
+      baseUrl: 'https://philamuseum.org',
+    },
+  ],
+  googleSheets: [
+    {
+      sheetName: 'exhibitions',
+      indexName: 'events',
+      typeName: 'exhibition',
+    },
   ],
   rssFeeds: [
     {

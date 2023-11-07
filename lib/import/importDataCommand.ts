@@ -10,6 +10,7 @@ import { updateAdditionalMetadata } from './updateAdditionalMetadata';
 import { updateDominantColors } from './updateDominantColors';
 import updateFromFile from './updateFromFile';
 import updateRssFeeds from './updateRssFeed';
+import updateFromGoogleSheet from './updateFromGoogleSheet';
 
 loadEnvConfig(process.cwd());
 
@@ -27,6 +28,11 @@ async function importDataset(
 }
 
 async function run() {
+
+  if (await askYesNo(`Import data from Google Spreadsheet?`)) {
+    await updateFromGoogleSheet();
+  }
+
   info('Import data from gzipped JSONL files.');
 
   if (siteConfig.ingesters.length === 0) {
@@ -71,7 +77,7 @@ async function run() {
   if (await askYesNo(`Extract documents using OpenAI GPT?`)) {
     await extractDocumentsToSheet();
   }
-
+  
   questionsDone();
 }
 
