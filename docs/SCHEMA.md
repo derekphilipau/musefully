@@ -140,7 +140,7 @@ The base document defines common fields for all indices, these are the fields us
 - `boostedKeywords` - An array of keywords that should be boosted in search results
 - `primaryConstituent` - The primary constituent of the document, e.g. the artist of a painting.
 - `image` - Image. The main image of the document
-- `date` - Date the document was created, not currently used.
+- `date` - For RSS feeds, the date of the entry.  For events, the start date of the event.  Not used for artworks.  TODO: Refactor to `startDate` or something clearer.
 - `formattedDate` - A string representing the date, no strict format.
 - `startYear` - An integer representing the start date year. Used for year range filtering.
 - `endYear` - An integer representing the end date year. Used for year range filtering.

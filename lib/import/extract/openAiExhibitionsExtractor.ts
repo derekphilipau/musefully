@@ -8,7 +8,7 @@
  * start & end dates of the exhibition, but it was not very accurate.
  */
 import { loadEnvConfig } from '@next/env';
-import axios from 'axios';
+import playwright from 'playwright';
 import { Configuration, CreateChatCompletionRequest, OpenAIApi } from 'openai';
 import TurndownService from 'turndown';
 
@@ -40,11 +40,32 @@ const SITES = [
   },
 ];
 
+async function getPlaywrightContent(url: string): Promise<string> {
+  const browser = await playwright.chromium.launch();
+  const context = await browser.newContext({
+    javaScriptEnabled: true,
+    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
+  });
+  const page = await context.newPage();
+  await page.goto(url, {
+    waitUntil: 'networkidle',
+  });
+  await page.evaluate(() => {
+    const selectorRemovals = ['script', 'style', 'header', 'footer', 'nav'];
+    selectorRemovals.forEach(selector => {
+      const elements = document.querySelectorAll(selector);
+      elements.forEach(el => el.remove());
+    });
+  });
+  const content = await page.content();
+  await browser.close();
+  return content;
+}
+
 async function getMarkdownFromUrl(url: string): Promise<string> {
-  const { data } = await axios.get(url);
+  const content = await getPlaywrightContent(url);
   var turndownService = new TurndownService();
-  turndownService.remove('script', 'style', 'header', 'footer', 'nav');
-  var markdown = turndownService.turndown(data);
+  var markdown = turndownService.turndown(content);
   return markdown;
 }
 
@@ -52,6 +73,10 @@ async function getExhibitionsWithGPT(text: string): Promise<any> {
   const payload = {
     model: process.env.OPENAI_MODEL,
     messages: [
+      {
+        role: "system",
+        content: "You are a helpful assistant that extracts data and returns it in JSON format." 
+      },
       {
         role: 'user',
         content: text,
@@ -98,6 +123,7 @@ async function getExhibitionsWithGPT(text: string): Promise<any> {
       },
     ],
     function_call: { name: 'parse_exhibitions' },
+    response_format: { type: "json_object" },
   } as CreateChatCompletionRequest;
 
   const configuration = new Configuration({

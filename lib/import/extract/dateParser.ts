@@ -63,7 +63,10 @@ function parseDate(dateStr: string): string | undefined {
  * @param dateStr The date string to parse.
  * @returns An object containing the start date (if available) and end date.
  */
-export function parseDateRange(dateStr: string): DateRange {
+export function parseDateRange(dateStr?: string | null): DateRange {
+  if (!dateStr) {
+    return {};
+  }
   const cleanedDateStr = dateStr
     .replace(/[\n\r]+/g, ' ') // Replace newlines
     .replace(/(?<=\d)(st|nd|rd|th),?/g, '') // Remove ordinal suffixes
