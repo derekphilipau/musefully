@@ -54,17 +54,6 @@ export function addQueryBoolDateRange(
         },
       },
     });
-  } else {
-    // No date filter
-    // Default to start date <= current date
-    const now = format(new Date(), 'yyyy-MM-dd');
-    ranges.push({
-      range: {
-        date: {
-          lte: now,
-        },
-      },
-    });
   }
   if (ranges.length > 0) {
     esQuery.query ??= {};
