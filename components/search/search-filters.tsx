@@ -1,6 +1,6 @@
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { AggOptions } from '@/types/aggOptions';
+import type { AggOptions } from '@/types/aggregation';
 import { indicesMeta } from '@/lib/elasticsearch/indicesMeta';
 import type { SearchParams } from '@/lib/elasticsearch/search/searchParams';
 import { SearchAgg } from '@/components/search/search-agg';

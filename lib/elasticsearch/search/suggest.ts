@@ -1,7 +1,7 @@
 import * as T from '@elastic/elasticsearch/lib/api/types';
 
 import type { ApiResponseSuggest } from '@/types/apiResponseSearch';
-import { Term } from '@/types/term';
+import { TermDocument } from '@/types/document';
 import { getClient } from '../client';
 
 const MAX_SUGGESTIONS = 10; // Maximum number of suggestions to return
@@ -35,7 +35,7 @@ export async function suggest(q?: string | null): Promise<ApiResponseSuggest> {
   };
 
   const response: T.SearchTemplateResponse = await client.search(esQuery);
-  const data = response.hits.hits.map((h) => h._source as Term);
+  const data = response.hits.hits.map((h) => h._source as TermDocument);
   const res: ApiResponseSuggest = { query: esQuery, data };
   return res;
 }

@@ -1,44 +1,75 @@
 import type { NavItem } from '@/types/nav';
 
+export interface GoogleSheetConfig {
+  sheetName: string; // Name of sheet
+  indexName: string; // Name of index to populate
+  typeName: string; // Type of document
+}
+
 /**
  * Represents an RSS feed with necessary information for ingestion.
  */
 export interface RssFeedConfig {
-  /** Transformer to use, typically rssIngester */
-  ingester: string;
-  /** Human-readable name */
-  sourceName: string;
-  /** ID of source */
-  sourceId: string;
-  /** URL of RSS feed */
-  url: string;
+  ingester: string; // Transformer to use, typically rssIngester
+  sourceId: string; // ID of source
+  url: string; // URL of RSS feed
+}
+
+export interface ExhibitionUrl {
+  url: string; // URL of exhibition web page
+  sourceId: string; // ID of source
+  baseUrl: string; // Base URL of source
 }
 
 /**
  * Represents the site configuration.
  */
 interface SiteConfig {
-  /** Default locale for the site.  Currently only en supported. */
-  defaultLocale: string;
-  /** Whether the site is multi-source. */
-  isMultiSource: boolean;
-  /** List of ingesters */
-  ingesters: string[];
-  /** List of crawlers in /util/import/crawl/events/ directory */
-  eventCrawlers: string[];
-  /** List of extractors in /util/import/extract/ directory */
-  extractors: string[];
-  /** List of RSS feeds to ingest */
-  rssFeeds: RssFeedConfig[];
-  /** List of nav items */
-  mainNav: NavItem[];
-  /** List of secondary/social links */
+  defaultLocale: string; // Default locale for the site.  Currently only en supported.
+  isMultiSource: boolean; // Whether the site is multi-source.
+  ingesters: string[]; // List of ingesters
+  extractors: string[]; // List of extractors in /util/import/extract/ directory
+  exhibitionUrls: ExhibitionUrl[]; // List of exhibition URLs
+  googleSheets: GoogleSheetConfig[]; // List of Google sheets to ingest
+  rssFeeds: RssFeedConfig[]; // List of RSS feeds to ingest
+  sources: { [key: string]: string }; // List of sources
+  mainNav: NavItem[]; // List of nav items
   links?: {
+    // List of secondary/social links
     github?: string;
     twitter?: string;
     instagram?: string;
   };
 }
+
+/**
+ * List of sources.
+ */
+export const sources = {
+  aesthetica: 'Aesthetica',
+  aic: 'Art Institute of Chicago',
+  artforum: 'Artforum',
+  artnews: 'ARTnews',
+  artsy: 'Artsy',
+  bkm: 'Brooklyn Museum',
+  colossal: 'Colossal',
+  cooperhewitt: 'Cooper Hewitt',
+  hifructose: 'Hi-Fructose',
+  hirshhorn: 'Hirshhorn Museum and Sculpture Garden',
+  hyperallergic: 'Hyperallergic',
+  juxtapoz: 'Juxtapoz',
+  lacma: 'LACMA',
+  mam: 'Milwaukee Art Museum',
+  met: 'The Met',
+  moma: 'MoMA',
+  nga: 'National Gallery of Art',
+  newyorkercartoon: 'New Yorker Daily Cartoon',
+  nyt: 'NYT Art & Design',
+  pma: 'Philadelphia Museum of Art',
+  sam: 'Seattle Art Museum',
+  va: 'Victoria & Albert Museum',
+  whitney: 'Whitney Museum of American Art',
+};
 
 /**
  * The site configuration.  Defines all ingesters, RSS feeds, and nav items.
@@ -48,7 +79,7 @@ export const siteConfig: SiteConfig = {
   isMultiSource: true,
   /**
    * Dynamically load from ./util/import/ingesters/{ingester}.ts
-   */ 
+   */
   ingesters: [
     'cma/collectionsIngester',
     'bkm/collectionsIngester',
@@ -56,94 +87,139 @@ export const siteConfig: SiteConfig = {
     'whitney/collectionsIngester',
     'met/collectionsIngester',
   ],
-  eventCrawlers: [
-    'bkmExhibitionsCrawler',
+  extractors: ['openAiExhibitionsExtractor'],
+  exhibitionUrls: [
+    {
+      url: 'https://www.moma.org/calendar/exhibitions/',
+      sourceId: 'moma',
+      baseUrl: 'https://www.moma.org',
+    },
+    {
+      url: 'https://www.brooklynmuseum.org/exhibitions',
+      sourceId: 'bkm',
+      baseUrl: 'https://www.brooklynmuseum.org',
+    },
+    {
+      url: 'https://www.metmuseum.org/exhibitions',
+      sourceId: 'met',
+      baseUrl: 'https://www.metmuseum.org',
+    },
+    {
+      url: 'https://www.lacma.org/art/exhibitions/current',
+      sourceId: 'lacma',
+      baseUrl: 'https://www.lacma.org',
+    },
+    {
+      url: 'https://www.lacma.org/art/exhibitions/coming-soon',
+      sourceId: 'lacma',
+      baseUrl: 'https://www.lacma.org',
+    },
+    {
+      url: 'https://www.artic.edu/exhibitions',
+      sourceId: 'aic',
+      baseUrl: 'https://www.artic.edu',
+    },
+    {
+      url: 'https://www.nga.gov/exhibitions/current.html',
+      sourceId: 'nga',
+      baseUrl: 'https://www.nga.gov',
+    },
+    {
+      url: 'https://www.nga.gov/exhibitions/upcoming.html',
+      sourceId: 'nga',
+      baseUrl: 'https://www.nga.gov',
+    },
+    {
+      url: 'https://whitney.org/exhibitions',
+      sourceId: 'whitney',
+      baseUrl: 'https://whitney.org',
+    },
+    {
+      url: 'https://hirshhorn.si.edu/exhibitions-events/',
+      sourceId: 'hirshhorn',
+      baseUrl: 'https://hirshhorn.si.edu',
+    },
+    {
+      url: 'https://philamuseum.org/calendar/view-all/all/exhibitions',
+      sourceId: 'pma',
+      baseUrl: 'https://philamuseum.org',
+    },
   ],
-  extractors: [
-    'openAiExhibitionsExtractor',
+  googleSheets: [
+    {
+      sheetName: 'exhibitions',
+      indexName: 'events',
+      typeName: 'exhibition',
+    },
   ],
   rssFeeds: [
     {
       ingester: 'rssIngester',
-      sourceName: 'Hyperallergic',
       sourceId: 'hyperallergic',
       url: 'https://hyperallergic.com/feed/',
     },
     {
       ingester: 'rssIngester',
-      sourceName: 'MoMA',
       sourceId: 'moma',
       url: 'https://stories.moma.org/feed',
     },
     {
       ingester: 'rssIngester',
-      sourceName: 'Cooper Hewitt',
       sourceId: 'cooperhewitt',
       url: 'https://www.cooperhewitt.org/blog/feed/',
     },
     {
       ingester: 'rssIngester',
-      sourceName: 'V&A',
       sourceId: 'vam',
       url: 'https://www.vam.ac.uk/blog/feed',
     },
     {
       ingester: 'rssIngester',
-      sourceName: 'Seattle Art Museum',
       sourceId: 'sam',
       url: 'https://samblog.seattleartmuseum.org/feed/',
     },
     {
       ingester: 'rssIngester',
-      sourceName: 'Milwaukee Art Museum',
       sourceId: 'mam',
       url: 'https://blog.mam.org/feed/',
     },
     {
       ingester: 'rssIngester',
-      sourceName: 'ARTnews',
       sourceId: 'artnews',
       url: 'https://www.artnews.com/feed/',
     },
     {
       ingester: 'rssIngester',
-      sourceName: 'NYT Art & Design',
       sourceId: 'nyt',
       url: 'https://rss.nytimes.com/services/xml/rss/nyt/ArtandDesign.xml',
     },
     {
       ingester: 'rssIngester',
-      sourceName: 'The Met',
       sourceId: 'met',
       url: 'https://www.metmuseum.org/blogs?rss=1',
     },
     {
       ingester: 'rssIngester',
-      sourceName: 'Artsy',
       sourceId: 'artsy',
       url: 'https://www.artsy.net/rss/news',
     },
     {
       ingester: 'rssIngester',
-      sourceName: 'Colossal',
       sourceId: 'colossal',
       url: 'https://www.thisiscolossal.com/feed/',
     },
     {
       ingester: 'rssIngester',
-      sourceName: 'Hi-Fructose',
       sourceId: 'hifructose',
       url: 'https://hifructose.com/feed/',
     },
     {
       ingester: 'rssIngester',
-      sourceName: 'Juxtapoz',
       sourceId: 'juxtapoz',
       url: 'https://www.juxtapoz.com/news/?format=feed&type=rss',
     },
     {
       ingester: 'rssIngester',
-      sourceName: 'Artforum',
       sourceId: 'artforum',
       url: 'https://www.artforum.com/rss.xml',
     },
@@ -151,24 +227,46 @@ export const siteConfig: SiteConfig = {
     LACMA is using their RSS feed for all events, filling up the timeline.
     {
       ingester: 'rssIngester',
-      sourceName: 'LACMA',
       sourceId: 'lacma',
       url: 'https://www.lacma.org/rss.xml',
     },
     */
     {
       ingester: 'rssIngester',
-      sourceName: 'Aesthetica',
       sourceId: 'aesthetica',
       url: 'https://aestheticamagazine.com/feed/',
     },
     {
       ingester: 'rssIngester',
-      sourceName: 'New Yorker Daily Cartoon',
       sourceId: 'newyorkercartoon',
       url: 'https://www.newyorker.com/feed/cartoons/daily-cartoon',
     },
   ],
+  sources: {
+    aesthetica: 'Aesthetica',
+    aic: 'Art Institute of Chicago',
+    artforum: 'Artforum',
+    artnews: 'ARTnews',
+    artsy: 'Artsy',
+    bkm: 'Brooklyn Museum',
+    colossal: 'Colossal',
+    cooperhewitt: 'Cooper Hewitt',
+    hifructose: 'Hi-Fructose',
+    hirshhorn: 'Hirshhorn Museum and Sculpture Garden',
+    hyperallergic: 'Hyperallergic',
+    juxtapoz: 'Juxtapoz',
+    lacma: 'LACMA',
+    mam: 'Milwaukee Art Museum',
+    met: 'The Met',
+    moma: 'MoMA',
+    nga: 'National Gallery of Art',
+    newyorkercartoon: 'New Yorker Daily Cartoon',
+    nyt: 'NYT Art & Design',
+    pma: 'Philadelphia Museum of Art',
+    sam: 'Seattle Art Museum',
+    va: 'Victoria & Albert Museum',
+    whitney: 'Whitney Museum of American Art',
+  },
   mainNav: [
     {
       dict: 'index.art',

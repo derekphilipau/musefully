@@ -1,10 +1,9 @@
 import { Key } from 'react';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { AggOptions } from '@/types/aggOptions';
+import type { AggOptions } from '@/types/aggregation';
 import type { ApiResponseSearch } from '@/types/apiResponseSearch';
-import type { BaseDocument } from '@/types/baseDocument';
-import type { Term } from '@/types/term';
+import type { BaseDocument, TermDocument } from '@/types/document';
 import { siteConfig } from '@/config/site';
 import { search } from '@/lib/elasticsearch/search/search';
 import {
@@ -50,8 +49,8 @@ export default async function Page({ params, searchParams }: Props) {
   // Query Elasticsearch
   let response: ApiResponseSearch = await search(sanitizedParams);
   const items: BaseDocument[] = response?.data || [];
-  const terms: Term[] = response?.terms || [];
-  const filters: Term[] = response?.filters || [];
+  const terms: TermDocument[] = response?.terms || [];
+  const filters: TermDocument[] = response?.filters || [];
   const apiError = response?.error || '';
   const options: AggOptions = response?.options || {};
   const count = response?.metadata?.count || 0;

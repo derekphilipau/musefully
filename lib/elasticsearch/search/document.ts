@@ -1,7 +1,7 @@
 import * as T from '@elastic/elasticsearch/lib/api/types';
 
 import type { ApiResponseDocument } from '@/types/apiResponseDocument';
-import type { BaseDocument } from '@/types/baseDocument';
+import type { BaseDocument } from '@/types/document';
 import { getClient } from '../client';
 import { similarArtworks } from './similarArtworks';
 

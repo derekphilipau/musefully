@@ -1,15 +1,16 @@
 import axios from 'axios';
 import { load } from 'cheerio';
 
-import type { ArtworkDocument } from '@/types/artworkDocument';
 import type {
+  ArtworkDocument,
   DocumentConstituent,
   DocumentGeographicalLocation,
   DocumentImage,
-} from '@/types/baseDocument';
+} from '@/types/document';
 import type { ElasticsearchIngester } from '@/types/elasticsearchIngester';
 import countryByContinent from '@/lib/country-by-continent.json';
 import { searchUlanArtistById } from '@/lib/import/ulan/searchUlanArtists';
+import { sources } from '@/config/site';
 import { getBooleanValue, snooze } from '@/lib/various';
 import { artworkTermsExtractor } from '../artworkTermsExtractor';
 import {
@@ -22,7 +23,6 @@ import type { MetDocument } from './types';
 const DATA_FILE = './data/met/MetObjects.csv.gz';
 const INDEX_NAME = 'art';
 const SOURCE_ID = 'met';
-const SOURCE_NAME = 'The Met';
 const DOC_TYPE = 'artwork';
 
 function getKeywords(doc: MetDocument): string | undefined {
@@ -169,7 +169,6 @@ async function getImage(doc: MetDocument): Promise<DocumentImage | undefined> {
 
     const $ = load(html);
     const ogImage = $('meta[property="og:image"]').attr('content');
-    console.log('got met image: ' + ogImage);
     if (ogImage) {
       await snooze(1); // be nice
       return {
@@ -187,7 +186,7 @@ async function getImage(doc: MetDocument): Promise<DocumentImage | undefined> {
 async function transformDoc(doc: MetDocument): Promise<ArtworkDocument> {
   const esDoc: ArtworkDocument = {
     type: DOC_TYPE,
-    source: SOURCE_NAME,
+    source: sources[SOURCE_ID],
     sourceId: SOURCE_ID,
     id: getStringValue(doc['Object ID']),
     url: getUrl(doc),
@@ -235,7 +234,6 @@ async function transformDoc(doc: MetDocument): Promise<ArtworkDocument> {
 
   esDoc.image = await getImage(doc);
 
-  console.log(esDoc);
   return esDoc;
 }
 
@@ -243,7 +241,6 @@ export const ingester: ElasticsearchIngester = {
   indexName: INDEX_NAME,
   dataFilename: DATA_FILE,
   sourceId: SOURCE_ID,
-  sourceName: SOURCE_NAME,
   generateId: (doc: ArtworkDocument, includeSourcePrefix: boolean) => {
     return sourceAwareIdFormatter(doc.id, SOURCE_ID, includeSourcePrefix);
   },
@@ -251,6 +248,6 @@ export const ingester: ElasticsearchIngester = {
     return transformDoc(doc);
   },
   extractTerms: async (doc: ArtworkDocument) => {
-    return artworkTermsExtractor(doc, SOURCE_NAME);
+    return artworkTermsExtractor(doc, sources[SOURCE_ID]);
   },
 };

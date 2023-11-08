@@ -2,56 +2,26 @@
  * Attempt to extract exhibition information from web pages.
  * 1. Get markdown from web page
  * 2. Call OpenAI GPT function to extract JSON exhibition data
- * 3. Parse JSON exhibition data into EventDocument
- *
- * Note that I tried various methods, such as asking GPT to infer the
- * start & end dates of the exhibition, but it was not very accurate.
+ * 3. Parse JSON exhibition data
  */
 import { loadEnvConfig } from '@next/env';
-import axios from 'axios';
 import { Configuration, CreateChatCompletionRequest, OpenAIApi } from 'openai';
-import TurndownService from 'turndown';
 
 import type { ElasticsearchExtractor } from '@/types/elasticsearchExtractor';
-import { EventDocument } from '@/types/eventDocument';
-import { parseDateRange, type DateRange } from './dateParser';
-
+import { parseDateRange, type DateRange } from './util/dateParser';
+import { getMarkdownFromUrl } from './util/markdown';
+import { siteConfig } from '@/config/site';
 loadEnvConfig(process.cwd());
-
-// List all sites to extract from:
-const SITES = [
-  {
-    url: 'https://www.moma.org/calendar/exhibitions/',
-    source: 'MoMA',
-    sourceId: 'moma',
-    baseUrl: 'https://www.moma.org',
-  },
-  {
-    url: 'https://www.brooklynmuseum.org/exhibitions',
-    source: 'Brooklyn Museum',
-    sourceId: 'bkm',
-    baseUrl: 'https://www.brooklynmuseum.org',
-  },
-  {
-    url: 'https://www.metmuseum.org/exhibitions',
-    source: 'Metropolitan Museum of Art',
-    sourceId: 'met',
-    baseUrl: 'https://www.metmuseum.org',
-  },
-];
-
-async function getMarkdownFromUrl(url: string): Promise<string> {
-  const { data } = await axios.get(url);
-  var turndownService = new TurndownService();
-  turndownService.remove('script', 'style', 'header', 'footer', 'nav');
-  var markdown = turndownService.turndown(data);
-  return markdown;
-}
 
 async function getExhibitionsWithGPT(text: string): Promise<any> {
   const payload = {
     model: process.env.OPENAI_MODEL,
     messages: [
+      {
+        role: 'system',
+        content:
+          'You are a helpful assistant that extracts data and returns it in JSON format.',
+      },
       {
         role: 'user',
         content: text,
@@ -98,6 +68,7 @@ async function getExhibitionsWithGPT(text: string): Promise<any> {
       },
     ],
     function_call: { name: 'parse_exhibitions' },
+    response_format: { type: 'json_object' },
   } as CreateChatCompletionRequest;
 
   const configuration = new Configuration({
@@ -111,6 +82,7 @@ async function getExhibitionsWithGPT(text: string): Promise<any> {
       console.log(chatCompletion.data.usage);
     }
     if (chatCompletion?.data?.choices?.[0].message?.function_call?.arguments) {
+      console.log(chatCompletion.data.choices[0].message.function_call.arguments)
       return JSON.parse(
         chatCompletion.data.choices[0].message.function_call.arguments
       );
@@ -125,10 +97,10 @@ async function getExhibitionsWithGPT(text: string): Promise<any> {
   }
 }
 
-function getEventDocument(
+function getSheetEvent(
   exhibition: any,
   site: any
-): EventDocument | undefined {
+): any | undefined {
   if (exhibition.imageUrl?.startsWith('//'))
     exhibition.imageUrl = `https:${exhibition.imageUrl}`;
   else if (exhibition.imageUrl?.startsWith('/'))
@@ -143,18 +115,13 @@ function getEventDocument(
   const { startDate, endDate }: DateRange = parseDateRange(exhibition.dates);
 
   if (exhibition.title && exhibition.url) {
-    const eventDoc: EventDocument = {
-      source: site.source,
-      sourceId: site.sourceId,
-      type: 'exhibition',
+    const eventDoc: any = {
       url: exhibition.url,
+      sourceId: site.sourceId,
       title: exhibition.title,
-      image: {
-        url: exhibition.imageUrl,
-        thumbnailUrl: exhibition.imageUrl,
-      },
+      image: exhibition.imageUrl,
       formattedDate: exhibition.dates,
-      date: startDate ? startDate : undefined,
+      startDate: startDate ? startDate : undefined,
       endDate: endDate ? endDate : undefined,
       location,
     };
@@ -162,27 +129,27 @@ function getEventDocument(
   }
 }
 
-async function extract(): Promise<EventDocument[]> {
-  const eventDocs: EventDocument[] = [];
-  for (const site of SITES) {
+async function extract(): Promise<any[]> {
+  const eventDocs: any[] = [];
+  for (const site of siteConfig.exhibitionUrls) {
+    console.log(`Extracting exhibitions from ${site.url}`);
     const markdown = await getMarkdownFromUrl(site.url);
-    console.log(markdown)
     const response = await getExhibitionsWithGPT(markdown);
     if (response?.exhibitions) {
       console.log(response.exhibitions);
       for (const exhibition of response?.exhibitions) {
-        const eventDoc = getEventDocument(exhibition, site);
+        const eventDoc = getSheetEvent(exhibition, site);
         if (eventDoc) eventDocs.push(eventDoc);
       }
     }
   }
-  //console.log(eventDocs);
   return eventDocs;
 }
 
 export const extractor: ElasticsearchExtractor = {
   indexName: 'events',
-  generateId: (doc: EventDocument) => {
+  typeName: 'exhibitions',
+  generateId: (doc: any) => {
     return doc.url || '';
   },
   extract: async () => {

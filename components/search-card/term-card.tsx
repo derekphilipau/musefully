@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { Term } from '@/types/term';
+import type { TermDocument } from '@/types/document';
 
-export function TermCard({ term }: { term: Term }) {
+export function TermCard({ term }: { term: TermDocument }) {
   const dict = getDictionary();
   let href = '';
   let fieldName = '';

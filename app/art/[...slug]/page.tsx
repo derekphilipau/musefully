@@ -5,7 +5,7 @@ import { getDictionary } from '@/dictionaries/dictionaries';
 import { encode } from 'html-entities';
 
 import type { ApiResponseDocument } from '@/types/apiResponseDocument';
-import type { ArtworkDocument } from '@/types/artworkDocument';
+import type { ArtworkDocument } from '@/types/document';
 import { siteConfig } from '@/config/site';
 import { getDocument } from '@/lib/elasticsearch/search/document';
 import { getCaption } from '@/lib/various';

@@ -1,7 +1,11 @@
-import type { ArtworkDocument } from '@/types/artworkDocument';
-import type { DocumentConstituent, DocumentImage } from '@/types/baseDocument';
+import type {
+  ArtworkDocument,
+  DocumentConstituent,
+  DocumentImage,
+} from '@/types/document';
 import type { ElasticsearchIngester } from '@/types/elasticsearchIngester';
 import { searchUlanArtists } from '@/lib/import/ulan/searchUlanArtists';
+import { sources } from '@/config/site';
 import { artworkTermsExtractor } from '../artworkTermsExtractor';
 import {
   getStringValue,
@@ -13,7 +17,6 @@ import type { CmaDocument } from './types';
 const DATA_FILE = './data/cma/data.jsonl.gz';
 const INDEX_NAME = 'art';
 const SOURCE_ID = 'cma';
-const SOURCE_NAME = 'Cleveland Museum of Art';
 const DOC_TYPE = 'artwork';
 
 function getConstituents(doc: CmaDocument): DocumentConstituent[] {
@@ -139,7 +142,7 @@ function getExhibitions(doc: CmaDocument): string[] | undefined {
 async function transformDoc(doc: any): Promise<ArtworkDocument> {
   const esDoc: ArtworkDocument = {
     type: DOC_TYPE,
-    source: SOURCE_NAME,
+    source: sources[SOURCE_ID],
     sourceId: SOURCE_ID,
     url: doc.url,
     id: getStringValue(doc.id),
@@ -214,7 +217,6 @@ export const ingester: ElasticsearchIngester = {
   indexName: INDEX_NAME,
   dataFilename: DATA_FILE,
   sourceId: SOURCE_ID,
-  sourceName: SOURCE_NAME,
   generateId: (doc: ArtworkDocument, includeSourcePrefix: boolean) => {
     return sourceAwareIdFormatter(doc.id, SOURCE_ID, includeSourcePrefix);
   },
@@ -222,6 +224,6 @@ export const ingester: ElasticsearchIngester = {
     return transformDoc(doc);
   },
   extractTerms: async (doc: ArtworkDocument) => {
-    return artworkTermsExtractor(doc, SOURCE_NAME);
+    return artworkTermsExtractor(doc, sources[SOURCE_ID]);
   },
 };

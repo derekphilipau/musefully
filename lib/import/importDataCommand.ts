@@ -1,19 +1,16 @@
 /**
  * Import Elasticsearch data from JSON files.
- *
- * npx ts-node --compiler-options {\"module\":\"CommonJS\"} ./util/import/importDataCommand.ts
  */
-
 import { loadEnvConfig } from '@next/env';
 
 import { siteConfig } from '@/config/site';
 import { abort, askYesNo, info, questionsDone, warn } from '@/lib/command';
-import extractDocuments from './extractDocuments';
+import extractDocumentsToSheet from './extract/extractDocumentsToSheet';
 import { updateAdditionalMetadata } from './updateAdditionalMetadata';
 import { updateDominantColors } from './updateDominantColors';
-import updateEvents from './updateEvents';
 import updateFromFile from './updateFromFile';
 import updateRssFeeds from './updateRssFeed';
+import updateFromGoogleSheet from './updateFromGoogleSheet';
 
 loadEnvConfig(process.cwd());
 
@@ -31,6 +28,11 @@ async function importDataset(
 }
 
 async function run() {
+
+  if (await askYesNo(`Import data from Google Spreadsheet?`)) {
+    await updateFromGoogleSheet();
+  }
+
   info('Import data from gzipped JSONL files.');
 
   if (siteConfig.ingesters.length === 0) {
@@ -72,14 +74,10 @@ async function run() {
     await updateRssFeeds();
   }
 
-  if (await askYesNo(`Update events to events index?`)) {
-    await updateEvents();
+  if (await askYesNo(`Extract documents using OpenAI GPT?`)) {
+    await extractDocumentsToSheet();
   }
-
-  if (await askYesNo(`Experiment: Extract documents (OpenAI parser)?`)) {
-    await extractDocuments();
-  }
-
+  
   questionsDone();
 }
 

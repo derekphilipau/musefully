@@ -2,12 +2,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { BaseDocument } from '@/types/baseDocument';
+import type { BaseDocument } from '@/types/document';
 import {
   LAYOUT_GRID,
   LAYOUT_LIST,
 } from '@/lib/elasticsearch/search/searchParams';
 import type { LayoutType } from '@/lib/elasticsearch/search/searchParams';
+import { sources } from '@/config/site';
 import { Icons } from '@/components/icons';
 
 function getContainerClass(layout: LayoutType) {
@@ -68,7 +69,7 @@ export function ContentCard({
         <div className={getDetailsClass(layout)}>
           {isMultiSource && (
             <div className="text-sm text-neutral-700 dark:text-neutral-400">
-              {item.source}
+              {sources[item.sourceId || '']}
             </div>
           )}
           {showType && layout === LAYOUT_LIST && (

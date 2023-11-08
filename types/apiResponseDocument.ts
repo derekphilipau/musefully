@@ -1,9 +1,7 @@
-import type { BaseDocument } from './baseDocument';
-import type { ArtworkDocument } from './artworkDocument';
-import type { Term } from './term';
+import type { BaseDocument, ArtworkDocument, TermDocument } from './document';
 
 export interface ApiResponseDocument {
   query?: any;
-  data?: BaseDocument | ArtworkDocument | Term;
+  data?: BaseDocument | ArtworkDocument | TermDocument;
   similar?: ArtworkDocument[];
 }

@@ -1,7 +1,7 @@
-import type { ArtworkDocument } from '@/types/artworkDocument';
-import type { DocumentConstituent } from '@/types/baseDocument';
+import type { ArtworkDocument, DocumentConstituent } from '@/types/document';
 import type { ElasticsearchIngester } from '@/types/elasticsearchIngester';
 import { searchUlanArtists } from '@/lib/import/ulan/searchUlanArtists';
+import { sources } from '@/config/site';
 import { artworkTermsExtractor } from '../artworkTermsExtractor';
 import {
   getStringValue,
@@ -13,7 +13,6 @@ import type { MomaDocument } from './types';
 const DATA_FILE = './data/moma/collections.jsonl.gz';
 const INDEX_NAME = 'art';
 const SOURCE_ID = 'moma';
-const SOURCE_NAME = 'MoMA';
 const DOC_TYPE = 'artwork';
 
 interface YearRange {
@@ -88,7 +87,7 @@ async function transformDoc(doc: any): Promise<ArtworkDocument> {
   const esDoc: ArtworkDocument = {
     // Begin BaseDocument fields
     type: DOC_TYPE,
-    source: SOURCE_NAME,
+    source: sources[SOURCE_ID],
     sourceId: SOURCE_ID,
     id: getStringValue(doc.ObjectID),
     title: doc.Title || undefined,
@@ -153,7 +152,6 @@ export const ingester: ElasticsearchIngester = {
   indexName: INDEX_NAME,
   dataFilename: DATA_FILE,
   sourceId: SOURCE_ID,
-  sourceName: SOURCE_NAME,
   generateId: (doc: ArtworkDocument, includeSourcePrefix: boolean) => {
     return sourceAwareIdFormatter(doc.id, SOURCE_ID, includeSourcePrefix);
   },
@@ -161,6 +159,6 @@ export const ingester: ElasticsearchIngester = {
     return transformDoc(doc);
   },
   extractTerms: async (doc: ArtworkDocument) => {
-    return artworkTermsExtractor(doc, SOURCE_NAME);
+    return artworkTermsExtractor(doc, sources[SOURCE_ID]);
   },
 };

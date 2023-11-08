@@ -1,9 +1,9 @@
 import * as fs from 'fs';
 import csv from 'csv-parser';
 
-import type { ArtworkDocument } from '@/types/artworkDocument';
-import type { DocumentConstituent } from '@/types/baseDocument';
+import type { ArtworkDocument, DocumentConstituent } from '@/types/document';
 import type { ElasticsearchIngester } from '@/types/elasticsearchIngester';
+import { sources } from '@/config/site';
 import { searchUlanArtists } from '@/lib/import/ulan/searchUlanArtists';
 import { artworkTermsExtractor } from '../artworkTermsExtractor';
 import {
@@ -19,7 +19,6 @@ let WHITNEY_ARTISTS_LOADED = false;
 const DATA_FILE = './data/whitney/artworks.csv.gz';
 const INDEX_NAME = 'art';
 const SOURCE_ID = 'whitney';
-const SOURCE_NAME = 'The Whitney';
 const DOC_TYPE = 'artwork';
 
 /**
@@ -76,7 +75,7 @@ async function transformDoc(doc: any): Promise<ArtworkDocument> {
   const esDoc: ArtworkDocument = {
     // BaseDocument fields
     type: DOC_TYPE,
-    source: SOURCE_NAME,
+    source: sources[SOURCE_ID],
     sourceId: SOURCE_ID,
     id: getStringValue(doc.id),
     url: `https://whitney.org/collection/works/${getStringValue(doc.id)}`,
@@ -136,7 +135,6 @@ export const ingester: ElasticsearchIngester = {
   indexName: INDEX_NAME,
   dataFilename: DATA_FILE,
   sourceId: SOURCE_ID,
-  sourceName: SOURCE_NAME,
   generateId: (doc: ArtworkDocument, includeSourcePrefix: boolean) => {
     return sourceAwareIdFormatter(doc.id, SOURCE_ID, includeSourcePrefix);
   },
@@ -144,6 +142,6 @@ export const ingester: ElasticsearchIngester = {
     return transformDoc(doc);
   },
   extractTerms: async (doc: ArtworkDocument) => {
-    return artworkTermsExtractor(doc, SOURCE_NAME);
+    return artworkTermsExtractor(doc, sources[SOURCE_ID]);
   },
 };

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { ArtworkDocument } from '@/types/artworkDocument';
+import type { ArtworkDocument } from '@/types/document';
 import { SimilarArtworkCard } from '@/components/artwork/similar-artwork-card';
 import { Button } from '@/components/ui/button';
 

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { ArtworkDocument } from '@/types/artworkDocument';
+import type { ArtworkDocument } from '@/types/document';
 import { getArtworkUrlWithSlug } from '@/lib/various';
 import { DocumentImage } from '../image/document-image';
 import { SourceHeader } from '../source/source-header';

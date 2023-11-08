@@ -2,7 +2,7 @@ import { Client } from '@elastic/elasticsearch';
 import * as T from '@elastic/elasticsearch/lib/api/types';
 
 import { ApiResponseDocument } from '@/types/apiResponseDocument';
-import type { Term } from '@/types/term';
+import type { TermDocument } from '@/types/document';
 import { getClient } from '../client';
 
 const TERMS_PAGE_SIZE = 12; // 12 results per aggregation terms search
@@ -13,7 +13,7 @@ const TERMS_PAGE_SIZE = 12; // 12 results per aggregation terms search
  * @param field Field name
  * @param value Field value
  * @param client Elasticsearch client
- * @returns ApiResponseDocument containing Term
+ * @returns ApiResponseDocument containing TermDocument
  */
 export async function getTerm(
   field: string,
@@ -34,7 +34,7 @@ export async function getTerm(
 
   try {
     const response: T.SearchTemplateResponse = await client.search(request);
-    const data = response?.hits?.hits[0]?._source as Term;
+    const data = response?.hits?.hits[0]?._source as TermDocument;
     const apiResponse: ApiResponseDocument = { query: request, data };
     return apiResponse;
   } catch (e) {
@@ -47,7 +47,7 @@ export async function terms(
   query?: string | string[] | null,
   size: number = TERMS_PAGE_SIZE,
   client?: Client
-): Promise<Term[]> {
+): Promise<TermDocument[]> {
   const myQuery = Array.isArray(query) ? query.join(' ') : query;
   if (!myQuery || myQuery === undefined) return [];
   const request: T.SearchRequest = {
@@ -67,7 +67,7 @@ export async function terms(
 
   try {
     const response: T.SearchTemplateResponse = await client.search(request);
-    return response.hits.hits.map((h) => h._source as Term);
+    return response.hits.hits.map((h) => h._source as TermDocument);
   } catch (e) {
     console.error(e);
   }

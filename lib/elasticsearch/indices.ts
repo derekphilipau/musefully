@@ -15,7 +15,7 @@ const baseDocument: Record<T.PropertyName, T.MappingProperty> = {
   boostedKeywords: S.unaggregatedStandardAnalyzerTextField,
   primaryConstituent: S.constituentObjectField,
   image: S.imageObjectField,
-  date: S.dateField,
+  date: S.dateField, // Used in News (RSS) & Events.  TODO - refactor to startDate or similar.
   formattedDate: S.textField,
   startYear: S.integerField,
   endYear: S.integerField,

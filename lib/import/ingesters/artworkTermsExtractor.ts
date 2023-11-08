@@ -1,7 +1,6 @@
 import slugify from 'slugify';
 
-import type { ArtworkDocument } from '@/types/artworkDocument';
-import type { Term, TermIdMap } from '@/types/term';
+import type { ArtworkDocument, TermDocument, TermDocumentIdMap } from '@/types/document';
 import {
   normalizeName,
   searchUlanArtists,
@@ -16,8 +15,8 @@ import {
 export async function artworkTermsExtractor(
   doc: ArtworkDocument,
   datasourceName: string
-): Promise<TermIdMap> {
-  const termIdMap: TermIdMap = {};
+): Promise<TermDocumentIdMap> {
+  const termIdMap: TermDocumentIdMap = {};
   if (doc.departments?.length) {
     for (const department of doc.departments) {
       termIdMap[`art-departments-${slugify(department)}`] = {
@@ -43,7 +42,7 @@ export async function artworkTermsExtractor(
       primaryConstituent.birthYear,
       primaryConstituent.deathYear
     );
-    let term: Term;
+    let term: TermDocument;
     if (ulanArtist?.preferredTerm) {
       term = {
         source: 'ulan',
@@ -53,7 +52,7 @@ export async function artworkTermsExtractor(
         alternates: ulanArtist.nonPreferredTerms,
         summary: ulanArtist.biography,
         data: ulanArtist,
-      } as Term;
+      } as TermDocument;
     } else {
       term = {
         source: datasourceName,
@@ -61,7 +60,7 @@ export async function artworkTermsExtractor(
         field: 'primaryConstituent.canonicalName',
         value: primaryConstituent.canonicalName,
         summary: primaryConstituent.dates,
-      } as Term;
+      } as TermDocument;
     }
     if (term.value) {
       const id = slugify(normalizeName(term.value));

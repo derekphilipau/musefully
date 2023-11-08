@@ -12,6 +12,7 @@ coverage
 .next/
 out/
 build
+next-env.d.ts
 
 # misc
 .DS_Store
@@ -46,8 +47,11 @@ test-results/*
 
 # data files
 data/whitney/artworks.csv
+data/met/*
+data/cma/*
 data/ULAN/json/ulanArtists.jsonl
 data/ULAN/json/ulanCorporateBodies.jsonl
 data/ULAN/raw/*
 data/*/*.jsonl
 util/import/ingesters/whitney/collectionsIngester.ts
+
