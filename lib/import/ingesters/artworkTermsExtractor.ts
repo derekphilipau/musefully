@@ -14,13 +14,13 @@ import {
  */
 export async function artworkTermsExtractor(
   doc: ArtworkDocument,
-  datasourceName: string
+  sourceName: string
 ): Promise<TermDocumentIdMap> {
   const termIdMap: TermDocumentIdMap = {};
   if (doc.departments?.length) {
     for (const department of doc.departments) {
       termIdMap[`art-departments-${slugify(department)}`] = {
-        source: datasourceName,
+        source: sourceName,
         index: 'art',
         field: 'departments',
         value: department,
@@ -29,7 +29,7 @@ export async function artworkTermsExtractor(
   }
   if (doc.classification) {
     termIdMap[`art-classification-${slugify(doc.classification)}`] = {
-      source: datasourceName,
+      source: sourceName,
       index: 'art',
       field: 'classification',
       value: doc.classification,
@@ -55,7 +55,7 @@ export async function artworkTermsExtractor(
       } as TermDocument;
     } else {
       term = {
-        source: datasourceName,
+        source: sourceName,
         index: 'art',
         field: 'primaryConstituent.canonicalName',
         value: primaryConstituent.canonicalName,

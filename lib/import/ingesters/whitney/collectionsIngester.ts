@@ -142,6 +142,6 @@ export const ingester: ElasticsearchIngester = {
     return transformDoc(doc);
   },
   extractTerms: async (doc: ArtworkDocument) => {
-    return artworkTermsExtractor(doc, sources[SOURCE_ID]);
+    return artworkTermsExtractor(doc, sources[SOURCE_ID]?.name);
   },
 };
