@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
 import type { BaseDocument } from '@/types/document';
-import { sources } from '@/config/site';
+import { sources } from '@/config/sources';
 import { cn } from '@/lib/utils';
 import { timeAgo } from '@/lib/various';
 
@@ -42,13 +42,13 @@ export function SourceHeader({
             <Image
               src={`/img/logos/${item.sourceId}.jpg`}
               className="aspect-square"
-              alt={item.sourceId ? sources[item.sourceId] : 'Logo'}
+              alt={item.sourceId ? sources[item.sourceId]?.name : 'Logo'}
               width={400}
               height={400}
             />
           </div>
         )}
-        {sources[item.sourceId || '']}
+        {sources[item.sourceId || '']?.name}
       </Link>
       {showDate && item.date && (
         <div>{item.date ? timeAgo(item.date) : null}</div>

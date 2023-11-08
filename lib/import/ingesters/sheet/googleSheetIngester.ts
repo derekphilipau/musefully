@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 
 import type { BaseDocument } from '@/types/document';
-import { sources } from '@/config/site';
+import { sources } from '@/config/sources';
 import { end } from 'cheerio/lib/api/traversing';
 
 /**
@@ -65,7 +65,7 @@ export const ingester: GoogleSheetIngester = {
     console.log('formatted: ', formattedStartDate, formattedEndDate)
     return {
       type: typeName,
-      source: sources[item.get('sourceId')],
+      source: sources[item.get('sourceId')]?.name,
       sourceId: item.get('sourceId'),
       url: item.get('url'),
       title: item.get('title'),
@@ -78,7 +78,8 @@ export const ingester: GoogleSheetIngester = {
       endDate: formattedEndDate,
       startYear,
       endYear,
-      location: item.get('location'),
+      location: sources[item.get('sourceId')]?.location,
+      museumLocation: item.get('museumLocation'),
     } as BaseDocument;
   },
 };

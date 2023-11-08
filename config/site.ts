@@ -32,7 +32,6 @@ interface SiteConfig {
   exhibitionUrls: ExhibitionUrl[]; // List of exhibition URLs
   googleSheets: GoogleSheetConfig[]; // List of Google sheets to ingest
   rssFeeds: RssFeedConfig[]; // List of RSS feeds to ingest
-  sources: { [key: string]: string }; // List of sources
   mainNav: NavItem[]; // List of nav items
   links?: {
     // List of secondary/social links
@@ -41,36 +40,6 @@ interface SiteConfig {
     instagram?: string;
   };
 }
-
-/**
- * List of sources.
- */
-export const sources = {
-  aesthetica: 'Aesthetica',
-  aic: 'Art Institute of Chicago',
-  artforum: 'Artforum',
-  artnews: 'ARTnews',
-  artsy: 'Artsy',
-  bkm: 'Brooklyn Museum',
-  colossal: 'Colossal',
-  cooperhewitt: 'Cooper Hewitt',
-  hifructose: 'Hi-Fructose',
-  hirshhorn: 'Hirshhorn Museum and Sculpture Garden',
-  hyperallergic: 'Hyperallergic',
-  juxtapoz: 'Juxtapoz',
-  lacma: 'LACMA',
-  mam: 'Milwaukee Art Museum',
-  met: 'The Met',
-  moma: 'MoMA',
-  newmuseum: 'New Museum',
-  newyorkercartoon: 'New Yorker Daily Cartoon',
-  nga: 'National Gallery of Art',
-  nyt: 'NYT Art & Design',
-  pma: 'Philadelphia Museum of Art',
-  sam: 'Seattle Art Museum',
-  va: 'Victoria & Albert Museum',
-  whitney: 'Whitney Museum of American Art',
-};
 
 /**
  * The site configuration.  Defines all ingesters, RSS feeds, and nav items.
@@ -243,31 +212,6 @@ export const siteConfig: SiteConfig = {
       url: 'https://www.newyorker.com/feed/cartoons/daily-cartoon',
     },
   ],
-  sources: {
-    aesthetica: 'Aesthetica',
-    aic: 'Art Institute of Chicago',
-    artforum: 'Artforum',
-    artnews: 'ARTnews',
-    artsy: 'Artsy',
-    bkm: 'Brooklyn Museum',
-    colossal: 'Colossal',
-    cooperhewitt: 'Cooper Hewitt',
-    hifructose: 'Hi-Fructose',
-    hirshhorn: 'Hirshhorn Museum and Sculpture Garden',
-    hyperallergic: 'Hyperallergic',
-    juxtapoz: 'Juxtapoz',
-    lacma: 'LACMA',
-    mam: 'Milwaukee Art Museum',
-    met: 'The Met',
-    moma: 'MoMA',
-    nga: 'National Gallery of Art',
-    newyorkercartoon: 'New Yorker Daily Cartoon',
-    nyt: 'NYT Art & Design',
-    pma: 'Philadelphia Museum of Art',
-    sam: 'Seattle Art Museum',
-    va: 'Victoria & Albert Museum',
-    whitney: 'Whitney Museum of American Art',
-  },
   mainNav: [
     {
       dict: 'index.art',
