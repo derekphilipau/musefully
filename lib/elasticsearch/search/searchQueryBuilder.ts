@@ -54,6 +54,16 @@ export function addQueryBoolDateRange(
         },
       },
     });
+  } else {
+    // No date filter
+    const currentYear = new Date().getFullYear();
+    ranges.push({
+      range: {
+        startYear: {
+          lte: currentYear,
+        },
+      },
+    });
   }
   if (ranges.length > 0) {
     esQuery.query ??= {};
