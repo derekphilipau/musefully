@@ -29,7 +29,7 @@ export function SourceHeader({
       )}
     >
       <Link
-        href={`/?f=true&source=${item.sourceId}`}
+        href={`/?f=true&source=${sources[item.sourceId]?.name}`}
         className="inline-flex items-center"
       >
         {item.sourceId && (

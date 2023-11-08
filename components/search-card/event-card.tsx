@@ -11,7 +11,6 @@ import {
 import type { LayoutType } from '@/lib/elasticsearch/search/searchParams';
 import { Icons } from '@/components/icons';
 import { SourceHeader } from '@/components/source/source-header';
-import { DocumentImage } from '../image/document-image';
 
 function getFormattedDate(event) {
   let startDate, endDate, formattedStartDate, formattedEndDate;
@@ -99,11 +98,9 @@ export function EventCard({
           <SourceHeader item={item} />
         )}
         <Link href={item.url}>
-          {showType && layout === LAYOUT_LIST && (
-            <h4 className="mb-2 text-base font-semibold uppercase text-neutral-500 dark:text-neutral-600">
-              {dict['index.events.itemTitle']}
-            </h4>
-          )}
+          <h5 className="text-sm font-semibold uppercase text-neutral-500 dark:text-neutral-600">
+            {dict[`index.events.type.${item.type}`]}
+          </h5>
           <h4 className="mb-1 text-xl font-semibold text-neutral-900 dark:text-white">
             {item.title}
           </h4>
