@@ -4,7 +4,7 @@ import slugify from 'slugify';
 
 import type { ArtworkDocument } from '@/types/document';
 import { getDictionary } from '@/dictionaries/dictionaries';
-import { sources } from '@/config/site';
+import { sources } from '@/config/sources';
 
 /**
  * Strips html tags from a string
@@ -82,7 +82,7 @@ export function getCaption(item: ArtworkDocument): string {
     parts.push(`${item.rightsType}.`);
   }
   if (!item.rightsType && item.sourceId) {
-    parts.push(`(Photo: ${sources[item.sourceId]})`);
+    parts.push(`(Photo: ${sources[item.sourceId]?.name})`);
   }
 
   // Now, join the array parts with a space, and then trim any leading/trailing whitespace

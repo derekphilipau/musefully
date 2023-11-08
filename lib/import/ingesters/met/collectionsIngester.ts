@@ -10,7 +10,7 @@ import type {
 import type { ElasticsearchIngester } from '@/types/elasticsearchIngester';
 import countryByContinent from '@/lib/country-by-continent.json';
 import { searchUlanArtistById } from '@/lib/import/ulan/searchUlanArtists';
-import { sources } from '@/config/site';
+import { sources } from '@/config/sources';
 import { getBooleanValue, snooze } from '@/lib/various';
 import { artworkTermsExtractor } from '../artworkTermsExtractor';
 import {
@@ -186,7 +186,7 @@ async function getImage(doc: MetDocument): Promise<DocumentImage | undefined> {
 async function transformDoc(doc: MetDocument): Promise<ArtworkDocument> {
   const esDoc: ArtworkDocument = {
     type: DOC_TYPE,
-    source: sources[SOURCE_ID],
+    source: sources[SOURCE_ID]?.name,
     sourceId: SOURCE_ID,
     id: getStringValue(doc['Object ID']),
     url: getUrl(doc),
@@ -248,6 +248,6 @@ export const ingester: ElasticsearchIngester = {
     return transformDoc(doc);
   },
   extractTerms: async (doc: ArtworkDocument) => {
-    return artworkTermsExtractor(doc, sources[SOURCE_ID]);
+    return artworkTermsExtractor(doc, sources[SOURCE_ID]?.name);
   },
 };

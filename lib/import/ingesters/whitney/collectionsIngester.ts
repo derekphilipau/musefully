@@ -3,7 +3,7 @@ import csv from 'csv-parser';
 
 import type { ArtworkDocument, DocumentConstituent } from '@/types/document';
 import type { ElasticsearchIngester } from '@/types/elasticsearchIngester';
-import { sources } from '@/config/site';
+import { sources } from '@/config/sources';
 import { searchUlanArtists } from '@/lib/import/ulan/searchUlanArtists';
 import { artworkTermsExtractor } from '../artworkTermsExtractor';
 import {
@@ -75,7 +75,7 @@ async function transformDoc(doc: any): Promise<ArtworkDocument> {
   const esDoc: ArtworkDocument = {
     // BaseDocument fields
     type: DOC_TYPE,
-    source: sources[SOURCE_ID],
+    source: sources[SOURCE_ID]?.name,
     sourceId: SOURCE_ID,
     id: getStringValue(doc.id),
     url: `https://whitney.org/collection/works/${getStringValue(doc.id)}`,
@@ -142,6 +142,6 @@ export const ingester: ElasticsearchIngester = {
     return transformDoc(doc);
   },
   extractTerms: async (doc: ArtworkDocument) => {
-    return artworkTermsExtractor(doc, sources[SOURCE_ID]);
+    return artworkTermsExtractor(doc, sources[SOURCE_ID]?.name);
   },
 };

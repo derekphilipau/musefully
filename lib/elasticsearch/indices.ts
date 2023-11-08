@@ -85,7 +85,8 @@ export const events: T.IndicesIndexSettings = {
   mappings: {
     properties: {
       ...baseDocument,
-      location: S.keywordField,
+      location: S.searchableAggregatedKeywordAnalyzerField,
+      museumLocation: S.keywordField,
       dates: S.textField,
       endDate: S.dateField,
     },

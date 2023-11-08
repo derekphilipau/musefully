@@ -1,7 +1,7 @@
 import type { ArtworkDocument, DocumentConstituent } from '@/types/document';
 import type { ElasticsearchIngester } from '@/types/elasticsearchIngester';
 import { searchUlanArtists } from '@/lib/import/ulan/searchUlanArtists';
-import { sources } from '@/config/site';
+import { sources } from '@/config/sources';
 import { artworkTermsExtractor } from '../artworkTermsExtractor';
 import {
   getStringValue,
@@ -87,7 +87,7 @@ async function transformDoc(doc: any): Promise<ArtworkDocument> {
   const esDoc: ArtworkDocument = {
     // Begin BaseDocument fields
     type: DOC_TYPE,
-    source: sources[SOURCE_ID],
+    source: sources[SOURCE_ID]?.name,
     sourceId: SOURCE_ID,
     id: getStringValue(doc.ObjectID),
     title: doc.Title || undefined,
@@ -159,6 +159,6 @@ export const ingester: ElasticsearchIngester = {
     return transformDoc(doc);
   },
   extractTerms: async (doc: ArtworkDocument) => {
-    return artworkTermsExtractor(doc, sources[SOURCE_ID]);
+    return artworkTermsExtractor(doc, sources[SOURCE_ID]?.name);
   },
 };

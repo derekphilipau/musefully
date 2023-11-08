@@ -5,7 +5,7 @@ import type {
 } from '@/types/document';
 import type { ElasticsearchIngester } from '@/types/elasticsearchIngester';
 import { searchUlanArtists } from '@/lib/import/ulan/searchUlanArtists';
-import { sources } from '@/config/site';
+import { sources } from '@/config/sources';
 import { artworkTermsExtractor } from '../artworkTermsExtractor';
 import {
   getStringValue,
@@ -142,7 +142,7 @@ function getExhibitions(doc: CmaDocument): string[] | undefined {
 async function transformDoc(doc: any): Promise<ArtworkDocument> {
   const esDoc: ArtworkDocument = {
     type: DOC_TYPE,
-    source: sources[SOURCE_ID],
+    source: sources[SOURCE_ID]?.name,
     sourceId: SOURCE_ID,
     url: doc.url,
     id: getStringValue(doc.id),
@@ -224,6 +224,6 @@ export const ingester: ElasticsearchIngester = {
     return transformDoc(doc);
   },
   extractTerms: async (doc: ArtworkDocument) => {
-    return artworkTermsExtractor(doc, sources[SOURCE_ID]);
+    return artworkTermsExtractor(doc, sources[SOURCE_ID]?.name);
   },
 };

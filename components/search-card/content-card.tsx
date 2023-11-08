@@ -8,7 +8,7 @@ import {
   LAYOUT_LIST,
 } from '@/lib/elasticsearch/search/searchParams';
 import type { LayoutType } from '@/lib/elasticsearch/search/searchParams';
-import { sources } from '@/config/site';
+import { sources } from '@/config/sources';
 import { Icons } from '@/components/icons';
 
 function getContainerClass(layout: LayoutType) {
@@ -69,7 +69,7 @@ export function ContentCard({
         <div className={getDetailsClass(layout)}>
           {isMultiSource && (
             <div className="text-sm text-neutral-700 dark:text-neutral-400">
-              {sources[item.sourceId || '']}
+              {sources[item.sourceId || '']?.name}
             </div>
           )}
           {showType && layout === LAYOUT_LIST && (
