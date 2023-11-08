@@ -6,7 +6,7 @@ export const ingester: ElasticsearchRssIngester = {
   generateId: (doc: BaseDocument) => {
     return doc.id || '';
   },
-  transform: async (item, sourceName, sourceId) => {
-    return transformRssItem(item, sourceName, sourceId);
+  transform: async (item, sourceId) => {
+    return transformRssItem(item, sourceId);
   },
 };

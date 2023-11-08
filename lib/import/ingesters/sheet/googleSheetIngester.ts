@@ -1,4 +1,8 @@
+import { format } from 'date-fns';
+
 import type { BaseDocument } from '@/types/document';
+import { sources } from '@/config/site';
+import { end } from 'cheerio/lib/api/traversing';
 
 /**
  * Function type for generating an ID for Elasticsearch documents.
@@ -26,7 +30,7 @@ export interface SheetRowData {
   startDate: string;
   endDate: string;
   location: string;
-};
+}
 
 /**
  * Defines the structure of an Elasticsearch transformer, with all functions required
@@ -42,15 +46,26 @@ export const ingester: GoogleSheetIngester = {
     return doc.url || '';
   },
   transform: (item, typeName) => {
-    let startDate = item.startDate ? new Date(item.startDate) : null;
-    let endDate = item.endDate ? new Date(item.endDate) : null;
-    let startYear = startDate ? startDate.getFullYear() : null;
-    let endYear = endDate ? endDate.getFullYear() : null;
+    let startYear, endYear, formattedStartDate, formattedEndDate;
+    let startDate = item.get('startDate')
+      ? new Date(item.get('startDate'))
+      : null;
+    let endDate = item.get('endDate') ? new Date(item.get('endDate')) : null;
+    if (startDate) {
+      startYear = startDate.getFullYear();
+      formattedStartDate = format(startDate, 'yyyy-MM-dd');
+    }
+    if (endDate) {
+      endYear = endDate.getFullYear();
+      formattedEndDate = format(endDate, 'yyyy-MM-dd');
+    }
     if (!startYear && endYear) startYear = endYear;
     if (!endYear && startYear) endYear = startYear;
+
+    console.log('formatted: ', formattedStartDate, formattedEndDate)
     return {
       type: typeName,
-      source: item.get('source'),
+      source: sources[item.get('sourceId')],
       sourceId: item.get('sourceId'),
       url: item.get('url'),
       title: item.get('title'),
@@ -59,8 +74,8 @@ export const ingester: GoogleSheetIngester = {
         url: item.get('imageUrl,'),
         thumbnailUrl: item.get('imageUrl'),
       },
-      date: startDate?.toISOString(),
-      endDate: endDate?.toISOString(),
+      date: formattedStartDate,
+      endDate: formattedEndDate,
       startYear,
       endYear,
       location: item.get('location'),

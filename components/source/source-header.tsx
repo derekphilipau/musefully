@@ -1,7 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { getDictionary } from '@/dictionaries/dictionaries';
 
 import type { BaseDocument } from '@/types/document';
+import { sources } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { timeAgo } from '@/lib/various';
 
@@ -16,7 +18,8 @@ export function SourceHeader({
   showDate = false,
   isSmall = false,
 }: CardSourceHeaderProps) {
-  if (!item || !item.source) return null;
+  if (!item || !item.sourceId) return null;
+  const dict = getDictionary();
 
   return (
     <div
@@ -26,7 +29,7 @@ export function SourceHeader({
       )}
     >
       <Link
-        href={`/?f=true&source=${item.source}`}
+        href={`/?f=true&source=${item.sourceId}`}
         className="inline-flex items-center"
       >
         {item.sourceId && (
@@ -39,13 +42,13 @@ export function SourceHeader({
             <Image
               src={`/img/logos/${item.sourceId}.jpg`}
               className="aspect-square"
-              alt={item.source ? item.source : 'Logo'}
+              alt={item.sourceId ? sources[item.sourceId] : 'Logo'}
               width={400}
               height={400}
             />
           </div>
         )}
-        {item.source}
+        {sources[item.sourceId || '']}
       </Link>
       {showDate && item.date && (
         <div>{item.date ? timeAgo(item.date) : null}</div>

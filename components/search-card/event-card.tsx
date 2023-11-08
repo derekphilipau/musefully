@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
+import { format } from 'date-fns';
 
 import type { EventDocument } from '@/types/document';
 import {
@@ -10,6 +11,32 @@ import {
 import type { LayoutType } from '@/lib/elasticsearch/search/searchParams';
 import { Icons } from '@/components/icons';
 import { SourceHeader } from '@/components/source/source-header';
+
+function getFormattedDate(event) {
+  let startDate, endDate, formattedStartDate, formattedEndDate;
+  if (event.date) {
+    startDate = new Date(event.date);
+    formattedStartDate = format(startDate, 'MMMM d, yyyy');
+  }
+  if (event.endDate) {
+    endDate = new Date(event.endDate);
+    formattedEndDate = format(endDate, 'MMMM d, yyyy');
+  }
+  const currentDate = new Date();
+
+  if (startDate && endDate) {
+    if (startDate <= currentDate && endDate > currentDate) {
+      return `Through ${formattedEndDate}`;
+    }
+    return `${formattedStartDate} - ${formattedEndDate}`;
+  }
+  if (event.startDate) {
+    return `Starting ${formattedStartDate}`;
+  }
+  if (event.endDate) {
+    return `Until ${formattedEndDate}`;
+  }
+}
 
 function getContainerClass(layout) {
   if (layout === LAYOUT_GRID) return '';
@@ -36,6 +63,7 @@ export function EventCard({
 }: EventCardProps) {
   if (!item || !item.url) return null;
   const dict = getDictionary();
+  const formattedDate = getFormattedDate(item);
 
   return (
     <Link href={item.url}>
@@ -76,9 +104,9 @@ export function EventCard({
           <h4 className="mb-1 text-xl font-semibold text-neutral-900 dark:text-white">
             {item.title}
           </h4>
-          {item.formattedDate && (
+          {formattedDate && (
             <p className="text-xs font-normal text-neutral-700 dark:text-neutral-400">
-              {item.formattedDate}
+              {formattedDate}
             </p>
           )}
         </div>

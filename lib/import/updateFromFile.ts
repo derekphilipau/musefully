@@ -55,10 +55,7 @@ async function* readFileData(
 /**
  * Update data in Elasticsearch from a jsonl file (one JSON object per row, no endline commas)
  *
- * @param indexName  Name of the index.
- * @param dataFilename  Name of the file containing the data.
  * @param ingester  Ingester with properties & functions to transform a dataset.
- * @param sourceName  Name of the sourceName.
  * @param includeSourcePrefix  Whether to include the source id prefix in the document ID.
  */
 export default async function updateFromFile(
@@ -149,7 +146,7 @@ export default async function updateFromFile(
     indexName,
     {
       match: {
-        source: ingester.sourceName,
+        sourceId: ingester.sourceId,
       },
     },
     ['id']

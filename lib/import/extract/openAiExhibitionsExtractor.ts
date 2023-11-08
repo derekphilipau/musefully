@@ -117,7 +117,6 @@ function getSheetEvent(
   if (exhibition.title && exhibition.url) {
     const eventDoc: any = {
       url: exhibition.url,
-      source: site.source,
       sourceId: site.sourceId,
       title: exhibition.title,
       image: exhibition.imageUrl,

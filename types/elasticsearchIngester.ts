@@ -31,7 +31,6 @@ export interface ElasticsearchIngester{
   indexName: string;
   dataFilename: string;
   sourceId: string;
-  sourceName: string;
   generateId: ElasticsearchIdGenerator;
   transform: ElasticsearchTransform;
   extractTerms?: ElasticsearchTermsExtractor;

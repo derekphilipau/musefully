@@ -45,17 +45,16 @@ async function deleteIndex(client: Client, indexName: string) {
  *
  * @param indexName name of the index
  * @param fieldName name of the field, e.g. 'title'
- * @param sourceName OR name of the source, e.g. 'MoMA'
  */
 export async function deleteDocuments(
   client: Client,
   indexName: string,
   fieldName?: string,
-  sourceName?: string
+  sourceId?: string
 ) {
-  // delete all documents where field = fieldName or source = sourceName
-  if (!fieldName && !sourceName)
-    throw new Error('Must specify either fieldName or sourceName');
+  // delete all documents where field = fieldName or source = sourceId
+  if (!fieldName && !sourceId)
+    throw new Error('Must specify either fieldName or sourceId');
   if (await existsIndex(client, indexName)) {
     const deleteQuery = {
       index: indexName,
@@ -65,8 +64,8 @@ export async function deleteDocuments(
         },
       },
     };
-    if (sourceName) {
-      deleteQuery.body.query.match = { source: sourceName };
+    if (sourceId) {
+      deleteQuery.body.query.match = { sourceId: sourceId };
     } else {
       deleteQuery.body.query.match = { field: fieldName };
     }

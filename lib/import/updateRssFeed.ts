@@ -16,7 +16,6 @@ async function importRssFeed(
   client: Client,
   ingester: ElasticsearchRssIngester,
   url: string,
-  sourceName: string,
   sourceId: string
 ) {
   try {
@@ -34,7 +33,7 @@ async function importRssFeed(
 
     // Iterate over each <item> and transform them
     for (const item of items) {
-      const doc = await ingester.transform(item, sourceName, sourceId);
+      const doc = await ingester.transform(item, sourceId);
       if (doc !== undefined) {
         const id = ingester.generateId(doc);
         if (doc && id) {
@@ -67,18 +66,17 @@ export default async function updateRssFeeds() {
 
   for (const rssFeed of siteConfig.rssFeeds) {
     try {
-      if (!rssFeed.ingester || !rssFeed.url || !rssFeed.sourceName)
-        throw new Error('RSS Feed missing url or sourceName');
+      if (!rssFeed.ingester || !rssFeed.url)
+        throw new Error('RSS Feed missing url');
       const { ingester } = await import(`./ingesters/rss/${rssFeed.ingester}`);
       await importRssFeed(
         client,
         ingester,
         rssFeed.url,
-        rssFeed.sourceName,
         rssFeed.sourceId
       );
     } catch (e) {
-      console.error(`Error updating RSS ${rssFeed.sourceName}: ${e}`);
+      console.error(`Error updating RSS ${rssFeed.sourceId}: ${e}`);
       return;
     }
   }

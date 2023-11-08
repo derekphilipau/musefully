@@ -1,5 +1,6 @@
 import type { ArtworkDocument, DocumentImage } from '@/types/document';
 import type { ElasticsearchIngester } from '@/types/elasticsearchIngester';
+import { sources } from '@/config/site';
 import { searchUlanArtists } from '@/lib/import/ulan/searchUlanArtists';
 import { artworkTermsExtractor } from '../artworkTermsExtractor';
 import {
@@ -16,7 +17,6 @@ import {
 const DATA_FILE = './data/bkm/collections.jsonl.gz';
 const INDEX_NAME = 'art';
 const SOURCE_ID = 'bkm';
-const SOURCE_NAME = 'Brooklyn Museum';
 const DOC_TYPE = 'artwork';
 const NOT_ON_VIEW = 'This item is not on view';
 const NOT_ASSIGNED = '(not assigned)';
@@ -45,7 +45,7 @@ async function transformDoc(doc: any): Promise<ArtworkDocument> {
   const esDoc: ArtworkDocument = {
     // Begin BaseDocument fields
     type: DOC_TYPE,
-    source: SOURCE_NAME,
+    source: sources[SOURCE_ID],
     sourceId: SOURCE_ID,
     id: getStringValue(doc.id),
     title: doc.title || undefined,
@@ -157,7 +157,7 @@ async function transformDoc(doc: any): Promise<ArtworkDocument> {
       nationality: [artist.nationality], // "American"
       role: artist.role,
       rank: artist.rank,
-      source: SOURCE_NAME,
+      source: sources[SOURCE_ID],
       sourceId: artist.id,
     }));
 
@@ -317,7 +317,6 @@ export const ingester: ElasticsearchIngester = {
   indexName: INDEX_NAME,
   dataFilename: DATA_FILE,
   sourceId: SOURCE_ID,
-  sourceName: SOURCE_NAME,
   generateId: (doc: ArtworkDocument, includeSourcePrefix: boolean) => {
     return sourceAwareIdFormatter(doc.id, SOURCE_ID, includeSourcePrefix);
   },
@@ -325,6 +324,6 @@ export const ingester: ElasticsearchIngester = {
     return transformDoc(doc);
   },
   extractTerms: async (doc: ArtworkDocument) => {
-    return artworkTermsExtractor(doc, SOURCE_NAME);
+    return artworkTermsExtractor(doc, sources[SOURCE_ID]);
   },
 };

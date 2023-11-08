@@ -25,17 +25,14 @@ async function importGoogleSheet(
     let operations: any[] = [];
 
     for (const row of rows) {
-      console.log('rrrow', row)
       const doc = ingester.transform(row, sheetConfig.typeName);
-      console.log('xxx', doc)
       if (doc && doc.url) {
         const id = ingester.generateId(doc);
         operations.push(
           ...getBulkOperationArray('update', sheetConfig.indexName, id, doc)
-        );  
+        );
       }
     }
-console.log(`Found ${operations.length} operations in ${sheetConfig.sheetName}`)
     if (operations.length > 0) {
       await createIndexIfNotExist(client, sheetConfig.indexName);
       await bulk(client, operations);

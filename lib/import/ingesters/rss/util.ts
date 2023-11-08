@@ -68,12 +68,11 @@ export function parseDate(item: any): Date {
  * Transform a typical RSS item into a BaseDocument
  *
  * @param item RSS <item> element
- * @param sourceName Source of RSS feed, e.g. 'hyperallergic'
+ * @param sourceId ID of the source
  * @returns Elasticsearch BaseDocument
  */
 export function transformRssItem(
   item: any,
-  sourceName: string,
   sourceId: string
 ) {
   const title = stripHtmlTags(item.title?.[0]);
@@ -86,7 +85,6 @@ export function transformRssItem(
 
   return {
     type: 'rss',
-    source: sourceName,
     sourceId: sourceId,
     id: getRssItemId(item),
     url: item.link?.[0],

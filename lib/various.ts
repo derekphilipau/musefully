@@ -3,6 +3,8 @@ import { Parser } from 'htmlparser2';
 import slugify from 'slugify';
 
 import type { ArtworkDocument } from '@/types/document';
+import { getDictionary } from '@/dictionaries/dictionaries';
+import { sources } from '@/config/site';
 
 /**
  * Strips html tags from a string
@@ -46,6 +48,8 @@ export function stripLineBreaks(str: string, replaceStr: string = ' ') {
  * @param filename the filename of the image
  */
 export function getCaption(item: ArtworkDocument): string {
+  const dict = getDictionary();
+  
   if (!item) return '';
 
   const parts: string[] = [];
@@ -77,8 +81,8 @@ export function getCaption(item: ArtworkDocument): string {
   if (item.rightsType) {
     parts.push(`${item.rightsType}.`);
   }
-  if (!item.rightsType && item.source) {
-    parts.push(`(Photo: ${item.source})`);
+  if (!item.rightsType && item.sourceId) {
+    parts.push(`(Photo: ${sources[item.sourceId]})`);
   }
 
   // Now, join the array parts with a space, and then trim any leading/trailing whitespace

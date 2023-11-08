@@ -44,13 +44,12 @@ describe('rss import function', () => {
   });
 
   it('should return the transformed rss', () => {
-    const sourceName = 'ARTnews';
     const sourceId = 'artnews';
-    const transformedItem = transformRssItem(items[0], sourceName, sourceId);
+    const transformedItem = transformRssItem(items[0], sourceId);
     const strippedTitle = stripHtmlTags(
       'Why Cady Noland’s Disabling America Never Sat Quite Right With&#160;Me'
     );
-    expect(transformedItem.source).toBe(sourceName);
+    expect(transformedItem.sourceId).toBe(sourceId);
     expect(transformedItem.title).toBe(strippedTitle);
     expect(transformedItem.keywords).toBe('Art in America, Reviews');
   });
