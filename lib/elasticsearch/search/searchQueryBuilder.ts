@@ -1,5 +1,6 @@
 import * as T from '@elastic/elasticsearch/lib/api/types';
 import convert from 'color-convert';
+import { format } from 'date-fns';
 
 import { indicesMeta } from '@/lib/elasticsearch/indicesMeta';
 import { type SearchParams } from './searchParams';
@@ -50,6 +51,17 @@ export function addQueryBoolDateRange(
       range: {
         endYear: {
           lte: searchParams.endYear,
+        },
+      },
+    });
+  } else {
+    // No date filter
+    // Default to start date <= current date
+    const now = format(new Date(), 'yyyy-MM-dd');
+    ranges.push({
+      range: {
+        date: {
+          lte: now,
         },
       },
     });
