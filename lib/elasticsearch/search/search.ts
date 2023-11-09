@@ -13,7 +13,8 @@ import { getElasticsearchIndices, type SearchParams } from './searchParams';
 import {
   addColorQuery,
   addQueryAggs,
-  addQueryBoolDateRange,
+  addDefaultQueryBoolDateRange,
+  addQueryBoolYearRange,
   addQueryBoolFilterTerms,
 } from './searchQueryBuilder';
 import { getTerm, terms } from './terms';
@@ -69,10 +70,14 @@ export async function search(
   }
 
   if (searchParams.index === DEFAULT_INDEX) {
+    // Multi-index search has special date range filter
+    addDefaultQueryBoolDateRange(esQuery, searchParams);
+    // Multi-index search boosts news and events
     esQuery.indices_boost = [{ news: 1.5 }, { events: 1.5 }, { art: 1 }];
+  } else {
+    addQueryBoolYearRange(esQuery, searchParams);
   }
 
-  addQueryBoolDateRange(esQuery, searchParams);
   addQueryBoolFilterTerms(esQuery, searchParams);
   addQueryAggs(esQuery, searchParams.index);
 
@@ -157,7 +162,7 @@ export async function searchCollections(
     esQuery.sort = [{ sortPriority: 'desc' }, { startYear: 'desc' }];
   }
 
-  addQueryBoolDateRange(esQuery, searchParams);
+  addQueryBoolYearRange(esQuery, searchParams);
   addQueryBoolFilterTerms(esQuery, searchParams);
   addQueryAggs(esQuery, searchParams.index);
 

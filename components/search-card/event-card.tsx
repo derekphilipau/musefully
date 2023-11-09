@@ -6,13 +6,12 @@ import { format } from 'date-fns';
 import type { EventDocument } from '@/types/document';
 import {
   LAYOUT_GRID,
-  LAYOUT_LIST,
 } from '@/lib/elasticsearch/search/searchParams';
 import type { LayoutType } from '@/lib/elasticsearch/search/searchParams';
 import { Icons } from '@/components/icons';
 import { SourceHeader } from '@/components/source/source-header';
 
-function getFormattedDate(event) {
+function getFormattedDate(event, dict) {
   let startDate, endDate, formattedStartDate, formattedEndDate;
   if (event.date) {
     startDate = new Date(event.date);
@@ -26,15 +25,15 @@ function getFormattedDate(event) {
 
   if (startDate && endDate) {
     if (startDate <= currentDate && endDate > currentDate) {
-      return `Through ${formattedEndDate}`;
+      return `${dict["date.through"]} ${formattedEndDate}`;
     }
     return `${formattedStartDate} - ${formattedEndDate}`;
   }
   if (event.startDate) {
-    return `Starting ${formattedStartDate}`;
+    return `${dict["date.starting"]} ${formattedStartDate}`;
   }
   if (event.endDate) {
-    return `Through ${formattedEndDate}`;
+    return `${dict["date.through"]} ${formattedEndDate}`;
   }
 }
 
@@ -63,7 +62,7 @@ export function EventCard({
 }: EventCardProps) {
   if (!item || !item.url) return null;
   const dict = getDictionary();
-  const formattedDate = getFormattedDate(item);
+  const formattedDate = getFormattedDate(item, dict);
 
   return (
     <div className={getContainerClass(layout)}>
