@@ -47,9 +47,11 @@ export interface SearchParams {
   isUnrestricted: boolean; // is copyright unrestricted?
   hasPhoto: boolean; // does it have a photo?
   onView: boolean; // is it on view?
+  isNow: boolean;
   layout: LayoutType; // layout type
   cardType?: string; // card type
   isShowFilters: boolean; // show filters?
+  isShowTimeline: boolean; // events timeline?
   aggFilters: Record<string, string>; // aggregation filters
   startYear?: number;
   endYear?: number;
@@ -116,6 +118,7 @@ export function getSanitizedSearchParams(
   sanitizedParams.cardType =
     (typeof params.card === 'string' && params.card) || undefined;
   sanitizedParams.isShowFilters = getBooleanValue(params.f);
+  sanitizedParams.isShowTimeline = getBooleanValue(params.tl);
 
   // date range
   sanitizedParams.startYear =
@@ -229,6 +232,7 @@ export function toURLSearchParams(
   if (searchParams.onView)
     urlParams.set('onView', searchParams.onView.toString());
   if (searchParams.isShowFilters === true) urlParams.set('f', 'true');
+  if (searchParams.isShowTimeline === true) urlParams.set('tl', 'true');
 
   if (searchParams.layout && searchParams.layout !== LAYOUT_DEFAULT)
     urlParams.set('layout', searchParams.layout);
@@ -381,6 +385,17 @@ export function setColor(
 export function toggleIsShowFilters(searchParams: SearchParams): SearchParams {
   const params = { ...searchParams };
   params.isShowFilters = !params.isShowFilters;
+  return params;
+}
+
+/**
+ * Immutable toggle the show timeline flag in search parameters.
+ * @param searchParams - The current search parameters.
+ * @returns New search parameters.
+ */
+export function toggleIsShowTimeline(searchParams: SearchParams): SearchParams {
+  const params = { ...searchParams };
+  params.isShowTimeline = !params.isShowTimeline;
   return params;
 }
 

@@ -10,32 +10,8 @@ import {
 import type { LayoutType } from '@/lib/elasticsearch/search/searchParams';
 import { Icons } from '@/components/icons';
 import { SourceHeader } from '@/components/source/source-header';
-
-function getFormattedDate(event, dict) {
-  let startDate, endDate, formattedStartDate, formattedEndDate;
-  if (event.date) {
-    startDate = new Date(event.date);
-    formattedStartDate = format(startDate, 'MMMM d, yyyy');
-  }
-  if (event.endDate) {
-    endDate = new Date(event.endDate);
-    formattedEndDate = format(endDate, 'MMMM d, yyyy');
-  }
-  const currentDate = new Date();
-
-  if (startDate && endDate) {
-    if (startDate <= currentDate && endDate > currentDate) {
-      return `${dict["date.through"]} ${formattedEndDate}`;
-    }
-    return `${formattedStartDate} - ${formattedEndDate}`;
-  }
-  if (event.startDate) {
-    return `${dict["date.starting"]} ${formattedStartDate}`;
-  }
-  if (event.endDate) {
-    return `${dict["date.through"]} ${formattedEndDate}`;
-  }
-}
+import { RemoteImage } from '../image/remote-image';
+import { getFormattedItemDates } from '@/lib/various';
 
 function getContainerClass(layout) {
   if (layout === LAYOUT_GRID) return '';
@@ -62,7 +38,7 @@ export function EventCard({
 }: EventCardProps) {
   if (!item || !item.url) return null;
   const dict = getDictionary();
-  const formattedDate = getFormattedDate(item, dict);
+  const formattedDate = getFormattedItemDates(item, dict);
 
   return (
     <div className={getContainerClass(layout)}>
@@ -70,27 +46,7 @@ export function EventCard({
         {isMultiSource && layout === LAYOUT_GRID && (
           <SourceHeader item={item} showDate={true} isSmall={true} />
         )}
-        <div className="flex items-center justify-center bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-800 dark:hover:bg-neutral-700">
-          <Link href={item.url}>
-            <figure>
-              {item.image?.thumbnailUrl ? (
-                <Image
-                  src={item.image?.thumbnailUrl}
-                  className="h-48 object-contain"
-                  alt=""
-                  width={400}
-                  height={400}
-                />
-              ) : (
-                <div className="flex h-48 w-full items-center justify-center">
-                  <Icons.imageOff className="h-24 w-24 text-neutral-300 group-hover:text-neutral-400" />
-                  <span className="sr-only">Image Unavailable</span>
-                </div>
-              )}
-              <figcaption></figcaption>
-            </figure>
-          </Link>
-        </div>
+        <RemoteImage item={item} />
       </div>
       <div className={getDetailsClass(layout)}>
         {isMultiSource && layout !== LAYOUT_GRID && (

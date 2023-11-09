@@ -1,9 +1,13 @@
-import { formatDistanceToNow } from 'date-fns';
+import { getDictionary } from '@/dictionaries/dictionaries';
+import { format, formatDistanceToNow } from 'date-fns';
 import { Parser } from 'htmlparser2';
 import slugify from 'slugify';
 
-import type { ArtworkDocument } from '@/types/document';
-import { getDictionary } from '@/dictionaries/dictionaries';
+import type {
+  ArtworkDocument,
+  BaseDocument,
+  EventDocument,
+} from '@/types/document';
 import { sources } from '@/config/sources';
 
 /**
@@ -49,7 +53,7 @@ export function stripLineBreaks(str: string, replaceStr: string = ' ') {
  */
 export function getCaption(item: ArtworkDocument): string {
   const dict = getDictionary();
-  
+
   if (!item) return '';
 
   const parts: string[] = [];
@@ -174,4 +178,30 @@ export function truncate(input: string, maxCharacters: number): string {
  */
 export function snooze(s: number) {
   return new Promise((resolve) => setTimeout(resolve, s * 1000));
+}
+
+export function getFormattedItemDates(item: EventDocument, dict) {
+  let startDate, endDate, formattedStartDate, formattedEndDate;
+  if (item.date) {
+    startDate = new Date(item.date);
+    formattedStartDate = format(startDate, 'MMMM d, yyyy');
+  }
+  if (item.endDate) {
+    endDate = new Date(item.endDate);
+    formattedEndDate = format(endDate, 'MMMM d, yyyy');
+  }
+  const currentDate = new Date();
+
+  if (startDate && endDate) {
+    if (startDate <= currentDate && endDate > currentDate) {
+      return `${dict['date.through']} ${formattedEndDate}`;
+    }
+    return `${formattedStartDate} - ${formattedEndDate}`;
+  }
+  if (item.date) {
+    return `${dict['date.starting']} ${formattedStartDate}`;
+  }
+  if (item.endDate) {
+    return `${dict['date.through']} ${formattedEndDate}`;
+  }
 }
