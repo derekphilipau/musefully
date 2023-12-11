@@ -91,7 +91,7 @@ export function transformRssItem(
     title,
     description,
     searchText,
-    keywords: item.category?.length ? item.category.join(', ') : undefined,
+    keywords: item.category?.length ? item.category : undefined,
     image: {
       url: thumbnailUrl,
       thumbnailUrl: thumbnailUrl,

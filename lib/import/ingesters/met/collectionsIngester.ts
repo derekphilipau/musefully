@@ -25,9 +25,13 @@ const INDEX_NAME = 'art';
 const SOURCE_ID = 'met';
 const DOC_TYPE = 'artwork';
 
-function getKeywords(doc: MetDocument): string | undefined {
-  const keywords = doc['Tags']?.split('|').map((s) => s.trim());
-  if (keywords?.length) return keywords.join(', ');
+/**
+ * Elasticsearch keywords are stored as an array of strings
+ * @param doc Met collections document
+ * @returns Array of keywords or undefined
+ */
+function getKeywords(doc: MetDocument): string[] | undefined {
+  return doc['Tags']?.split('|').map((s) => s.trim());
 }
 
 async function getConstituents(
@@ -200,8 +204,8 @@ async function transformDoc(doc: MetDocument): Promise<ArtworkDocument> {
     dynasty: doc['Dynasty'] || undefined,
     portfolio: doc['Portfolio'] || undefined,
     rightsType: doc['Rights and Reproduction'] || undefined,
-    publicAccess: doc['Is Public Domain']?.toLowerCase() === 'true',
-    highlight: doc['Is Highlight']?.toLowerCase() === 'true',
+    publicAccess: getBooleanValue(doc['Is Public Domain']) === true,
+    highlight: getBooleanValue(doc['Is Highlight']) === true,
     formattedDate: doc['Object Date'] || undefined,
     startYear: parseInt(doc['Object Begin Date'], 10) || undefined,
     endYear: parseInt(doc['Object End Date'], 10) || undefined,

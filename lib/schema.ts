@@ -73,7 +73,7 @@ export function getSchemaVisualArtwork(item: ArtworkDocument | undefined) {
   if (item.creditLine) schema.creditText = item.creditLine;
   if (item.formattedDate) schema.dateCreated = item.formattedDate; // TODO
   schema.inLanguage = 'English'; // TODO
-  if (item.keywords) schema.keywords = item.keywords;
+  if (item.keywords?.length) schema.keywords = item.keywords.join(', ');
   return schema;
 }
 

@@ -70,7 +70,7 @@
     "next": "^14.0.1",
     "next-themes": "npm:@wits/next-themes@^0.2.16",
     "node-kmeans": "^1.1.9",
-    "openai": "^3.3.0",
+    "openai": "^4.20.1",
     "openseadragon": "^4.1.0",
     "playwright": "^1.39.0",
     "react": "^18.2.0",

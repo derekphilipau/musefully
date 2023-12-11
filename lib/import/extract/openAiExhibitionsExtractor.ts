@@ -1,4 +1,6 @@
 /**
+ * Deprecated, doesn't work that great and relies on old version of OpenAI API.
+ * 
  * Attempt to extract exhibition information from web pages.
  * 1. Get markdown from web page
  * 2. Call OpenAI GPT function to extract JSON exhibition data

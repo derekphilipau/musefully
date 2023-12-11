@@ -2,7 +2,7 @@ export interface MetDocument {
   "Object Number": string; // Accession Number
   "Is Highlight": string;
   "Is Timeline Work": string;
-  "Is Public Domain": string;
+  "Is Public Domain": string | boolean;
   "Object ID": string;
   "Gallery Number": string;
   Department: string;
