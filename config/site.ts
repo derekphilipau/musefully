@@ -226,7 +226,7 @@ export const siteConfig: SiteConfig = {
     {
       dict: 'index.events',
       basePath: 'events',
-      href: '/events',
+      href: '/events?isNow=true&f=true',
     },
   ],
   links: {

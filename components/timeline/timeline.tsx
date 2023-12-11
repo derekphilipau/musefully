@@ -24,17 +24,6 @@ const sourceColors = {
   Boston: '#ef4444',
 };
 
-// Define your margins
-const margin = { top: 40, right: 10, bottom: 10, left: 10 };
-
-// Define the size of your chart
-const width = 1200; // You can adjust this as needed
-const height = 600; // You can adjust this as needed
-// maxDate should be X months from today:
-const maxDate = new Date(new Date().setMonth(new Date().getMonth() + 6))
-  .toISOString()
-  .split('T')[0];
-
 function getBarText(item: BaseDocument | EventDocument) {
   // get item title.  if > 40 chars, truncate and add ellipsis:
   const myTitle =
@@ -44,8 +33,9 @@ function getBarText(item: BaseDocument | EventDocument) {
   return `${myTitle} - ${item.source}`;
 }
 
-function getDomainMin(items: (BaseDocument | EventDocument)[]) {
-  const min = Math.min(
+function getDomainMin(items: EventDocument[]) {
+  if (!(items?.length > 0)) return new Date().getTime();
+  const min = Math.max(
     ...items
       .filter((item) => item.date)
       .map((item) => new Date(item.date || '').getTime())
@@ -54,31 +44,41 @@ function getDomainMin(items: (BaseDocument | EventDocument)[]) {
 }
 
 function getDomainMax(items: (BaseDocument | EventDocument)[]) {
+  const maxDate = new Date(new Date().setMonth(new Date().getMonth() + 6))
+    .toISOString()
+    .split('T')[0];
+  if (!(items?.length > 0)) return new Date().getTime();
   const max = Math.max(
     ...items
-      .filter((item): item is EventDocument => 'endDate' in item && item.endDate !== undefined)
+      .filter(
+        (item): item is EventDocument =>
+          'endDate' in item && item.endDate !== undefined
+      )
       .map((item) => {
-        // if item.endDate is greater than 5 years into future, don't use it:
-        const endDate = new Date(item.endDate || '').getTime();
-        return endDate >
-          new Date(
-            new Date().setFullYear(new Date().getFullYear() + 5)
-          ).getTime()
-          ? new Date(maxDate).getTime()
-          : endDate;
+        // if item.endDate is greater than 3 years into future, don't use it:
+        try {
+          const endDate = new Date(item.endDate || '').getTime();
+          return endDate >
+            new Date(
+              new Date().setFullYear(new Date().getFullYear() + 20)
+            ).getTime()
+            ? new Date(maxDate).getTime()
+            : endDate;
+        } catch (e) {
+          return 0;
+        }
       })
   );
   return max;
 }
 
-interface TimelineProps {
-  items: (BaseDocument | EventDocument)[];
-}
-
-export function Timeline({ items }: TimelineProps) {
-  const dict = getDictionary();
-  // create a new array of items, sorted by location:
-  const sortedItems = items.sort((a, b) => {
+/**
+ * Sort items by location and sourceId
+ * @param items Array of items to sort
+ * @returns Sorted array of items
+ */
+function getSortedItems(items: (BaseDocument | EventDocument)[]) {
+  return [...items].sort((a, b) => {
     if (a.sourceId && b.sourceId) {
       const locationA = a.sourceId && sources[a.sourceId]?.location;
       const locationB = b.sourceId && sources[b.sourceId]?.location;
@@ -94,35 +94,44 @@ export function Timeline({ items }: TimelineProps) {
     }
     return 0;
   });
+}
 
-  // for each item, if endDate > maxTime, set endDate to maxTime
-  const maxTime = getDomainMax(sortedItems);
-  const maxDate = format(new Date(maxTime), 'yyyy-MM-dd');
+function getMinTimeWithinDomain(item: EventDocument, minTime: number) {
+  if (item.date) return new Date(item.date).getTime();
+  return minTime;
+}
+
+function getMaxTimeWithinDomain(item: EventDocument, maxTime: number) {
+  if (item.endDate && new Date(item.endDate).getTime() < maxTime) {
+    return new Date(item.endDate).getTime();
+  }
+  return maxTime;
+}
+
+const chartMargin = { top: 40, right: 10, bottom: 10, left: 10 };
+const chartWidth = 1200;
+const chartHeight = 600;
+
+interface TimelineProps {
+  items: (BaseDocument | EventDocument)[];
+}
+
+export function Timeline({ items }: TimelineProps) {
+  const dict = getDictionary();
+  const sortedItems = getSortedItems(items);
   const minTime = getDomainMin(sortedItems);
-  const minDate = format(new Date(minTime), 'yyyy-MM-dd');
-  sortedItems.forEach((item: EventDocument) => {
-    // if item.endDate is greater than 5 years into future, don't use it:
-    if (item.endDate) {
-      const endDate = new Date(item.endDate).getTime();
-      if (
-        endDate >
-        new Date(new Date().setFullYear(new Date().getFullYear() + 5)).getTime()
-      ) {
-        item.endDate = format(new Date(maxTime), 'yyyy-MM-dd');
-      }
-    }
-  });
+  const maxTime = getDomainMax(sortedItems);
 
   const timeScale = scaleLinear({
-    domain: [getDomainMin(sortedItems), getDomainMax(sortedItems)],
-    range: [margin.left, width - margin.right], // Now for horizontal
+    domain: [minTime, maxTime],
+    range: [chartMargin.left, chartWidth - chartMargin.right], // Now for horizontal
   });
 
   const itemScale = scaleBand<string>({
     domain: sortedItems
       .filter((item) => item.title)
       .map((item) => item.title) as string[],
-    range: [height - margin.bottom, margin.top],
+    range: [chartHeight - chartMargin.bottom, chartMargin.top],
     padding: 0.1,
   });
 
@@ -141,12 +150,12 @@ export function Timeline({ items }: TimelineProps) {
   return (
     <>
       <div className="w-full overflow-x-auto">
-        <svg ref={svgRef} width={width} height={height}>
+        <svg ref={svgRef} width={chartWidth} height={chartHeight}>
           <Group>
             {sortedItems.map((item: EventDocument, i: Key) => {
               // Swap the usage of scales for x and y
-              const startX = timeScale(new Date(item.date || minDate).getTime());
-              const endX = timeScale(new Date(item.endDate || maxDate).getTime());
+              const startX = timeScale(getMinTimeWithinDomain(item, minTime));
+              const endX = timeScale(getMaxTimeWithinDomain(item, maxTime));
               const barX = Math.min(startX, endX);
               const barWidth = Math.abs(endX - startX);
               const barY = itemScale(item.title || '') ?? 0;
@@ -212,7 +221,7 @@ export function Timeline({ items }: TimelineProps) {
               );
             })}
             <AxisTop
-              top={margin.top}
+              top={chartMargin.top}
               scale={timeScale}
               tickFormat={(value: number) => {
                 const date = new Date(value);
@@ -227,8 +236,8 @@ export function Timeline({ items }: TimelineProps) {
             <line
               x1={timeScale(currentTime)}
               x2={timeScale(currentTime)}
-              y1={margin.top}
-              y2={height - margin.bottom}
+              y1={chartMargin.top}
+              y2={chartHeight - chartMargin.bottom}
               stroke="red"
               strokeWidth={2}
             />
