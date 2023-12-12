@@ -6,6 +6,8 @@
  * 2. Call OpenAI GPT function to extract JSON exhibition data
  * 3. Parse JSON exhibition data
  */
+export {}
+/**
 import { loadEnvConfig } from '@next/env';
 import { Configuration, CreateChatCompletionRequest, OpenAIApi } from 'openai';
 
@@ -158,3 +160,4 @@ export const extractor: ElasticsearchExtractor = {
     return extract();
   },
 };
+*/
