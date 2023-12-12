@@ -1,6 +1,7 @@
 import { Client } from '@elastic/elasticsearch';
 import * as T from '@elastic/elasticsearch/lib/api/types';
 
+import { BaseDocument } from '@/types/document';
 import { art, events, news, terms } from './indices';
 
 const indices = {
@@ -318,4 +319,33 @@ export function getBulkOperationArray(
     },
     method === 'update' ? { doc, doc_as_upsert: true } : { doc },
   ];
+}
+
+/**
+ * Upsert a document in an index.  Doc not guaranteed to contain _id or _index, 
+ * so force those arguments in function signature.
+ * 
+ * @param client Elasticsearch client.
+ * @param index Elasticsearch index.
+ * @param id Elasticsearch document id.
+ * @param document Elasticsearch document.
+ */
+export async function upsertDocument(
+  client: Client,
+  index: string,
+  id: string,
+  document: BaseDocument
+) {
+  const doc = { ...document };
+  delete doc._id;
+  delete doc._index;
+  await client.update({
+    index,
+    id,
+    body: {
+      doc,
+      doc_as_upsert: true,
+    },
+    refresh: true,
+  });
 }

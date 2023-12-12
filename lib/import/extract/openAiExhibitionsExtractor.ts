@@ -1,9 +1,13 @@
 /**
+ * Deprecated, doesn't work that great and relies on old version of OpenAI API.
+ * 
  * Attempt to extract exhibition information from web pages.
  * 1. Get markdown from web page
  * 2. Call OpenAI GPT function to extract JSON exhibition data
  * 3. Parse JSON exhibition data
  */
+export {}
+/**
 import { loadEnvConfig } from '@next/env';
 import { Configuration, CreateChatCompletionRequest, OpenAIApi } from 'openai';
 
@@ -156,3 +160,4 @@ export const extractor: ElasticsearchExtractor = {
     return extract();
   },
 };
+*/

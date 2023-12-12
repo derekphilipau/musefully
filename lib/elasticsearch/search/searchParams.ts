@@ -119,6 +119,7 @@ export function getSanitizedSearchParams(
     (typeof params.card === 'string' && params.card) || undefined;
   sanitizedParams.isShowFilters = getBooleanValue(params.f);
   sanitizedParams.isShowTimeline = getBooleanValue(params.tl);
+  sanitizedParams.isNow = getBooleanValue(params.isNow);
 
   // date range
   sanitizedParams.startYear =
@@ -233,6 +234,7 @@ export function toURLSearchParams(
     urlParams.set('onView', searchParams.onView.toString());
   if (searchParams.isShowFilters === true) urlParams.set('f', 'true');
   if (searchParams.isShowTimeline === true) urlParams.set('tl', 'true');
+  if (searchParams.isNow === true) urlParams.set('isNow', 'true');
 
   if (searchParams.layout && searchParams.layout !== LAYOUT_DEFAULT)
     urlParams.set('layout', searchParams.layout);
@@ -396,6 +398,17 @@ export function toggleIsShowFilters(searchParams: SearchParams): SearchParams {
 export function toggleIsShowTimeline(searchParams: SearchParams): SearchParams {
   const params = { ...searchParams };
   params.isShowTimeline = !params.isShowTimeline;
+  return params;
+}
+
+/**
+ * Immutable toggle the isNow flag in search parameters.
+ * @param searchParams - The current search parameters.
+ * @returns New search parameters.
+ */
+export function toggleIsNow(searchParams: SearchParams): SearchParams {
+  const params = { ...searchParams };
+  params.isNow = !params.isNow;
   return params;
 }
 

@@ -12,7 +12,6 @@ export function EventSearchCheckboxes({ params }: EventSearchCheckboxesProps) {
 
   return (
     <div className="flex flex-wrap gap-x-4 gap-y-2">
-      {/*
       <div className="flex items-center space-x-2">
         <SearchCheckbox
           params={params}
@@ -21,7 +20,6 @@ export function EventSearchCheckboxes({ params }: EventSearchCheckboxesProps) {
           label={dict['search.isNow']}
         />
       </div>
-      */}
       <div className="flex items-center space-x-2">
         <SearchCheckbox
           params={params}

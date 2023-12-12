@@ -12,10 +12,11 @@ import { getClient } from '../client';
 import { getElasticsearchIndices, type SearchParams } from './searchParams';
 import {
   addColorQuery,
-  addQueryAggs,
   addDefaultQueryBoolDateRange,
-  addQueryBoolYearRange,
+  addQueryAggs,
+  addQueryBoolDateRange,
   addQueryBoolFilterTerms,
+  addQueryBoolYearRange,
 } from './searchQueryBuilder';
 import { getTerm, terms } from './terms';
 
@@ -74,6 +75,9 @@ export async function search(
     addDefaultQueryBoolDateRange(esQuery, searchParams);
     // Multi-index search boosts news and events
     esQuery.indices_boost = [{ news: 1.5 }, { events: 1.5 }, { art: 1 }];
+  } else if (searchParams.index === 'events' && searchParams.isNow) {
+    // Events search has special date range filter
+    addQueryBoolDateRange(esQuery, new Date(), new Date());
   } else {
     addQueryBoolYearRange(esQuery, searchParams);
   }

@@ -57,7 +57,7 @@ export const siteConfig: SiteConfig = {
     'whitney/collectionsIngester',
     'met/collectionsIngester',
   ],
-  extractors: ['openAiExhibitionsExtractor'],
+  extractors: [],
   exhibitionUrls: [
     {
       url: 'https://www.moma.org/calendar/exhibitions/',
@@ -226,7 +226,7 @@ export const siteConfig: SiteConfig = {
     {
       dict: 'index.events',
       basePath: 'events',
-      href: '/events',
+      href: '/events?isNow=true&f=true',
     },
   ],
   links: {

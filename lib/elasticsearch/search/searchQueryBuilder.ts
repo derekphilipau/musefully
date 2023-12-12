@@ -7,6 +7,39 @@ import { type SearchParams } from './searchParams';
 
 const SEARCH_AGG_SIZE = 20; // 20 results per aggregation
 
+export function addQueryBoolDateRange(
+  esQuery: any,
+  fromDate: Date | undefined,
+  toDate: Date | undefined
+) {
+  if (!fromDate && !toDate) return;
+  const ranges: T.QueryDslQueryContainer[] = [];
+  if (fromDate) {
+    ranges.push({
+      range: {
+        date: {
+          lte: format(fromDate, 'yyyy-MM-dd'),
+        },
+      },
+    });
+  }
+  if (toDate) {
+    ranges.push({
+      range: {
+        endDate: {
+          gte: format(toDate, 'yyyy-MM-dd'),
+        },
+      },
+    });
+  }
+  if (ranges.length > 0) {
+    esQuery.query ??= {};
+    esQuery.query.bool ??= {};
+    esQuery.query.bool.filter ??= [];
+    esQuery.query.bool.filter.push(...ranges);
+  }
+}
+
 /**
  * Currently only supports year ranges
  *
@@ -66,8 +99,8 @@ export function addQueryBoolYearRange(
 /**
  * For the default date range query, we only want documents (events) that
  * have already started OR have no start date.
- * @param esQuery 
- * @param searchParams 
+ * @param esQuery
+ * @param searchParams
  */
 export function addDefaultQueryBoolDateRange(
   esQuery: any,
@@ -87,14 +120,14 @@ export function addDefaultQueryBoolDateRange(
           bool: {
             must_not: {
               exists: {
-                field: "date"
-              }
-            }
-          }
-        }
+                field: 'date',
+              },
+            },
+          },
+        },
       ],
-      minimum_should_match: 1
-    }
+      minimum_should_match: 1,
+    },
   };
   esQuery.query ??= {};
   esQuery.query.bool ??= {};

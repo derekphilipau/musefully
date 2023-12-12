@@ -65,8 +65,8 @@ export interface BaseDocument {
   title?: string;
   description?: string;
   searchText?: string;
-  keywords?: string;
-  boostedKeywords?: string;
+  keywords?: string[];
+  boostedKeywords?: string[];
   primaryConstituent?: DocumentConstituent;
   image?: DocumentImage;
   date?: string;
