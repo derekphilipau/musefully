@@ -155,7 +155,9 @@ export function SearchAgg({
                     className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
                     {option.key}
-                    {option.doc_count ? ` (${option.doc_count})` : ''}
+                    <span className="text-muted-foreground">
+                      {option.doc_count ? ` ${option.doc_count}` : ''}
+                    </span>
                   </Label>
                 </div>
               )
@@ -184,7 +186,9 @@ export function SearchAgg({
                     className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
                     {option.key}
-                    {option.doc_count ? ` (${option.doc_count})` : ''}
+                    <span className="text-muted-foreground">
+                      {option.doc_count ? ` ${option.doc_count}` : ''}
+                    </span>
                   </Label>
                 </div>
               )

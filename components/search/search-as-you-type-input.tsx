@@ -17,7 +17,7 @@ import {
   Popover,
   PopoverAnchor,
   PopoverContent,
-} from '@/components/ui/popover-local';
+} from '@/components/ui/popover';
 
 interface SearchAsYouTypeInputProps {
   params?: SearchParams;
