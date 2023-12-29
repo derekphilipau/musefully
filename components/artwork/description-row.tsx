@@ -66,7 +66,9 @@ export function DescriptionRow({
           !link &&
           val.map(
             (tag: string, i: Key) =>
-              tag && <span key={i}>{`${i > 0 ? ',  ' : ''}${tag}`}</span>
+              tag && (
+                <span key={i}>{`${(i as number) > 0 ? ',  ' : ''}${tag}`}</span>
+              )
           )}
       </dd>
     </div>
