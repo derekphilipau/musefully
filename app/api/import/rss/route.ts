@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
 
 import updateRssFeeds from '@/lib/import/updateRssFeed';
 
@@ -27,15 +27,6 @@ import updateRssFeeds from '@/lib/import/updateRssFeed';
  *                   type: boolean
  *                 message:
  *                   type: string
- *       400:
- *         description: API_SECRET environment variable not set or other bad request.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
  *       401:
  *         description: Unauthorized request due to invalid secret.
  *         content:
@@ -55,19 +46,13 @@ import updateRssFeeds from '@/lib/import/updateRssFeed';
  *                 error:
  *                   type: object
  */
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const secret = searchParams.get('secret');
-  const realSecret = process.env.API_SECRET;
-
-  if (!realSecret)
-    return NextResponse.json(
-      { error: 'API_SECRET environment variable not set' },
-      { status: 400 }
-    );
-
-  if (secret !== realSecret)
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+export async function GET(request: NextRequest) {
+  const authHeader = request.headers.get('authorization');
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return new Response('Unauthorized', {
+      status: 401,
+    });
+  }
 
   try {
     await updateRssFeeds();
