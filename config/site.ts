@@ -191,7 +191,7 @@ export const siteConfig: SiteConfig = {
     {
       ingester: 'rssIngester',
       sourceId: 'artforum',
-      url: 'https://www.artforum.com/rss.xml',
+      url: 'https://www.artforum.com/feed/',
     },
     /*
     LACMA is using their RSS feed for all events, filling up the timeline.

@@ -1,7 +1,33 @@
+import { type } from 'os';
 import { format, getYear, isValid, parse } from 'date-fns';
+import { parseStringPromise } from 'xml2js';
 
 import type { BaseDocument, DocumentConstituent } from '@/types/document';
 import { stripHtmlTags } from '@/lib/various';
+
+/**
+ * Sometimes RSS feeds contain invalid XML characters, such as '&', e.g.:
+ * <category domain="http://www.nytimes.com/namespaces/keywords/nyt_org">Hauser & Wirth</category>
+ *
+ * @param xmlStr XML string
+ * @returns XML string with invalid characters escaped
+ */
+export function escapeXmlInvalidChars(xmlStr: string): string {
+  const regex = /&(?!amp;|lt;|gt;|quot;|apos;|#\d+;)/g;
+  return xmlStr.replace(regex, '&amp;');
+}
+
+/**
+ * Parse an XML string into a JSON object
+ *
+ * @param xmlString XML string
+ * @returns JSON object
+ */
+export async function parseXml(xmlString: string): Promise<any> {
+  // Parse the XML string using xml2js
+  const jsonObj = await parseStringPromise(escapeXmlInvalidChars(xmlString));
+  return jsonObj;
+}
 
 /**
  * Get the image url from the rss item, either from the description or the content
@@ -65,16 +91,32 @@ export function parseDate(item: any): Date {
 }
 
 /**
+ * Two cases:
+ * 1. Array of categories with string values:
+ * <category><![CDATA[Art in America]]></category>
+ * 2. Array of categories with object values:
+ * <category domain="http://www.nytimes.com/namespaces/keywords/des">Art</category>
+ *
+ * @param item RSS <item> element
+ * @returns string[] of categories
+ */
+export function getItemCategories(item: any): string[] | undefined {
+  if (!item.category || !(item.category.length > 0)) return undefined;
+  const categories = item.category?.map((c: any) => {
+    if (typeof c === 'string') return c;
+    if (typeof c === 'object' && c._) return c._;
+  });
+  return categories;
+}
+
+/**
  * Transform a typical RSS item into a BaseDocument
  *
  * @param item RSS <item> element
  * @param sourceId ID of the source
  * @returns Elasticsearch BaseDocument
  */
-export function transformRssItem(
-  item: any,
-  sourceId: string
-) {
+export function transformRssItem(item: any, sourceId: string) {
   const title = stripHtmlTags(item.title?.[0]);
   const description = stripHtmlTags(item.description?.[0]);
   const searchText = stripHtmlTags(item['content:encoded']?.[0]);
@@ -91,7 +133,7 @@ export function transformRssItem(
     title,
     description,
     searchText,
-    keywords: item.category?.length ? item.category : undefined,
+    keywords: getItemCategories(item),
     image: {
       url: thumbnailUrl,
       thumbnailUrl: thumbnailUrl,

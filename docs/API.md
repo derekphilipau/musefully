@@ -3,6 +3,7 @@
 API endpoints for search, document retrieval, and RSS feed updates. Next.js API Routes with Route Handlers located in `/app/api` directory.
 
 [Search](#search)
+
 - [GET `/api/search`](#apisearch): Search documents
 - [GET `/api/search/document`](#apisearchdocument): Get a document
 - [GET `/api/search/options`](#apisearchoptions): Get agg options
@@ -11,6 +12,7 @@ API endpoints for search, document retrieval, and RSS feed updates. Next.js API 
 - [GET `/api/search/terms`](#apisearchterms): Get terms
 
 [Sync](#sync)
+
 - [GET `/api/import/rss`](#apiimportrss): Import/upsert RSS feeds
 
 ## Search
@@ -347,7 +349,7 @@ API endpoints for search, document retrieval, and RSS feed updates. Next.js API 
 
 ### `/api/import/rss`
 
-**GET**: Updates RSS feeds. TODO: Insecure due to "secret" key.
+**GET**: Updates RSS feeds. Requires process.env.CRON_SECRET for authentication.
 
 - **Summary**: Updates RSS feeds
 - **Description**: Endpoint to update RSS feeds. Requires secret for authentication.
@@ -371,5 +373,3 @@ API endpoints for search, document retrieval, and RSS feed updates. Next.js API 
       - **type**: boolean
     - **message**:
       - **type**: string
-
-**400**: API_SECRET environment variable not set or other bad request.

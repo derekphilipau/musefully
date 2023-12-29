@@ -52,7 +52,7 @@ For local development, add a local `.env.local` file in the root directory. If `
 
 On [Formspree](https://formspree.io/) you should set up a basic contact form and enter the `FORMSPREE_FORM_ID` env variable.
 
-OpenAI & Google vars only necessary if using OpenAI to extract exhibition & event data from URL's.  In that case, a Google sheet is used to store the extracted content.
+OpenAI & Google vars only necessary if using OpenAI to extract exhibition & event data from URL's. In that case, a Google sheet is used to store the extracted content.
 
 For cloud deployments (for example on Vercel), add the same variables to the Environment Variables of your deployment.
 
@@ -67,7 +67,7 @@ ELASTICSEARCH_PORT=9200
 ELASTICSEARCH_CA_FILE=./secrets/es01.crt
 ELASTICSEARCH_API_KEY=MVE2aWxZUIJBWkNOUzYwU1ZKbUg6dEllY4JjQkVTZ3lFWlU3RRdLUm5mQQ==
 ELASTICSEARCH_BULK_LIMIT=2000
-API_SECRET=dfJtqJDG9VwN69edUU283qnD
+CRON_SECRET=supersecretrandomstringover16characters
 NEXT_PUBLIC_IMAGE_DOMAIN=rx3rxq8hyni2c.cloudfront.net
 PROCESS_IMAGES=true
 FORMSPREE_FORM_ID=rwejcdbw
@@ -122,9 +122,11 @@ For automatic syncing of RSS feeds, add a cron job to your hosting service. For 
 {
   "crons": [
     {
-      "path": "/api/import/rss?secret=dfJtqJDG9VwN69edUU283qnD",
+      "path": "/api/import/rss",
       "schedule": "0 * * * *"
     }
   ]
 }
 ```
+
+Please see [Securing cron jobs](https://vercel.com/docs/cron-jobs/manage-cron-jobs#securing-cron-jobs) for more information on securing cron jobs using Vercel's CRON_SECRET environment variable sent as an Authorization header.
