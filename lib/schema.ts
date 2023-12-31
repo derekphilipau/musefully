@@ -4,7 +4,6 @@
  * Functions to transform data into JSON-LD for Schema.org.
  * Currently only supports VisualArtwork.
  */
-import { vi } from 'date-fns/locale';
 import type { VisualArtwork, WithContext } from 'schema-dts';
 
 import type { ArtworkDocument } from '@/types/document';
@@ -59,7 +58,11 @@ export function getSchemaVisualArtwork(item: ArtworkDocument | undefined) {
       },
     ];
   }
-  if (item.medium) schema.artMedium = item.medium;
+  if (Array.isArray(item.medium) && item.medium.length > 0) {
+    schema.artMedium = item.medium.join(', ');
+  } else if (typeof item.medium === 'string' && item.medium) {
+    schema.artMedium = item.medium;
+  }
   if (item.classification) schema.artform = item.classification;
   const dimensions = getDimensionsCM(item.dimensions);
   if (dimensions?.height)
@@ -73,7 +76,11 @@ export function getSchemaVisualArtwork(item: ArtworkDocument | undefined) {
   if (item.creditLine) schema.creditText = item.creditLine;
   if (item.formattedDate) schema.dateCreated = item.formattedDate; // TODO
   schema.inLanguage = 'English'; // TODO
-  if (item.keywords?.length) schema.keywords = item.keywords.join(', ');
+  if (Array.isArray(item.keywords) && item.keywords.length > 0) {
+    schema.keywords = item.keywords.join(', ');
+  } else if (typeof item.keywords === 'string' && item.keywords) {
+    schema.keywords = item.keywords;
+  }
   return schema;
 }
 
