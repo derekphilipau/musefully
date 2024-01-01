@@ -130,3 +130,21 @@ For automatic syncing of RSS feeds, add a cron job to your hosting service. For 
 ```
 
 Please see [Securing cron jobs](https://vercel.com/docs/cron-jobs/manage-cron-jobs#securing-cron-jobs) for more information on securing cron jobs using Vercel's CRON_SECRET environment variable sent as an Authorization header.
+
+## Backups
+
+Aside from normal Elasticsearch snapshots, server backups, and restoring for source data files, you can also export the Elasticsearch indices to JSONL files using elasticdump.
+
+Some data, like historical rss feed content, is only stored in Elasticsearch and can only be restored from Elasticsearch snapshots or JSONL backups.
+
+[Install instructions](https://github.com/elasticsearch-dump/elasticsearch-dump)
+
+Full backup of Elasticsearch Cloud deployment:
+
+```
+multielasticdump \
+  --direction=dump \
+  --match='^.*$' \
+  --input=https://myusername:mypassword@my-deployment.es.us-east-1.aws.elastic-cloud.com \
+  --output=./es_backup_2023
+```

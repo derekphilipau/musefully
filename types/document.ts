@@ -73,6 +73,8 @@ export interface BaseDocument {
   formattedDate?: string;
   startYear?: number;
   endYear?: number;
+  mlAltText?: string;
+  mlDescription?: string;
 }
 
 export interface EventDocument extends BaseDocument {
