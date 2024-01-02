@@ -1,4 +1,8 @@
 /**
+ *
+ * Also see: "Question answering using embeddings-based search"
+ * https://github.com/openai/openai-cookbook/blob/main/examples/Question_answering_using_embeddings.ipynb
+ *
  * Ada v2 Embedding model:
  * Model	Usage
  * ada v2	$0.0001 / 1K tokens

@@ -60,29 +60,15 @@ export const indicesMeta: IndicesMeta = {
     ],
   },
   news: {
-    aggs: [
-      'source',
-    ],
-    filters: [
-      'source',
-    ],
+    aggs: ['source'],
+    filters: ['source'],
   },
   events: {
-    aggs: [
-      'source',
-      'location',
-    ],
-    filters: [
-      'source',
-      'location',
-    ],
+    aggs: ['source', 'location'],
+    filters: ['source', 'location'],
   },
   all: {
-    aggs: [
-      'source',
-    ],
-    filters: [
-      'source',
-    ],
+    aggs: ['source'],
+    filters: ['source'],
   },
 };

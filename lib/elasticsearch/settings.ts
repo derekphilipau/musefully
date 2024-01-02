@@ -172,3 +172,9 @@ export const simpleImageObjectField: T.MappingProperty = {
     rank: integerField,
   },
 };
+
+export const adaV2EmbeddingsField: T.MappingProperty = {
+  type: 'dense_vector',
+  dims: 1536,
+  similarity: 'cosine',
+};

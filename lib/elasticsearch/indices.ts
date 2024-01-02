@@ -22,6 +22,7 @@ const baseDocument: Record<T.PropertyName, T.MappingProperty> = {
   sortPriority: S.integerField,
   mlAltText: S.unaggregatedStandardAnalyzerTextField,
   mlDescription: S.unaggregatedStandardAnalyzerTextField,
+  mlEmbeddings: S.adaV2EmbeddingsField,
 };
 
 export const art: T.IndicesIndexSettings = {
