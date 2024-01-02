@@ -77,7 +77,7 @@ export async function updateDocumentWithEmbeddings(
     // Assuming you have a field in your document to store embeddings
     // TODO document.embeddings = embeddings;
     const client = getClient();
-    await upsertDocument(client, index, id, document);
+    // await upsertDocument(client, index, id, document);
   }
 }
 
@@ -85,7 +85,7 @@ export async function updateDocumentWithEmbeddings(
  * Test the OpenAI API
  */
 /*
-export async function testOpenAI(id): Promise<void> {
+export async function testOpenAI(id: string): Promise<void> {
   const resp = await getDocument('art', id);
   const doc = resp?.data as BaseDocument;
   if (!doc?.image?.thumbnailUrl) {

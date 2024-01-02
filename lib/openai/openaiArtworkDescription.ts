@@ -1,31 +1,18 @@
 /**
- * Approx 0.012 cents for input, 0.015 cents for output = 0.03 cents per image
- * 10 images = .3 cents ($0.003)
- * 100 images = 3 cents ($0.03)
- * 1000 images = 30 cents ($0.30)
- * 10000 images = 300 cents ($3.00)
- * 100000 images = 3000 cents ($30.00)
- * 
+ * Test run: 3 runs = $0.05, 1 run = $0.0166
+ *
+ * $0.0166 cents per run:
+ * 100 images * $0.0166 = $1.66
+ * 10000 images * $0.0166 = $166
+ * 100000 images * $0.0166 = $1660
+ *
  * OpenAI Vision API:
  * https://platform.openai.com/docs/guides/vision
  *
  * For possibly mapping keywords to emojis:
  * https://unicode.org/Public/emoji/15.1/
  * https://unicode.org/emoji/charts/emoji-list.html
- * 
- * PUT /art/_mapping
-{
-  "properties": {
-    "mlAltText": {
-      "type": "text",
-      "analyzer": "unaggregatedStandardAnalyzer"
-    },
-    "mlDescription": {
-      "type": "text",
-      "analyzer": "unaggregatedStandardAnalyzer"
-    }
-  }
-}
+ *
  */
 //import { loadEnvConfig } from '@next/env';
 import OpenAI from 'openai';
@@ -94,16 +81,13 @@ export async function updateDocumentMLDescriptionFromImage(
   const mlDescription = await getMLDescriptionFromImage(
     document.image.thumbnailUrl
   );
-  /*
-  TODO:
   if (mlDescription) {
     if (mlDescription.altText) document.mlAltText = mlDescription.altText;
     if (mlDescription.longDescription)
       document.mlDescription = mlDescription.longDescription;
     const client = getClient();
-    await upsertDocument(client, index, id, document);
+    //await upsertDocument(client, index, id, document);
   }
-  */
 }
 
 /**
