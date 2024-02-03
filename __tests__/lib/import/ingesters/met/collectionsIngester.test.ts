@@ -1,5 +1,5 @@
-import { ingester } from '@/lib/import/ingesters/met/collectionsIngester';
 import { ArtworkDocument } from '@/types/document';
+import { ingester } from '@/lib/import/ingesters/met/collectionsIngester';
 
 const mockMetDocument = {
   'Object Number': '04.1a–c',
@@ -66,7 +66,9 @@ const mockMetDocument = {
 
 describe('transformDoc', () => {
   it('should transform MetDocument into ArtworkDocument', async () => {
-    const esDoc = await ingester.transform(mockMetDocument) as ArtworkDocument;
+    const esDoc = (await ingester.transform(
+      mockMetDocument
+    )) as ArtworkDocument;
 
     expect(esDoc.source).toBe('The Met');
     expect(esDoc.id).toBe('35');
