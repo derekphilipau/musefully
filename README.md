@@ -4,16 +4,16 @@
 
 Powerful platforms like [Elasticsearch](https://www.elastic.co/) & [Next.js](https://nextjs.org/) make it possible for museums to easily build performant, responsive and accessible faceted searches for their online collections.
 
-Based on [shadcn/next-template](https://github.com/shadcn/next-template), which is an implementation of [Radix UI](https://www.radix-ui.com/) with [Tailwind CSS](https://tailwindcss.com/).
+Based on [shadcn/next-template](https://github.com/shadcn-ui/next-template), which is an implementation of [Radix UI](https://www.radix-ui.com/) with [Tailwind CSS](https://tailwindcss.com/).
 
 This project has been deployed on Vercel at [https://musefully.org](https://musefully.org)
 
 ## Documentation:
 
-* [Setup Guide](./docs/SETUP.md)
-* [Architecture](./docs/ARCHITECTURE.md)
-* [Datasets, Vocabularies & Schema](./docs/SCHEMA.md)
-* [API](./docs/API.md)
+- [Setup Guide](./docs/SETUP.md)
+- [Architecture](./docs/ARCHITECTURE.md)
+- [Datasets, Vocabularies & Schema](./docs/SCHEMA.md)
+- [API](./docs/API.md)
 
 ## Features
 

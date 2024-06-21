@@ -21,13 +21,14 @@ import { ImageNewsCard } from '@/components/search-card/image-news-card';
 import { NewsCard } from '@/components/search-card/news-card';
 import { ArtSearchCheckboxes } from '@/components/search/art-search-checkboxes';
 import { ArtistTermCard } from '@/components/search/artist-term-card';
+import { EventSearchCheckboxes } from '@/components/search/event-search-checkboxes';
 import { SearchAsYouTypeInput } from '@/components/search/search-as-you-type-input';
 import { SearchDidYouMean } from '@/components/search/search-did-you-mean';
 import { SearchFilterTags } from '@/components/search/search-filter-tags';
 import { SearchFilters } from '@/components/search/search-filters';
 import { SearchPagination } from '@/components/search/search-pagination';
 import { Timeline } from '@/components/timeline/timeline';
-import { EventSearchCheckboxes } from '@/components/search/event-search-checkboxes';
+
 function getLayoutGridClass(layout: LayoutType) {
   if (layout === LAYOUT_GRID)
     return 'my-4 relative grid grid-cols-1 gap-8 pb-8 md:grid-cols-2 md:pb-10 lg:grid-cols-3';
@@ -106,9 +107,7 @@ export default async function Page({ params, searchParams }: Props) {
 
           <SearchDidYouMean terms={terms} />
 
-          {sanitizedParams.isShowTimeline && (
-            <Timeline items={items} />
-          )}
+          {sanitizedParams.isShowTimeline && <Timeline items={items} />}
 
           <div className={getLayoutGridClass(sanitizedParams.layout)}>
             {items?.length > 0 &&

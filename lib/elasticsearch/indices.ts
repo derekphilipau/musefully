@@ -20,6 +20,9 @@ const baseDocument: Record<T.PropertyName, T.MappingProperty> = {
   startYear: S.integerField,
   endYear: S.integerField,
   sortPriority: S.integerField,
+  mlAltText: S.unaggregatedStandardAnalyzerTextField,
+  mlDescription: S.unaggregatedStandardAnalyzerTextField,
+  mlEmbeddings: S.adaV2EmbeddingsField,
 };
 
 export const art: T.IndicesIndexSettings = {

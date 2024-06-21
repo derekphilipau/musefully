@@ -76,7 +76,7 @@ export function ImageZoom({ item }: ImageZoomProps) {
                     aria-label={dict['button.download']}
                   >
                     <Icons.download
-                      className="mr-2 h-4 w-4"
+                      className="mr-2 size-4"
                       aria-hidden="true"
                     />
                     {dict['button.download']}
@@ -84,7 +84,7 @@ export function ImageZoom({ item }: ImageZoomProps) {
                 </DialogTitle>
               </DialogHeader>
               {item?.image?.url && (
-                <div className="h-full w-full overflow-y-scroll">
+                <div className="size-full overflow-y-scroll">
                   <OpenSeaDragonViewer image={largeImageUrl} />
                 </div>
               )}
