@@ -79,7 +79,7 @@ export function ColorPicker({ searchParams }: ColorPickerProps) {
       currentHexColor === color.hex && color.hex !== '000000'
         ? 'text-black'
         : color.text;
-    return `cursor-pointer h-6 w-6 rounded-full ${color.color} ${myText}`;
+    return `cursor-pointer size-6 rounded-full ${color.color} ${myText}`;
   }
 
   function clickColor(color?: ColorChoice) {
@@ -110,7 +110,7 @@ export function ColorPicker({ searchParams }: ColorPickerProps) {
       )}
       <Icons.circleSlashed
         onClick={() => clickColor()}
-        className="mr-4 h-6 w-6 cursor-pointer text-neutral-600"
+        className="mr-4 size-6 cursor-pointer text-neutral-600"
       />
     </div>
   );

@@ -16,7 +16,7 @@ export function LanguageDisclaimer({ item, formId }) {
       <div className="p-4 text-neutral-500 dark:text-neutral-400">
         <div className="flex items-center">
           <div className="shrink-0">
-            <Icons.info className="h-5 w-5" aria-hidden="true" />
+            <Icons.info className="size-5" aria-hidden="true" />
           </div>
           <div className="ml-3 flex-1 sm:flex sm:items-center sm:justify-between">
             <p className="text-sm">

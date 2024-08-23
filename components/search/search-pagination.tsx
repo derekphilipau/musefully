@@ -116,13 +116,13 @@ export function SearchPagination({
         disabled={mySortField === fieldName && mySortOrder === order}
       >
         {order === SORT_ORDER_ASC ? (
-          <Icons.arrowDown className="mr-2 h-5 w-5" />
+          <Icons.arrowDown className="mr-2 size-5" />
         ) : (
-          <Icons.arrowUp className="mr-2 h-5 w-5" />
+          <Icons.arrowUp className="mr-2 size-5" />
         )}
         <span>{label}</span>
         {fieldName === mySortField && mySortOrder === order && (
-          <Icons.check className="ml-2 h-5 w-5" />
+          <Icons.check className="ml-2 size-5" />
         )}
       </DropdownMenuItem>
     );
@@ -154,7 +154,7 @@ export function SearchPagination({
                       disabled={searchParams.layout === LAYOUT_GRID}
                       aria-label={dict['search.layoutGrid']}
                     >
-                      <Icons.layoutGrid className="h-5 w-5" />
+                      <Icons.layoutGrid className="size-5" />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -174,7 +174,7 @@ export function SearchPagination({
                       disabled={searchParams.layout === LAYOUT_LIST}
                       aria-label={dict['search.layoutList']}
                     >
-                      <Icons.layoutList className="h-5 w-5" />
+                      <Icons.layoutList className="size-5" />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -191,7 +191,7 @@ export function SearchPagination({
                     size="sm"
                     aria-label={dict['search.cardSwatch']}
                   >
-                    <Icons.arrowUpDown className="h-5 w-5" />
+                    <Icons.arrowUpDown className="size-5" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56">
@@ -232,7 +232,7 @@ export function SearchPagination({
                           size="sm"
                           aria-label={dict['search.cardSwatch']}
                         >
-                          <Icons.paintbrush2 className="h-5 w-5" />
+                          <Icons.paintbrush2 className="size-5" />
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent>
@@ -255,7 +255,7 @@ export function SearchPagination({
                           size="sm"
                           aria-label={dict['search.cardPalette']}
                         >
-                          <Icons.palette className="h-5 w-5" />
+                          <Icons.palette className="size-5" />
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent>
@@ -278,7 +278,7 @@ export function SearchPagination({
                           size="sm"
                           aria-label={dict['search.cardColor']}
                         >
-                          <Icons.pipette className="h-5 w-5" />
+                          <Icons.pipette className="size-5" />
                         </Button>
                       </TooltipTrigger>
                       <TooltipContent>
@@ -323,7 +323,7 @@ export function SearchPagination({
           size="sm"
           aria-label={dict['search.previous']}
         >
-          <Icons.chevronLeft className="mr-2 h-5 w-5" aria-hidden="true" />
+          <Icons.chevronLeft className="mr-2 size-5" aria-hidden="true" />
           <span className="">{dict['search.previous']}</span>
         </Button>
         <Button
@@ -334,7 +334,7 @@ export function SearchPagination({
           aria-label={dict['search.next']}
         >
           <span className="">{dict['search.next']}</span>
-          <Icons.chevronRight className="ml-2 h-5 w-5" aria-hidden="true" />
+          <Icons.chevronRight className="ml-2 size-5" aria-hidden="true" />
         </Button>
       </div>
     </nav>

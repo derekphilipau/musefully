@@ -3,12 +3,12 @@ import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
 import type { BaseDocument } from '@/types/document';
+import { sources } from '@/config/sources';
 import {
   LAYOUT_GRID,
   LAYOUT_LIST,
 } from '@/lib/elasticsearch/search/searchParams';
 import type { LayoutType } from '@/lib/elasticsearch/search/searchParams';
-import { sources } from '@/config/sources';
 import { Icons } from '@/components/icons';
 
 function getContainerClass(layout: LayoutType) {
@@ -58,7 +58,7 @@ export function ContentCard({
                 />
               ) : (
                 <div className="flex h-48 w-full items-center justify-center">
-                  <Icons.imageOff className="h-24 w-24 text-neutral-300 group-hover:text-neutral-400" />
+                  <Icons.imageOff className="size-24 text-neutral-300 group-hover:text-neutral-400" />
                   <span className="sr-only">Image Unavailable</span>
                 </div>
               )}

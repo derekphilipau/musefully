@@ -9,11 +9,7 @@ export function AltNav() {
   return (
     <>
       {siteConfig?.links?.github && (
-        <Link
-          href={siteConfig.links.github}
-          target="_blank"
-          rel="noreferrer"
-        >
+        <Link href={siteConfig.links.github} target="_blank" rel="noreferrer">
           <div
             className={buttonVariants({
               size: 'sm',
@@ -21,7 +17,7 @@ export function AltNav() {
               className: 'text-neutral-700 dark:text-neutral-400',
             })}
           >
-            <Icons.github className="h-5 w-5" />
+            <Icons.github className="size-5" />
             <span className="sr-only">Github</span>
           </div>
         </Link>
@@ -39,7 +35,7 @@ export function AltNav() {
               className: 'text-neutral-700 dark:text-neutral-400',
             })}
           >
-            <Icons.instagram className="h-5 w-5" />
+            <Icons.instagram className="size-5" />
             <span className="sr-only">Instagram</span>
           </div>
         </Link>

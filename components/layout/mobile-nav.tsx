@@ -34,7 +34,7 @@ export function MobileNav({ items }: MainNavProps) {
           className="-mr-2 text-2xl font-bold hover:bg-transparent focus:ring-0"
           aria-label={dict['button.openMenu']}
         >
-          <Icons.menu className="h-6 w-6" />
+          <Icons.menu className="size-6" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -72,7 +72,7 @@ export function MobileNav({ items }: MainNavProps) {
               target="_blank"
               rel="noreferrer"
             >
-              <Icons.github className="mr-2 h-5 w-5" />
+              <Icons.github className="mr-2 size-5" />
               Github
             </Link>
           </DropdownMenuItem>
@@ -85,7 +85,7 @@ export function MobileNav({ items }: MainNavProps) {
               target="_blank"
               rel="noreferrer"
             >
-              <Icons.instagram className="mr-2 h-5 w-5" />
+              <Icons.instagram className="mr-2 size-5" />
               Instagram
             </Link>
           </DropdownMenuItem>
@@ -96,19 +96,19 @@ export function MobileNav({ items }: MainNavProps) {
         </DropdownMenuLabel>
         {theme !== 'light' && (
           <DropdownMenuItem onClick={() => setTheme('light')}>
-            <Icons.sun className="mr-2 h-4 w-4" />
+            <Icons.sun className="mr-2 size-4" />
             <span>{dict['nav.theme.light']}</span>
           </DropdownMenuItem>
         )}
         {theme !== 'dark' && (
           <DropdownMenuItem onClick={() => setTheme('dark')}>
-            <Icons.moon className="mr-2 h-4 w-4" />
+            <Icons.moon className="mr-2 size-4" />
             <span>{dict['nav.theme.dark']}</span>
           </DropdownMenuItem>
         )}
         {theme !== 'system' && (
           <DropdownMenuItem onClick={() => setTheme('system')}>
-            <Icons.laptop className="mr-2 h-4 w-4" />
+            <Icons.laptop className="mr-2 size-4" />
             <span>{dict['nav.theme.system']}</span>
           </DropdownMenuItem>
         )}
