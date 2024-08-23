@@ -55,7 +55,7 @@ export function SearchFilterButton({
                 : dict['search.showFilters']
             }
           >
-            <Icons.slidersHorizontal className="mr-2 h-5 w-5" />
+            <Icons.slidersHorizontal className="mr-2 size-5" />
             {dict['search.filters']}
           </Button>
         </SheetTrigger>
@@ -79,7 +79,7 @@ export function SearchFilterButton({
         }
         className="hidden sm:flex"
       >
-        <Icons.slidersHorizontal className="mr-2 h-5 w-5" />
+        <Icons.slidersHorizontal className="mr-2 size-5" />
         {dict['search.filters']}
       </Button>
     </>

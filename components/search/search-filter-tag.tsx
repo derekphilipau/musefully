@@ -38,13 +38,13 @@ export function SearchFilterTag({ params, name, value }: SearchFilterTagProps) {
     >
       {name === 'color' ? (
         <Icons.circle
-          className={`h-6 w-6 rounded-full`}
+          className={`size-6 rounded-full`}
           style={{ backgroundColor: `#${value}`, color: `#${value}` }}
         />
       ) : (
         <div>{value}</div>
       )}
-      <Icons.x className="ml-2 h-4 w-4" />
+      <Icons.x className="ml-2 size-4" />
     </Button>
   );
 }

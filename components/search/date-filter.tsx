@@ -75,7 +75,7 @@ export function DateFilter({ searchParams }: DateFilterProps) {
         >
           <h4 className="text-sm font-semibold">{displayName}</h4>
           <div>
-            <ChevronsUpDown className="h-4 w-4" />
+            <ChevronsUpDown className="size-4" />
             <span className="sr-only">Toggle {displayName}</span>
           </div>
         </Button>

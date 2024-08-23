@@ -119,7 +119,7 @@ export function SearchAgg({
         >
           <h4 className="text-sm font-semibold">{aggDisplayName}</h4>
           <div>
-            <ChevronsUpDown className="h-4 w-4" />
+            <ChevronsUpDown className="size-4" />
             <span className="sr-only">Toggle {aggDisplayName}</span>
           </div>
         </Button>

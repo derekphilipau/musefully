@@ -9,7 +9,10 @@ interface RemoteImageProps {
   imageClassName?: string;
 }
 
-export function RemoteImage({ item, imageClassName = 'h-48 object-contain' }: RemoteImageProps) {
+export function RemoteImage({
+  item,
+  imageClassName = 'h-48 object-contain',
+}: RemoteImageProps) {
   if (!item) return null;
 
   return (
@@ -26,7 +29,7 @@ export function RemoteImage({ item, imageClassName = 'h-48 object-contain' }: Re
             />
           ) : (
             <div className="flex h-48 w-full items-center justify-center">
-              <Icons.imageOff className="h-24 w-24 text-neutral-300 group-hover:text-neutral-400" />
+              <Icons.imageOff className="size-24 text-neutral-300 group-hover:text-neutral-400" />
               <span className="sr-only">Image Unavailable</span>
             </div>
           )}

@@ -122,7 +122,7 @@ export default async function Page({ params }) {
                 className={buttonVariants({ variant: 'outline' })}
                 href={artwork?.url}
               >
-                <Icons.link className="mr-2 h-5 w-5" />
+                <Icons.link className="mr-2 size-5" />
                 {dict['button.source']}
               </Link>
             )}

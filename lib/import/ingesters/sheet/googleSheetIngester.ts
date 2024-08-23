@@ -2,7 +2,6 @@ import { format } from 'date-fns';
 
 import type { BaseDocument } from '@/types/document';
 import { sources } from '@/config/sources';
-import { end } from 'cheerio/lib/api/traversing';
 
 /**
  * Function type for generating an ID for Elasticsearch documents.
@@ -62,7 +61,7 @@ export const ingester: GoogleSheetIngester = {
     if (!startYear && endYear) startYear = endYear;
     if (!endYear && startYear) endYear = startYear;
 
-    console.log('formatted: ', formattedStartDate, formattedEndDate)
+    console.log('formatted: ', formattedStartDate, formattedEndDate);
     return {
       type: typeName,
       source: sources[item.get('sourceId')]?.name,

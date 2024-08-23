@@ -18,9 +18,7 @@ interface ArtworkDescriptionProps {
   item: ArtworkDocument;
 }
 
-export function ArtworkShare({
-  item,
-}: ArtworkDescriptionProps) {
+export function ArtworkShare({ item }: ArtworkDescriptionProps) {
   const dict = getDictionary();
   const [facebookLink, setFacebookLink] = useState('');
   const [twitterLink, setTwitterLink] = useState('');
@@ -52,28 +50,28 @@ export function ArtworkShare({
       <DropdownMenuTrigger
         className={buttonVariants({ variant: 'outline' }) + ' print:hidden'}
       >
-        <Icons.share2 className="mr-2 h-5 w-5" />
+        <Icons.share2 className="mr-2 size-5" />
         {dict['button.share']}
       </DropdownMenuTrigger>
       <DropdownMenuContent className="print:hidden">
         <DropdownMenuLabel>{dict['button.shareTo']}</DropdownMenuLabel>
         <DropdownMenuItem>
           <a href={mailLink} target="_blank" className="flex items-center">
-            <Icons.mail className="mr-2 h-5 w-5" /> Email
+            <Icons.mail className="mr-2 size-5" /> Email
           </a>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <a href={facebookLink} target="_blank" className="flex items-center">
-            <Icons.facebook className="mr-2 h-5 w-5" /> Facebook
+            <Icons.facebook className="mr-2 size-5" /> Facebook
           </a>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <a href={twitterLink} target="_blank" className="flex items-center">
-            <Icons.twitter className="mr-2 h-5 w-5" /> Twitter
+            <Icons.twitter className="mr-2 size-5" /> Twitter
           </a>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => print()}>
-          <Icons.printer className="mr-2 h-5 w-5" /> Print
+          <Icons.printer className="mr-2 size-5" /> Print
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

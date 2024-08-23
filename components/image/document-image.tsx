@@ -74,7 +74,7 @@ export function DocumentImage({
         </picture>
       ) : (
         <div className="flex h-48 w-full items-center justify-center">
-          <Icons.imageOff className="h-24 w-24" />
+          <Icons.imageOff className="size-24" />
           <span className="sr-only">{dict['search.imageUnavailable']}</span>
         </div>
       )}

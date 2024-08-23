@@ -36,7 +36,7 @@ export function SourceHeader({
           <div
             className={cn(
               'relative mr-2 flex shrink-0 overflow-hidden rounded-full border border-neutral-300 dark:border-neutral-700',
-              isSmall ? 'h-6 w-6' : 'h-7 w-7'
+              isSmall ? 'size-6' : 'size-7'
             )}
           >
             <Image
