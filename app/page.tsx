@@ -27,7 +27,6 @@ import { SearchDidYouMean } from '@/components/search/search-did-you-mean';
 import { SearchFilterTags } from '@/components/search/search-filter-tags';
 import { SearchFilters } from '@/components/search/search-filters';
 import { SearchPagination } from '@/components/search/search-pagination';
-import { Timeline } from '@/components/timeline/timeline';
 
 function getLayoutGridClass(layout: LayoutType) {
   if (layout === LAYOUT_GRID)
@@ -35,10 +34,7 @@ function getLayoutGridClass(layout: LayoutType) {
   return 'my-4 relative grid grid-cols-1 gap-8 pb-8 md:pb-10';
 }
 
-type Props = {
-  params: { index: string };
-  searchParams: GenericSearchParams;
-};
+type Props = { params: { index: string }; searchParams: GenericSearchParams };
 
 export default async function Page({ params, searchParams }: Props) {
   const dict = getDictionary();
@@ -106,8 +102,6 @@ export default async function Page({ params, searchParams }: Props) {
           </div>
 
           <SearchDidYouMean terms={terms} />
-
-          {sanitizedParams.isShowTimeline && <Timeline items={items} />}
 
           <div className={getLayoutGridClass(sanitizedParams.layout)}>
             {items?.length > 0 &&

@@ -20,14 +20,6 @@ export function EventSearchCheckboxes({ params }: EventSearchCheckboxesProps) {
           label={dict['search.isNow']}
         />
       </div>
-      <div className="flex items-center space-x-2">
-        <SearchCheckbox
-          params={params}
-          name="tl"
-          value={params?.isShowTimeline || false}
-          label={dict['search.isShowTimeline']}
-        />
-      </div>
     </div>
   );
 }
