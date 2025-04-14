@@ -157,7 +157,7 @@ async function transformDoc(doc: any): Promise<ArtworkDocument> {
       nationality: [artist.nationality], // "American"
       role: artist.role,
       rank: artist.rank,
-      source: sources[SOURCE_ID],
+      source: sources[SOURCE_ID]?.name,
       sourceId: artist.id,
     }));
 
