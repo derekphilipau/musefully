@@ -34,9 +34,15 @@ function getLayoutGridClass(layout: LayoutType) {
   return 'my-4 relative grid grid-cols-1 gap-8 pb-8 md:pb-10';
 }
 
-type Props = { params: { index: string }; searchParams: GenericSearchParams };
+export type PageProps = {
+  params: Promise<{ index: string }>;
+  searchParams: Promise<GenericSearchParams>;
+};
 
-export default async function Page({ params, searchParams }: Props) {
+export default async function Page(props: PageProps) {
+  const params = await props.params;
+  const searchParams = await props.searchParams;
+
   const dict = getDictionary();
   let errorMessage = dict['search.noResults'];
 

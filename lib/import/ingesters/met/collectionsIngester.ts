@@ -8,9 +8,9 @@ import type {
   DocumentImage,
 } from '@/types/document';
 import type { ElasticsearchIngester } from '@/types/elasticsearchIngester';
+import { sources } from '@/config/sources';
 import countryByContinent from '@/lib/country-by-continent.json';
 import { searchUlanArtistById } from '@/lib/import/ulan/searchUlanArtists';
-import { sources } from '@/config/sources';
 import { getBooleanValue, snooze } from '@/lib/various';
 import { artworkTermsExtractor } from '../artworkTermsExtractor';
 import {
@@ -198,7 +198,7 @@ async function transformDoc(doc: MetDocument): Promise<ArtworkDocument> {
     keywords: getKeywords(doc),
     creditLine: doc['Credit Line'] || undefined,
     classification: doc['Classification'] || undefined,
-    departments: [doc['Department']] || undefined,
+    departments: doc['Department'] ? [doc['Department']] : undefined,
     dimensions: doc['Dimensions'] || undefined,
     period: doc['Period'] || undefined,
     dynasty: doc['Dynasty'] || undefined,
