@@ -2,6 +2,7 @@
  * Import Elasticsearch data from JSON files.
  */
 import { loadEnvConfig } from '@next/env';
+loadEnvConfig(process.cwd());
 
 import { siteConfig } from '@/config/site';
 import { abort, askYesNo, info, questionsDone, warn } from '@/lib/command';
@@ -11,8 +12,6 @@ import { updateDominantColors } from './updateDominantColors';
 import updateFromFile from './updateFromFile';
 import updateRssFeeds from './updateRssFeed';
 import updateFromGoogleSheet from './updateFromGoogleSheet';
-
-loadEnvConfig(process.cwd());
 
 async function importDataset(
   ingesterName: string,
@@ -44,7 +43,7 @@ async function run() {
 
   if (process.env.ELASTICSEARCH_USE_CLOUD === 'true')
     warn('WARNING: Using Elasticsearch Cloud');
-  else warn('Using Elasticsearch host at ' + process.env.ELASTICSEARCH_HOST);
+  else warn('Using Elasticsearch host at ' + process.env.ELASTICSEARCH_LOCAL_NODE);
 
   if (
     !(await askYesNo(
@@ -77,7 +76,7 @@ async function run() {
   if (await askYesNo(`Extract documents using OpenAI GPT?`)) {
     await extractDocumentsToSheet();
   }
-  
+
   questionsDone();
 }
 

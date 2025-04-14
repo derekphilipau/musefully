@@ -1,46 +1,32 @@
-import { readFileSync } from 'fs';
 import { Client } from '@elastic/elasticsearch';
 
-export const ERR_CONFIG =
-  'Missing environment variables for Elasticsearch connection.';
-export const ERR_CLIENT = 'Cannot connect to Elasticsearch.';
-
-/**
- * Get an Elasticsearch client, either cloud or host-based.
- *
- * @returns Elasticsearch client
- */
-export function getClient(): Client {
-  if (process.env.ELASTICSEARCH_USE_CLOUD === 'true') {
-    const id = process.env.ELASTICSEARCH_CLOUD_ID;
-    const username = process.env.ELASTICSEARCH_CLOUD_USERNAME;
-    const password = process.env.ELASTICSEARCH_CLOUD_PASSWORD;
-    if (!id || !username || !password) throw new Error(ERR_CONFIG);
-    const clientSettings = {
-      cloud: { id },
-      auth: { username, password },
-    };
-    const client = new Client(clientSettings);
-    if (client === undefined) throw new Error(ERR_CLIENT);
-    return client;
+function getEnvVar(key: string, defaultValue?: string): string {
+  const value = process.env[key];
+  if (value === undefined) {
+    if (defaultValue !== undefined) {
+      return defaultValue;
+    } else {
+      throw new Error(`Environment variable ${key} is missing`);
+    }
   }
+  return value;
+}
 
-  const caFile = process.env.ELASTICSEARCH_CA_FILE;
-  const node = `${process.env.ELASTICSEARCH_PROTOCOL}://${process.env.ELASTICSEARCH_HOST}:${process.env.ELASTICSEARCH_PORT}`;
-  const apiKey = process.env.ELASTICSEARCH_API_KEY;
-  if (!caFile || !node || !apiKey) throw new Error(ERR_CONFIG);
-  const ca = readFileSync(caFile);
-  const clientSettings = {
-    node,
-    auth: {
-      apiKey,
-    },
-    tls: {
-      ca,
-      rejectUnauthorized: false,
-    },
-  };
-  const client = new Client(clientSettings);
-  if (client === undefined) throw new Error(ERR_CLIENT);
+const useCloud = getEnvVar('ELASTICSEARCH_USE_CLOUD');
+const id = getEnvVar('ELASTICSEARCH_CLOUD_ID');
+const username = getEnvVar('ELASTICSEARCH_CLOUD_USERNAME');
+const password = getEnvVar('ELASTICSEARCH_CLOUD_PASSWORD');
+const localNode = getEnvVar('ELASTICSEARCH_LOCAL_NODE', '');
+
+export function getClient(): Client {
+  const clientConfig =
+    useCloud === 'true'
+      ? { cloud: { id }, auth: { username, password } }
+      : { node: localNode };
+
+  const client = new Client(clientConfig);
+  if (client === undefined) throw new Error('Cannot connect to Elasticsearch.');
   return client;
 }
+
+export const client = getClient();

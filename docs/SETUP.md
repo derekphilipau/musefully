@@ -21,28 +21,12 @@ You can run Elasticsearch in a Docker container locally or in the cloud.
 
 Note that [musefully.org](https://musefully.org) with >300k documents currently runs on Elasticsearch Cloud with a minimal storage optimized AWS deployment for about $20/month.
 
-### Non-cloud Elasticsearch
+### Local Elasticsearch
 
 The `/docker` folder contains a `docker-compose` file for running Elasticsearch locally.
 
 1. `cd docker`
 2. `docker compose up`.
-
-See related article, ["Start a multi-node cluster with Docker Compose"](https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-compose-file). Alternatively, use [Elastic stack (ELK) on Docker](https://github.com/deviantony/docker-elk).
-
-### Non-cloud post-install
-
-**API Key**
-
-Generate an API key (in Kibana: Stack Management > API Keys > Create API key). Once you've generated a key, copy the Base64 value to the `ELASTICSEARCH_API_KEY` variable in the .env.local file.
-
-**CA Cert**
-
-Copy the Elasticsearch container's CA certificate and put it in `/secrets`. If you're using this project's docker-compose.yml:
-
-`docker cp docker-es01-1:/usr/share/elasticsearch/config/certs/es01/es01.crt ./secrets/http_ca.crt`
-
-Update .env.local `ELASTICSEARCH_CA_FILE` variable with the crt file location.
 
 ## Environment Variables
 
@@ -109,6 +93,28 @@ Add a collections dataset:
 Add an RSS feed:
 
 1. Add the RSS feed URL to `config/site.ts` in the `rssFeeds` array.
+
+## Testing
+
+The project uses Jest for unit and integration testing and Playwright for end-to-end testing.
+
+Run Jest tests in watch mode:
+
+```bash
+npm run test
+```
+
+Run Jest tests in CI mode (single run):
+
+```bash
+npm run test:ci
+```
+
+Run Playwright end-to-end tests:
+
+```bash
+npm run test:e2e
+```
 
 ## Deploy
 

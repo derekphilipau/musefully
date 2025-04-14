@@ -20,7 +20,10 @@ import { ImageZoom } from '@/components/image/image-zoom';
 import { SourceHeader } from '@/components/source/source-header';
 import { buttonVariants } from '@/components/ui/button';
 
-export async function generateMetadata({ params }): Promise<Metadata> {
+type PageProps = { params: Promise<{ slug: string[] }> };
+
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params;
   const id = params.slug[0];
   let data: ApiResponseDocument | undefined = undefined;
   try {
@@ -39,15 +42,12 @@ export async function generateMetadata({ params }): Promise<Metadata> {
   return {
     title: artwork.title,
     description: caption,
-    openGraph: {
-      title: artwork.title || '',
-      description: caption,
-      images,
-    },
+    openGraph: { title: artwork.title || '', description: caption, images },
   };
 }
 
-export default async function Page({ params }) {
+export default async function Page(props: PageProps) {
+  const params = await props.params;
   const id = params.slug[0];
   const dict = getDictionary();
   const isMultiSource = siteConfig.isMultiSource;
@@ -111,9 +111,7 @@ export default async function Page({ params }) {
           </h3>
           <div
             className="mb-4 text-neutral-700 dark:text-neutral-400"
-            dangerouslySetInnerHTML={{
-              __html: artwork?.description || '',
-            }}
+            dangerouslySetInnerHTML={{ __html: artwork?.description || '' }}
           ></div>
           <div className="flex gap-x-2">
             <ArtworkShare item={artwork} />

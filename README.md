@@ -32,7 +32,7 @@ This project has been deployed on Vercel at [https://musefully.org](https://muse
 - [Tailwind CSS](https://tailwindcss.com/)
 - [next-themes](https://github.com/pacocoursey/next-themes) dark/light modes
 - [@next/font](https://nextjs.org/docs/api-reference/next/font) font loading
-- [Airbnb visx timeline](https://airbnb.io/visx/) for exhibitions & events
+- REMOVED: [Airbnb visx timeline](https://airbnb.io/visx/) for exhibitions & events
 
 ## Experimental Features
 
@@ -66,6 +66,6 @@ Object page example:
 
 ![Object page sample](./docs/img/ui_object_view.jpg)
 
-Event & Exhibition timeline example:
+Event & Exhibition timeline example (Removed):
 
 ![Timeline sample](./docs/img/timeline.jpg)
