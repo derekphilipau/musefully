@@ -96,7 +96,7 @@ Add an RSS feed:
 
 ## Testing
 
-The project uses Jest for unit and integration testing and Playwright for end-to-end testing.
+The project uses Jest for unit and integration testing and Playwright for end-to-end testing. You'll need an `.env.test` file with the same variables as `.env.local` for the tests to run.
 
 Run Jest tests in watch mode:
 
