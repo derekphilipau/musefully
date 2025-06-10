@@ -75,7 +75,7 @@ export function SearchResultsSkeleton({
               <div className="space-y-2">
                 {[...Array(8)].map((_, i) => (
                   <div key={i} className="flex items-center space-x-2">
-                    <Skeleton className="h-4 w-4" />
+                    <Skeleton className="size-4" />
                     <Skeleton className="h-4 w-24" />
                   </div>
                 ))}
@@ -86,7 +86,7 @@ export function SearchResultsSkeleton({
               <div className="space-y-2">
                 {[...Array(6)].map((_, i) => (
                   <div key={i} className="flex items-center space-x-2">
-                    <Skeleton className="h-4 w-4" />
+                    <Skeleton className="size-4" />
                     <Skeleton className="h-4 w-20" />
                   </div>
                 ))}
@@ -111,7 +111,7 @@ export function SearchResultsSkeleton({
               <Skeleton className="h-8 w-8" />
               <Skeleton className="h-8 w-16" />
             </div>
-            <Skeleton className="h-4 w-40" />
+            <Skeleton className="size-40" />
           </div>
 
           {/* Results grid skeleton */}

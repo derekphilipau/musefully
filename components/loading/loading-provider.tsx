@@ -37,7 +37,7 @@ export function LoadingProvider({ children }: { children: ReactNode }) {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
           <div className="rounded-lg bg-white p-6 shadow-lg dark:bg-neutral-900">
             <div className="flex items-center space-x-3">
-              <div className="h-5 w-5 animate-spin rounded-full border-2 border-neutral-300 border-t-blue-600" />
+              <div className="size-5 animate-spin rounded-full border-2 border-neutral-300 border-t-blue-600" />
               <span className="text-sm font-medium">
                 {loadingMessage || 'Processing...'}
               </span>

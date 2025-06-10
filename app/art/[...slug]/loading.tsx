@@ -28,13 +28,13 @@ export default function ArtworkLoading() {
           <div className="mb-4 mt-2 h-3 w-32 animate-pulse rounded bg-neutral-200 dark:bg-neutral-800" />
 
           {/* Department skeleton */}
-          <div className="mb-4 h-4 w-40 animate-pulse rounded bg-neutral-200 dark:bg-neutral-800" />
+          <div className="mb-4 size-40 animate-pulse rounded bg-neutral-200 dark:bg-neutral-800" />
 
           {/* Description skeleton */}
           <div className="mb-4 space-y-2">
             <div className="h-4 w-full animate-pulse rounded bg-neutral-200 dark:bg-neutral-800" />
             <div className="h-4 w-5/6 animate-pulse rounded bg-neutral-200 dark:bg-neutral-800" />
-            <div className="h-4 w-4/5 animate-pulse rounded bg-neutral-200 dark:bg-neutral-800" />
+            <div className="size-4/5 animate-pulse rounded bg-neutral-200 dark:bg-neutral-800" />
             <div className="h-4 w-3/4 animate-pulse rounded bg-neutral-200 dark:bg-neutral-800" />
           </div>
 

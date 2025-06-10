@@ -18,7 +18,7 @@ export function NewsCardSkeleton({
       {hasImage && <Skeleton className="h-48 w-full" />}
 
       {/* Title skeleton */}
-      <Skeleton className="h-5 w-5/6" />
+      <Skeleton className="size-5/6" />
 
       {/* Description skeleton */}
       <div className="space-y-2">

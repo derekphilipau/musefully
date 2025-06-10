@@ -5,6 +5,7 @@ import { siteConfig } from '@/config/site';
 import { Footer } from '@/components/layout/footer';
 import { SiteHeader } from '@/components/layout/site-header';
 import { Providers } from './layoutProviders';
+
 import './globals.css';
 
 // If loading a variable font, you don't need to specify the font weight
@@ -49,8 +50,8 @@ export default async function RootLayout({
       <head />
       <body className="bg-white font-sans text-neutral-900 antialiased dark:bg-neutral-900 dark:text-neutral-50">
         <Providers>
-          <a 
-            href="#main-content" 
+          <a
+            href="#main-content"
             className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 rounded-md bg-blue-600 px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
             Skip to main content

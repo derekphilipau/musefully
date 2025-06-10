@@ -53,7 +53,7 @@ export function NavigationProgress() {
   if (!loading) return null;
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50">
+    <div className="fixed top-0 inset-x-0 z-50">
       <div className="h-1 bg-neutral-200 dark:bg-neutral-800">
         <div
           className="h-full bg-gradient-to-r from-blue-500 to-blue-600 transition-all duration-200 ease-out"
