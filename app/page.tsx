@@ -75,16 +75,21 @@ export default async function Page(props: PageProps) {
       <SearchFilterTags params={sanitizedParams} />
       <div className="gap-6 pb-8 pt-2 sm:grid sm:grid-cols-3 md:grid-cols-4 md:pt-4">
         {sanitizedParams.isShowFilters && (
-          <div className="hidden h-full space-y-2 sm:col-span-1 sm:block">
+          <aside 
+            className="hidden h-full space-y-2 sm:col-span-1 sm:block"
+            aria-label="Search filters"
+          >
             <SearchFilters searchParams={sanitizedParams} options={options} />
-          </div>
+          </aside>
         )}
-        <div
+        <main
           className={
             sanitizedParams.isShowFilters
               ? 'sm:col-span-2 md:col-span-3'
               : 'sm:col-span-3 md:col-span-4'
           }
+          role="main"
+          aria-label="Search results"
         >
           {apiError?.length > 0 && (
             <h3 className="mb-6 text-lg font-extrabold leading-tight tracking-tighter text-red-800">
@@ -171,7 +176,7 @@ export default async function Page(props: PageProps) {
             count={count}
             totalPages={totalPages}
           />
-        </div>
+        </main>
       </div>
     </section>
   );

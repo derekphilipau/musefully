@@ -139,11 +139,12 @@ function SearchAggComponent({
           variant="ghost"
           size="sm"
           className="flex w-full items-center justify-between p-1"
-          aria-label={dict['button.expandFilter']}
+          aria-label={`${isOpen ? 'Collapse' : 'Expand'} ${aggDisplayName} filter`}
+          aria-expanded={isOpen}
         >
           <h4 className="text-sm font-semibold">{aggDisplayName}</h4>
           <div>
-            <ChevronsUpDown className="size-4" />
+            <ChevronsUpDown className="size-4" aria-hidden="true" />
             <span className="sr-only">Toggle {aggDisplayName}</span>
           </div>
         </Button>
@@ -155,6 +156,7 @@ function SearchAggComponent({
             placeholder={`Search ${aggDisplayName}`}
             onChange={onChange}
             value={value}
+            aria-label={`Search within ${aggDisplayName} options`}
           />
         </div>
         {searchOptions?.length > 0 &&

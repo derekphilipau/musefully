@@ -3,6 +3,7 @@
 import {
   ChangeEvent,
   FormEvent,
+  KeyboardEvent,
   memo,
   useCallback,
   useEffect,
@@ -40,6 +41,7 @@ function SearchAsYouTypeInputComponent({ params }: SearchAsYouTypeInputProps) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(searchParams?.get('q') || '');
   const [searchOptions, setSearchOptions] = useState<TermDocument[]>([]);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const debouncedSuggest = useDebounce(() => {
     if (value?.length < 3) {
@@ -115,10 +117,40 @@ function SearchAsYouTypeInputComponent({ params }: SearchAsYouTypeInputProps) {
     if (event) event.preventDefault();
   }, []);
 
+  const handleKeyDown = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
+    if (!open || searchOptions.length === 0) return;
+
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        setSelectedIndex(prev => 
+          prev < searchOptions.length - 1 ? prev + 1 : 0
+        );
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        setSelectedIndex(prev => 
+          prev > 0 ? prev - 1 : searchOptions.length - 1
+        );
+        break;
+      case 'Enter':
+        if (selectedIndex >= 0 && selectedIndex < searchOptions.length) {
+          e.preventDefault();
+          searchForTerm(searchOptions[selectedIndex]);
+        }
+        break;
+      case 'Escape':
+        setOpen(false);
+        setSelectedIndex(-1);
+        break;
+    }
+  }, [open, searchOptions, selectedIndex, searchForTerm]);
+
   useEffect(() => {
     setSearchOptions([]);
     setOpen(false);
     setValue(searchParams?.get('q') || '');
+    setSelectedIndex(-1);
   }, [pathname, searchParams]);
 
   const getFieldName = useCallback(
@@ -145,6 +177,13 @@ function SearchAsYouTypeInputComponent({ params }: SearchAsYouTypeInputProps) {
                 value={value}
                 autoComplete="off"
                 onBlur={() => setOpen(false)}
+                onKeyDown={handleKeyDown}
+                aria-label={dict['search.search']}
+                aria-expanded={open}
+                aria-haspopup="listbox"
+                aria-autocomplete="list"
+                aria-activedescendant={selectedIndex >= 0 ? `suggestion-${selectedIndex}` : undefined}
+                role="combobox"
               />
             </div>
             <Button
@@ -162,16 +201,23 @@ function SearchAsYouTypeInputComponent({ params }: SearchAsYouTypeInputProps) {
         className="p-0"
         onOpenAutoFocus={handleOpenChange}
         align="start"
+        role="listbox"
+        aria-label="Search suggestions"
       >
         <Command>
           <CommandGroup>
-            {searchOptions.map((term) => (
+            {searchOptions.map((term, index) => (
               <CommandItem
                 key={term.value}
                 onSelect={() => {
                   searchForTerm(term);
                 }}
-                className="cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-700"
+                className={`cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-700 ${
+                  selectedIndex === index ? 'bg-neutral-100 dark:bg-neutral-700' : ''
+                }`}
+                role="option"
+                aria-selected={selectedIndex === index}
+                id={`suggestion-${index}`}
               >
                 <div className="flex w-full items-center justify-between ">
                   <div className="ml-2">{term.value}</div>
