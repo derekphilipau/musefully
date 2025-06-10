@@ -3,6 +3,7 @@
 import { Suspense } from 'react';
 
 import { SearchResultsSkeleton } from '@/components/skeletons/search-results-skeleton';
+import { SearchErrorBoundary } from '@/components/error/search-error-boundary';
 
 interface SearchResultsWrapperProps {
   children: React.ReactNode;
@@ -16,12 +17,14 @@ export function SearchResultsWrapper({
   showFilters = true,
 }: SearchResultsWrapperProps) {
   return (
-    <Suspense
-      fallback={
-        <SearchResultsSkeleton itemType={itemType} showFilters={showFilters} />
-      }
-    >
-      {children}
-    </Suspense>
+    <SearchErrorBoundary>
+      <Suspense
+        fallback={
+          <SearchResultsSkeleton itemType={itemType} showFilters={showFilters} />
+        }
+      >
+        {children}
+      </Suspense>
+    </SearchErrorBoundary>
   );
 }
