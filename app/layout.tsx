@@ -16,11 +16,48 @@ const inter = Inter({
 });
 
 export const metadata = {
+  metadataBase: new URL('https://musefully.org'),
   title: {
     default: 'musefully',
     template: '%s | musefully',
   },
   description: 'Musefully browse the art world.',
+  keywords: [
+    'art',
+    'museum',
+    'artwork',
+    'exhibitions',
+    'cultural',
+    'fine art',
+    'contemporary art',
+  ],
+  authors: [{ name: 'musefully' }],
+  creator: 'musefully',
+  publisher: 'musefully',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://musefully.org',
+    siteName: 'musefully',
+    title: 'musefully',
+    description: 'Musefully browse the art world.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'musefully',
+    description: 'Musefully browse the art world.',
+  },
   icons: {
     icon: [
       {
