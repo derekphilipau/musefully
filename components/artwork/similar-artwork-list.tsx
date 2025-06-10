@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
 import type { ArtworkDocument } from '@/types/document';
@@ -16,13 +16,25 @@ interface SimilarArtworkListProps {
   isMultiSource: boolean;
 }
 
-export function SimilarArtworkList({
+function SimilarArtworkListComponent({
   title,
   similar,
   isMultiSource,
 }: SimilarArtworkListProps) {
   const dict = getDictionary();
   const [showAllSimilar, setShowAllSimilar] = useState(false);
+
+  const displayedItems = useMemo(() => {
+    if (!similar?.length) return [];
+    return similar.slice(
+      0,
+      showAllSimilar ? SIMILAR_MAX_ITEMS : SIMILAR_MIN_ITEMS
+    );
+  }, [similar, showAllSimilar]);
+
+  const shouldShowMoreButton = useMemo(() => {
+    return !showAllSimilar && similar && similar.length > SIMILAR_MIN_ITEMS;
+  }, [showAllSimilar, similar]);
 
   if (!similar || similar.length === 0) return null;
 
@@ -33,22 +45,18 @@ export function SimilarArtworkList({
           {title}
         </h3>
         <div className="grid grid-cols-2 gap-6 pb-8 md:grid-cols-4 md:pb-10 lg:grid-cols-6">
-          {similar?.length > 0 &&
-            similar
-              .slice(0, showAllSimilar ? SIMILAR_MAX_ITEMS : SIMILAR_MIN_ITEMS)
-              .map(
-                (item, i) =>
-                  item && (
-                    <div className="" key={i}>
-                      <SimilarArtworkCard
-                        item={item}
-                        isMultiSource={isMultiSource}
-                      />
-                    </div>
-                  )
-              )}
+          {displayedItems.map(
+            (item) =>
+              item && (
+                <SimilarArtworkCard
+                  key={item._id}
+                  item={item}
+                  isMultiSource={isMultiSource}
+                />
+              )
+          )}
         </div>
-        {!showAllSimilar && (
+        {shouldShowMoreButton && (
           <Button
             onClick={() => setShowAllSimilar(true)}
             variant="default"
@@ -62,3 +70,5 @@ export function SimilarArtworkList({
     </div>
   );
 }
+
+export const SimilarArtworkList = memo(SimilarArtworkListComponent);

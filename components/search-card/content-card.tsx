@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
@@ -28,7 +29,7 @@ interface ContentCardProps {
   isMultiSource: boolean;
 }
 
-export function ContentCard({
+function ContentCardComponent({
   item,
   layout,
   showType,
@@ -90,3 +91,5 @@ export function ContentCard({
     </Link>
   );
 }
+
+export const ContentCard = memo(ContentCardComponent);

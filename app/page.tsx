@@ -1,4 +1,3 @@
-import { Key } from 'react';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
 import type { AggOptions } from '@/types/aggregation';
@@ -111,56 +110,56 @@ export default async function Page(props: PageProps) {
 
           <div className={getLayoutGridClass(sanitizedParams.layout)}>
             {items?.length > 0 &&
-              items.map(
-                (item: BaseDocument, i: Key) =>
-                  item && (
-                    <div className="" key={i}>
-                      {item.type === 'artwork' && !sanitizedParams.cardType && (
-                        <ArtworkCard
+              items.map((item: BaseDocument, index: number) => {
+                if (!item) return null;
+
+                return (
+                  <div key={item._id}>
+                    {item.type === 'artwork' && !sanitizedParams.cardType && (
+                      <ArtworkCard
+                        item={item}
+                        layout={sanitizedParams.layout}
+                        showType={sanitizedParams.index === 'all'}
+                        showColor={sanitizedParams.hexColor ? true : false}
+                        isMultiSource={isMultiSource}
+                      />
+                    )}
+                    {item.type === 'news' && (
+                      <ContentCard
+                        item={item}
+                        layout={sanitizedParams.layout}
+                        showType={sanitizedParams.index === 'all'}
+                        isMultiSource={isMultiSource}
+                      />
+                    )}
+                    {(item.type === 'exhibition' || item.type === 'event') && (
+                      <EventCard
+                        item={item}
+                        layout={sanitizedParams.layout}
+                        showType={sanitizedParams.index === 'all'}
+                        isMultiSource={isMultiSource}
+                      />
+                    )}
+                    {item.sourceId === 'newyorkercartoon' && (
+                      <ImageNewsCard
+                        item={item}
+                        layout={sanitizedParams.layout}
+                        showType={sanitizedParams.index === 'all'}
+                        isMultiSource={isMultiSource}
+                      />
+                    )}
+                    {item.type === 'rss' &&
+                      item.sourceId !== 'newyorkercartoon' && (
+                        <NewsCard
                           item={item}
                           layout={sanitizedParams.layout}
                           showType={sanitizedParams.index === 'all'}
-                          showColor={sanitizedParams.hexColor ? true : false}
                           isMultiSource={isMultiSource}
                         />
                       )}
-                      {item.type === 'news' && (
-                        <ContentCard
-                          item={item}
-                          layout={sanitizedParams.layout}
-                          showType={sanitizedParams.index === 'all'}
-                          isMultiSource={isMultiSource}
-                        />
-                      )}
-                      {(item.type === 'exhibition' ||
-                        item.type === 'event') && (
-                        <EventCard
-                          item={item}
-                          layout={sanitizedParams.layout}
-                          showType={sanitizedParams.index === 'all'}
-                          isMultiSource={isMultiSource}
-                        />
-                      )}
-                      {item.sourceId === 'newyorkercartoon' && (
-                        <ImageNewsCard
-                          item={item}
-                          layout={sanitizedParams.layout}
-                          showType={sanitizedParams.index === 'all'}
-                          isMultiSource={isMultiSource}
-                        />
-                      )}
-                      {item.type === 'rss' &&
-                        item.sourceId !== 'newyorkercartoon' && (
-                          <NewsCard
-                            item={item}
-                            layout={sanitizedParams.layout}
-                            showType={sanitizedParams.index === 'all'}
-                            isMultiSource={isMultiSource}
-                          />
-                        )}
-                    </div>
-                  )
-              )}
+                  </div>
+                );
+              })}
             {!(items?.length > 0) && (
               <h3 className="my-10 mb-4 text-lg md:text-xl">{errorMessage}</h3>
             )}

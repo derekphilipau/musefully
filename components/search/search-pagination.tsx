@@ -1,5 +1,6 @@
 'use client';
 
+import { useCallback, useMemo } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
@@ -69,64 +70,91 @@ export function SearchPagination({
 
   const showExperimental = false;
 
-  function pageClick(newPage: number) {
-    const updatedParams = toURLSearchParams(
-      setPageNumber(searchParams, newPage)
-    );
-    router.push(`${pathname}?${updatedParams}`);
-    window.scroll(0, 0);
-  }
+  const pageClick = useCallback(
+    (newPage: number) => {
+      const updatedParams = toURLSearchParams(
+        setPageNumber(searchParams, newPage)
+      );
+      router.push(`${pathname}?${updatedParams}`);
+      window.scroll(0, 0);
+    },
+    [searchParams, router, pathname]
+  );
 
-  function sizeChange(value: string) {
-    const updatedParams = toURLSearchParams(
-      setResultsPerPage(searchParams, value)
-    );
-    router.push(`${pathname}?${updatedParams}`);
-    window.scroll(0, 0);
-  }
+  const sizeChange = useCallback(
+    (value: string) => {
+      const updatedParams = toURLSearchParams(
+        setResultsPerPage(searchParams, value)
+      );
+      router.push(`${pathname}?${updatedParams}`);
+      window.scroll(0, 0);
+    },
+    [searchParams, router, pathname]
+  );
 
-  function sortBy(field: string, order: SortOrder = SORT_ORDER_DEFAULT) {
-    const updatedParams = toURLSearchParams(
-      setSortBy(searchParams, field, order)
-    );
-    router.push(`${pathname}?${updatedParams}`);
-    window.scroll(0, 0);
-  }
+  const sortBy = useCallback(
+    (field: string, order: SortOrder = SORT_ORDER_DEFAULT) => {
+      const updatedParams = toURLSearchParams(
+        setSortBy(searchParams, field, order)
+      );
+      router.push(`${pathname}?${updatedParams}`);
+      window.scroll(0, 0);
+    },
+    [searchParams, router, pathname]
+  );
 
-  function onClickChangeLayoutType(layout: string) {
-    const updatedParams = toURLSearchParams(
-      setLayoutType(searchParams, layout)
-    );
-    router.push(`${pathname}?${updatedParams}`);
-  }
+  const onClickChangeLayoutType = useCallback(
+    (layout: string) => {
+      const updatedParams = toURLSearchParams(
+        setLayoutType(searchParams, layout)
+      );
+      router.push(`${pathname}?${updatedParams}`);
+    },
+    [searchParams, router, pathname]
+  );
 
-  function onClickChangeCardType(card: string) {
-    const updatedParams = toURLSearchParams(setCardType(searchParams, card));
-    router.push(`${pathname}?${updatedParams}`);
-  }
+  const onClickChangeCardType = useCallback(
+    (card: string) => {
+      const updatedParams = toURLSearchParams(setCardType(searchParams, card));
+      router.push(`${pathname}?${updatedParams}`);
+    },
+    [searchParams, router, pathname]
+  );
 
-  function sortDropdownMenuItem(fieldName: string, order: SortOrder) {
-    const label = dict[`search.sort.${fieldName}.${order}`];
-    let mySortField = searchParams.sortField;
-    let mySortOrder = searchParams.sortOrder;
+  const sortDropdownMenuItem = useCallback(
+    (fieldName: string, order: SortOrder) => {
+      const label = dict[`search.sort.${fieldName}.${order}`];
+      const mySortField = searchParams.sortField;
+      const mySortOrder = searchParams.sortOrder;
+      const isActive = fieldName === mySortField && mySortOrder === order;
 
-    return (
-      <DropdownMenuItem
-        onClick={() => sortBy(fieldName, order)}
-        disabled={mySortField === fieldName && mySortOrder === order}
-      >
-        {order === SORT_ORDER_ASC ? (
-          <Icons.arrowDown className="mr-2 size-5" />
-        ) : (
-          <Icons.arrowUp className="mr-2 size-5" />
-        )}
-        <span>{label}</span>
-        {fieldName === mySortField && mySortOrder === order && (
-          <Icons.check className="ml-2 size-5" />
-        )}
-      </DropdownMenuItem>
-    );
-  }
+      return (
+        <DropdownMenuItem
+          key={`${fieldName}-${order}`}
+          onClick={() => sortBy(fieldName, order)}
+          disabled={isActive}
+        >
+          {order === SORT_ORDER_ASC ? (
+            <Icons.arrowDown className="mr-2 size-5" />
+          ) : (
+            <Icons.arrowUp className="mr-2 size-5" />
+          )}
+          <span>{label}</span>
+          {isActive && <Icons.check className="ml-2 size-5" />}
+        </DropdownMenuItem>
+      );
+    },
+    [dict, searchParams.sortField, searchParams.sortOrder, sortBy]
+  );
+
+  const isPreviousDisabled = useMemo(
+    () => searchParams.pageNumber <= 1,
+    [searchParams.pageNumber]
+  );
+  const isNextDisabled = useMemo(
+    () => searchParams.pageNumber >= totalPages,
+    [searchParams.pageNumber, totalPages]
+  );
 
   return (
     <nav
@@ -317,7 +345,7 @@ export function SearchPagination({
       </div>
       <div className="mt-4 flex items-center justify-end gap-x-4 sm:mt-0">
         <Button
-          disabled={searchParams.pageNumber <= 1}
+          disabled={isPreviousDisabled}
           onClick={() => pageClick(searchParams.pageNumber - 1)}
           variant="ghost"
           size="sm"
@@ -327,7 +355,7 @@ export function SearchPagination({
           <span className="">{dict['search.previous']}</span>
         </Button>
         <Button
-          disabled={searchParams.pageNumber >= totalPages}
+          disabled={isNextDisabled}
           onClick={() => pageClick(searchParams.pageNumber + 1)}
           variant="ghost"
           size="sm"

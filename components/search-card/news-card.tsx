@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
@@ -25,7 +26,7 @@ interface NewsCardProps {
   isMultiSource: boolean;
 }
 
-export function NewsCard({
+function NewsCardComponent({
   item,
   layout,
   showType,
@@ -75,3 +76,5 @@ export function NewsCard({
     </div>
   );
 }
+
+export const NewsCard = memo(NewsCardComponent);

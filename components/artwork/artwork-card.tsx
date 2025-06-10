@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
@@ -33,7 +34,7 @@ interface ArtworkCardProps {
   isMultiSource: boolean;
 }
 
-export function ArtworkCard({
+function ArtworkCardComponent({
   item,
   layout,
   showType,
@@ -93,3 +94,5 @@ export function ArtworkCard({
     </div>
   );
 }
+
+export const ArtworkCard = memo(ArtworkCardComponent);
