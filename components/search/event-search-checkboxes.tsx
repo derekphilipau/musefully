@@ -4,10 +4,12 @@ import type { SearchParams } from '@/lib/elasticsearch/search/searchParams';
 import { SearchCheckbox } from './search-checkbox';
 
 interface EventSearchCheckboxesProps {
-  params?: SearchParams;
+  searchParams: SearchParams;
 }
 
-export function EventSearchCheckboxes({ params }: EventSearchCheckboxesProps) {
+export function EventSearchCheckboxes({
+  searchParams: params,
+}: EventSearchCheckboxesProps) {
   const dict = getDictionary();
 
   return (

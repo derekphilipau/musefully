@@ -2,6 +2,7 @@ import { getDictionary } from '@/dictionaries/dictionaries';
 
 import type { BaseDocument } from '@/types/document';
 import { Icons } from '@/components/icons';
+import { ImageErrorBoundary } from '@/components/error/image-error-boundary';
 
 type ImageSize = 's' | 'm' | 'l';
 type ImageType = 'webp' | 'jpg';
@@ -60,29 +61,31 @@ export function DocumentImage({
   }
 
   return (
-    <figure>
-      {item.image?.thumbnailUrl ? (
-        <picture className="flex items-center justify-center">
-          <source type="image/webp" sizes={sizesValue} srcSet={srcSet} />
-          <img
-            src={fallbackSrc}
-            className={className}
-            alt={`${dict['index.art.altText']} ${item.title}`}
-            width={300}
-            height={300}
-          />
-        </picture>
-      ) : (
-        <div className="flex h-48 w-full items-center justify-center">
-          <Icons.imageOff className="size-24" />
-          <span className="sr-only">{dict['search.imageUnavailable']}</span>
-        </div>
-      )}
-      {caption && (
-        <figcaption className="mt-4 text-xs italic text-neutral-500 dark:text-neutral-400">
-          {caption}
-        </figcaption>
-      )}
-    </figure>
+    <ImageErrorBoundary>
+      <figure>
+        {item.image?.thumbnailUrl ? (
+          <picture className="flex items-center justify-center">
+            <source type="image/webp" sizes={sizesValue} srcSet={srcSet} />
+            <img
+              src={fallbackSrc}
+              className={className}
+              alt={`${dict['index.art.altText']} ${item.title}`}
+              width={300}
+              height={300}
+            />
+          </picture>
+        ) : (
+          <div className="flex h-48 w-full items-center justify-center">
+            <Icons.imageOff className="size-24" />
+            <span className="sr-only">{dict['search.imageUnavailable']}</span>
+          </div>
+        )}
+        {caption && (
+          <figcaption className="mt-4 text-xs italic text-neutral-500 dark:text-neutral-400">
+            {caption}
+          </figcaption>
+        )}
+      </figure>
+    </ImageErrorBoundary>
   );
 }

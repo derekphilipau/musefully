@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
@@ -6,13 +7,15 @@ import { getArtworkUrlWithSlug } from '@/lib/various';
 import { DocumentImage } from '../image/document-image';
 import { SourceHeader } from '../source/source-header';
 
-export function SimilarArtworkCard({
-  item,
-  isMultiSource,
-}: {
+interface SimilarArtworkCardProps {
   item: ArtworkDocument;
   isMultiSource: boolean;
-}) {
+}
+
+function SimilarArtworkCardComponent({
+  item,
+  isMultiSource,
+}: SimilarArtworkCardProps) {
   if (!item || !item._id) return null;
   const dict = getDictionary();
 
@@ -44,3 +47,5 @@ export function SimilarArtworkCard({
     </div>
   );
 }
+
+export const SimilarArtworkCard = memo(SimilarArtworkCardComponent);

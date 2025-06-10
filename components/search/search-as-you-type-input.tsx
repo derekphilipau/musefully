@@ -1,12 +1,21 @@
 'use client';
 
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import {
+  ChangeEvent,
+  FormEvent,
+  KeyboardEvent,
+  memo,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { useSearch } from '@/contexts/search-context';
 import { getDictionary } from '@/dictionaries/dictionaries';
+import { useNavigation } from '@/hooks/use-navigation';
+import { useSearchSuggestions } from '@/hooks/use-search-suggestions';
 
 import type { TermDocument } from '@/types/document';
-import { useDebounce } from '@/lib/debounce';
-import type { SearchParams } from '@/lib/elasticsearch/search/searchParams';
 import { toURLSearchParams } from '@/lib/elasticsearch/search/searchParams';
 import { Icons } from '@/components/icons';
 import { Badge } from '@/components/ui/badge';
@@ -19,93 +28,138 @@ import {
   PopoverContent,
 } from '@/components/ui/popover';
 
-interface SearchAsYouTypeInputProps {
-  params?: SearchParams;
-}
+interface SearchAsYouTypeInputProps {}
 
-export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
+function SearchAsYouTypeInputComponent({}: SearchAsYouTypeInputProps) {
+  const { searchParams: params } = useSearch();
   const dict = getDictionary();
-  const router = useRouter();
   const pathname = usePathname();
+  const { navigateToSearch, navigate } = useNavigation({ scrollToTop: true });
   const searchParams = useSearchParams();
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(searchParams?.get('q') || '');
-  const [searchOptions, setSearchOptions] = useState<TermDocument[]>([]);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
 
-  const debouncedSuggest = useDebounce(() => {
-    if (value?.length < 3) {
-      setSearchOptions([]);
+  const {
+    suggestions: searchOptions,
+    isLoading: suggestionsLoading,
+    error: suggestionsError,
+    updateQuery,
+    clearSuggestions,
+  } = useSearchSuggestions({ minLength: 3, debounceMs: 50 });
+
+  const searchForQuery = useCallback(
+    (currentValue = '') => {
+      const updatedParams = toURLSearchParams(params);
+      if (currentValue) updatedParams.set('q', currentValue);
+      else updatedParams.delete('q');
+      updatedParams.delete('p');
+      clearSuggestions();
       setOpen(false);
-      return;
-    }
-    if (value)
-      fetch(`/api/search/suggest?q=${value}`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data?.data?.length > 0) {
-            setSearchOptions(data.data);
-            setOpen(true);
-          } else {
-            setSearchOptions([]);
-            setOpen(false);
-          }
-        });
-  }, 50);
+      setValue(currentValue);
+      navigateToSearch(updatedParams);
+    },
+    [params, navigateToSearch, clearSuggestions]
+  );
 
-  function searchForQuery(currentValue = '') {
-    const updatedParams = toURLSearchParams(params);
-    if (currentValue) updatedParams.set('q', currentValue);
-    else updatedParams.delete('q');
-    updatedParams.delete('p');
-    setSearchOptions([]);
-    setOpen(false);
-    setValue(currentValue);
-    router.push(`${pathname}?${updatedParams}`);
-  }
+  const searchForTerm = useCallback(
+    (term: TermDocument) => {
+      const updatedParams = toURLSearchParams(params);
+      if (!term.value || !term.field) return;
+      if (term.field === 'primaryConstituent.canonicalName') {
+        updatedParams.set('primaryConstituent.canonicalName', term.value);
+      } else {
+        updatedParams.set(term.field, term.value);
+      }
+      updatedParams.delete('q');
+      updatedParams.delete('p');
+      const searchPath = `/${term.index || ''}?${updatedParams}`;
+      clearSuggestions();
+      setOpen(false);
+      setValue('');
+      navigate(searchPath);
+    },
+    [params, navigate, clearSuggestions]
+  );
 
-  function searchForTerm(term: TermDocument) {
-    const updatedParams = toURLSearchParams(params);
-    if (!term.value || !term.field) return;
-    if (term.field === 'primaryConstituent.canonicalName') {
-      updatedParams.set('primaryConstituent.canonicalName', term.value);
-    } else {
-      updatedParams.set(term.field, term.value);
-    }
-    updatedParams.delete('q');
-    updatedParams.delete('p');
-    const searchPath = `/${term.index || ''}`;
-    setSearchOptions([]);
-    setOpen(false);
-    setValue('');
-    router.push(`${searchPath}?${updatedParams}`);
-  }
+  const onQueryChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const newValue = e.target.value;
+      setValue(newValue);
+      updateQuery(newValue);
+    },
+    [updateQuery]
+  );
 
-  const onQueryChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-    debouncedSuggest();
-  };
+  const handleOnSubmit = useCallback(
+    (event: FormEvent) => {
+      event.preventDefault();
+      searchForQuery(value);
+    },
+    [searchForQuery, value]
+  );
 
-  function handleOnSubmit(event: FormEvent) {
-    event.preventDefault();
-    searchForQuery(value);
-  }
-
-  function handleOpenChange(event) {
+  const handleOpenChange = useCallback((event) => {
     if (event) event.preventDefault();
-  }
+  }, []);
+
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLInputElement>) => {
+      if (!open || searchOptions.length === 0) return;
+
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          setSelectedIndex((prev) =>
+            prev < searchOptions.length - 1 ? prev + 1 : 0
+          );
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          setSelectedIndex((prev) =>
+            prev > 0 ? prev - 1 : searchOptions.length - 1
+          );
+          break;
+        case 'Enter':
+          if (selectedIndex >= 0 && selectedIndex < searchOptions.length) {
+            e.preventDefault();
+            searchForTerm(searchOptions[selectedIndex]);
+          }
+          break;
+        case 'Escape':
+          setOpen(false);
+          setSelectedIndex(-1);
+          break;
+      }
+    },
+    [open, searchOptions, selectedIndex, searchForTerm]
+  );
 
   useEffect(() => {
-    setSearchOptions([]);
+    clearSuggestions();
     setOpen(false);
     setValue(searchParams?.get('q') || '');
-  }, [pathname, searchParams]);
+    setSelectedIndex(-1);
+  }, [pathname, searchParams, clearSuggestions]);
 
-  function getFieldName(field: string) {
-    if (field === 'primaryConstituent')
-      return dict['field.primaryConstituent.canonicalName'];
-    else return dict[`field.${field}`];
-  }
+  // Open/close suggestions based on data
+  useEffect(() => {
+    if (searchOptions.length > 0 && !suggestionsError) {
+      setOpen(true);
+    } else {
+      setOpen(false);
+    }
+  }, [searchOptions, suggestionsError]);
+
+  const getFieldName = useCallback(
+    (field: string) => {
+      if (field === 'primaryConstituent')
+        return dict['field.primaryConstituent.canonicalName'];
+      else return dict[`field.${field}`];
+    },
+    [dict]
+  );
 
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
@@ -122,6 +176,15 @@ export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
                 value={value}
                 autoComplete="off"
                 onBlur={() => setOpen(false)}
+                onKeyDown={handleKeyDown}
+                aria-label={dict['search.search']}
+                aria-expanded={open}
+                aria-haspopup="listbox"
+                aria-autocomplete="list"
+                aria-activedescendant={
+                  selectedIndex >= 0 ? `suggestion-${selectedIndex}` : undefined
+                }
+                role="combobox"
               />
             </div>
             <Button
@@ -139,16 +202,25 @@ export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
         className="p-0"
         onOpenAutoFocus={handleOpenChange}
         align="start"
+        role="listbox"
+        aria-label="Search suggestions"
       >
         <Command>
           <CommandGroup>
-            {searchOptions.map((term) => (
+            {searchOptions.map((term, index) => (
               <CommandItem
                 key={term.value}
                 onSelect={() => {
                   searchForTerm(term);
                 }}
-                className="cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-700"
+                className={`cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-700 ${
+                  selectedIndex === index
+                    ? 'bg-neutral-100 dark:bg-neutral-700'
+                    : ''
+                }`}
+                role="option"
+                aria-selected={selectedIndex === index}
+                id={`suggestion-${index}`}
               >
                 <div className="flex w-full items-center justify-between ">
                   <div className="ml-2">{term.value}</div>
@@ -162,3 +234,5 @@ export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
     </Popover>
   );
 }
+
+export const SearchAsYouTypeInput = memo(SearchAsYouTypeInputComponent);

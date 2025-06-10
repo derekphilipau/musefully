@@ -1,12 +1,19 @@
 'use client';
 
-import { ChangeEvent, useEffect, useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import {
+  ChangeEvent,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { getDictionary } from '@/dictionaries/dictionaries';
+import { useNavigation } from '@/hooks/use-navigation';
+import { useSearchFilterOptions } from '@/hooks/use-search-filter-options';
 import { ChevronsUpDown, Plus, X } from 'lucide-react';
 
 import type { AggOption } from '@/types/aggregation';
-import { useDebounce } from '@/lib/debounce';
 import {
   toURLSearchParams,
   type SearchParams,
@@ -31,7 +38,7 @@ interface SearchAggProps {
   isDefaultOpen?: boolean;
 }
 
-export function SearchAgg({
+function SearchAggComponent({
   index,
   searchParams,
   aggDisplayName,
@@ -39,40 +46,59 @@ export function SearchAgg({
   options,
   isDefaultOpen = false,
 }: SearchAggProps) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const [value, setValue] = useState('');
+  const { navigateToSearch } = useNavigation({ scrollToTop: false });
   const [checkedKeys, setCheckedKeys] = useState<string[]>([]);
-  const [searchOptions, setSearchOptions] = useState<AggOption[]>([]);
   const [isOpen, setIsOpen] = useState(isDefaultOpen);
+
+  const {
+    query: value,
+    filterOptions: searchOptions,
+    isLoading: optionsLoading,
+    error: optionsError,
+    updateQuery,
+    clearOptions,
+  } = useSearchFilterOptions({ index, field: aggName || '' });
 
   const dict = getDictionary();
 
-  function checkboxChange(key: string, checked: string | boolean) {
-    const myChecked = getBooleanValue(checked);
-    let option = options?.find((o) => o.key === key);
-    if (searchOptions && !option)
-      option = searchOptions?.find((o) => o.key === key);
-    if (option) {
-      if (!aggName) return;
-      if (checked) {
-        const c = checkedKeys;
-        c.push(key);
-        setCheckedKeys(c);
-      } else {
-        setCheckedKeys(checkedKeys.filter((e) => e !== key));
+  const checkboxChange = useCallback(
+    (key: string, checked: string | boolean) => {
+      const myChecked = getBooleanValue(checked);
+      let option = options?.find((o) => o.key === key);
+      if (searchOptions && !option)
+        option = searchOptions?.find((o) => o.key === key);
+      if (option) {
+        if (!aggName) return;
+        if (checked) {
+          const c = checkedKeys;
+          c.push(key);
+          setCheckedKeys(c);
+        } else {
+          setCheckedKeys(checkedKeys.filter((e) => e !== key));
+        }
+        const updatedParams = toURLSearchParams(searchParams);
+        if (myChecked) updatedParams.set(aggName, key);
+        else updatedParams.delete(aggName || '');
+        updatedParams.delete('p');
+        navigateToSearch(updatedParams);
       }
-      const updatedParams = toURLSearchParams(searchParams);
-      if (myChecked) updatedParams.set(aggName, key);
-      else updatedParams.delete(aggName || '');
-      updatedParams.delete('p');
-      router.push(`${pathname}?${updatedParams}`);
-    }
-  }
+    },
+    [
+      options,
+      searchOptions,
+      aggName,
+      checkedKeys,
+      searchParams,
+      navigateToSearch,
+    ]
+  );
 
-  function isChecked(key: string) {
-    return checkedKeys.includes(key);
-  }
+  const isChecked = useCallback(
+    (key: string) => {
+      return checkedKeys.includes(key);
+    },
+    [checkedKeys]
+  );
 
   useEffect(() => {
     if (!isDefaultOpen) setIsOpen(false);
@@ -84,25 +110,12 @@ export function SearchAgg({
     if (c.length > 0) setIsOpen(true);
   }, [aggName, searchParams.aggFilters, isDefaultOpen]);
 
-  const debouncedRequest = useDebounce(() => {
-    if (aggName) {
-      let url = `/api/search/options?index=${index}&field=${aggName}`;
-      if (value) {
-        url += `&q=${value}`;
-      }
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data?.length > 0) setSearchOptions(data);
-          else setSearchOptions([]);
-        });
-    }
-  });
-
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-    debouncedRequest();
-  };
+  const onChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      updateQuery(e.target.value);
+    },
+    [updateQuery]
+  );
 
   return (
     <Collapsible
@@ -115,11 +128,12 @@ export function SearchAgg({
           variant="ghost"
           size="sm"
           className="flex w-full items-center justify-between p-1"
-          aria-label={dict['button.expandFilter']}
+          aria-label={`${isOpen ? 'Collapse' : 'Expand'} ${aggDisplayName} filter`}
+          aria-expanded={isOpen}
         >
           <h4 className="text-sm font-semibold">{aggDisplayName}</h4>
           <div>
-            <ChevronsUpDown className="size-4" />
+            <ChevronsUpDown className="size-4" aria-hidden="true" />
             <span className="sr-only">Toggle {aggDisplayName}</span>
           </div>
         </Button>
@@ -131,6 +145,7 @@ export function SearchAgg({
             placeholder={`Search ${aggDisplayName}`}
             onChange={onChange}
             value={value}
+            aria-label={`Search within ${aggDisplayName} options`}
           />
         </div>
         {searchOptions?.length > 0 &&
@@ -197,3 +212,5 @@ export function SearchAgg({
     </Collapsible>
   );
 }
+
+export const SearchAgg = memo(SearchAggComponent);

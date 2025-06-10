@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
@@ -23,15 +24,15 @@ function getDetailsClass(layout: LayoutType) {
 
 interface ContentCardProps {
   item: BaseDocument;
-  layout: LayoutType;
   showType: boolean;
+  layout: LayoutType;
   isMultiSource: boolean;
 }
 
-export function ContentCard({
+function ContentCardComponent({
   item,
-  layout,
   showType,
+  layout,
   isMultiSource,
 }: ContentCardProps) {
   if (!item || !item.url) return null;
@@ -90,3 +91,5 @@ export function ContentCard({
     </Link>
   );
 }
+
+export const ContentCard = memo(ContentCardComponent);

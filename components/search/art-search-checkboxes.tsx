@@ -4,10 +4,12 @@ import type { SearchParams } from '@/lib/elasticsearch/search/searchParams';
 import { SearchCheckbox } from './search-checkbox';
 
 interface ArtSearchCheckboxesProps {
-  params?: SearchParams;
+  searchParams: SearchParams;
 }
 
-export function ArtSearchCheckboxes({ params }: ArtSearchCheckboxesProps) {
+export function ArtSearchCheckboxes({
+  searchParams: params,
+}: ArtSearchCheckboxesProps) {
   const dict = getDictionary();
 
   return (

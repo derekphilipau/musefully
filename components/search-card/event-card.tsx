@@ -1,17 +1,13 @@
-import Image from 'next/image';
+import { memo } from 'react';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
-import { format } from 'date-fns';
 
 import type { EventDocument } from '@/types/document';
-import {
-  LAYOUT_GRID,
-} from '@/lib/elasticsearch/search/searchParams';
+import { LAYOUT_GRID } from '@/lib/elasticsearch/search/searchParams';
 import type { LayoutType } from '@/lib/elasticsearch/search/searchParams';
-import { Icons } from '@/components/icons';
+import { getFormattedItemDates } from '@/lib/various';
 import { SourceHeader } from '@/components/source/source-header';
 import { RemoteImage } from '../image/remote-image';
-import { getFormattedItemDates } from '@/lib/various';
 
 function getContainerClass(layout) {
   if (layout === LAYOUT_GRID) return '';
@@ -25,15 +21,15 @@ function getDetailsClass(layout) {
 
 interface EventCardProps {
   item: EventDocument;
-  layout: LayoutType;
   showType: boolean;
+  layout: LayoutType;
   isMultiSource: boolean;
 }
 
-export function EventCard({
+function EventCardComponent({
   item,
-  layout,
   showType,
+  layout,
   isMultiSource,
 }: EventCardProps) {
   if (!item || !item.url) return null;
@@ -69,3 +65,5 @@ export function EventCard({
     </div>
   );
 }
+
+export const EventCard = memo(EventCardComponent);

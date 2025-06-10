@@ -1,8 +1,10 @@
 'use client';
 
+import { useEffect } from 'react';
 import { getDictionary } from '@/dictionaries/dictionaries';
-import { ValidationError, useForm } from '@formspree/react';
+import { useForm, ValidationError } from '@formspree/react';
 
+import { useActionLoading } from '@/components/loading/loading-provider';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
@@ -10,6 +12,17 @@ import { Label } from '../ui/label';
 export default function ArtworkContactForm({ item, formId }) {
   const dict = getDictionary();
   const [state, handleSubmit] = useForm(formId);
+  const { setActionLoading, setLoadingMessage } = useActionLoading();
+
+  // Show loading overlay when form is submitting
+  useEffect(() => {
+    if (state.submitting) {
+      setLoadingMessage('Sending your message...');
+      setActionLoading(true);
+    } else {
+      setActionLoading(false);
+    }
+  }, [state.submitting, setActionLoading, setLoadingMessage]);
 
   if (state.succeeded) {
     return (

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
@@ -22,7 +22,7 @@ interface SearchFilterButtonProps {
   isShowFilters: boolean;
 }
 
-export function SearchFilterButton({
+function SearchFilterButtonComponent({
   searchParams,
   options,
   isShowFilters,
@@ -37,10 +37,10 @@ export function SearchFilterButton({
     setOpen(false);
   }, [pathname, currentSearchParams]);
 
-  function toggleFilters() {
+  const toggleFilters = useCallback(() => {
     const updatedParams = toURLSearchParams(toggleIsShowFilters(searchParams));
     router.push(`${pathname}?${updatedParams}`);
-  }
+  }, [searchParams, router, pathname]);
 
   return (
     <>
@@ -63,7 +63,7 @@ export function SearchFilterButton({
           <ScrollArea className="h-[calc(100vh-3rem)] pr-4">
             <h4 className="mb-4 font-medium">Search Filters</h4>
             <div className="flex flex-col items-start justify-between gap-y-2">
-              <SearchFilters searchParams={searchParams} options={options} />
+              <SearchFilters />
             </div>
           </ScrollArea>
         </SheetContent>
@@ -85,3 +85,5 @@ export function SearchFilterButton({
     </>
   );
 }
+
+export const SearchFilterButton = memo(SearchFilterButtonComponent);
