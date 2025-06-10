@@ -9,12 +9,13 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { useSearch } from '@/contexts/search-context';
 import { getDictionary } from '@/dictionaries/dictionaries';
+import { useNavigation } from '@/hooks/use-navigation';
+import { useSearchSuggestions } from '@/hooks/use-search-suggestions';
 
 import type { TermDocument } from '@/types/document';
-import { useDebounce } from '@/lib/debounce';
 import { toURLSearchParams } from '@/lib/elasticsearch/search/searchParams';
 import { Icons } from '@/components/icons';
 import { Badge } from '@/components/ui/badge';
@@ -32,34 +33,21 @@ interface SearchAsYouTypeInputProps {}
 function SearchAsYouTypeInputComponent({}: SearchAsYouTypeInputProps) {
   const { searchParams: params } = useSearch();
   const dict = getDictionary();
-  const router = useRouter();
   const pathname = usePathname();
+  const { navigateToSearch, navigate } = useNavigation({ scrollToTop: true });
   const searchParams = useSearchParams();
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(searchParams?.get('q') || '');
-  const [searchOptions, setSearchOptions] = useState<TermDocument[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
-  const debouncedSuggest = useDebounce(() => {
-    if (value?.length < 3) {
-      setSearchOptions([]);
-      setOpen(false);
-      return;
-    }
-    if (value)
-      fetch(`/api/search/suggest?q=${value}`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data?.data?.length > 0) {
-            setSearchOptions(data.data);
-            setOpen(true);
-          } else {
-            setSearchOptions([]);
-            setOpen(false);
-          }
-        });
-  }, 50);
+  const {
+    suggestions: searchOptions,
+    isLoading: suggestionsLoading,
+    error: suggestionsError,
+    updateQuery,
+    clearSuggestions,
+  } = useSearchSuggestions({ minLength: 3, debounceMs: 50 });
 
   const searchForQuery = useCallback(
     (currentValue = '') => {
@@ -67,12 +55,12 @@ function SearchAsYouTypeInputComponent({}: SearchAsYouTypeInputProps) {
       if (currentValue) updatedParams.set('q', currentValue);
       else updatedParams.delete('q');
       updatedParams.delete('p');
-      setSearchOptions([]);
+      clearSuggestions();
       setOpen(false);
       setValue(currentValue);
-      router.push(`${pathname}?${updatedParams}`);
+      navigateToSearch(updatedParams);
     },
-    [params, pathname, router]
+    [params, navigateToSearch, clearSuggestions]
   );
 
   const searchForTerm = useCallback(
@@ -86,21 +74,22 @@ function SearchAsYouTypeInputComponent({}: SearchAsYouTypeInputProps) {
       }
       updatedParams.delete('q');
       updatedParams.delete('p');
-      const searchPath = `/${term.index || ''}`;
-      setSearchOptions([]);
+      const searchPath = `/${term.index || ''}?${updatedParams}`;
+      clearSuggestions();
       setOpen(false);
       setValue('');
-      router.push(`${searchPath}?${updatedParams}`);
+      navigate(searchPath);
     },
-    [params, router]
+    [params, navigate, clearSuggestions]
   );
 
   const onQueryChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      setValue(e.target.value);
-      debouncedSuggest();
+      const newValue = e.target.value;
+      setValue(newValue);
+      updateQuery(newValue);
     },
-    [debouncedSuggest]
+    [updateQuery]
   );
 
   const handleOnSubmit = useCallback(
@@ -148,11 +137,20 @@ function SearchAsYouTypeInputComponent({}: SearchAsYouTypeInputProps) {
   );
 
   useEffect(() => {
-    setSearchOptions([]);
+    clearSuggestions();
     setOpen(false);
     setValue(searchParams?.get('q') || '');
     setSelectedIndex(-1);
-  }, [pathname, searchParams]);
+  }, [pathname, searchParams, clearSuggestions]);
+
+  // Open/close suggestions based on data
+  useEffect(() => {
+    if (searchOptions.length > 0 && !suggestionsError) {
+      setOpen(true);
+    } else {
+      setOpen(false);
+    }
+  }, [searchOptions, suggestionsError]);
 
   const getFieldName = useCallback(
     (field: string) => {

@@ -73,10 +73,14 @@ export default async function Page(props: PageProps) {
           <div className="grow">
             <SearchAsYouTypeInput />
           </div>
-          {sanitizedParams.index === 'art' && <ArtSearchCheckboxes />}
-          {sanitizedParams.index === 'events' && <EventSearchCheckboxes />}
+          {sanitizedParams.index === 'art' && (
+            <ArtSearchCheckboxes searchParams={sanitizedParams} />
+          )}
+          {sanitizedParams.index === 'events' && (
+            <EventSearchCheckboxes searchParams={sanitizedParams} />
+          )}
         </div>
-        <SearchFilterTags />
+        <SearchFilterTags searchParams={sanitizedParams} />
         <div className="gap-6 pb-8 pt-2 sm:grid sm:grid-cols-3 md:grid-cols-4 md:pt-4">
           {sanitizedParams.isShowFilters && (
             <aside
@@ -123,12 +127,16 @@ export default async function Page(props: PageProps) {
                           item={item}
                           showType={sanitizedParams.index === 'all'}
                           showColor={sanitizedParams.hexColor ? true : false}
+                          layout={sanitizedParams.layout}
+                          isMultiSource={isMultiSource}
                         />
                       )}
                       {item.type === 'news' && (
                         <ContentCard
                           item={item}
                           showType={sanitizedParams.index === 'all'}
+                          layout={sanitizedParams.layout}
+                          isMultiSource={isMultiSource}
                         />
                       )}
                       {(item.type === 'exhibition' ||
@@ -136,12 +144,16 @@ export default async function Page(props: PageProps) {
                         <EventCard
                           item={item}
                           showType={sanitizedParams.index === 'all'}
+                          layout={sanitizedParams.layout}
+                          isMultiSource={isMultiSource}
                         />
                       )}
                       {item.sourceId === 'newyorkercartoon' && (
                         <ImageNewsCard
                           item={item}
                           showType={sanitizedParams.index === 'all'}
+                          layout={sanitizedParams.layout}
+                          isMultiSource={isMultiSource}
                         />
                       )}
                       {item.type === 'rss' &&
@@ -149,6 +161,8 @@ export default async function Page(props: PageProps) {
                           <NewsCard
                             item={item}
                             showType={sanitizedParams.index === 'all'}
+                            layout={sanitizedParams.layout}
+                            isMultiSource={isMultiSource}
                           />
                         )}
                     </div>

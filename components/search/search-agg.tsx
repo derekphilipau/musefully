@@ -8,12 +8,12 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
+import { useNavigation } from '@/hooks/use-navigation';
+import { useSearchFilterOptions } from '@/hooks/use-search-filter-options';
 import { ChevronsUpDown, Plus, X } from 'lucide-react';
 
 import type { AggOption } from '@/types/aggregation';
-import { useDebounce } from '@/lib/debounce';
 import {
   toURLSearchParams,
   type SearchParams,
@@ -46,12 +46,18 @@ function SearchAggComponent({
   options,
   isDefaultOpen = false,
 }: SearchAggProps) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const [value, setValue] = useState('');
+  const { navigateToSearch } = useNavigation({ scrollToTop: false });
   const [checkedKeys, setCheckedKeys] = useState<string[]>([]);
-  const [searchOptions, setSearchOptions] = useState<AggOption[]>([]);
   const [isOpen, setIsOpen] = useState(isDefaultOpen);
+
+  const {
+    query: value,
+    filterOptions: searchOptions,
+    isLoading: optionsLoading,
+    error: optionsError,
+    updateQuery,
+    clearOptions,
+  } = useSearchFilterOptions({ index, field: aggName || '' });
 
   const dict = getDictionary();
 
@@ -74,7 +80,7 @@ function SearchAggComponent({
         if (myChecked) updatedParams.set(aggName, key);
         else updatedParams.delete(aggName || '');
         updatedParams.delete('p');
-        router.push(`${pathname}?${updatedParams}`);
+        navigateToSearch(updatedParams);
       }
     },
     [
@@ -83,8 +89,7 @@ function SearchAggComponent({
       aggName,
       checkedKeys,
       searchParams,
-      router,
-      pathname,
+      navigateToSearch,
     ]
   );
 
@@ -105,27 +110,11 @@ function SearchAggComponent({
     if (c.length > 0) setIsOpen(true);
   }, [aggName, searchParams.aggFilters, isDefaultOpen]);
 
-  const debouncedRequest = useDebounce(() => {
-    if (aggName) {
-      let url = `/api/search/options?index=${index}&field=${aggName}`;
-      if (value) {
-        url += `&q=${value}`;
-      }
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data?.length > 0) setSearchOptions(data);
-          else setSearchOptions([]);
-        });
-    }
-  });
-
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      setValue(e.target.value);
-      debouncedRequest();
+      updateQuery(e.target.value);
     },
-    [debouncedRequest]
+    [updateQuery]
   );
 
   return (

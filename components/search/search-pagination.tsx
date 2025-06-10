@@ -1,9 +1,9 @@
 'use client';
 
 import { useCallback, useMemo } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
 import { useSearch } from '@/contexts/search-context';
 import { getDictionary } from '@/dictionaries/dictionaries';
+import { useNavigation } from '@/hooks/use-navigation';
 
 import {
   CARD_COLOR,
@@ -54,8 +54,7 @@ interface SearchPaginationProps {
 
 export function SearchPagination({ isShowViewOptions }: SearchPaginationProps) {
   const { searchParams, options, count, totalPages } = useSearch();
-  const router = useRouter();
-  const pathname = usePathname();
+  const { navigateToSearch } = useNavigation({ scrollToTop: true });
   const dict = getDictionary();
 
   const showExperimental = false;
@@ -65,10 +64,9 @@ export function SearchPagination({ isShowViewOptions }: SearchPaginationProps) {
       const updatedParams = toURLSearchParams(
         setPageNumber(searchParams, newPage)
       );
-      router.push(`${pathname}?${updatedParams}`);
-      window.scroll(0, 0);
+      navigateToSearch(updatedParams);
     },
-    [searchParams, router, pathname]
+    [searchParams, navigateToSearch]
   );
 
   const sizeChange = useCallback(
@@ -76,10 +74,9 @@ export function SearchPagination({ isShowViewOptions }: SearchPaginationProps) {
       const updatedParams = toURLSearchParams(
         setResultsPerPage(searchParams, value)
       );
-      router.push(`${pathname}?${updatedParams}`);
-      window.scroll(0, 0);
+      navigateToSearch(updatedParams);
     },
-    [searchParams, router, pathname]
+    [searchParams, navigateToSearch]
   );
 
   const sortBy = useCallback(
@@ -87,10 +84,9 @@ export function SearchPagination({ isShowViewOptions }: SearchPaginationProps) {
       const updatedParams = toURLSearchParams(
         setSortBy(searchParams, field, order)
       );
-      router.push(`${pathname}?${updatedParams}`);
-      window.scroll(0, 0);
+      navigateToSearch(updatedParams);
     },
-    [searchParams, router, pathname]
+    [searchParams, navigateToSearch]
   );
 
   const onClickChangeLayoutType = useCallback(
@@ -98,17 +94,17 @@ export function SearchPagination({ isShowViewOptions }: SearchPaginationProps) {
       const updatedParams = toURLSearchParams(
         setLayoutType(searchParams, layout)
       );
-      router.push(`${pathname}?${updatedParams}`);
+      navigateToSearch(updatedParams, { scrollToTop: false });
     },
-    [searchParams, router, pathname]
+    [searchParams, navigateToSearch]
   );
 
   const onClickChangeCardType = useCallback(
     (card: string) => {
       const updatedParams = toURLSearchParams(setCardType(searchParams, card));
-      router.push(`${pathname}?${updatedParams}`);
+      navigateToSearch(updatedParams, { scrollToTop: false });
     },
-    [searchParams, router, pathname]
+    [searchParams, navigateToSearch]
   );
 
   const sortDropdownMenuItem = useCallback(

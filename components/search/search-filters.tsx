@@ -1,3 +1,5 @@
+'use client';
+
 import { memo } from 'react';
 import { useSearch } from '@/contexts/search-context';
 import { getDictionary } from '@/dictionaries/dictionaries';

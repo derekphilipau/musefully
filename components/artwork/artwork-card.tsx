@@ -1,6 +1,5 @@
 import { memo } from 'react';
 import Link from 'next/link';
-import { useSearch } from '@/contexts/search-context';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
 import type { ArtworkDocument } from '@/types/document';
@@ -32,11 +31,17 @@ interface ArtworkCardProps {
   item: ArtworkDocument;
   showType: boolean;
   showColor: boolean;
+  layout: LayoutType;
+  isMultiSource: boolean;
 }
 
-function ArtworkCardComponent({ item, showType, showColor }: ArtworkCardProps) {
-  const { searchParams, isMultiSource } = useSearch();
-  const layout = searchParams.layout;
+function ArtworkCardComponent({
+  item,
+  showType,
+  showColor,
+  layout,
+  isMultiSource,
+}: ArtworkCardProps) {
   if (!item) return null;
   const dict = getDictionary();
 
