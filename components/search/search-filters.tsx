@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
 import type { AggOptions } from '@/types/aggregation';
@@ -12,7 +13,7 @@ interface SearchFiltersProps {
   options: AggOptions;
 }
 
-export function SearchFilters({ searchParams, options }: SearchFiltersProps) {
+function SearchFiltersComponent({ searchParams, options }: SearchFiltersProps) {
   const dict = getDictionary();
 
   return (
@@ -43,3 +44,5 @@ export function SearchFilters({ searchParams, options }: SearchFiltersProps) {
     </>
   );
 }
+
+export const SearchFilters = memo(SearchFiltersComponent);

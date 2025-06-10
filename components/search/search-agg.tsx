@@ -1,6 +1,13 @@
 'use client';
 
-import { ChangeEvent, useEffect, useState } from 'react';
+import {
+  ChangeEvent,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
 import { ChevronsUpDown, Plus, X } from 'lucide-react';
@@ -31,7 +38,7 @@ interface SearchAggProps {
   isDefaultOpen?: boolean;
 }
 
-export function SearchAgg({
+function SearchAggComponent({
   index,
   searchParams,
   aggDisplayName,
@@ -48,31 +55,45 @@ export function SearchAgg({
 
   const dict = getDictionary();
 
-  function checkboxChange(key: string, checked: string | boolean) {
-    const myChecked = getBooleanValue(checked);
-    let option = options?.find((o) => o.key === key);
-    if (searchOptions && !option)
-      option = searchOptions?.find((o) => o.key === key);
-    if (option) {
-      if (!aggName) return;
-      if (checked) {
-        const c = checkedKeys;
-        c.push(key);
-        setCheckedKeys(c);
-      } else {
-        setCheckedKeys(checkedKeys.filter((e) => e !== key));
+  const checkboxChange = useCallback(
+    (key: string, checked: string | boolean) => {
+      const myChecked = getBooleanValue(checked);
+      let option = options?.find((o) => o.key === key);
+      if (searchOptions && !option)
+        option = searchOptions?.find((o) => o.key === key);
+      if (option) {
+        if (!aggName) return;
+        if (checked) {
+          const c = checkedKeys;
+          c.push(key);
+          setCheckedKeys(c);
+        } else {
+          setCheckedKeys(checkedKeys.filter((e) => e !== key));
+        }
+        const updatedParams = toURLSearchParams(searchParams);
+        if (myChecked) updatedParams.set(aggName, key);
+        else updatedParams.delete(aggName || '');
+        updatedParams.delete('p');
+        router.push(`${pathname}?${updatedParams}`);
       }
-      const updatedParams = toURLSearchParams(searchParams);
-      if (myChecked) updatedParams.set(aggName, key);
-      else updatedParams.delete(aggName || '');
-      updatedParams.delete('p');
-      router.push(`${pathname}?${updatedParams}`);
-    }
-  }
+    },
+    [
+      options,
+      searchOptions,
+      aggName,
+      checkedKeys,
+      searchParams,
+      router,
+      pathname,
+    ]
+  );
 
-  function isChecked(key: string) {
-    return checkedKeys.includes(key);
-  }
+  const isChecked = useCallback(
+    (key: string) => {
+      return checkedKeys.includes(key);
+    },
+    [checkedKeys]
+  );
 
   useEffect(() => {
     if (!isDefaultOpen) setIsOpen(false);
@@ -99,10 +120,13 @@ export function SearchAgg({
     }
   });
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-    debouncedRequest();
-  };
+  const onChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setValue(e.target.value);
+      debouncedRequest();
+    },
+    [debouncedRequest]
+  );
 
   return (
     <Collapsible
@@ -197,3 +221,5 @@ export function SearchAgg({
     </Collapsible>
   );
 }
+
+export const SearchAgg = memo(SearchAggComponent);

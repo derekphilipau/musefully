@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
@@ -22,7 +22,7 @@ interface SearchFilterButtonProps {
   isShowFilters: boolean;
 }
 
-export function SearchFilterButton({
+function SearchFilterButtonComponent({
   searchParams,
   options,
   isShowFilters,
@@ -37,10 +37,10 @@ export function SearchFilterButton({
     setOpen(false);
   }, [pathname, currentSearchParams]);
 
-  function toggleFilters() {
+  const toggleFilters = useCallback(() => {
     const updatedParams = toURLSearchParams(toggleIsShowFilters(searchParams));
     router.push(`${pathname}?${updatedParams}`);
-  }
+  }, [searchParams, router, pathname]);
 
   return (
     <>
@@ -85,3 +85,5 @@ export function SearchFilterButton({
     </>
   );
 }
+
+export const SearchFilterButton = memo(SearchFilterButtonComponent);

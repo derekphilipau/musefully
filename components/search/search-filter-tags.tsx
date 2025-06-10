@@ -1,3 +1,5 @@
+import { memo, useMemo } from 'react';
+
 import { SearchParams } from '@/lib/elasticsearch/search/searchParams';
 import { SearchFilterTag } from './search-filter-tag';
 
@@ -5,12 +7,14 @@ interface SearchFilterTagsProps {
   params?: SearchParams;
 }
 
-export function SearchFilterTags({ params }: SearchFilterTagsProps) {
+function SearchFilterTagsComponent({ params }: SearchFilterTagsProps) {
+  const filterArr = useMemo(() => {
+    return params ? Object.entries(params.aggFilters) : [];
+  }, [params]);
+
   if (!params) {
     return null;
   }
-
-  const filterArr = Object.entries(params.aggFilters);
 
   if (!(filterArr.length > 0) && !params.hexColor) {
     return null;
@@ -36,3 +40,5 @@ export function SearchFilterTags({ params }: SearchFilterTagsProps) {
     </div>
   );
 }
+
+export const SearchFilterTags = memo(SearchFilterTagsComponent);

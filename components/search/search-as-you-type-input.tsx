@@ -1,6 +1,14 @@
 'use client';
 
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import {
+  ChangeEvent,
+  FormEvent,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
@@ -23,7 +31,7 @@ interface SearchAsYouTypeInputProps {
   params?: SearchParams;
 }
 
-export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
+function SearchAsYouTypeInputComponent({ params }: SearchAsYouTypeInputProps) {
   const dict = getDictionary();
   const router = useRouter();
   const pathname = usePathname();
@@ -53,47 +61,59 @@ export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
         });
   }, 50);
 
-  function searchForQuery(currentValue = '') {
-    const updatedParams = toURLSearchParams(params);
-    if (currentValue) updatedParams.set('q', currentValue);
-    else updatedParams.delete('q');
-    updatedParams.delete('p');
-    setSearchOptions([]);
-    setOpen(false);
-    setValue(currentValue);
-    router.push(`${pathname}?${updatedParams}`);
-  }
+  const searchForQuery = useCallback(
+    (currentValue = '') => {
+      const updatedParams = toURLSearchParams(params);
+      if (currentValue) updatedParams.set('q', currentValue);
+      else updatedParams.delete('q');
+      updatedParams.delete('p');
+      setSearchOptions([]);
+      setOpen(false);
+      setValue(currentValue);
+      router.push(`${pathname}?${updatedParams}`);
+    },
+    [params, pathname, router]
+  );
 
-  function searchForTerm(term: TermDocument) {
-    const updatedParams = toURLSearchParams(params);
-    if (!term.value || !term.field) return;
-    if (term.field === 'primaryConstituent.canonicalName') {
-      updatedParams.set('primaryConstituent.canonicalName', term.value);
-    } else {
-      updatedParams.set(term.field, term.value);
-    }
-    updatedParams.delete('q');
-    updatedParams.delete('p');
-    const searchPath = `/${term.index || ''}`;
-    setSearchOptions([]);
-    setOpen(false);
-    setValue('');
-    router.push(`${searchPath}?${updatedParams}`);
-  }
+  const searchForTerm = useCallback(
+    (term: TermDocument) => {
+      const updatedParams = toURLSearchParams(params);
+      if (!term.value || !term.field) return;
+      if (term.field === 'primaryConstituent.canonicalName') {
+        updatedParams.set('primaryConstituent.canonicalName', term.value);
+      } else {
+        updatedParams.set(term.field, term.value);
+      }
+      updatedParams.delete('q');
+      updatedParams.delete('p');
+      const searchPath = `/${term.index || ''}`;
+      setSearchOptions([]);
+      setOpen(false);
+      setValue('');
+      router.push(`${searchPath}?${updatedParams}`);
+    },
+    [params, router]
+  );
 
-  const onQueryChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-    debouncedSuggest();
-  };
+  const onQueryChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setValue(e.target.value);
+      debouncedSuggest();
+    },
+    [debouncedSuggest]
+  );
 
-  function handleOnSubmit(event: FormEvent) {
-    event.preventDefault();
-    searchForQuery(value);
-  }
+  const handleOnSubmit = useCallback(
+    (event: FormEvent) => {
+      event.preventDefault();
+      searchForQuery(value);
+    },
+    [searchForQuery, value]
+  );
 
-  function handleOpenChange(event) {
+  const handleOpenChange = useCallback((event) => {
     if (event) event.preventDefault();
-  }
+  }, []);
 
   useEffect(() => {
     setSearchOptions([]);
@@ -101,11 +121,14 @@ export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
     setValue(searchParams?.get('q') || '');
   }, [pathname, searchParams]);
 
-  function getFieldName(field: string) {
-    if (field === 'primaryConstituent')
-      return dict['field.primaryConstituent.canonicalName'];
-    else return dict[`field.${field}`];
-  }
+  const getFieldName = useCallback(
+    (field: string) => {
+      if (field === 'primaryConstituent')
+        return dict['field.primaryConstituent.canonicalName'];
+      else return dict[`field.${field}`];
+    },
+    [dict]
+  );
 
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
@@ -162,3 +185,5 @@ export function SearchAsYouTypeInput({ params }: SearchAsYouTypeInputProps) {
     </Popover>
   );
 }
+
+export const SearchAsYouTypeInput = memo(SearchAsYouTypeInputComponent);
