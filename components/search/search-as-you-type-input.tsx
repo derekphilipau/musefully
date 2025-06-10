@@ -7,15 +7,14 @@ import {
   memo,
   useCallback,
   useEffect,
-  useMemo,
   useState,
 } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useSearch } from '@/contexts/search-context';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
 import type { TermDocument } from '@/types/document';
 import { useDebounce } from '@/lib/debounce';
-import type { SearchParams } from '@/lib/elasticsearch/search/searchParams';
 import { toURLSearchParams } from '@/lib/elasticsearch/search/searchParams';
 import { Icons } from '@/components/icons';
 import { Badge } from '@/components/ui/badge';
@@ -28,11 +27,10 @@ import {
   PopoverContent,
 } from '@/components/ui/popover';
 
-interface SearchAsYouTypeInputProps {
-  params?: SearchParams;
-}
+interface SearchAsYouTypeInputProps {}
 
-function SearchAsYouTypeInputComponent({ params }: SearchAsYouTypeInputProps) {
+function SearchAsYouTypeInputComponent({}: SearchAsYouTypeInputProps) {
+  const { searchParams: params } = useSearch();
   const dict = getDictionary();
   const router = useRouter();
   const pathname = usePathname();
@@ -117,34 +115,37 @@ function SearchAsYouTypeInputComponent({ params }: SearchAsYouTypeInputProps) {
     if (event) event.preventDefault();
   }, []);
 
-  const handleKeyDown = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
-    if (!open || searchOptions.length === 0) return;
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLInputElement>) => {
+      if (!open || searchOptions.length === 0) return;
 
-    switch (e.key) {
-      case 'ArrowDown':
-        e.preventDefault();
-        setSelectedIndex(prev => 
-          prev < searchOptions.length - 1 ? prev + 1 : 0
-        );
-        break;
-      case 'ArrowUp':
-        e.preventDefault();
-        setSelectedIndex(prev => 
-          prev > 0 ? prev - 1 : searchOptions.length - 1
-        );
-        break;
-      case 'Enter':
-        if (selectedIndex >= 0 && selectedIndex < searchOptions.length) {
+      switch (e.key) {
+        case 'ArrowDown':
           e.preventDefault();
-          searchForTerm(searchOptions[selectedIndex]);
-        }
-        break;
-      case 'Escape':
-        setOpen(false);
-        setSelectedIndex(-1);
-        break;
-    }
-  }, [open, searchOptions, selectedIndex, searchForTerm]);
+          setSelectedIndex((prev) =>
+            prev < searchOptions.length - 1 ? prev + 1 : 0
+          );
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          setSelectedIndex((prev) =>
+            prev > 0 ? prev - 1 : searchOptions.length - 1
+          );
+          break;
+        case 'Enter':
+          if (selectedIndex >= 0 && selectedIndex < searchOptions.length) {
+            e.preventDefault();
+            searchForTerm(searchOptions[selectedIndex]);
+          }
+          break;
+        case 'Escape':
+          setOpen(false);
+          setSelectedIndex(-1);
+          break;
+      }
+    },
+    [open, searchOptions, selectedIndex, searchForTerm]
+  );
 
   useEffect(() => {
     setSearchOptions([]);
@@ -182,7 +183,9 @@ function SearchAsYouTypeInputComponent({ params }: SearchAsYouTypeInputProps) {
                 aria-expanded={open}
                 aria-haspopup="listbox"
                 aria-autocomplete="list"
-                aria-activedescendant={selectedIndex >= 0 ? `suggestion-${selectedIndex}` : undefined}
+                aria-activedescendant={
+                  selectedIndex >= 0 ? `suggestion-${selectedIndex}` : undefined
+                }
                 role="combobox"
               />
             </div>
@@ -213,7 +216,9 @@ function SearchAsYouTypeInputComponent({ params }: SearchAsYouTypeInputProps) {
                   searchForTerm(term);
                 }}
                 className={`cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-700 ${
-                  selectedIndex === index ? 'bg-neutral-100 dark:bg-neutral-700' : ''
+                  selectedIndex === index
+                    ? 'bg-neutral-100 dark:bg-neutral-700'
+                    : ''
                 }`}
                 role="option"
                 aria-selected={selectedIndex === index}

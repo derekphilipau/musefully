@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useSearch } from '@/contexts/search-context';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
 import type { BaseDocument } from '@/types/document';
@@ -24,17 +25,12 @@ function getDetailsClass(layout: LayoutType) {
 
 interface ContentCardProps {
   item: BaseDocument;
-  layout: LayoutType;
   showType: boolean;
-  isMultiSource: boolean;
 }
 
-function ContentCardComponent({
-  item,
-  layout,
-  showType,
-  isMultiSource,
-}: ContentCardProps) {
+function ContentCardComponent({ item, showType }: ContentCardProps) {
+  const { searchParams, isMultiSource } = useSearch();
+  const layout = searchParams.layout;
   if (!item || !item.url) return null;
   const dict = getDictionary();
 

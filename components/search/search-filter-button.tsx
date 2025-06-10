@@ -63,7 +63,7 @@ function SearchFilterButtonComponent({
           <ScrollArea className="h-[calc(100vh-3rem)] pr-4">
             <h4 className="mb-4 font-medium">Search Filters</h4>
             <div className="flex flex-col items-start justify-between gap-y-2">
-              <SearchFilters searchParams={searchParams} options={options} />
+              <SearchFilters />
             </div>
           </ScrollArea>
         </SheetContent>

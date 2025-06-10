@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import Link from 'next/link';
+import { useSearch } from '@/contexts/search-context';
 import { getDictionary } from '@/dictionaries/dictionaries';
-import { ArtworkErrorBoundary } from '@/components/error/artwork-error-boundary';
 
 import type { ArtworkDocument } from '@/types/document';
 import type { LayoutType } from '@/lib/elasticsearch/search/searchParams';
@@ -14,6 +14,7 @@ import {
   trimStringToLengthAtWordBoundary,
 } from '@/lib/various';
 import { DominantColors } from '@/components/color/dominant-colors';
+import { ArtworkErrorBoundary } from '@/components/error/artwork-error-boundary';
 import { SourceHeader } from '@/components/source/source-header';
 import { DocumentImage } from '../image/document-image';
 
@@ -29,19 +30,13 @@ function getDetailsClass(layout: LayoutType) {
 
 interface ArtworkCardProps {
   item: ArtworkDocument;
-  layout: LayoutType;
   showType: boolean;
   showColor: boolean;
-  isMultiSource: boolean;
 }
 
-function ArtworkCardComponent({
-  item,
-  layout,
-  showType,
-  showColor,
-  isMultiSource,
-}: ArtworkCardProps) {
+function ArtworkCardComponent({ item, showType, showColor }: ArtworkCardProps) {
+  const { searchParams, isMultiSource } = useSearch();
+  const layout = searchParams.layout;
   if (!item) return null;
   const dict = getDictionary();
 
@@ -58,7 +53,7 @@ function ArtworkCardComponent({
             <SourceHeader item={item} showDate={false} isSmall={true} />
           )}
           <div className="flex items-center justify-center bg-neutral-50 text-neutral-200 transition-colors hover:bg-neutral-100 hover:text-neutral-300 dark:bg-neutral-800 dark:text-neutral-900 dark:hover:bg-neutral-700  dark:hover:text-neutral-800">
-            <Link 
+            <Link
               href={href}
               aria-label={`View artwork: ${item.title} by ${primaryConstituentName}`}
             >
@@ -75,7 +70,7 @@ function ArtworkCardComponent({
           {isMultiSource && layout !== LAYOUT_GRID && (
             <SourceHeader item={item} showDate={false} />
           )}
-          <Link 
+          <Link
             href={href}
             aria-label={`View details for ${item.title} by ${primaryConstituentName}`}
           >

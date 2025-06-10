@@ -1,13 +1,12 @@
+import { useSearch } from '@/contexts/search-context';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { SearchParams } from '@/lib/elasticsearch/search/searchParams';
 import { SearchCheckbox } from './search-checkbox';
 
-interface ArtSearchCheckboxesProps {
-  params?: SearchParams;
-}
+interface ArtSearchCheckboxesProps {}
 
-export function ArtSearchCheckboxes({ params }: ArtSearchCheckboxesProps) {
+export function ArtSearchCheckboxes({}: ArtSearchCheckboxesProps) {
+  const { searchParams: params } = useSearch();
   const dict = getDictionary();
 
   return (

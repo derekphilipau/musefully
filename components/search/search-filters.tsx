@@ -1,19 +1,16 @@
 import { memo } from 'react';
+import { useSearch } from '@/contexts/search-context';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { AggOptions } from '@/types/aggregation';
 import { indicesMeta } from '@/lib/elasticsearch/indicesMeta';
-import type { SearchParams } from '@/lib/elasticsearch/search/searchParams';
 import { SearchAgg } from '@/components/search/search-agg';
 import { ColorPicker } from './color-picker';
 import { DateFilter } from './date-filter';
 
-interface SearchFiltersProps {
-  searchParams: SearchParams;
-  options: AggOptions;
-}
+interface SearchFiltersProps {}
 
-function SearchFiltersComponent({ searchParams, options }: SearchFiltersProps) {
+function SearchFiltersComponent({}: SearchFiltersProps) {
+  const { searchParams, options } = useSearch();
   const dict = getDictionary();
 
   return (

@@ -1,14 +1,11 @@
 import { memo } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
+import { useSearch } from '@/contexts/search-context';
 import { getDictionary } from '@/dictionaries/dictionaries';
-import { format } from 'date-fns';
 
 import type { EventDocument } from '@/types/document';
 import { LAYOUT_GRID } from '@/lib/elasticsearch/search/searchParams';
-import type { LayoutType } from '@/lib/elasticsearch/search/searchParams';
 import { getFormattedItemDates } from '@/lib/various';
-import { Icons } from '@/components/icons';
 import { SourceHeader } from '@/components/source/source-header';
 import { RemoteImage } from '../image/remote-image';
 
@@ -24,17 +21,13 @@ function getDetailsClass(layout) {
 
 interface EventCardProps {
   item: EventDocument;
-  layout: LayoutType;
   showType: boolean;
-  isMultiSource: boolean;
 }
 
-function EventCardComponent({
-  item,
-  layout,
-  showType,
-  isMultiSource,
-}: EventCardProps) {
+function EventCardComponent({ item, showType }: EventCardProps) {
+  const { searchParams, isMultiSource } = useSearch();
+  const layout = searchParams.layout;
+
   if (!item || !item.url) return null;
   const dict = getDictionary();
   const formattedDate = getFormattedItemDates(item, dict);

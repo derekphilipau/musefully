@@ -1,13 +1,12 @@
+import { useSearch } from '@/contexts/search-context';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { SearchParams } from '@/lib/elasticsearch/search/searchParams';
 import { SearchCheckbox } from './search-checkbox';
 
-interface EventSearchCheckboxesProps {
-  params?: SearchParams;
-}
+interface EventSearchCheckboxesProps {}
 
-export function EventSearchCheckboxes({ params }: EventSearchCheckboxesProps) {
+export function EventSearchCheckboxes({}: EventSearchCheckboxesProps) {
+  const { searchParams: params } = useSearch();
   const dict = getDictionary();
 
   return (

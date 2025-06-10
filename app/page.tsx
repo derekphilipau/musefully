@@ -1,3 +1,4 @@
+import { SearchProvider } from '@/contexts/search-context';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
 import type { AggOptions } from '@/types/aggregation';
@@ -60,124 +61,109 @@ export default async function Page(props: PageProps) {
   const totalPages = response?.metadata?.pages || 0;
 
   return (
-    <section className="container pt-2">
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
-        <div className="grow">
-          <SearchAsYouTypeInput params={sanitizedParams} />
-        </div>
-        {sanitizedParams.index === 'art' && (
-          <ArtSearchCheckboxes params={sanitizedParams} />
-        )}
-        {sanitizedParams.index === 'events' && (
-          <EventSearchCheckboxes params={sanitizedParams} />
-        )}
-      </div>
-      <SearchFilterTags params={sanitizedParams} />
-      <div className="gap-6 pb-8 pt-2 sm:grid sm:grid-cols-3 md:grid-cols-4 md:pt-4">
-        {sanitizedParams.isShowFilters && (
-          <aside 
-            className="hidden h-full space-y-2 sm:col-span-1 sm:block"
-            aria-label="Search filters"
-          >
-            <SearchFilters searchParams={sanitizedParams} options={options} />
-          </aside>
-        )}
-        <main
-          className={
-            sanitizedParams.isShowFilters
-              ? 'sm:col-span-2 md:col-span-3'
-              : 'sm:col-span-3 md:col-span-4'
-          }
-          role="main"
-          aria-label="Search results"
-        >
-          {apiError?.length > 0 && (
-            <h3 className="mb-6 text-lg font-extrabold leading-tight tracking-tighter text-red-800">
-              {apiError}
-            </h3>
-          )}
-
-          <ArtistTermCard filters={filters} />
-
-          <div className="flex w-full">
-            <div className="w-full">
-              <SearchPagination
-                searchParams={sanitizedParams}
-                isShowViewOptions={true}
-                options={options}
-                count={count}
-                totalPages={totalPages}
-              />
-            </div>
+    <SearchProvider
+      searchParams={sanitizedParams}
+      options={options}
+      count={count}
+      totalPages={totalPages}
+      isMultiSource={isMultiSource}
+    >
+      <section className="container pt-2">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
+          <div className="grow">
+            <SearchAsYouTypeInput />
           </div>
+          {sanitizedParams.index === 'art' && <ArtSearchCheckboxes />}
+          {sanitizedParams.index === 'events' && <EventSearchCheckboxes />}
+        </div>
+        <SearchFilterTags />
+        <div className="gap-6 pb-8 pt-2 sm:grid sm:grid-cols-3 md:grid-cols-4 md:pt-4">
+          {sanitizedParams.isShowFilters && (
+            <aside
+              className="hidden h-full space-y-2 sm:col-span-1 sm:block"
+              aria-label="Search filters"
+            >
+              <SearchFilters />
+            </aside>
+          )}
+          <main
+            className={
+              sanitizedParams.isShowFilters
+                ? 'sm:col-span-2 md:col-span-3'
+                : 'sm:col-span-3 md:col-span-4'
+            }
+            role="main"
+            aria-label="Search results"
+          >
+            {apiError?.length > 0 && (
+              <h3 className="mb-6 text-lg font-extrabold leading-tight tracking-tighter text-red-800">
+                {apiError}
+              </h3>
+            )}
 
-          <SearchDidYouMean terms={terms} />
+            <ArtistTermCard filters={filters} />
 
-          <div className={getLayoutGridClass(sanitizedParams.layout)}>
-            {items?.length > 0 &&
-              items.map((item: BaseDocument, index: number) => {
-                if (!item) return null;
+            <div className="flex w-full">
+              <div className="w-full">
+                <SearchPagination isShowViewOptions={true} />
+              </div>
+            </div>
 
-                return (
-                  <div key={item._id}>
-                    {item.type === 'artwork' && !sanitizedParams.cardType && (
-                      <ArtworkCard
-                        item={item}
-                        layout={sanitizedParams.layout}
-                        showType={sanitizedParams.index === 'all'}
-                        showColor={sanitizedParams.hexColor ? true : false}
-                        isMultiSource={isMultiSource}
-                      />
-                    )}
-                    {item.type === 'news' && (
-                      <ContentCard
-                        item={item}
-                        layout={sanitizedParams.layout}
-                        showType={sanitizedParams.index === 'all'}
-                        isMultiSource={isMultiSource}
-                      />
-                    )}
-                    {(item.type === 'exhibition' || item.type === 'event') && (
-                      <EventCard
-                        item={item}
-                        layout={sanitizedParams.layout}
-                        showType={sanitizedParams.index === 'all'}
-                        isMultiSource={isMultiSource}
-                      />
-                    )}
-                    {item.sourceId === 'newyorkercartoon' && (
-                      <ImageNewsCard
-                        item={item}
-                        layout={sanitizedParams.layout}
-                        showType={sanitizedParams.index === 'all'}
-                        isMultiSource={isMultiSource}
-                      />
-                    )}
-                    {item.type === 'rss' &&
-                      item.sourceId !== 'newyorkercartoon' && (
-                        <NewsCard
+            <SearchDidYouMean terms={terms} />
+
+            <div className={getLayoutGridClass(sanitizedParams.layout)}>
+              {items?.length > 0 &&
+                items.map((item: BaseDocument, index: number) => {
+                  if (!item) return null;
+
+                  return (
+                    <div key={item._id}>
+                      {item.type === 'artwork' && !sanitizedParams.cardType && (
+                        <ArtworkCard
                           item={item}
-                          layout={sanitizedParams.layout}
                           showType={sanitizedParams.index === 'all'}
-                          isMultiSource={isMultiSource}
+                          showColor={sanitizedParams.hexColor ? true : false}
                         />
                       )}
-                  </div>
-                );
-              })}
-            {!(items?.length > 0) && (
-              <h3 className="my-10 mb-4 text-lg md:text-xl">{errorMessage}</h3>
-            )}
-          </div>
-          <SearchPagination
-            searchParams={sanitizedParams}
-            isShowViewOptions={false}
-            options={options}
-            count={count}
-            totalPages={totalPages}
-          />
-        </main>
-      </div>
-    </section>
+                      {item.type === 'news' && (
+                        <ContentCard
+                          item={item}
+                          showType={sanitizedParams.index === 'all'}
+                        />
+                      )}
+                      {(item.type === 'exhibition' ||
+                        item.type === 'event') && (
+                        <EventCard
+                          item={item}
+                          showType={sanitizedParams.index === 'all'}
+                        />
+                      )}
+                      {item.sourceId === 'newyorkercartoon' && (
+                        <ImageNewsCard
+                          item={item}
+                          showType={sanitizedParams.index === 'all'}
+                        />
+                      )}
+                      {item.type === 'rss' &&
+                        item.sourceId !== 'newyorkercartoon' && (
+                          <NewsCard
+                            item={item}
+                            showType={sanitizedParams.index === 'all'}
+                          />
+                        )}
+                    </div>
+                  );
+                })}
+              {!(items?.length > 0) && (
+                <h3 className="my-10 mb-4 text-lg md:text-xl">
+                  {errorMessage}
+                </h3>
+              )}
+            </div>
+            <SearchPagination isShowViewOptions={false} />
+          </main>
+        </div>
+      </section>
+    </SearchProvider>
   );
 }

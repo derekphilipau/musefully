@@ -2,9 +2,9 @@
 
 import { useCallback, useMemo } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { useSearch } from '@/contexts/search-context';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { AggOptions } from '@/types/aggregation';
 import {
   CARD_COLOR,
   CARD_PALETTE,
@@ -20,7 +20,6 @@ import {
   SORT_ORDER_DEFAULT,
   SORT_ORDER_DESC,
   toURLSearchParams,
-  type SearchParams,
   type SortOrder,
 } from '@/lib/elasticsearch/search/searchParams';
 import { Icons } from '@/components/icons';
@@ -50,20 +49,11 @@ import {
 } from '@/components/ui/tooltip';
 
 interface SearchPaginationProps {
-  searchParams: SearchParams;
   isShowViewOptions: boolean;
-  options: AggOptions;
-  count: number;
-  totalPages: number;
 }
 
-export function SearchPagination({
-  searchParams,
-  isShowViewOptions,
-  options,
-  count,
-  totalPages,
-}: SearchPaginationProps) {
+export function SearchPagination({ isShowViewOptions }: SearchPaginationProps) {
+  const { searchParams, options, count, totalPages } = useSearch();
   const router = useRouter();
   const pathname = usePathname();
   const dict = getDictionary();
