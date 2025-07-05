@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -22,12 +23,17 @@ import { buttonVariants } from '@/components/ui/button';
 
 type PageProps = { params: Promise<{ slug: string[] }> };
 
+// Cache the document request to avoid duplicate API calls
+const getCachedDocument = cache(async (index: string, id: string) => {
+  return await getDocument(index, id);
+});
+
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const params = await props.params;
   const id = params.slug[0];
   let data: ApiResponseDocument | undefined = undefined;
   try {
-    data = await getDocument('art', id);
+    data = await getCachedDocument('art', id);
   } catch (error) {
     return {};
     // don't do anything so that the error page can be rendered later
@@ -42,7 +48,23 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
   return {
     title: artwork.title,
     description: caption,
-    openGraph: { title: artwork.title || '', description: caption, images },
+    openGraph: {
+      title: artwork.title || '',
+      description: caption,
+      type: 'article',
+      siteName: 'musefully',
+      locale: 'en_US',
+      images: images.map((url) => ({
+        url,
+        alt: artwork.title || 'Artwork from musefully',
+      })),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: artwork.title || '',
+      description: caption,
+      images: images,
+    },
   };
 }
 
@@ -54,7 +76,7 @@ export default async function Page(props: PageProps) {
 
   let data: ApiResponseDocument;
   try {
-    data = await getDocument('art', id);
+    data = await getCachedDocument('art', id);
   } catch (error) {
     console.error(error);
     if (error?.body?.found === false) {

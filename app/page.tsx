@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { SearchProvider } from '@/contexts/search-context';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
@@ -38,6 +39,49 @@ export type PageProps = {
   params: Promise<{ index: string }>;
   searchParams: Promise<GenericSearchParams>;
 };
+
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params;
+  const searchParams = await props.searchParams;
+  const sanitizedParams = getSanitizedSearchParams(params.index, searchParams);
+
+  let title = 'musefully';
+  let description = 'Musefully browse the art world.';
+
+  if (sanitizedParams.query) {
+    title = `"${sanitizedParams.query}" | musefully`;
+    description = `Search results for "${sanitizedParams.query}" - browse artworks, exhibitions, and art news.`;
+  } else if (sanitizedParams.index === 'art') {
+    title = 'Art Collection | musefully';
+    description =
+      'Browse thousands of artworks from major museums and collections worldwide.';
+  } else if (sanitizedParams.index === 'news') {
+    title = 'Art News | musefully';
+    description =
+      'Latest art news, reviews, and articles from leading art publications.';
+  } else if (sanitizedParams.index === 'events') {
+    title = 'Art Events & Exhibitions | musefully';
+    description =
+      'Discover current and upcoming art exhibitions, events, and cultural happenings.';
+  }
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: 'website',
+      siteName: 'musefully',
+      locale: 'en_US',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
+  };
+}
 
 export default async function Page(props: PageProps) {
   const params = await props.params;
