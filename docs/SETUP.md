@@ -18,15 +18,17 @@ You can run Elasticsearch in a Docker container locally or in the cloud.
 
 1. [Sign up for an Elasticsearch Cloud account](https://cloud.elastic.co/).
 2. Create a deployment. The free tier is sufficient for development.
+3. Make sure Elasticsearch version is compatible when creating your deployment.
 
 Note that [musefully.org](https://musefully.org) with >300k documents currently runs on Elasticsearch Cloud with a minimal storage optimized AWS deployment for about $20/month.
 
 ### Local Elasticsearch
 
-The `/docker` folder contains a `docker-compose` file for running Elasticsearch locally.
-
 1. `cd docker`
-2. `docker compose up`.
+2. `docker compose pull`
+3. `docker compose up -d` (to start in background) or `docker compose up` (to see logs)
+
+To stop the services: `docker compose down`
 
 ## Environment Variables
 

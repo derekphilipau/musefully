@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.637.0",
-    "@elastic/elasticsearch": "^8.15.0",
+    "@elastic/elasticsearch": "^8.19.0",
     "@formspree/react": "^3.0.0",
     "@radix-ui/react-checkbox": "^1.1.5",
     "@radix-ui/react-collapsible": "^1.1.4",
