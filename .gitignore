@@ -56,3 +56,4 @@ data/ULAN/raw/*
 data/*/*.jsonl
 util/import/ingesters/whitney/collectionsIngester.ts
 
+AGENTS.md
