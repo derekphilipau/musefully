@@ -69,7 +69,7 @@ export function SearchResultsSkeleton({
       <div className="gap-6 pb-8 pt-2 sm:grid sm:grid-cols-3 md:grid-cols-4 md:pt-4">
         {/* Filters sidebar skeleton */}
         {showFilters && (
-          <div className="hidden sm:col-span-1 sm:block h-full space-y-4">
+          <div className="hidden h-full space-y-4 sm:col-span-1 sm:block">
             <div className="space-y-3">
               <Skeleton className="h-4 w-20" />
               <div className="space-y-2">
@@ -106,9 +106,9 @@ export function SearchResultsSkeleton({
           {/* Pagination controls skeleton */}
           <div className="mb-4 flex items-center justify-between">
             <div className="flex gap-2">
-              <Skeleton className="h-8 w-8" />
-              <Skeleton className="h-8 w-8" />
-              <Skeleton className="h-8 w-8" />
+              <Skeleton className="size-8" />
+              <Skeleton className="size-8" />
+              <Skeleton className="size-8" />
               <Skeleton className="h-8 w-16" />
             </div>
             <Skeleton className="size-40" />

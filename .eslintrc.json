@@ -6,6 +6,9 @@
     "prettier",
     "plugin:tailwindcss/recommended"
   ],
+  "ignorePatterns": [
+    "components/ui/**/*"
+  ],
   "plugins": [
     "tailwindcss",
     "testing-library"
