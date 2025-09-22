@@ -45,8 +45,7 @@ async function processAndUploadImage(
     (await exists(`${name}-s.webp`)) // Assume all sizes exist if small webp exists
     //(await exists(`${name}-s.jpg`)) &&
     //(await exists(`${name}-s.webp`)) &&
-    //(await exists(`${name}-m.webp`)) &&
-    //(await exists(`${name}-l.webp`))
+    //(await exists(`${name}-m.webp`))
   ) {
     console.log('Image already exists, skipping processing.');
     return true;
@@ -68,7 +67,6 @@ async function processAndUploadImage(
   if (!await resizeAndUploadImage(buffer, meta, name, 's', 'jpg')) return false;
   if (!await resizeAndUploadImage(buffer, meta, name, 's', 'webp')) return false;
   if (!await resizeAndUploadImage(buffer, meta, name, 'm', 'webp')) return false;
-  if (!await resizeAndUploadImage(buffer, meta, name, 'l', 'webp')) return false;
 
   return true;
 }
@@ -77,12 +75,11 @@ async function resizeAndUploadImage(
   buffer: Buffer,
   meta: sharp.Metadata,
   name: string,
-  sizeType: string,
+  sizeType: 's' | 'm',
   type: string
 ): Promise<boolean> {
   let size = 300;
   if (sizeType === 'm') size = 600;
-  if (sizeType === 'l') size = 1200;
   try {
     const shouldResize =
       meta.width && meta.height && (meta.width > size || meta.height > size);

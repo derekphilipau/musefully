@@ -17,7 +17,6 @@ import { LanguageDisclaimer } from '@/components/artwork/language-disclaimer';
 import { SimilarArtworkList } from '@/components/artwork/similar-artwork-list';
 import { Icons } from '@/components/icons';
 import { DocumentImage } from '@/components/image/document-image';
-import { ImageZoom } from '@/components/image/image-zoom';
 import { SourceHeader } from '@/components/source/source-header';
 import { buttonVariants } from '@/components/ui/button';
 
@@ -97,15 +96,21 @@ export default async function Page(props: PageProps) {
     <>
       <section className="container grid gap-x-12 gap-y-6 pb-8 pt-2 md:grid-cols-2 md:pb-10 md:pt-4 lg:grid-cols-8">
         <div className="flex items-start justify-center md:col-span-1 lg:col-span-3">
-          {artwork?.copyrightRestricted || !artwork?.publicAccess ? (
+          <div className="flex w-full flex-col items-center">
             <DocumentImage
               item={artwork}
-              className="mb-4"
+              className="mb-4 max-h-[32rem] w-full object-contain"
               caption={getCaption(artwork)}
+              size="m"
             />
-          ) : (
-            <ImageZoom item={artwork} />
-          )}
+            {artwork?.copyrightRestricted && (
+              <p className="mt-4 text-xs italic text-neutral-500 dark:text-neutral-400">
+                This image is presented as a &quot;thumbnail&quot; because it is
+                protected by copyright. The museum respects the rights of
+                artists who retain the copyright to their work.
+              </p>
+            )}
+          </div>
         </div>
         <div className="md:col-span-1 lg:col-span-5">
           {isMultiSource && <SourceHeader item={artwork} />}

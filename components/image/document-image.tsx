@@ -4,7 +4,7 @@ import type { BaseDocument } from '@/types/document';
 import { Icons } from '@/components/icons';
 import { ImageErrorBoundary } from '@/components/error/image-error-boundary';
 
-type ImageSize = 's' | 'm' | 'l';
+type ImageSize = 's' | 'm';
 type ImageType = 'webp' | 'jpg';
 
 export function getImageURL(
@@ -41,22 +41,15 @@ export function DocumentImage({
 
   switch (size) {
     case 's':
-      srcSet = `
-        ${getImageURL(indexName, id, 's', 'webp')} 1x,
-        ${getImageURL(indexName, id, 'm', 'webp')} 2x
-      `;
+      srcSet = [
+        `${getImageURL(indexName, id, 's', 'webp')} 1x`,
+        `${getImageURL(indexName, id, 'm', 'webp')} 2x`,
+      ].join(', ');
       sizesValue = '(max-width: 600px) 300px'; // Adjust to medium (600px) on retina.
       break;
     case 'm':
-      srcSet = `
-        ${getImageURL(indexName, id, 'm', 'webp')} 1x,
-        ${getImageURL(indexName, id, 'l', 'webp')} 2x
-      `;
+      srcSet = `${getImageURL(indexName, id, 'm', 'webp')} 1x`;
       sizesValue = '(max-width: 1200px) 600px'; // Adjust to large (1200px) on retina.
-      break;
-    case 'l':
-      srcSet = getImageURL(indexName, id, 'l', 'webp');
-      sizesValue = '';
       break;
   }
 
