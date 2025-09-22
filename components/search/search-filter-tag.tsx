@@ -24,9 +24,17 @@ export function SearchFilterTag({ params, name, value }: SearchFilterTagProps) {
 
   function buttonClick() {
     const updatedParams = toURLSearchParams(params);
+    const existingValues = updatedParams
+      .getAll(name)
+      .filter((paramValue) => paramValue !== value);
+
     updatedParams.delete(name);
+    for (const paramValue of existingValues) {
+      updatedParams.append(name, paramValue);
+    }
     updatedParams.delete('p');
-    router.push(`${pathname}?${updatedParams}`);
+    const queryString = updatedParams.toString();
+    router.push(queryString ? `${pathname}?${queryString}` : pathname);
   }
 
   return (

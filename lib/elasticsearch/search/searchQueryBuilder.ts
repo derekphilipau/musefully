@@ -181,9 +181,31 @@ export function addQueryBoolFilterTerms(
 export function addQueryBoolFilterTerm(
   esQuery: any,
   name: string,
-  value: string | boolean | number | undefined
+  value:
+    | string
+    | string[]
+    | boolean
+    | number
+    | undefined
 ): void {
-  if (!value) return;
+  if (value === undefined || value === null) return;
+
+  if (Array.isArray(value)) {
+    const filteredValues = Array.from(
+      new Set(
+        value.filter((v) => typeof v === 'string' && v.length > 0) as string[]
+      )
+    );
+    if (filteredValues.length === 0) return;
+    addQueryBoolFilter(esQuery, {
+      terms: {
+        [name]: filteredValues,
+      },
+    });
+    return;
+  }
+
+  if (value === '') return;
   esQuery.query ??= {};
   esQuery.query.bool ??= {};
   esQuery.query.bool.filter ??= [];
@@ -192,6 +214,37 @@ export function addQueryBoolFilterTerm(
       [name]: value,
     },
   });
+}
+
+export function addGlobalAggs(
+  esQuery: any,
+  indexName: string | string[] | undefined,
+  selectedFilters: Record<string, string[] | undefined>
+) {
+  if (indexName === undefined || Array.isArray(indexName)) return;
+  const meta = indicesMeta[indexName];
+  if (!meta || !Array.isArray(meta.aggs)) return;
+
+  const globalAggs: Record<string, any> = {};
+  for (const aggName of meta.aggs) {
+    const selected = selectedFilters[aggName];
+    if (Array.isArray(selected) && selected.length > 0) {
+      globalAggs[aggName] = {
+        terms: {
+          field: aggName,
+          size: SEARCH_AGG_SIZE,
+        },
+      };
+    }
+  }
+
+  if (Object.keys(globalAggs).length === 0) return;
+
+  esQuery.aggs ??= {};
+  esQuery.aggs.global_aggs = {
+    global: {},
+    aggs: globalAggs,
+  };
 }
 
 export function addQueryBoolFilter(esQuery: any, filter: any): void {

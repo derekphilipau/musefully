@@ -1,7 +1,7 @@
 import { Client } from '@elastic/elasticsearch';
 import * as T from '@elastic/elasticsearch/lib/api/types';
 
-import type { AggOptions } from '@/types/aggregation';
+import type { AggOption, AggOptions } from '@/types/aggregation';
 import type {
   ApiResponseSearch,
   ApiResponseSearchMetadata,
@@ -14,6 +14,7 @@ import {
   addColorQuery,
   addDefaultQueryBoolDateRange,
   addQueryAggs,
+  addGlobalAggs,
   addQueryBoolDateRange,
   addQueryBoolFilterTerms,
   addQueryBoolYearRange,
@@ -84,6 +85,7 @@ export async function search(
 
   addQueryBoolFilterTerms(esQuery, searchParams);
   addQueryAggs(esQuery, searchParams.index);
+  addGlobalAggs(esQuery, searchParams.index, searchParams.aggFilters);
 
   if (searchParams.sortField && searchParams.sortOrder) {
     esQuery.sort = [
@@ -101,7 +103,7 @@ export async function search(
 
   const response: T.SearchTemplateResponse = await client.search(esQuery);
 
-  const options = getResponseOptions(response);
+  const options = getResponseOptions(response, searchParams);
   const metadata = getResponseMetadata(response, searchParams.resultsPerPage);
   const data = response.hits.hits.map((hit) => ({
     _id: hit._id,
@@ -169,11 +171,12 @@ export async function searchCollections(
   addQueryBoolYearRange(esQuery, searchParams);
   addQueryBoolFilterTerms(esQuery, searchParams);
   addQueryAggs(esQuery, searchParams.index);
+  addGlobalAggs(esQuery, searchParams.index, searchParams.aggFilters);
 
   const client = getClient();
 
   const response: T.SearchTemplateResponse = await client.search(esQuery);
-  const options = getResponseOptions(response);
+  const options = getResponseOptions(response, searchParams);
   const metadata = getResponseMetadata(response, searchParams.resultsPerPage);
   const data = response.hits.hits.map((hit) => ({
     _id: hit._id,
@@ -198,17 +201,65 @@ export async function searchCollections(
  * @param response The response from the ES search
  * @returns Array of aggregations with options/buckets
  */
-function getResponseOptions(response: T.SearchTemplateResponse): AggOptions {
+function getResponseOptions(
+  response: T.SearchTemplateResponse,
+  searchParams: SearchParams
+): AggOptions {
   const options: AggOptions = {};
-  if (response?.aggregations) {
-    Object.keys(response?.aggregations).forEach((field) => {
-      if (response.aggregations?.[field] !== undefined) {
-        const aggAgg: T.AggregationsAggregate = response.aggregations?.[field];
-        if ('buckets' in aggAgg && aggAgg?.buckets)
-          options[field] = aggAgg.buckets;
+  if (!response?.aggregations) return options;
+
+  const globalAggs = response.aggregations.global_aggs as
+    | T.AggregationsAggregate
+    | undefined;
+
+  for (const field of Object.keys(response.aggregations)) {
+    if (field === 'global_aggs') continue;
+    const aggAgg = response.aggregations[field] as T.AggregationsAggregate;
+    if (!('buckets' in aggAgg) || !Array.isArray(aggAgg.buckets)) continue;
+
+    const selectedValues = searchParams.aggFilters[field] || [];
+    const buckets = aggAgg.buckets as Array<T.AggregationsStringTermsBucketKeys>;
+
+    const fieldOptions: AggOption[] = buckets.map((bucket) => ({
+      key: String(bucket.key),
+      doc_count:
+        typeof bucket.doc_count === 'number' ? bucket.doc_count : Number(bucket.doc_count),
+      selected: selectedValues.includes(String(bucket.key)),
+    }));
+
+    const globalField =
+      globalAggs && typeof globalAggs === 'object' ? (globalAggs as any)[field] : undefined;
+
+    if (globalField && 'buckets' in globalField && Array.isArray(globalField.buckets)) {
+      for (const bucket of globalField.buckets as Array<T.AggregationsStringTermsBucketKeys>) {
+        const key = String(bucket.key);
+        if (!fieldOptions.find((option) => option.key === key)) {
+          const isSelected = selectedValues.includes(key);
+          fieldOptions.push({
+            key,
+            doc_count: isSelected ? 0 : null,
+            selected: isSelected,
+          });
+        }
       }
-    });
+    }
+
+    if (fieldOptions.length > 0) {
+      options[field] = fieldOptions;
+    }
   }
+
+  // Ensure selected filters appear even if aggregations missing entirely
+  for (const [field, values] of Object.entries(searchParams.aggFilters)) {
+    if (!values || values.length === 0) continue;
+    if (options[field]) continue;
+    options[field] = values.map((value) => ({
+      key: value,
+      doc_count: 0,
+      selected: true,
+    }));
+  }
+
   return options;
 }
 
@@ -255,15 +306,17 @@ async function getFilterTerm(
 ): Promise<TermDocument | undefined> {
   if (indicesMeta[searchParams.index]?.filters?.length > 0) {
     for (const filter of indicesMeta[searchParams.index].filters) {
+      const filterValues = searchParams.aggFilters?.[filter];
       if (
-        searchParams.aggFilters?.[filter] &&
+        Array.isArray(filterValues) &&
+        filterValues.length > 0 &&
         filter === 'primaryConstituent.canonicalName'
       ) {
         // TODO: Only returns primaryConstituent.canonicalName filter term
         // TODO: term fix naming conventions
         const response = await getTerm(
           'primaryConstituent.canonicalName',
-          searchParams.aggFilters?.[filter],
+          filterValues[0],
           client
         );
         return response?.data as TermDocument;

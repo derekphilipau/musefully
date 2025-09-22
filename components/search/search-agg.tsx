@@ -63,33 +63,45 @@ function SearchAggComponent({
 
   const checkboxChange = useCallback(
     (key: string, checked: string | boolean) => {
+      if (!aggName) return;
+
       const myChecked = getBooleanValue(checked);
       let option = options?.find((o) => o.key === key);
       if (searchOptions && !option)
         option = searchOptions?.find((o) => o.key === key);
-      if (option) {
-        if (!aggName) return;
-        if (checked) {
-          const c = checkedKeys;
-          c.push(key);
-          setCheckedKeys(c);
+      if (!option) return;
+
+      setCheckedKeys((prev) => {
+        const next = new Set(prev);
+        if (myChecked) {
+          next.add(key);
         } else {
-          setCheckedKeys(checkedKeys.filter((e) => e !== key));
+          next.delete(key);
         }
-        const updatedParams = toURLSearchParams(searchParams);
-        if (myChecked) updatedParams.set(aggName, key);
-        else updatedParams.delete(aggName || '');
-        updatedParams.delete('p');
-        navigateToSearch(updatedParams);
+        return Array.from(next);
+      });
+
+      const updatedParams = toURLSearchParams(searchParams);
+      const existingValues = updatedParams
+        .getAll(aggName)
+        .filter((value) => value !== key);
+
+      updatedParams.delete(aggName);
+      if (myChecked) {
+        existingValues.push(key);
       }
+      for (const value of Array.from(new Set(existingValues))) {
+        updatedParams.append(aggName, value);
+      }
+      updatedParams.delete('p');
+      navigateToSearch(updatedParams);
     },
     [
+      aggName,
+      navigateToSearch,
       options,
       searchOptions,
-      aggName,
-      checkedKeys,
       searchParams,
-      navigateToSearch,
     ]
   );
 
@@ -101,14 +113,17 @@ function SearchAggComponent({
   );
 
   useEffect(() => {
-    if (!isDefaultOpen) setIsOpen(false);
-    const c: string[] = [];
-    if (searchParams.aggFilters?.[aggName]) {
-      c.push(searchParams.aggFilters[aggName]);
+    const selected = Array.isArray(searchParams.aggFilters?.[aggName])
+      ? [...searchParams.aggFilters[aggName]]
+      : [];
+    setCheckedKeys(selected);
+
+    if (isDefaultOpen) {
+      setIsOpen(true);
+    } else {
+      setIsOpen(selected.length > 0);
     }
-    setCheckedKeys(c);
-    if (c.length > 0) setIsOpen(true);
-  }, [aggName, searchParams.aggFilters, isDefaultOpen]);
+  }, [aggName, isDefaultOpen, searchParams.aggFilters]);
 
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -171,7 +186,7 @@ function SearchAggComponent({
                   >
                     {option.key}
                     <span className="text-muted-foreground">
-                      {option.doc_count ? ` ${option.doc_count}` : ''}
+                      {option.doc_count !== null ? ` ${option.doc_count}` : ''}
                     </span>
                   </Label>
                 </div>
@@ -202,7 +217,7 @@ function SearchAggComponent({
                   >
                     {option.key}
                     <span className="text-muted-foreground">
-                      {option.doc_count ? ` ${option.doc_count}` : ''}
+                      {option.doc_count !== null ? ` ${option.doc_count}` : ''}
                     </span>
                   </Label>
                 </div>

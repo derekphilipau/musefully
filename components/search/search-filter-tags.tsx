@@ -11,7 +11,10 @@ function SearchFilterTagsComponent({
   searchParams: params,
 }: SearchFilterTagsProps) {
   const filterArr = useMemo(() => {
-    return params ? Object.entries(params.aggFilters) : [];
+    if (!params) return [];
+    return Object.entries(params.aggFilters).flatMap(([name, values]) =>
+      Array.isArray(values) ? values.map((value) => [name, value] as const) : []
+    );
   }, [params]);
 
   if (!(filterArr.length > 0) && !params.hexColor) {
@@ -25,7 +28,7 @@ function SearchFilterTagsComponent({
           (filter, i) =>
             filter && (
               <SearchFilterTag
-                key={i}
+                key={`${filter[0]}-${filter[1]}-${i}`}
                 params={params}
                 name={filter[0]}
                 value={filter[1]}

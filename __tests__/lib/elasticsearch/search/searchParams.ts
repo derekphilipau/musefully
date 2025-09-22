@@ -7,6 +7,8 @@ import {
   LAYOUT_DEFAULT,
   MAX_PAGES,
   SearchParams,
+  toURLSearchParams,
+  transformSearchParams,
 } from '@/lib/elasticsearch/search/searchParams';
 
 describe('getSanitizedSearchParams', () => {
@@ -110,5 +112,36 @@ describe('getSanitizedSearchParams', () => {
 
     const t4 = 'facc1';
     expect(isHexColor(t2)).toBe(false);
+  });
+
+  it('should retain repeated aggregation filters as arrays', () => {
+    const sanitizedParams = getSanitizedSearchParams(validIndex, {
+      source: ['sanity', 'archivesspace'],
+    }) as SearchParams;
+
+    expect(sanitizedParams.aggFilters.source).toEqual([
+      'sanity',
+      'archivesspace',
+    ]);
+  });
+
+  it('should transform URLSearchParams into GenericSearchParams with arrays', () => {
+    const params = new URLSearchParams();
+    params.append('source', 'sanity');
+    params.append('source', 'archivesspace');
+    params.set('q', 'painting');
+
+    const result = transformSearchParams(params);
+    expect(result.source).toEqual(['sanity', 'archivesspace']);
+    expect(result.q).toBe('painting');
+  });
+
+  it('should append multiple values when converting to URLSearchParams', () => {
+    const sanitizedParams = getSanitizedSearchParams(validIndex, {
+      source: ['sanity', 'archivesspace'],
+    }) as SearchParams;
+
+    const urlParams = toURLSearchParams(sanitizedParams);
+    expect(urlParams.getAll('source')).toEqual(['sanity', 'archivesspace']);
   });
 });

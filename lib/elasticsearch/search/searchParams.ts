@@ -51,7 +51,7 @@ export interface SearchParams {
   layout: LayoutType; // layout type
   cardType?: string; // card type
   isShowFilters: boolean; // show filters?
-  aggFilters: Record<string, string>; // aggregation filters
+  aggFilters: Record<string, string[]>; // aggregation filters
   startYear?: number;
   endYear?: number;
 }
@@ -60,6 +60,29 @@ export interface SearchParams {
 export type GenericSearchParams = {
   [key: string]: string | string[] | undefined;
 };
+
+/**
+ * Converts URL search parameters into an object where each key is a parameter
+ * name and each value retains all occurrences (single string or string[]).
+ */
+export function transformSearchParams(
+  searchParams: URLSearchParams
+): GenericSearchParams {
+  const paramsObj: GenericSearchParams = {};
+
+  searchParams.forEach((value, key) => {
+    if (key in paramsObj) {
+      if (!Array.isArray(paramsObj[key])) {
+        paramsObj[key] = [paramsObj[key] as string];
+      }
+      (paramsObj[key] as string[]).push(value);
+    } else {
+      paramsObj[key] = value;
+    }
+  });
+
+  return paramsObj;
+}
 
 /**
  * Validate and transform raw search parameters.
@@ -136,8 +159,9 @@ export function getSanitizedSearchParams(
     Array.isArray(indicesMeta[sanitizedParams.index]?.aggs)
   ) {
     for (const aggName of indicesMeta[sanitizedParams.index].aggs) {
-      if (typeof params[aggName] === 'string' && params[aggName]) {
-        sanitizedParams.aggFilters[aggName] = params[aggName] as string;
+      const values = normalizeFilterValues(params[aggName]);
+      if (values.length > 0) {
+        sanitizedParams.aggFilters[aggName] = values;
       }
     }
   }
@@ -244,9 +268,12 @@ export function toURLSearchParams(
 
   // Setting aggFilters (assuming their values are strings or can be stringified)
   for (const key in searchParams.aggFilters) {
-    const value = searchParams.aggFilters[key]?.toString();
-    if (value) {
-      urlParams.set(key, value);
+    const values = searchParams.aggFilters[key];
+    if (!Array.isArray(values)) continue;
+    for (const value of values) {
+      if (value) {
+        urlParams.append(key, value);
+      }
     }
   }
 
@@ -417,6 +444,19 @@ export function setYearRange(
   updatedParams.endYear = endYear || undefined;
   updatedParams.pageNumber = 1;
   return updatedParams;
+}
+
+function normalizeFilterValues(
+  rawValue: string | string[] | undefined
+): string[] {
+  if (!rawValue) return [];
+
+  const values = Array.isArray(rawValue) ? rawValue : [rawValue];
+  const decoded = values
+    .map((value) => decodeURIComponent(value.replace(/\+/g, ' ')).trim())
+    .filter((value) => value.length > 0);
+
+  return Array.from(new Set(decoded));
 }
 
 /**

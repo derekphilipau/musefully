@@ -1,7 +1,10 @@
 import { NextResponse } from 'next/server';
 
 import { search } from '@/lib/elasticsearch/search/search';
-import { getSanitizedSearchParams } from '@/lib/elasticsearch/search/searchParams';
+import {
+  getSanitizedSearchParams,
+  transformSearchParams,
+} from '@/lib/elasticsearch/search/searchParams';
 
 /**
  * @swagger
@@ -76,7 +79,7 @@ import { getSanitizedSearchParams } from '@/lib/elasticsearch/search/searchParam
  */
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const params = Object.fromEntries(searchParams.entries());
+  const params = transformSearchParams(searchParams);
 
   const sanitizedParams = getSanitizedSearchParams(
     searchParams.get('index') || '',

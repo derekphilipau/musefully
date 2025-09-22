@@ -5,7 +5,8 @@
  */
 export interface AggOption {
   key: string;
-  doc_count: number;
+  doc_count: number | null;
+  selected?: boolean;
 }
 
 export interface Agg {
