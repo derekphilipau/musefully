@@ -47,13 +47,7 @@ elastic.md
 test-results/*
 
 # data files
-data/whitney/artworks.csv
-data/met/*
-data/cma/*
-data/ULAN/json/ulanArtists.jsonl
-data/ULAN/json/ulanCorporateBodies.jsonl
-data/ULAN/raw/*
-data/*/*.jsonl
+data/
 util/import/ingesters/whitney/collectionsIngester.ts
 
 AGENTS.md
