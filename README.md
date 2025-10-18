@@ -36,6 +36,8 @@ This project has been deployed on Vercel at [https://musefully.org](https://muse
 
 Similarity based on OpenAI CLIP Embeddings stored in Elasticsearch dense vectors worked very well, but was too costly for the purposes of this project. [See results here.](./docs/EMBEDDINGS.md).
 
+See [museum-semantic-search](https://github.com/derekphilipau/museum-semantic-search) for a demostration of AI-generated visual descriptions and image & text embeddings-powered search.
+
 ## License
 
 Licensed under the [MIT license](./LICENSE.md).
