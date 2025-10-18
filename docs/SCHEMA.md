@@ -38,7 +38,7 @@ It's often necessary to augment backend collection data with additional metadata
 
 ### Getty Union List of Artist Names (ULAN) Data
 
-ULAN XML was downloaded from [Getty's website](http://ulandownloads.getty.edu/) and converted to JSON using the `ulanXmlToJsonConvert.ts` script. When updating the `terms` index, the script attempts to find a matching artist name from this JSON file. If found, the ULAN artist data is added to the terms index document.
+The universal artwork exports already include ULAN identifiers for constituents when the source museum provides them (for example `ulanId` / `ulanUrl` on each constituent). No additional conversion step or lookup is required during import.
 
 ## Elasticsearch Indices
 
@@ -117,14 +117,6 @@ Image:
 - `rank` - The rank of the image, used for sorting
 - `embedding` - Experimental Feature. CLIP image embedding for similarity & text search. Removed. [See examples here.](./doc/embeddings.md)
 
-Museum Location:
-
-- `id` - Source-dependent ID of the location
-- `name` - Name of the location, e.g. ""
-- `isPublic` - Whether the location is public
-- `isFloor` - Whether the location is a floor
-- `parentId` - The ID of the parent location
-
 #### Base Document
 
 The base document defines common fields for all indices, these are the fields used for cross-index search. The Elasticsearch Base Document fields are defined in `indices.ts` and the associated Typescript interface is defined in `/types/document.ts`.
@@ -173,7 +165,6 @@ Includes all Base Document fields as well as:
 - `copyrightRestricted` - Boolean, if true images are restricted.
 - `highlight` - Boolean whether or not object is highlighted. TODO: Remove, Brooklyn Museum-specific.
 - `section` - Museum-specific gallery section, e.g. "Old Kingdom"
-- `museumLocation` - Museum Location. Museum-specific location within museum
 - `onView` - Whether or not the object is currently on view.
 - `rightsType` - Specifies copyright type, e.g. "Creative Commons-BY"
 - `labels` - Array of gallery labels. TODO: Define type & add to searchText?

@@ -7,6 +7,12 @@ interface ArtistTermCardProps {
   filters: TermDocument[];
 }
 
+function toUlanUrl(ulanIdOrUrl: string | undefined): string | null {
+  if (!ulanIdOrUrl) return null;
+  if (ulanIdOrUrl.startsWith('http')) return ulanIdOrUrl;
+  return `https://www.getty.edu/vow/ULANFullDisplay?find=${ulanIdOrUrl}&role=&nation=&subjectid=${ulanIdOrUrl}`;
+}
+
 export function ArtistTermCard({ filters }: ArtistTermCardProps) {
   const dict = getDictionary();
   const term = filters.find(
@@ -17,9 +23,7 @@ export function ArtistTermCard({ filters }: ArtistTermCardProps) {
     return null;
   }
 
-  const ulanLink = term.data?.id
-    ? `https://www.getty.edu/vow/ULANFullDisplay?find=${term.data.id}&role=&nation=&subjectid=${term.data.id}`
-    : null;
+  const ulanLink = toUlanUrl((term.data as any)?.id);
 
   return (
     <div className="mb-4">
@@ -27,13 +31,13 @@ export function ArtistTermCard({ filters }: ArtistTermCardProps) {
         {dict[`field.primaryConstituent.canonicalName`]}
       </h4>
       {term.value && <h4 className="text-xl md:text-2xl">{term.value}</h4>}
-      {term.data?.biography && (
+      {(term.data as any)?.biography && (
         <p className="mb-4 text-neutral-700 dark:text-neutral-400">
-          {term.data.biography}
+          {(term.data as any).biography}
         </p>
       )}
-      {term.data?.descriptiveNotes && (
-        <p className="">{term.data.descriptiveNotes}</p>
+      {(term.data as any)?.descriptiveNotes && (
+        <p className="">{(term.data as any).descriptiveNotes}</p>
       )}
       {ulanLink && (
         <p className="mb-4 mt-2">

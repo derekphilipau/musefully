@@ -12,17 +12,25 @@ function getEnvVar(key: string, defaultValue?: string): string {
   return value;
 }
 
-const useCloud = getEnvVar('ELASTICSEARCH_USE_CLOUD');
-const id = getEnvVar('ELASTICSEARCH_CLOUD_ID');
-const username = getEnvVar('ELASTICSEARCH_CLOUD_USERNAME');
-const password = getEnvVar('ELASTICSEARCH_CLOUD_PASSWORD');
-const localNode = getEnvVar('ELASTICSEARCH_LOCAL_NODE', '');
+const DEFAULT_LOCAL_NODE = 'http://localhost:9200';
+
+const useCloud = getEnvVar('ELASTICSEARCH_USE_CLOUD', 'false');
 
 export function getClient(): Client {
   const clientConfig =
     useCloud === 'true'
-      ? { cloud: { id }, auth: { username, password } }
-      : { node: localNode };
+      ? {
+          cloud: {
+            id: getEnvVar('ELASTICSEARCH_CLOUD_ID'),
+          },
+          auth: {
+            username: getEnvVar('ELASTICSEARCH_CLOUD_USERNAME'),
+            password: getEnvVar('ELASTICSEARCH_CLOUD_PASSWORD'),
+          },
+        }
+      : {
+          node: getEnvVar('ELASTICSEARCH_LOCAL_NODE', DEFAULT_LOCAL_NODE),
+        };
 
   const client = new Client(clientConfig);
   if (client === undefined) throw new Error('Cannot connect to Elasticsearch.');

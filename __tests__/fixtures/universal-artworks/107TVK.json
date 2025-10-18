@@ -1,0 +1,269 @@
+{
+  "kind": "artwork",
+  "source": "getty",
+  "sourceName": "J. Paul Getty Museum",
+  "sourceId": "107TVK",
+  "id": "getty_107TVK",
+  "uri": "https://www.getty.edu/art/collection/object/107TVK",
+  "title": "The Miraculous Communion of Saint Catherine of Siena",
+  "accessionNumber": "97.PB.26",
+  "objectNumber": "97.PB.26",
+  "classification": "Painting",
+  "culture": "Italian",
+  "geographicalLocations": [
+    {
+      "name": "Italy",
+      "country": "Italy",
+      "continent": "Europe",
+      "type": "country"
+    }
+  ],
+  "primaryGeographicalLocation": {
+    "name": "Italy",
+    "country": "Italy",
+    "continent": "Europe",
+    "type": "country"
+  },
+  "formattedDate": "about 1513–1515",
+  "startYear": 1513,
+  "endYear": 1513,
+  "rights": {
+    "status": "cc0",
+    "openAccess": true
+  },
+  "publicAccess": true,
+  "copyrightRestricted": false,
+  "primaryConstituent": {
+    "id": "person/8aa07bb6-0125-4391-bb8c-370337d9a29b",
+    "name": "Domenico Beccafumi",
+    "role": "artist",
+    "agentType": "Person",
+    "biography": "Domenico Beccafumi (Italian, 1484 - 1551)",
+    "suffix": "Italian, 1484 - 1551",
+    "ulanId": "500012009",
+    "ulanUrl": "http://vocab.getty.edu/ulan/500012009",
+    "canonicalName": "Beccafumi, Domenico"
+  },
+  "constituents": [
+    {
+      "id": "person/8aa07bb6-0125-4391-bb8c-370337d9a29b",
+      "name": "Domenico Beccafumi",
+      "role": "artist",
+      "agentType": "Person",
+      "biography": "Domenico Beccafumi (Italian, 1484 - 1551)",
+      "suffix": "Italian, 1484 - 1551",
+      "ulanId": "500012009",
+      "ulanUrl": "http://vocab.getty.edu/ulan/500012009",
+      "canonicalName": "Beccafumi, Domenico"
+    }
+  ],
+  "image": {
+    "filename": "107TVK.webp",
+    "width": 1465,
+    "height": 1023,
+    "bytes": 121350,
+    "format": "webp",
+    "thumbnailFilename": "107TVK.webp",
+    "thumbnailWidth": 400,
+    "thumbnailHeight": 279,
+    "rights": {
+      "status": "cc0",
+      "openAccess": true
+    },
+    "alt": "Object Overall",
+    "dominantColors": [
+      {
+        "hex": "#221A11",
+        "percent": 0.263377,
+        "rgb": {
+          "r": 34,
+          "g": 26,
+          "b": 17
+        },
+        "lab": {
+          "l": 10.11,
+          "a": 2.54,
+          "b": 6.48
+        }
+      },
+      {
+        "hex": "#3C2A15",
+        "percent": 0.248815,
+        "rgb": {
+          "r": 60,
+          "g": 42,
+          "b": 21
+        },
+        "lab": {
+          "l": 18.88,
+          "a": 5.6,
+          "b": 16.25
+        }
+      },
+      {
+        "hex": "#54462B",
+        "percent": 0.234083,
+        "rgb": {
+          "r": 84,
+          "g": 70,
+          "b": 43
+        },
+        "lab": {
+          "l": 30.41,
+          "a": 1.93,
+          "b": 18.06
+        }
+      },
+      {
+        "hex": "#907759",
+        "percent": 0.167598,
+        "rgb": {
+          "r": 144,
+          "g": 119,
+          "b": 89
+        },
+        "lab": {
+          "l": 51.73,
+          "a": 4.86,
+          "b": 20.61
+        }
+      },
+      {
+        "hex": "#70461C",
+        "percent": 0.086127,
+        "rgb": {
+          "r": 112,
+          "g": 70,
+          "b": 28
+        },
+        "lab": {
+          "l": 33.72,
+          "a": 14.38,
+          "b": 30.96
+        }
+      }
+    ]
+  },
+  "hasImage": true,
+  "openAccess": true,
+  "raw": {
+    "id": "object/fd49d081-7ed8-4806-ae41-b43c211f0280",
+    "primary_name": "The Miraculous Communion of Saint Catherine of Siena",
+    "is_standalone": true,
+    "is_parent": false,
+    "is_root": false,
+    "producers": [
+      {
+        "id": "person/8aa07bb6-0125-4391-bb8c-370337d9a29b",
+        "primary_name": "Domenico Beccafumi",
+        "primary_name--text": "Domenico Beccafumi",
+        "all_names": [
+          "Mecherino",
+          "Beccafumi, Domenico",
+          "Domenico Beccafumi",
+          "Beccafiume",
+          "Beccafumi senese",
+          "Da Siena, Macarino",
+          "Domenico di Giacomo di Pace",
+          "Domenico di Pace",
+          "Macarino da Siena",
+          "Maccarino",
+          "Macharino",
+          "Macherino",
+          "Mecarino",
+          "Mecuccio",
+          "Beccafumi, Mecuccio",
+          "Beccafumi, Mecarino",
+          "Beccafumi, Domenico di Giacomo di Pace",
+          "Mecarino, Mecherino",
+          "Domenico di Giuliano da Parma",
+          "Mecarino, Domenico",
+          "Mecharino, Domenico",
+          "Mecherino, Domenico",
+          "Mecuccio, Domenico",
+          "Micarino, Domenico"
+        ],
+        "slug_with_path": "/person/103JYK",
+        "suffix": "Italian, 1484 - 1551",
+        "description": "Domenico Beccafumi (Italian, 1484 - 1551)",
+        "role": [
+          "Artist"
+        ]
+      }
+    ],
+    "culture": [
+      "Italian"
+    ],
+    "object_number": "97.PB.26",
+    "accession_number": "97.PB.26",
+    "date_created": "about 1513–1515",
+    "manifest": {
+      "url": "https://media.getty.edu/iiif/manifest/1f6292d1-85ab-44cb-a3d4-081ea66525a0",
+      "attribution": "<p>Images provided here are believed to be in the public domain and are available under <a href='https://creativecommons.org/publicdomain/zero/1.0/'>CC0</a> through Getty&rsquo;s <a href='http://www.getty.edu/about/opencontent.html'>Open Content Program</a>. Texts provided here are &copy; J. Paul Getty Trust, licensed under <a href='https://creativecommons.org/licenses/by/4.0/legalcode'>CC BY 4.0</a>. Terms of use for the Getty logo can be found <a href='http://www.getty.edu/legal/copyright.html#logo'> here</a>.</p>",
+      "license": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "thumb": "https://media.getty.edu/iiif/image/05f3b9f5-2cd7-4a68-ad04-bd4f36fedc36/full/!300,300/0/default.jpg",
+      "thumbUuid": "05f3b9f5-2cd7-4a68-ad04-bd4f36fedc36",
+      "numItems": 3,
+      "altText": "Object Overall"
+    },
+    "slug_with_path": "/object/107TVK",
+    "id_manager_slug": "107TVK",
+    "id_manager_path": "object"
+  },
+  "ingestMetadata": {
+    "transformedAt": "2025-10-17T23:59:19.494Z",
+    "sourceFile": "107TVK.json"
+  },
+  "derived": {
+    "dominantColors": {
+      "version": "dominant-colors/v2",
+      "generatedAt": "2025-10-14T02:30:18.199Z",
+      "stats": {
+        "algorithm": "mmcq+kmeans-lab",
+        "totalSamples": 112000,
+        "representedPixels": 447200,
+        "iterations": 9,
+        "quantize": {
+          "palette": [
+            {
+              "hex": "#987A58",
+              "class": "chromatic",
+              "score": 288503919.92
+            },
+            {
+              "hex": "#372916",
+              "class": "neutral",
+              "score": 252256396.28
+            },
+            {
+              "hex": "#775D3C",
+              "class": "chromatic",
+              "score": 34736227.852
+            },
+            {
+              "hex": "#54472B",
+              "class": "chromatic",
+              "score": 14670870.072
+            },
+            {
+              "hex": "#1C0A08",
+              "class": "neutral",
+              "score": 6172513.762
+            }
+          ],
+          "desiredNeutral": 2,
+          "desiredChroma": 3
+        }
+      },
+      "image": {
+        "variant": "analysis",
+        "filename": "107TVK.jpg",
+        "relativePath": "analysis/107TVK.jpg",
+        "width": 1197,
+        "height": 836,
+        "bytes": 153910,
+        "format": "jpeg"
+      }
+    }
+  }
+}

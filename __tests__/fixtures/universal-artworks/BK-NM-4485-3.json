@@ -1,0 +1,482 @@
+{
+  "kind": "artwork",
+  "source": "rijks",
+  "sourceName": "Rijksmuseum",
+  "sourceId": "BK-NM-4485-3",
+  "id": "rijks_BK-NM-4485-3",
+  "uri": "https://www.rijksmuseum.nl/en/collection/BK-NM-4485-3",
+  "title": "Kleine ornamenten horend bij een plafond",
+  "alternateTitles": [
+    {
+      "value": "Kleine ornamenten horend bij een plafond, Theodoor van der Schuer, c. 1666 - c. 1695",
+      "type": "display"
+    }
+  ],
+  "classification": [
+    "Architectural element"
+  ],
+  "formattedClassification": "architectural element",
+  "genres": [],
+  "materials": [
+    "panel",
+    "oil paint (paint)"
+  ],
+  "techniques": [],
+  "medium": [
+    "panel"
+  ],
+  "formattedMedium": "panel",
+  "dimensions": "length: 215 cm • width: 29 cm • height: 15 cm • length: 394 cm • width: 29 cm • height: 14 cm • length: 370 cm • width: 29 cm • height: 18.5 cm • length: 305 cm • width: 29 cm • height: 18 cm • length: 370 cm • width: 29 cm • height: 18.5 cm • height: 99.5 cm • width: 399.5 cm • depth: 43 cm",
+  "measurements": {
+    "height": 14,
+    "width": 29,
+    "depth": 43,
+    "area": 406,
+    "volume": 17458
+  },
+  "formattedDate": "c. 1666 - c. 1695 • 1666 • 1695",
+  "startYear": 1666,
+  "endYear": 1695,
+  "rights": {
+    "status": "public-domain",
+    "openAccess": true
+  },
+  "publicAccess": true,
+  "copyrightRestricted": false,
+  "primaryConstituent": {
+    "name": "Theodoor van der Schuer",
+    "role": "painter",
+    "agentType": "Person",
+    "biography": "1634 – 1707-12",
+    "canonicalName": "Theodoor van der Schuer"
+  },
+  "constituents": [
+    {
+      "name": "Theodoor van der Schuer",
+      "role": "painter",
+      "agentType": "Person",
+      "biography": "1634 – 1707-12",
+      "canonicalName": "Theodoor van der Schuer"
+    }
+  ],
+  "description": "Het plafond is afkomstig uit het stadhouderlijk kwartier van het Binnenhof, vermoedelijk uit het slaapvertrek van Mary Stuart 1678.",
+  "image": {
+    "filename": "BK-NM-4485-3.webp",
+    "width": 1000,
+    "height": 1500,
+    "bytes": 49474,
+    "format": "webp",
+    "thumbnailFilename": "BK-NM-4485-3.webp",
+    "thumbnailWidth": 266,
+    "thumbnailHeight": 400,
+    "rights": {
+      "status": "public-domain",
+      "openAccess": true
+    },
+    "dominantColors": [
+      {
+        "hex": "#545251",
+        "percent": 0.339476,
+        "rgb": {
+          "r": 84,
+          "g": 82,
+          "b": 81
+        },
+        "lab": {
+          "l": 34.81,
+          "a": 1.06,
+          "b": 0.74
+        }
+      },
+      {
+        "hex": "#141312",
+        "percent": 0.246985,
+        "rgb": {
+          "r": 20,
+          "g": 19,
+          "b": 18
+        },
+        "lab": {
+          "l": 6.83,
+          "a": 0.15,
+          "b": 0.8
+        }
+      },
+      {
+        "hex": "#888E98",
+        "percent": 0.194672,
+        "rgb": {
+          "r": 136,
+          "g": 142,
+          "b": 152
+        },
+        "lab": {
+          "l": 58.66,
+          "a": 0.24,
+          "b": -6.27
+        }
+      },
+      {
+        "hex": "#A0988C",
+        "percent": 0.151564,
+        "rgb": {
+          "r": 160,
+          "g": 152,
+          "b": 140
+        },
+        "lab": {
+          "l": 63.21,
+          "a": 0.47,
+          "b": 7.57
+        }
+      },
+      {
+        "hex": "#BABBBA",
+        "percent": 0.067303,
+        "rgb": {
+          "r": 186,
+          "g": 187,
+          "b": 186
+        },
+        "lab": {
+          "l": 75.58,
+          "a": -0.32,
+          "b": 0.46
+        }
+      }
+    ]
+  },
+  "hasImage": true,
+  "openAccess": true,
+  "geographicalLocations": [
+    {
+      "name": "Netherlands",
+      "country": "Netherlands",
+      "continent": "Europe",
+      "type": "country"
+    }
+  ],
+  "primaryGeographicalLocation": {
+    "name": "Netherlands",
+    "country": "Netherlands",
+    "continent": "Europe",
+    "type": "country"
+  },
+  "raw": {
+    "links": {
+      "search": "http://www.rijksmuseum.nl/api/nl/collection"
+    },
+    "id": "en-BK-NM-4485-3",
+    "priref": "638987",
+    "objectNumber": "BK-NM-4485-3",
+    "language": "en",
+    "title": "Kleine ornamenten horend bij een plafond",
+    "copyrightHolder": null,
+    "webImage": {
+      "guid": "5fe041da-d5e1-4ab7-a56e-a04afd1c5927",
+      "offsetPercentageX": 50,
+      "offsetPercentageY": 50,
+      "width": 3456,
+      "height": 5184,
+      "url": "https://lh3.googleusercontent.com/OvY57GyvXrGXn-3kgviOfB8UAKz40exEP5CU2jNSqPbCSbO4d4HWKlpiK5XjktUxYTHgeJFBVibjvZJJsdePLpr0DW7wk5yubO6wt-0n=s0"
+    },
+    "colors": [],
+    "colorsWithNormalization": [],
+    "normalizedColors": [],
+    "normalized32Colors": [],
+    "materialsThesaurus": [],
+    "techniquesThesaurus": [],
+    "productionPlacesThesaurus": [],
+    "titles": [
+      "Kleine ornamenten horend bij een plafond"
+    ],
+    "description": "Het plafond is afkomstig uit het stadhouderlijk kwartier van het Binnenhof, vermoedelijk uit het slaapvertrek van Mary Stuart 1678.",
+    "labelText": null,
+    "objectTypes": [
+      "architectural element",
+      "ceiling",
+      "ceiling painting",
+      "painting"
+    ],
+    "objectCollection": [],
+    "makers": [],
+    "principalMakers": [
+      {
+        "name": "Theodoor van der Schuer",
+        "unFixedName": "Schuer, Theodoor van der",
+        "placeOfBirth": "Den Haag",
+        "dateOfBirth": "1634",
+        "dateOfBirthPrecision": null,
+        "dateOfDeath": "1707-12",
+        "dateOfDeathPrecision": null,
+        "placeOfDeath": "Den Haag",
+        "occupation": [
+          "draughtsman",
+          "painter"
+        ],
+        "roles": [
+          "painter"
+        ],
+        "nationality": null,
+        "biography": null,
+        "productionPlaces": [
+          "Netherlands"
+        ],
+        "qualification": null,
+        "labelDesc": "Theodoor van der Schuer (1634 - dec-1707), Netherlands"
+      }
+    ],
+    "plaqueDescriptionDutch": null,
+    "plaqueDescriptionEnglish": null,
+    "principalMaker": "Theodoor van der Schuer",
+    "artistRole": null,
+    "associations": [],
+    "acquisition": {
+      "method": "unknown",
+      "date": "1879-01-01T00:00:00",
+      "creditLine": null
+    },
+    "exhibitions": [],
+    "materials": [
+      "panel",
+      "oil paint (paint)"
+    ],
+    "techniques": [],
+    "productionPlaces": [
+      "Netherlands"
+    ],
+    "dating": {
+      "presentingDate": "c. 1666 - c. 1695",
+      "sortingDate": 1666,
+      "period": 17,
+      "yearEarly": 1666,
+      "yearLate": 1695
+    },
+    "classification": {
+      "iconClassIdentifier": [],
+      "iconClassDescription": [],
+      "motifs": [],
+      "events": [],
+      "periods": [
+        "16621694"
+      ],
+      "places": [
+        "Binnenhof"
+      ],
+      "people": [
+        "Maria II Stuart (koningin van Engeland, Schotland en Ierland)"
+      ],
+      "objectNumbers": [
+        "BK-NM-4485-3"
+      ]
+    },
+    "hasImage": true,
+    "historicalPersons": [
+      "Maria II Stuart (koningin van Engeland, Schotland en Ierland)"
+    ],
+    "inscriptions": [],
+    "documentation": [
+      "Documentatiemap."
+    ],
+    "catRefRPK": [],
+    "principalOrFirstMaker": "Theodoor van der Schuer",
+    "dimensions": [
+      {
+        "unit": "cm",
+        "type": "length",
+        "precision": null,
+        "part": null,
+        "value": "215"
+      },
+      {
+        "unit": "cm",
+        "type": "width",
+        "precision": null,
+        "part": null,
+        "value": "29"
+      },
+      {
+        "unit": "cm",
+        "type": "height",
+        "precision": null,
+        "part": null,
+        "value": "15"
+      },
+      {
+        "unit": "cm",
+        "type": "length",
+        "precision": null,
+        "part": null,
+        "value": "394"
+      },
+      {
+        "unit": "cm",
+        "type": "width",
+        "precision": null,
+        "part": null,
+        "value": "29"
+      },
+      {
+        "unit": "cm",
+        "type": "height",
+        "precision": null,
+        "part": null,
+        "value": "14"
+      },
+      {
+        "unit": "cm",
+        "type": "length",
+        "precision": null,
+        "part": null,
+        "value": "370"
+      },
+      {
+        "unit": "cm",
+        "type": "width",
+        "precision": null,
+        "part": null,
+        "value": "29"
+      },
+      {
+        "unit": "cm",
+        "type": "height",
+        "precision": null,
+        "part": null,
+        "value": "18.5"
+      },
+      {
+        "unit": "cm",
+        "type": "length",
+        "precision": null,
+        "part": null,
+        "value": "305"
+      },
+      {
+        "unit": "cm",
+        "type": "width",
+        "precision": null,
+        "part": null,
+        "value": "29"
+      },
+      {
+        "unit": "cm",
+        "type": "height",
+        "precision": null,
+        "part": null,
+        "value": "18"
+      },
+      {
+        "unit": "cm",
+        "type": "length",
+        "precision": null,
+        "part": null,
+        "value": "370"
+      },
+      {
+        "unit": "cm",
+        "type": "width",
+        "precision": null,
+        "part": null,
+        "value": "29"
+      },
+      {
+        "unit": "cm",
+        "type": "height",
+        "precision": null,
+        "part": null,
+        "value": "18.5"
+      },
+      {
+        "unit": "cm",
+        "type": "height",
+        "precision": null,
+        "part": null,
+        "value": "99.5"
+      },
+      {
+        "unit": "cm",
+        "type": "width",
+        "precision": null,
+        "part": null,
+        "value": "399.5"
+      },
+      {
+        "unit": "cm",
+        "type": "depth",
+        "precision": null,
+        "part": null,
+        "value": "43"
+      }
+    ],
+    "physicalProperties": [],
+    "physicalMedium": "panel",
+    "longTitle": "Kleine ornamenten horend bij een plafond, Theodoor van der Schuer, c. 1666 - c. 1695",
+    "subTitle": "l 215cm × w 29cm × h 15cm",
+    "scLabelLine": "Theodoor van der Schuer, c. 1666 - c. 1695, panel",
+    "label": {
+      "title": null,
+      "makerLine": null,
+      "description": null,
+      "notes": null,
+      "date": null
+    },
+    "showImage": true,
+    "location": null
+  },
+  "ingestMetadata": {
+    "transformedAt": "2025-10-18T00:00:11.507Z",
+    "sourceFile": "BK-NM-4485-3.json"
+  },
+  "derived": {
+    "dominantColors": {
+      "version": "dominant-colors/v2",
+      "generatedAt": "2025-10-15T11:28:02.993Z",
+      "stats": {
+        "algorithm": "mmcq+kmeans-lab",
+        "totalSamples": 106800,
+        "representedPixels": 427200,
+        "iterations": 8,
+        "quantize": {
+          "palette": [
+            {
+              "hex": "#10100F",
+              "class": "neutral",
+              "score": 475716588.224
+            },
+            {
+              "hex": "#585656",
+              "class": "neutral",
+              "score": 467262012.505
+            },
+            {
+              "hex": "#9E9D9C",
+              "class": "neutral",
+              "score": 425643073.106
+            },
+            {
+              "hex": "#C1C3C1",
+              "class": "neutral",
+              "score": 198360611.909
+            },
+            {
+              "hex": "#858689",
+              "class": "neutral",
+              "score": 53084406.176
+            }
+          ],
+          "desiredNeutral": 5,
+          "desiredChroma": 0
+        }
+      },
+      "image": {
+        "variant": "analysis",
+        "filename": "BK-NM-4485-3.jpg",
+        "relativePath": "analysis/BK-NM-4485-3.jpg",
+        "width": 817,
+        "height": 1225,
+        "bytes": 97628,
+        "format": "jpeg"
+      }
+    }
+  }
+}

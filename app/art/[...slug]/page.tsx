@@ -16,7 +16,7 @@ import { ArtworkShare } from '@/components/artwork/artwork-share';
 import { LanguageDisclaimer } from '@/components/artwork/language-disclaimer';
 import { SimilarArtworkList } from '@/components/artwork/similar-artwork-list';
 import { Icons } from '@/components/icons';
-import { DocumentImage } from '@/components/image/document-image';
+import Image from 'next/image';
 import { SourceHeader } from '@/components/source/source-header';
 import { buttonVariants } from '@/components/ui/button';
 
@@ -91,18 +91,26 @@ export default async function Page(props: PageProps) {
 
   const artwork = data?.data as ArtworkDocument;
   const similarArtworks = data?.similar as ArtworkDocument[];
+  const displayTitle = artwork?.title?.trim() || 'Untitled';
 
   return (
     <>
       <section className="container grid gap-x-12 gap-y-6 pb-8 pt-2 md:grid-cols-2 md:pb-10 md:pt-4 lg:grid-cols-8">
         <div className="flex items-start justify-center md:col-span-1 lg:col-span-3">
           <div className="flex w-full flex-col items-center">
-            <DocumentImage
-              item={artwork}
-              className="mb-4 max-h-[32rem] w-full object-contain"
-              caption={getCaption(artwork)}
-              size="m"
-            />
+            {artwork.image?.thumbnailUrl ? (
+              <Image
+                src={artwork.image.thumbnailUrl}
+                alt={`${dict['index.art.altText']} ${displayTitle}`}
+                className="mb-4 max-h-[32rem] w-full object-contain"
+                width={800}
+                height={800}
+              />
+            ) : (
+              <div className="mb-4 flex min-h-48 w-full items-center justify-center bg-neutral-100 text-neutral-400 dark:bg-neutral-800 dark:text-neutral-600">
+                {dict['search.imageUnavailable']}
+              </div>
+            )}
             {artwork?.copyrightRestricted && (
               <p className="mt-4 text-xs italic text-neutral-500 dark:text-neutral-400">
                 This image is presented as a &quot;thumbnail&quot; because it is
@@ -115,7 +123,7 @@ export default async function Page(props: PageProps) {
         <div className="md:col-span-1 lg:col-span-5">
           {isMultiSource && <SourceHeader item={artwork} />}
           <h1 className="mb-2 text-2xl font-bold leading-tight tracking-tighter sm:text-2xl md:text-3xl lg:text-4xl">
-            {artwork?.title}
+            {displayTitle}
           </h1>
           <div className="mb-4 text-neutral-700 dark:text-neutral-400">
             {artwork?.formattedDate}

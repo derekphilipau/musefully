@@ -78,7 +78,6 @@ export const ingester: GoogleSheetIngester = {
       startYear,
       endYear,
       location: sources[item.get('sourceId')]?.location,
-      museumLocation: item.get('museumLocation'),
     } as BaseDocument;
   },
 };

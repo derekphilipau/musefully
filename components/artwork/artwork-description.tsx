@@ -19,6 +19,19 @@ export function ArtworkDescription({
   const primaryConstituentName =
     item.primaryConstituent?.canonicalName || 'Maker Unknown';
 
+  const classificationDisplay =
+    item.formattedClassification ?? item.classification;
+  const classificationIsLink =
+    !item.formattedClassification &&
+    Array.isArray(item.classification) &&
+    item.classification.length > 0;
+
+  const mediumDisplay = item.formattedMedium ?? item.medium;
+  const mediumIsLink =
+    !item.formattedMedium &&
+    Array.isArray(item.medium) &&
+    item.medium.length > 0;
+
   //  http://localhost:3000/art?hasPhoto=true&f=true&startYear=2014&endYear=2014
   const startYear = item.startYear;
   const endYear = item.endYear || item.startYear;
@@ -35,9 +48,16 @@ export function ArtworkDescription({
           value={primaryConstituentName}
           isLink={true}
         />
-        <DescriptionRow name="classification" item={item} isLink={true} />
-        <DescriptionRow name="formattedMedium" item={item} isLink={false} />
-        <DescriptionRow name="medium" item={item} isLink={true} />
+        <DescriptionRow
+          name="classification"
+          value={classificationDisplay}
+          isLink={classificationIsLink}
+        />
+        <DescriptionRow
+          name="medium"
+          value={mediumDisplay}
+          isLink={mediumIsLink}
+        />
         <GeographicalDescriptionRow item={item} />
         {dateLink && <DescriptionRow name="date" item={item} link={dateLink} />}
         {!dateLink && <DescriptionRow name="date" item={item} />}
@@ -51,11 +71,6 @@ export function ArtworkDescription({
         <DescriptionRow name="creditLine" item={item} />
         <DescriptionRow name="exhibitions" item={item} isLink={true} />
         <DescriptionRow name="rightsType" item={item} />
-        <DescriptionRow
-          name="museumLocation.name"
-          value={item.museumLocation?.name}
-          isLink={true}
-        />
         {item?.image?.dominantColors?.length && (
           <div className="py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-2">
             <dt className="text-sm font-medium text-neutral-500 dark:text-neutral-400">

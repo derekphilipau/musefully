@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as readline from 'node:readline';
 import zlib from 'zlib';
 import csvParser from 'csv-parser';
+import path from 'path';
 
 import type { ElasticsearchIngester } from '@/types/elasticsearchIngester';
 import {  TermDocumentIdMap } from '@/types/document';
@@ -17,10 +18,25 @@ import { processDocumentImage } from '@/lib/image/imageProcessor';
 async function* readFileData(
   filename: string
 ): AsyncGenerator<any, void, unknown> {
+  const stat = await fs.promises.stat(filename);
+
+  if (stat.isDirectory()) {
+    const entries = await fs.promises.readdir(filename, { withFileTypes: true });
+    const sortedEntries = entries
+      .filter((entry) => !entry.name.startsWith('.'))
+      .sort((a, b) => a.name.localeCompare(b.name));
+    for (const entry of sortedEntries) {
+      const fullPath = path.join(filename, entry.name);
+      yield* readFileData(fullPath);
+    }
+    return;
+  }
+
   const isJsonl = filename.endsWith('.jsonl');
   const isCompressedJsonl = filename.endsWith('.jsonl.gz');
   const isCsv = filename.endsWith('.csv');
   const isCompressedCsv = filename.endsWith('.csv.gz');
+  const isJson = filename.endsWith('.json') && !isJsonl;
 
   let inputStream: NodeJS.ReadableStream;
   if (isCompressedJsonl || isCompressedCsv) {
@@ -47,6 +63,20 @@ async function* readFileData(
     for await (const row of csvStream) {
       yield row;
     }
+  } else if (isJson) {
+    try {
+      const raw = await fs.promises.readFile(filename, 'utf-8');
+      const data = JSON.parse(raw);
+      if (Array.isArray(data)) {
+        for (const obj of data) {
+          yield obj;
+        }
+      } else if (data) {
+        yield data;
+      }
+    } catch (err) {
+      console.error(`Error parsing JSON file ${filename}: ${err}`);
+    }
   } else {
     throw new Error(`Unsupported file format for ${filename}`);
   }
@@ -58,9 +88,14 @@ async function* readFileData(
  * @param ingester  Ingester with properties & functions to transform a dataset.
  * @param includeSourcePrefix  Whether to include the source id prefix in the document ID.
  */
+interface UpdateFromFileOptions {
+  clearSourceIds?: string[];
+}
+
 export default async function updateFromFile(
   ingester: ElasticsearchIngester,
-  includeSourcePrefix = false
+  includeSourcePrefix = false,
+  options: UpdateFromFileOptions = {}
 ) {
   const indexName = ingester.indexName;
   const dataFilename = ingester.dataFilename;
@@ -70,7 +105,28 @@ export default async function updateFromFile(
   const maxBulkOperations = bulkLimit * 2;
   const client = getClient();
   await createIndexIfNotExist(client, indexName);
+  if (Array.isArray(options.clearSourceIds) && options.clearSourceIds.length) {
+    for (const sourceId of options.clearSourceIds) {
+      if (!sourceId) continue;
+      console.log(
+        `Clearing existing ${indexName} documents for sourceId "${sourceId}"...`
+      );
+      await client.deleteByQuery({
+        index: indexName,
+        conflicts: 'proceed',
+        refresh: true,
+        body: {
+          query: {
+            term: {
+              sourceId: sourceId,
+            },
+          },
+        },
+      });
+    }
+  }
   const allIds: string[] = [];
+  const idsBySourceId = new Map<string, Set<string>>();
   let allTerms:  TermDocumentIdMap = {};
   let operations: any[] = [];
 
@@ -99,12 +155,21 @@ export default async function updateFromFile(
               ...getBulkOperationArray('update', indexName, id, doc)
             );
             allIds.push(id);
+            const docSourceId = doc.sourceId || ingester.sourceId;
+            if (docSourceId) {
+              if (!idsBySourceId.has(docSourceId)) {
+                idsBySourceId.set(docSourceId, new Set<string>());
+              }
+              idsBySourceId.get(docSourceId)!.add(id);
+            }
           }
 
           if (ingester.extractTerms !== undefined) {
             const termElements = await ingester.extractTerms(doc);
             if (termElements) {
-              allTerms = { ...allTerms, ...termElements };
+              for (const [termId, term] of Object.entries(termElements)) {
+                allTerms[termId] = term;
+              }
             }
           }
         }
@@ -142,37 +207,47 @@ export default async function updateFromFile(
   }
 
   // Delete ids not present in data file
-  const hits: any[] = await searchAll(
-    indexName,
-    {
-      match: {
-        sourceId: ingester.sourceId,
-      },
-    },
-    ['id']
-  );
+  const sourcesToSweep =
+    idsBySourceId.size > 0
+      ? idsBySourceId
+      : new Map([[ingester.sourceId, new Set(allIds)]]);
 
-  const esAllIds = hits.map((hit) => hit._id);
-
-  console.log('Got existing index ids: ' + esAllIds?.length);
-
-  const allIdsSet = new Set(allIds);
-  const idsToDelete = [...esAllIds].filter((id) => !allIdsSet.has(id));
-
-  console.log('Deleting ' + idsToDelete.length + ' ids');
-
-  const deleteChunkSize = 10000;
-  for (let i = 0; i < idsToDelete.length; i += deleteChunkSize) {
-    const chunk = idsToDelete.slice(i, i + deleteChunkSize);
-    await client.deleteByQuery({
-      index: indexName,
-      body: {
-        query: {
-          ids: {
-            values: chunk,
-          },
+  for (const [sourceId, idsSet] of sourcesToSweep.entries()) {
+    const hits: any[] = await searchAll(
+      indexName,
+      {
+        match: {
+          sourceId,
         },
       },
-    });
+      ['id']
+    );
+
+    const esAllIds = hits.map((hit) => hit._id);
+    console.log(
+      `Source ${sourceId}: found ${esAllIds.length} existing index ids.`
+    );
+
+    const idsToDelete = esAllIds.filter((id) => !idsSet.has(id));
+    if (idsToDelete.length === 0) continue;
+
+    console.log(
+      `Source ${sourceId}: deleting ${idsToDelete.length} stale ids.`
+    );
+
+    const deleteChunkSize = 10000;
+    for (let i = 0; i < idsToDelete.length; i += deleteChunkSize) {
+      const chunk = idsToDelete.slice(i, i + deleteChunkSize);
+      await client.deleteByQuery({
+        index: indexName,
+        body: {
+          query: {
+            ids: {
+              values: chunk,
+            },
+          },
+        },
+      });
+    }
   }
 }

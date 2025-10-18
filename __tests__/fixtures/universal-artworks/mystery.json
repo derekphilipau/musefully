@@ -1,0 +1,112 @@
+{
+  "kind": "artwork",
+  "source": "mystery",
+  "sourceName": "Mystery Museum",
+  "sourceId": "MM-42",
+  "id": "mystery_MM-42",
+  "uri": "https://mystery.example.org/artworks/MM-42",
+  "title": "Midnight Nebula",
+  "classification": [
+    "Painting"
+  ],
+  "formattedClassification": "Mixed media painting",
+  "genres": [
+    "Abstract"
+  ],
+  "medium": [
+    "Acrylic on panel"
+  ],
+  "formattedMedium": "Acrylic, pigment, and spray paint on panel",
+  "materials": [
+    "acrylic",
+    "pigment"
+  ],
+  "techniques": [
+    "spray",
+    "splatter"
+  ],
+  "collections": [
+    {
+      "name": "Mystery Highlights"
+    },
+    {
+      "label": "Abstract Showcase"
+    }
+  ],
+  "dimensions": "24 × 24 × 2 in.",
+  "measurements": {
+    "height": 24,
+    "width": 24,
+    "depth": 2
+  },
+  "creditLine": "Mystery Museum Collection",
+  "formattedDate": "2018–2019",
+  "startYear": 2018,
+  "endYear": 2019,
+  "rights": {
+    "status": "restricted",
+    "openAccess": false
+  },
+  "publicAccess": false,
+  "copyrightRestricted": true,
+  "primaryConstituent": {
+    "name": "Lina Vega",
+    "canonicalName": "Vega, Lina",
+    "role": "artist",
+    "rank": 1
+  },
+  "constituents": [
+    {
+      "name": "Lina Vega",
+      "canonicalName": "Vega, Lina",
+      "role": "artist",
+      "rank": 1
+    },
+    {
+      "name": "Celestial Collective",
+      "canonicalName": "Celestial Collective",
+      "role": "collaborator",
+      "rank": 2
+    }
+  ],
+  "geographicalLocations": [
+    {
+      "name": "Brooklyn",
+      "country": "United States",
+      "continent": "North America",
+      "type": "borough"
+    },
+    {
+      "name": "Brooklyn, New York",
+      "country": "United States",
+      "continent": "North America"
+    }
+  ],
+  "primaryGeographicalLocation": {
+    "name": "Brooklyn",
+    "country": "United States",
+    "continent": "North America",
+    "type": "borough"
+  },
+  "image": {
+    "filename": "mystery_42.webp",
+    "thumbnailFilename": "mystery_42.webp",
+    "dominantColors": [
+      {
+        "hex": "#1F2049",
+        "percent": 0.45,
+        "lab": {
+          "l": 31.2,
+          "a": 10.5,
+          "b": -19.8
+        }
+      }
+    ]
+  },
+  "hasImage": true,
+  "openAccess": false,
+  "ingestMetadata": {
+    "sourceFile": "mystery.json",
+    "transformedAt": "2025-01-01T00:00:00.000Z"
+  }
+}

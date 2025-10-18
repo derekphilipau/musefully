@@ -15,7 +15,7 @@ import {
 import { DominantColors } from '@/components/color/dominant-colors';
 import { ArtworkErrorBoundary } from '@/components/error/artwork-error-boundary';
 import { SourceHeader } from '@/components/source/source-header';
-import { DocumentImage } from '../image/document-image';
+import Image from 'next/image';
 
 function getContainerClass(layout: LayoutType) {
   if (layout === LAYOUT_GRID) return '';
@@ -44,11 +44,12 @@ function ArtworkCardComponent({
 }: ArtworkCardProps) {
   if (!item) return null;
   const dict = getDictionary();
+  const displayTitle = item.title?.trim() || 'Untitled';
 
   const primaryConstituentName =
     item.primaryConstituent?.name || 'Maker Unknown';
 
-  const href = getArtworkUrlWithSlug(item._id, item.title);
+  const href = getArtworkUrlWithSlug(item._id, displayTitle);
 
   return (
     <ArtworkErrorBoundary>
@@ -57,12 +58,25 @@ function ArtworkCardComponent({
           {isMultiSource && layout === LAYOUT_GRID && (
             <SourceHeader item={item} showDate={false} isSmall={true} />
           )}
-          <div className="flex items-center justify-center bg-neutral-50 text-neutral-200 transition-colors hover:bg-neutral-100 hover:text-neutral-300 dark:bg-neutral-800 dark:text-neutral-900 dark:hover:bg-neutral-700  dark:hover:text-neutral-800">
+          <div className="flex items-center justify-center bg-neutral-50 dark:bg-neutral-800">
             <Link
               href={href}
               aria-label={`View artwork: ${item.title} by ${primaryConstituentName}`}
+              className="flex h-48 w-full items-center justify-center"
             >
-              <DocumentImage item={item} className="h-48 object-contain" />
+              {item.image?.thumbnailUrl ? (
+                <Image
+                  src={item.image.thumbnailUrl}
+                  alt={`${dict['index.art.altText']} ${displayTitle}`}
+                  className="max-h-full max-w-full object-contain"
+                  width={300}
+                  height={300}
+                />
+              ) : (
+                <div className="flex size-full items-center justify-center text-neutral-300 dark:text-neutral-700">
+                  {dict['search.imageUnavailable']}
+                </div>
+              )}
             </Link>
           </div>
           {showColor && (
@@ -77,7 +91,7 @@ function ArtworkCardComponent({
           )}
           <Link
             href={href}
-            aria-label={`View details for ${item.title} by ${primaryConstituentName}`}
+            aria-label={`View details for ${displayTitle} by ${primaryConstituentName}`}
           >
             {showType && layout === LAYOUT_LIST && (
               <h4 className="mb-2 text-base font-semibold uppercase text-neutral-500 dark:text-neutral-600">
@@ -85,7 +99,7 @@ function ArtworkCardComponent({
               </h4>
             )}
             <h4 className="mb-2 text-xl font-semibold">
-              {item.title}
+              {displayTitle}
               {item.formattedDate ? `, ${item.formattedDate}` : ''}
             </h4>
             <h5 className="text-lg">{primaryConstituentName}</h5>

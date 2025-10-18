@@ -5,7 +5,6 @@ import {
   memo,
   useCallback,
   useEffect,
-  useMemo,
   useState,
 } from 'react';
 import { getDictionary } from '@/dictionaries/dictionaries';
@@ -132,6 +131,33 @@ function SearchAggComponent({
     [updateQuery]
   );
 
+  const formatOptionLabel = useCallback(
+    (key: string) => {
+      if (!key) return key;
+      if (aggName === 'classification' || aggName === 'medium') {
+        const normalized = key.replace(/[_-]+/g, ' ').trim();
+        if (!normalized) return key;
+        const isAllLower = normalized === normalized.toLowerCase();
+        const isAllUpper = normalized === normalized.toUpperCase();
+        if (isAllLower) {
+          return normalized.charAt(0).toUpperCase() + normalized.slice(1);
+        }
+        if (isAllUpper) {
+          return normalized
+            .toLowerCase()
+            .split(/\s+/)
+            .map((word) =>
+              word ? word.charAt(0).toUpperCase() + word.slice(1) : ''
+            )
+            .join(' ');
+        }
+        return normalized;
+      }
+      return key;
+    },
+    [aggName]
+  );
+
   return (
     <Collapsible
       open={isOpen}
@@ -184,7 +210,7 @@ function SearchAggComponent({
                     id={`terms-label-${aggName}-${i}`}
                     className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
-                    {option.key}
+                    {formatOptionLabel(option.key)}
                     <span className="text-muted-foreground">
                       {option.doc_count !== null ? ` ${option.doc_count}` : ''}
                     </span>
@@ -215,7 +241,7 @@ function SearchAggComponent({
                     id={`terms-label-${aggName}-${i}`}
                     className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   >
-                    {option.key}
+                    {formatOptionLabel(option.key)}
                     <span className="text-muted-foreground">
                       {option.doc_count !== null ? ` ${option.doc_count}` : ''}
                     </span>

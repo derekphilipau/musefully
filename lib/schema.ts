@@ -60,10 +60,14 @@ export function getSchemaVisualArtwork(item: ArtworkDocument | undefined) {
   }
   if (Array.isArray(item.medium) && item.medium.length > 0) {
     schema.artMedium = item.medium.join(', ');
-  } else if (typeof item.medium === 'string' && item.medium) {
-    schema.artMedium = item.medium;
+  } else if (item.formattedMedium) {
+    schema.artMedium = item.formattedMedium;
   }
-  if (item.classification) schema.artform = item.classification;
+  if (Array.isArray(item.classification) && item.classification.length > 0) {
+    schema.artform = item.classification.join(', ');
+  } else if (item.formattedClassification) {
+    schema.artform = item.formattedClassification;
+  }
   const dimensions = getDimensionsCM(item.dimensions);
   if (dimensions?.height)
     schema.height = [{ '@type': 'Distance', name: `${dimensions.height} cm` }];

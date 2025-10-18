@@ -66,6 +66,7 @@ export const disabledObjectField: T.MappingProperty = {
 export const booleanField: T.MappingProperty = { type: 'boolean' };
 export const shortField: T.MappingProperty = { type: 'short' };
 export const integerField: T.MappingProperty = { type: 'integer' };
+export const floatField: T.MappingProperty = { type: 'float' };
 export const dateField: T.MappingProperty = { type: 'date' };
 export const nestedField: T.MappingProperty = { type: 'nested' };
 
@@ -129,16 +130,6 @@ export const geographicalLocationObjectField: T.MappingProperty = {
   },
 };
 
-export const museumLocationObjectField: T.MappingProperty = {
-  properties: {
-    id: keywordField,
-    name: searchableAggregatedKeywordAnalyzerField,
-    isPublic: booleanField,
-    isFloor: booleanField,
-    parentId: keywordField,
-  },
-};
-
 export const imageObjectField: T.MappingProperty = {
   properties: {
     id: keywordField,
@@ -170,6 +161,16 @@ export const simpleImageObjectField: T.MappingProperty = {
     date: textField,
     view: keywordField,
     rank: integerField,
+  },
+};
+
+export const measurementsObjectField: T.MappingProperty = {
+  properties: {
+    height: floatField,
+    width: floatField,
+    depth: floatField,
+    area: floatField,
+    volume: floatField,
   },
 };
 

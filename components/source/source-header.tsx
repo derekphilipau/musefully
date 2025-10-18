@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
@@ -20,6 +19,9 @@ export function SourceHeader({
 }: CardSourceHeaderProps) {
   if (!item || !item.sourceId) return null;
   const dict = getDictionary();
+  const sourceMeta = sources[item.sourceId] || {};
+  const displayName =
+    sourceMeta.shortName || sourceMeta.name || item.source || item.sourceId;
 
   return (
     <div
@@ -30,25 +32,11 @@ export function SourceHeader({
     >
       <Link
         href={`/?f=true&source=${sources[item.sourceId]?.name}`}
-        className="inline-flex items-center"
+        className="inline-flex items-center font-semibold"
       >
-        {item.sourceId && (
-          <div
-            className={cn(
-              'relative mr-2 flex shrink-0 overflow-hidden rounded-full border border-neutral-300 dark:border-neutral-700',
-              isSmall ? 'size-6' : 'size-7'
-            )}
-          >
-            <Image
-              src={`/img/logos/${item.sourceId}.jpg`}
-              className="aspect-square"
-              alt={item.sourceId ? sources[item.sourceId]?.name : 'Logo'}
-              width={400}
-              height={400}
-            />
-          </div>
-        )}
-        {sources[item.sourceId || '']?.name}
+        <span className="line-clamp-1 uppercase tracking-wide">
+          {displayName}
+        </span>
       </Link>
       {showDate && item.date && (
         <div>{item.date ? timeAgo(item.date) : null}</div>

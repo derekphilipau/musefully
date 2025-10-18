@@ -62,35 +62,41 @@ OPENAI_MODEL=gpt-4-1106-preview
 GOOGLE_SERVICE_ACCOUNT_EMAIL=my-service-account@my-service-account.iam.gserviceaccount.com
 GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nVih4dOFRfzXT....UV2Xdw==\n-----END PRIVATE KEY-----\n"
 GOOGLE_SPREADSHEET_ID=1Vih4dOFRfzXTBopWmsi65_Xn5CNfuGnVe14_Pt7EncOr
+MUSEFULLY_IMAGE_CDN_BASE_URL=https://cdn.musefully.org/images
 ```
 
 ## Loading the data
 
+**_NOTE: Previously, musefully was tasked with transforming each museum-specific dataset into a standard format. This process became more and more complex, including normalization and unification of terms, image processing (dominant colors, embeddings), and other steps. Thus, I felt it best to put the transformation into a separate project (to be released soon). This project produces datasets in a "universal" artwork schema that can be imported directly into the musefully Elasticsearch art index. To adapt musefully to your own dataset, simply transform your schemas to match the universal format._**
+
 From the command line, run: `npm run import`
 
-Data files are stored in `/data/[source]/[index].jsonl.gz`.
-The import script, `importDataCommand.ts`, will load compressed data from .jsonl.gz files in the data directory into Elasticsearch indices. **_Warning: This will modify Elasticsearch indices._**
+Artwork JSON files live in `data/<source>/<id>.json` and match the universal schema. The `importArtworksCommand.ts` script walks those folders and bulk loads each document into Elasticsearch. **_Warning: This will modify Elasticsearch indices._**
 
 This command will:
 
 1. Load environment variables from `.env.local`
-2. Ask if you want to proceed with the import
-3. Ask if you want to import the art index (all records)
-4. Ask if you want to import the content index (all records)
-5. Ask if you want to update dominant colors. This will only update colors for images which haven't already been analyzed.
-6. Ask if you want to update RSS feeds to the content index.
+2. Display each source folder it finds under `data/`
+3. Prompt you to import the selected sources
+4. Offer to apply `data/additionalMetadata.jsonl`
+5. Offer to refresh RSS feeds into the news index.
 
-The import process will take some time, as it inserts 2000 documents at a time using Elasticsearch bulk and then rests for a couple seconds.
+To import a specific source without prompts, pass one or more slugs:
+
+```bash
+npm run import -- --source=aic
+npm run import -- aic bkm
+```
+
+To update exhibitions or other sheet-backed content separately, use `npm run import:sheets`, which calls `importGoogleSheetsCommand.ts`.
 
 ## Add your data
 
 Add a collections dataset:
 
-1. Export collections data to JSON
-2. Write an ingester which maps data to the Elasticsearch index.
-   - Create ingester in `lib/import/ingesters/`
-   - In `config/site.ts`, add the ingester to the `ingesters` array.
-   - Run `npm run import` to import the dataset.
+1. Export collections data to the universal JSON format (one file per artwork).
+2. Place the files under `data/<source>/` using the source slug (for example `data/pma/104467.json`).
+3. Run `npm run import` and confirm the source when prompted.
 
 Add an RSS feed:
 

@@ -12,11 +12,16 @@ export interface DocumentConstituent {
   nationality?: string[];
   gender?: string;
   role?: string;
+  roleType?: string;
   rank?: number;
   source?: string;
   sourceId?: string;
   wikiQid?: string;
   ulan?: UlanArtist;
+  agentType?: string;
+  biography?: string;
+  ulanId?: string;
+  ulanUrl?: string;
 }
 
 export interface DocumentGeographicalLocation {
@@ -25,14 +30,6 @@ export interface DocumentGeographicalLocation {
   continent?: string;
   country?: string;
   type?: string;
-}
-
-export interface DocumentMuseumLocation {
-  id?: string;
-  name?: string;
-  isPublic?: boolean;
-  isFloor?: boolean;
-  parentId?: string;
 }
 
 export interface DocumentImageDominantColor {
@@ -52,6 +49,14 @@ export interface DocumentImage {
   date?: string;
   view?: string;
   rank?: number;
+}
+
+export interface DocumentMeasurements {
+  height?: number;
+  width?: number;
+  depth?: number;
+  area?: number;
+  volume?: number;
 }
 
 export interface BaseDocument {
@@ -98,6 +103,11 @@ export interface ArtworkDocument extends BaseDocument {
   images?: DocumentImage[];
   accessionNumber?: string;
   accessionDate?: string;
+  alternateTitles?: string[];
+  classificationHierarchy?: string[];
+  collections?: string[];
+  cultures?: string[];
+  genres?: string[];
   period?: string;
   dynasty?: string;
   provenance?: string;
@@ -111,12 +121,12 @@ export interface ArtworkDocument extends BaseDocument {
   inscribed?: string;
   creditLine?: string;
   copyright?: string;
-  classification?: string;
+  classification?: string[];
+  formattedClassification?: string;
   publicAccess?: boolean;
   copyrightRestricted?: boolean;
   highlight?: boolean;
   section?: string;
-  museumLocation?: DocumentMuseumLocation;
   onView?: boolean;
   rightsType?: string;
   labels?: string[];
@@ -125,6 +135,17 @@ export interface ArtworkDocument extends BaseDocument {
   exhibitions?: string[];
   primaryGeographicalLocation?: DocumentGeographicalLocation;
   geographicalLocations?: DocumentGeographicalLocation[];
+  techniques?: string[];
+  materials?: string[];
+  materialsAndTechniquesNote?: string;
+  measurements?: DocumentMeasurements;
+  subjects?: string[];
+  sameAs?: string[];
+  hasImage?: boolean;
+  openAccess?: boolean;
+  raw?: Record<string, unknown>;
+  derived?: Record<string, unknown>;
+  ingestMetadata?: Record<string, unknown>;
 }
 
 /**

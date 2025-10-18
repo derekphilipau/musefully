@@ -1,0 +1,371 @@
+{
+  "kind": "artwork",
+  "source": "smithsonian",
+  "sourceName": "Smithsonian Institution",
+  "sourceId": "edanmdm_saam_1909_9_7",
+  "id": "smithsonian_edanmdm_saam_1909_9_7",
+  "uri": "https://americanart.si.edu/collections/search/artwork/?id=8392",
+  "title": "A Pool in the Forest",
+  "accessionNumber": "saam_1909.9.7",
+  "classification": [
+    "Painting"
+  ],
+  "formattedClassification": "Painting",
+  "medium": [
+    "Oil on canvas"
+  ],
+  "formattedMedium": "oil on canvas",
+  "creditLine": "Smithsonian American Art Museum, Gift of William T. Evans",
+  "formattedDate": "n.d.",
+  "rights": {
+    "status": "cc0",
+    "openAccess": true
+  },
+  "publicAccess": true,
+  "copyrightRestricted": false,
+  "primaryConstituent": {
+    "name": "Benjamin Rutherford Fitz",
+    "role": "artist",
+    "roleType": "artist",
+    "agentType": "Person",
+    "biography": "born New York City 1855-died Peconic, NY 1891",
+    "birthYear": 1855,
+    "deathYear": 1891,
+    "rank": 1,
+    "canonicalName": "Benjamin Rutherford Fitz"
+  },
+  "constituents": [
+    {
+      "name": "Benjamin Rutherford Fitz",
+      "role": "artist",
+      "roleType": "artist",
+      "agentType": "Person",
+      "biography": "born New York City 1855-died Peconic, NY 1891",
+      "birthYear": 1855,
+      "deathYear": 1891,
+      "rank": 1,
+      "canonicalName": "Benjamin Rutherford Fitz"
+    }
+  ],
+  "image": {
+    "filename": "edanmdm_saam_1909_9_7.webp",
+    "width": 1509,
+    "height": 994,
+    "bytes": 529122,
+    "format": "webp",
+    "thumbnailFilename": "edanmdm_saam_1909_9_7.webp",
+    "thumbnailWidth": 400,
+    "thumbnailHeight": 263,
+    "rights": {
+      "status": "cc0",
+      "openAccess": true
+    },
+    "dominantColors": [
+      {
+        "hex": "#2A2B18",
+        "percent": 0.313781,
+        "rgb": {
+          "r": 42,
+          "g": 43,
+          "b": 24
+        },
+        "lab": {
+          "l": 16.79,
+          "a": -4.29,
+          "b": 11.91
+        }
+      },
+      {
+        "hex": "#434120",
+        "percent": 0.296447,
+        "rgb": {
+          "r": 67,
+          "g": 65,
+          "b": 32
+        },
+        "lab": {
+          "l": 26.84,
+          "a": -4.71,
+          "b": 20.15
+        }
+      },
+      {
+        "hex": "#CEC46C",
+        "percent": 0.154573,
+        "rgb": {
+          "r": 206,
+          "g": 196,
+          "b": 108
+        },
+        "lab": {
+          "l": 78.33,
+          "a": -8.39,
+          "b": 45.28
+        }
+      },
+      {
+        "hex": "#9B9954",
+        "percent": 0.123117,
+        "rgb": {
+          "r": 155,
+          "g": 153,
+          "b": 84
+        },
+        "lab": {
+          "l": 61.89,
+          "a": -9.36,
+          "b": 35.9
+        }
+      },
+      {
+        "hex": "#6A6A37",
+        "percent": 0.112083,
+        "rgb": {
+          "r": 106,
+          "g": 106,
+          "b": 55
+        },
+        "lab": {
+          "l": 43.56,
+          "a": -7.91,
+          "b": 28.21
+        }
+      }
+    ]
+  },
+  "hasImage": true,
+  "openAccess": true,
+  "collections": [
+    "Smithsonian American Art Museum"
+  ],
+  "genres": [
+    "Landscape\\water",
+    "Landscape\\forest"
+  ],
+  "geographicalLocations": [
+    {
+      "name": "United States",
+      "country": "United States",
+      "continent": "North America",
+      "type": "country"
+    }
+  ],
+  "primaryGeographicalLocation": {
+    "name": "United States",
+    "country": "United States",
+    "continent": "North America",
+    "type": "country"
+  },
+  "raw": {
+    "freetext": {
+      "date": [
+        {
+          "label": "Date",
+          "content": "n.d."
+        }
+      ],
+      "name": [
+        {
+          "label": "Artist",
+          "content": "Benjamin Rutherford Fitz, born New York City 1855-died Peconic, NY 1891"
+        }
+      ],
+      "topic": [
+        {
+          "label": "Topic",
+          "content": "Landscape\\water"
+        },
+        {
+          "label": "Topic",
+          "content": "Landscape\\forest"
+        }
+      ],
+      "setName": [
+        {
+          "label": "See more items in",
+          "content": "Smithsonian American Art Museum Collection"
+        },
+        {
+          "label": "Department",
+          "content": "Painting and Sculpture"
+        }
+      ],
+      "creditLine": [
+        {
+          "label": "Credit Line",
+          "content": "Smithsonian American Art Museum, Gift of William T. Evans"
+        }
+      ],
+      "dataSource": [
+        {
+          "label": "Data Source",
+          "content": "Smithsonian American Art Museum"
+        }
+      ],
+      "identifier": [
+        {
+          "label": "Object number",
+          "content": "1909.9.7"
+        }
+      ],
+      "objectType": [
+        {
+          "label": "Type",
+          "content": "Painting"
+        }
+      ],
+      "objectRights": [
+        {
+          "label": "Restrictions & Rights",
+          "content": "CC0"
+        }
+      ],
+      "physicalDescription": [
+        {
+          "label": "Medium",
+          "content": "oil on canvas"
+        },
+        {
+          "label": "Dimensions",
+          "content": "16 x 24 in. (40.6 x 60.9 cm.)"
+        }
+      ]
+    },
+    "indexedStructured": {
+      "date": [
+        "1890s",
+        "1870s"
+      ],
+      "name": [
+        "Fitz, Benjamin Rutherford"
+      ],
+      "topic": [
+        "Water",
+        "Landscapes",
+        "Forests and forestry"
+      ],
+      "usage_flag": [
+        "permcoll"
+      ],
+      "object_type": [
+        "Paintings"
+      ],
+      "online_media_type": [
+        "Images"
+      ]
+    },
+    "descriptiveNonRepeating": {
+      "guid": "http://n2t.net/ark:/65665/vk7b8c97827-6880-48cb-87d0-58c8f195d49a",
+      "title": {
+        "label": "Title",
+        "content": "A Pool in the Forest"
+      },
+      "record_ID": "saam_1909.9.7",
+      "unit_code": "SAAM",
+      "title_sort": "A POOL IN THE FOREST",
+      "data_source": "Smithsonian American Art Museum",
+      "record_link": "https://americanart.si.edu/collections/search/artwork/?id=8392",
+      "online_media": {
+        "media": [
+          {
+            "id": "media:SAAM-1909.9.7_1",
+            "guid": "http://n2t.net/ark:/65665/bj96a2e8ce9-91c8-41b7-ae30-252bb6b27eef",
+            "type": "Images",
+            "idsId": "SAAM-1909.9.7_1",
+            "usage": {
+              "access": "CC0"
+            },
+            "content": "https://ids.si.edu/ids/deliveryService?id=SAAM-1909.9.7_1",
+            "thumbnail": "https://ids.si.edu/ids/deliveryService?id=SAAM-1909.9.7_1",
+            "altTextAccessibility": "",
+            "extDescrAccessibility": "",
+            "resources": [
+              {
+                "label": "High-resolution TIFF",
+                "url": "https://ids.si.edu/ids/download?id=SAAM-1909.9.7_1.tif",
+                "width": 3000,
+                "height": 1975,
+                "dimensions": "3000x1975"
+              },
+              {
+                "label": "High-resolution JPEG",
+                "url": "https://ids.si.edu/ids/download?id=SAAM-1909.9.7_1.jpg",
+                "width": 3000,
+                "height": 1975,
+                "dimensions": "3000x1975"
+              },
+              {
+                "label": "Screen Image",
+                "url": "https://ids.si.edu/ids/download?id=SAAM-1909.9.7_1_screen"
+              },
+              {
+                "label": "Thumbnail Image",
+                "url": "https://ids.si.edu/ids/download?id=SAAM-1909.9.7_1_thumb"
+              }
+            ]
+          }
+        ],
+        "mediaCount": 1
+      },
+      "metadata_usage": {
+        "access": "CC0"
+      }
+    }
+  },
+  "ingestMetadata": {
+    "transformedAt": "2025-10-18T00:00:24.409Z",
+    "sourceFile": "edanmdm_saam_1909_9_7.json"
+  },
+  "derived": {
+    "dominantColors": {
+      "version": "dominant-colors/v2",
+      "generatedAt": "2025-10-15T03:24:01.396Z",
+      "stats": {
+        "algorithm": "mmcq+kmeans-lab",
+        "totalSamples": 105600,
+        "representedPixels": 421600,
+        "iterations": 11,
+        "quantize": {
+          "palette": [
+            {
+              "hex": "#35351C",
+              "class": "chromatic",
+              "score": 399210788.873
+            },
+            {
+              "hex": "#C7BF6B",
+              "class": "chromatic",
+              "score": 371165979.539
+            },
+            {
+              "hex": "#87874A",
+              "class": "chromatic",
+              "score": 172642398.779
+            },
+            {
+              "hex": "#5F5E31",
+              "class": "chromatic",
+              "score": 42249711.506
+            },
+            {
+              "hex": "#6C6C6C",
+              "class": "neutral",
+              "score": 17920
+            }
+          ],
+          "desiredNeutral": 1,
+          "desiredChroma": 4
+        }
+      },
+      "image": {
+        "variant": "analysis",
+        "filename": "edanmdm_saam_1909_9_7.jpg",
+        "relativePath": "analysis/edanmdm_saam_1909_9_7.jpg",
+        "width": 1232,
+        "height": 811,
+        "bytes": 336031,
+        "format": "jpeg"
+      }
+    }
+  }
+}
