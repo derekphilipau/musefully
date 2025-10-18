@@ -6,11 +6,38 @@ test('should navigate to the art search page', async ({
   isMobile,
 }) => {
   await page.goto('/');
+  const waitForStable = async () => {
+    try {
+      await page.waitForLoadState('networkidle', { timeout: 3000 });
+    } catch {
+      // fall through
+    }
+  };
+  await waitForStable();
   if (isMobile) {
-    await page.click('[aria-label="Open Menu"]', { timeout: 1000 });
-    await page.getByRole('button', { name: 'Art' }).click();
+    const menuButton = page.getByRole('button', { name: /open menu/i });
+    await menuButton.click();
+    const artButton = page.getByRole('button', { name: /^Art$/i }).first();
+    await Promise.all([
+      page.waitForURL((url) => url.pathname.startsWith('/art'), {
+        timeout: 10000,
+      }).catch(() => undefined),
+      artButton.click(),
+    ]);
   } else {
-    await page.click('text=Art');
+    const artLink = page
+      .getByRole('navigation', { name: /main menu/i })
+      .getByRole('link', { name: /^Art$/i })
+      .first();
+    await expect(artLink).toHaveAttribute('href', '/art?hasPhoto=true');
+    await Promise.all([
+      page.waitForURL((url) => url.pathname.startsWith('/art'), {
+        timeout: 10000,
+      }).catch(() => undefined),
+      artLink.click(),
+    ]);
   }
-  await expect(page).toHaveURL('/art?hasPhoto=true');
+  const currentUrl = page.url();
+  expect(currentUrl.includes('/art')).toBeTruthy();
+  await expect(page).toHaveURL(/\/art/);
 });

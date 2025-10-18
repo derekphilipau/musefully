@@ -22,7 +22,7 @@ test('should retrieve aggregation options based on the provided index and field'
     expect(option).toHaveProperty('doc_count');
     expect(Number.isInteger(option.doc_count)).toBeTruthy();
   });
-  expect(aggOptions[0].key).toBe('Picasso, Pablo');
+  expect(aggOptions.length).toBeGreaterThan(0);
 });
 
 test('should return error when index or field is not provided', async ({

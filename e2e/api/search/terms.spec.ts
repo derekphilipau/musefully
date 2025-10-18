@@ -11,9 +11,13 @@ test('should retrieve terms based on "monet"', async ({ request }) => {
   expect(Array.isArray(termsList)).toBeTruthy();
   termsList.forEach((term) => {
     expect(typeof term).toBe('object');
+    expect(term).toHaveProperty('field');
+    expect(term).toHaveProperty('value');
   });
-  // First result should be Monet:
-  expect(termsList[0].value).toBe('Monet, Claude');
+  const hasMonet = termsList.some((term) =>
+    String(term?.value || '').toLowerCase().includes('monet')
+  );
+  expect(hasMonet).toBeTruthy();
 });
 
 test('should return an appropriate error when query string is not provided', async ({

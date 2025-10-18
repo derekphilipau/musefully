@@ -2,7 +2,18 @@ import { expect, test } from '@playwright/test';
 
 test('should retrieve a specific document by its ID', async ({ request }) => {
   const indexName = 'art';
-  const documentId = 'bkm_225001';
+  const searchResponse = await request.get(
+    `/api/search?index=${indexName}&hasPhoto=true&size=1`
+  );
+  expect(searchResponse.ok()).toBeTruthy();
+
+  const searchData = await searchResponse.json();
+  const firstResult = searchData?.data?.[0];
+
+  expect(firstResult).toBeTruthy();
+  expect(firstResult).toHaveProperty('_id');
+
+  const documentId = firstResult._id;
 
   const response = await request.get(
     `/api/search/document?id=${documentId}&index=${indexName}`
@@ -15,15 +26,23 @@ test('should retrieve a specific document by its ID', async ({ request }) => {
 
   expect(document).toHaveProperty('_id');
   expect(document._id).toStrictEqual(documentId);
-  expect(document).toHaveProperty('constituents');
-  expect(document.constituents.length).toBe(1);
+  expect(document).toHaveProperty('sourceId');
+  expect(document).toHaveProperty('title');
+  expect(document).toHaveProperty('image');
+  expect(document.image).toHaveProperty('url');
 });
 
 test('should return error when id or index is not provided', async ({
   request,
 }) => {
   const indexName = 'art';
-  const documentId = 'bkm_225001';
+  const searchResponse = await request.get(
+    `/api/search?index=${indexName}&hasPhoto=true&size=1`
+  );
+  expect(searchResponse.ok()).toBeTruthy();
+  const searchData = await searchResponse.json();
+  const documentId = searchData?.data?.[0]?._id;
+  expect(documentId).toBeTruthy();
 
   // Test missing id
   let response = await request.get(`/api/search/document?index=${indexName}`);
