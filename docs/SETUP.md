@@ -52,8 +52,6 @@ ELASTICSEARCH_CA_FILE=./secrets/es01.crt
 ELASTICSEARCH_API_KEY=MVE2aWxZUIJBWkNOUzYwU1ZKbUg6dEllY4JjQkVTZ3lFWlU3RRdLUm5mQQ==
 ELASTICSEARCH_BULK_LIMIT=2000
 CRON_SECRET=supersecretrandomstringover16characters
-NEXT_PUBLIC_IMAGE_DOMAIN=rx3rxq8hyni2c.cloudfront.net
-PROCESS_IMAGES=true
 FORMSPREE_FORM_ID=rwejcdbw
 GOOGLE_SERVICE_ACCOUNT_EMAIL=my-service-account@my-service-account.iam.gserviceaccount.com
 GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nVih4dOFRfzXT....UV2Xdw==\n-----END PRIVATE KEY-----\n"
