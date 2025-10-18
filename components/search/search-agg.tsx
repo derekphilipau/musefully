@@ -18,6 +18,7 @@ import {
   type SearchParams,
 } from '@/lib/elasticsearch/search/searchParams';
 import { getBooleanValue } from '@/lib/various';
+import { sources } from '@/config/sources';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -134,6 +135,9 @@ function SearchAggComponent({
   const formatOptionLabel = useCallback(
     (key: string) => {
       if (!key) return key;
+      if (aggName === 'sourceId') {
+        return sources[key]?.name || key;
+      }
       if (aggName === 'classification' || aggName === 'medium') {
         const normalized = key.replace(/[_-]+/g, ' ').trim();
         if (!normalized) return key;

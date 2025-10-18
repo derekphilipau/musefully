@@ -1,5 +1,6 @@
 import { cache } from 'react';
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getDictionary } from '@/dictionaries/dictionaries';
@@ -16,7 +17,6 @@ import { ArtworkShare } from '@/components/artwork/artwork-share';
 import { LanguageDisclaimer } from '@/components/artwork/language-disclaimer';
 import { SimilarArtworkList } from '@/components/artwork/similar-artwork-list';
 import { Icons } from '@/components/icons';
-import Image from 'next/image';
 import { SourceHeader } from '@/components/source/source-header';
 import { buttonVariants } from '@/components/ui/button';
 
@@ -110,13 +110,6 @@ export default async function Page(props: PageProps) {
               <div className="mb-4 flex min-h-48 w-full items-center justify-center bg-neutral-100 text-neutral-400 dark:bg-neutral-800 dark:text-neutral-600">
                 {dict['search.imageUnavailable']}
               </div>
-            )}
-            {artwork?.copyrightRestricted && (
-              <p className="mt-4 text-xs italic text-neutral-500 dark:text-neutral-400">
-                This image is presented as a &quot;thumbnail&quot; because it is
-                protected by copyright. The museum respects the rights of
-                artists who retain the copyright to their work.
-              </p>
             )}
           </div>
         </div>

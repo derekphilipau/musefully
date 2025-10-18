@@ -1,0 +1,244 @@
+{
+  "kind": "artwork",
+  "sourceId": "aic",
+  "source": "Art Institute of Chicago",
+  "id": "16557",
+  "documentId": "aic_16557",
+  "uri": "https://www.artic.edu/artworks/16557",
+  "title": "Time, Death and Judgment",
+  "primaryConstituent": {
+    "name": "George Frederick Watts",
+    "canonicalName": "Watts, George Frederick",
+    "role": "artist",
+    "agentType": "Person",
+    "biography": "George Frederick Watts (English, 1817–1904)",
+    "ulanId": "500026988",
+    "ulanUrl": "http://vocab.getty.edu/ulan/500026988"
+  },
+  "constituents": [
+    {
+      "name": "George Frederick Watts",
+      "canonicalName": "Watts, George Frederick",
+      "role": "artist",
+      "agentType": "Person",
+      "biography": "George Frederick Watts (English, 1817–1904)",
+      "ulanId": "500026988",
+      "ulanUrl": "http://vocab.getty.edu/ulan/500026988"
+    }
+  ],
+  "classification": [
+    "Painting"
+  ],
+  "formattedClassification": "Painting",
+  "departments": [
+    "Painting and Sculpture of Europe"
+  ],
+  "geographicalLocations": [
+    {
+      "name": "England",
+      "country": "United Kingdom",
+      "continent": "Europe",
+      "type": "region"
+    }
+  ],
+  "primaryGeographicalLocation": {
+    "name": "England",
+    "country": "United Kingdom",
+    "continent": "Europe",
+    "type": "region"
+  },
+  "medium": [
+    "Oil on canvas"
+  ],
+  "formattedMedium": "Oil on canvas",
+  "dimensions": "91.5 × 72 cm (36 × 28 5/16 in.); Framed: 122.9 × 102.6 × 7.7 cm (48 3/8 × 40 3/8 × 3 in.)",
+  "measurements": {
+    "height": 91.5,
+    "width": 72,
+    "area": 6588
+  },
+  "formattedDate": "1866",
+  "startYear": 1866,
+  "endYear": 1866,
+  "rights": {
+    "status": "public-domain",
+    "openAccess": true
+  },
+  "publicAccess": true,
+  "hasImage": true,
+  "openAccess": true,
+  "image": {
+    "filename": "16557.webp",
+    "width": 659,
+    "height": 843,
+    "bytes": 59360,
+    "format": "webp",
+    "thumbnailFilename": "16557.webp",
+    "thumbnailWidth": 313,
+    "thumbnailHeight": 400,
+    "rights": {
+      "status": "public-domain",
+      "openAccess": true
+    },
+    "alt": "A work made of oil on canvas.",
+    "dominantColors": [
+      {
+        "hex": "#46382D",
+        "percent": 0.374656,
+        "rgb": {
+          "r": 70,
+          "g": 56,
+          "b": 45
+        },
+        "lab": {
+          "l": 24.8,
+          "a": 4.12,
+          "b": 9.45
+        }
+      },
+      {
+        "hex": "#635340",
+        "percent": 0.212732,
+        "rgb": {
+          "r": 99,
+          "g": 83,
+          "b": 64
+        },
+        "lab": {
+          "l": 36.31,
+          "a": 3.69,
+          "b": 13.79
+        }
+      },
+      {
+        "hex": "#593C2B",
+        "percent": 0.181984,
+        "rgb": {
+          "r": 89,
+          "g": 60,
+          "b": 43
+        },
+        "lab": {
+          "l": 28.38,
+          "a": 10.32,
+          "b": 16.08
+        }
+      },
+      {
+        "hex": "#7B5132",
+        "percent": 0.132108,
+        "rgb": {
+          "r": 123,
+          "g": 81,
+          "b": 50
+        },
+        "lab": {
+          "l": 38.55,
+          "a": 14,
+          "b": 25.15
+        }
+      },
+      {
+        "hex": "#88755B",
+        "percent": 0.09852,
+        "rgb": {
+          "r": 136,
+          "g": 117,
+          "b": 91
+        },
+        "lab": {
+          "l": 50.39,
+          "a": 3.28,
+          "b": 17.12
+        }
+      }
+    ]
+  },
+  "raw": {
+    "_score": 20.575111,
+    "id": 16557,
+    "api_model": "artworks",
+    "api_link": "https://api.artic.edu/api/v1/artworks/16557",
+    "title": "Time, Death and Judgment",
+    "thumbnail": {
+      "lqip": "data:image/gif;base64,R0lGODlhBAAFAPQAAFI3J1w6Kl49LU5DOFdBMlhBMlxHNlVGOVxLOmNALGJENGxHMGFMOmFPP21SOm1UPF9QQVxQQmhZSWxdSQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAAAAAAALAAAAAAEAAUAAAURoOE8TEEgxwJMkBBIkZI0QwgAOw==",
+      "width": 1758,
+      "height": 2250,
+      "alt_text": "A work made of oil on canvas."
+    },
+    "date_start": 1866,
+    "date_end": 1866,
+    "date_display": "1866",
+    "artist_display": "George Frederick Watts (English, 1817–1904)",
+    "place_of_origin": "England",
+    "dimensions": "91.5 × 72 cm (36 × 28 5/16 in.); Framed: 122.9 × 102.6 × 7.7 cm (48 3/8 × 40 3/8 × 3 in.)",
+    "medium_display": "Oil on canvas",
+    "is_public_domain": true,
+    "artwork_type_title": "Painting",
+    "department_title": "Painting and Sculpture of Europe",
+    "image_id": "a2214c05-3fb2-2faf-cf70-d43fcfede342",
+    "alt_image_ids": [],
+    "updated_at": "2025-09-09T18:50:55-05:00",
+    "__source": {
+      "api_link": "https://api.artic.edu/api/v1/artworks/16557",
+      "iiif_url": "https://www.artic.edu/iiif/2",
+      "downloaded_at": "2025-10-04T14:55:01.346Z"
+    }
+  },
+  "ingestMetadata": {
+    "transformedAt": "2025-10-18T18:07:21.372Z",
+    "sourceFile": "16557.json"
+  },
+  "derived": {
+    "dominantColors": {
+      "version": "dominant-colors/v2",
+      "generatedAt": "2025-10-14T02:13:11.106Z",
+      "stats": {
+        "algorithm": "mmcq+kmeans-lab",
+        "totalSamples": 125200,
+        "representedPixels": 500000,
+        "iterations": 15,
+        "quantize": {
+          "palette": [
+            {
+              "hex": "#4C3B2E",
+              "class": "neutral",
+              "score": 124974818.737
+            },
+            {
+              "hex": "#7E6A4F",
+              "class": "chromatic",
+              "score": 20697310.754
+            },
+            {
+              "hex": "#A18869",
+              "class": "chromatic",
+              "score": 18491181.257
+            },
+            {
+              "hex": "#695742",
+              "class": "neutral",
+              "score": 11113666.308
+            },
+            {
+              "hex": "#827464",
+              "class": "neutral",
+              "score": 1465816.838
+            }
+          ],
+          "desiredNeutral": 3,
+          "desiredChroma": 2
+        }
+      },
+      "image": {
+        "variant": "analysis",
+        "filename": "16557.jpg",
+        "relativePath": "analysis/16557.jpg",
+        "width": 659,
+        "height": 843,
+        "bytes": 90865,
+        "format": "jpeg"
+      }
+    }
+  }
+}

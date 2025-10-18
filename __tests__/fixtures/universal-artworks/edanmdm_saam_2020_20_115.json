@@ -1,0 +1,400 @@
+{
+  "kind": "artwork",
+  "sourceId": "smithsonian",
+  "source": "Smithsonian Institution",
+  "id": "edanmdm_saam_2020_20_115",
+  "documentId": "smithsonian_edanmdm_saam_2020_20_115",
+  "uri": "https://americanart.si.edu/collections/search/artwork/?id=114194",
+  "title": "Castle Rock, Nahant",
+  "accessionNumber": "saam_2020.20.115",
+  "classification": [
+    "Painting"
+  ],
+  "formattedClassification": "Painting",
+  "medium": [
+    "Oil on canvas"
+  ],
+  "formattedMedium": "oil on canvas",
+  "creditLine": "Smithsonian American Art Museum, Gift from the Trustees of the Corcoran Gallery of Art (Gift of Helen Haseltine Plowden)",
+  "formattedDate": "1865",
+  "startYear": 1865,
+  "rights": {
+    "status": "cc0",
+    "openAccess": true
+  },
+  "publicAccess": true,
+  "copyrightRestricted": false,
+  "primaryConstituent": {
+    "name": "William Stanley Haseltine",
+    "role": "artist",
+    "roleType": "artist",
+    "agentType": "Person",
+    "biography": "born Philadelphia, PA 1835-died Rome, Italy 1900",
+    "birthYear": 1835,
+    "deathYear": 1900,
+    "rank": 1,
+    "ulanId": "500006808",
+    "ulanUrl": "http://vocab.getty.edu/ulan/500006808",
+    "canonicalName": "Haseltine, William Stanley"
+  },
+  "constituents": [
+    {
+      "name": "William Stanley Haseltine",
+      "role": "artist",
+      "roleType": "artist",
+      "agentType": "Person",
+      "biography": "born Philadelphia, PA 1835-died Rome, Italy 1900",
+      "birthYear": 1835,
+      "deathYear": 1900,
+      "rank": 1,
+      "ulanId": "500006808",
+      "ulanUrl": "http://vocab.getty.edu/ulan/500006808",
+      "canonicalName": "Haseltine, William Stanley"
+    }
+  ],
+  "image": {
+    "filename": "edanmdm_saam_2020_20_115.webp",
+    "width": 1554,
+    "height": 965,
+    "bytes": 113174,
+    "format": "webp",
+    "thumbnailFilename": "edanmdm_saam_2020_20_115.webp",
+    "thumbnailWidth": 400,
+    "thumbnailHeight": 248,
+    "rights": {
+      "status": "cc0",
+      "openAccess": true
+    },
+    "dominantColors": [
+      {
+        "hex": "#64828A",
+        "percent": 0.387887,
+        "rgb": {
+          "r": 100,
+          "g": 130,
+          "b": 138
+        },
+        "lab": {
+          "l": 52.38,
+          "a": -8.23,
+          "b": -8.06
+        }
+      },
+      {
+        "hex": "#29261D",
+        "percent": 0.207254,
+        "rgb": {
+          "r": 41,
+          "g": 38,
+          "b": 29
+        },
+        "lab": {
+          "l": 15.33,
+          "a": -0.14,
+          "b": 6.91
+        }
+      },
+      {
+        "hex": "#818E87",
+        "percent": 0.202847,
+        "rgb": {
+          "r": 129,
+          "g": 142,
+          "b": 135
+        },
+        "lab": {
+          "l": 57.92,
+          "a": -6.36,
+          "b": 2.49
+        }
+      },
+      {
+        "hex": "#314C3F",
+        "percent": 0.127525,
+        "rgb": {
+          "r": 49,
+          "g": 76,
+          "b": 63
+        },
+        "lab": {
+          "l": 29.93,
+          "a": -13.61,
+          "b": 4.9
+        }
+      },
+      {
+        "hex": "#5F3E26",
+        "percent": 0.074487,
+        "rgb": {
+          "r": 95,
+          "g": 62,
+          "b": 38
+        },
+        "lab": {
+          "l": 29.46,
+          "a": 11.36,
+          "b": 20.81
+        }
+      }
+    ]
+  },
+  "hasImage": true,
+  "openAccess": true,
+  "collections": [
+    "Smithsonian American Art Museum"
+  ],
+  "genres": [
+    "Landscape\\rocks",
+    "Landscape\\coast",
+    "Landscape\\Massachusetts\\Nahant"
+  ],
+  "geographicalLocations": [
+    {
+      "name": "United States",
+      "country": "United States",
+      "continent": "North America",
+      "type": "country"
+    }
+  ],
+  "primaryGeographicalLocation": {
+    "name": "United States",
+    "country": "United States",
+    "continent": "North America",
+    "type": "country"
+  },
+  "raw": {
+    "freetext": {
+      "date": [
+        {
+          "label": "Date",
+          "content": "1865"
+        }
+      ],
+      "name": [
+        {
+          "label": "Artist",
+          "content": "William Stanley Haseltine, born Philadelphia, PA 1835-died Rome, Italy 1900"
+        }
+      ],
+      "topic": [
+        {
+          "label": "Topic",
+          "content": "Landscape\\rocks"
+        },
+        {
+          "label": "Topic",
+          "content": "Landscape\\coast"
+        },
+        {
+          "label": "Topic",
+          "content": "Landscape\\Massachusetts\\Nahant"
+        }
+      ],
+      "setName": [
+        {
+          "label": "See more items in",
+          "content": "Smithsonian American Art Museum Collection"
+        },
+        {
+          "label": "Department",
+          "content": "Painting and Sculpture"
+        }
+      ],
+      "creditLine": [
+        {
+          "label": "Credit Line",
+          "content": "Smithsonian American Art Museum, Gift from the Trustees of the Corcoran Gallery of Art (Gift of Helen Haseltine Plowden)"
+        }
+      ],
+      "dataSource": [
+        {
+          "label": "Data Source",
+          "content": "Smithsonian American Art Museum"
+        }
+      ],
+      "identifier": [
+        {
+          "label": "Object number",
+          "content": "2020.20.115"
+        }
+      ],
+      "objectType": [
+        {
+          "label": "Type",
+          "content": "Painting"
+        }
+      ],
+      "objectRights": [
+        {
+          "label": "Restrictions & Rights",
+          "content": "CC0"
+        }
+      ],
+      "physicalDescription": [
+        {
+          "label": "Medium",
+          "content": "oil on canvas"
+        },
+        {
+          "label": "Dimensions",
+          "content": "unframed: 24 × 38 in. (61.0 × 96.5 cm)"
+        }
+      ]
+    },
+    "indexedStructured": {
+      "date": [
+        "1860s"
+      ],
+      "name": [
+        "Haseltine, William Stanley"
+      ],
+      "place": [
+        "Massachusetts"
+      ],
+      "topic": [
+        "Landscapes",
+        "Coasts",
+        "Nahant",
+        "Rocks"
+      ],
+      "usage_flag": [
+        "permcoll"
+      ],
+      "geoLocation": [
+        {
+          "L1": {
+            "type": "Continent",
+            "content": "North America"
+          },
+          "L2": {
+            "type": "Country",
+            "content": "United States"
+          },
+          "L3": {
+            "type": "State",
+            "content": "Massachusetts"
+          }
+        }
+      ],
+      "object_type": [
+        "Paintings"
+      ],
+      "online_media_type": [
+        "Images"
+      ]
+    },
+    "descriptiveNonRepeating": {
+      "guid": "http://n2t.net/ark:/65665/vk7731fb240-efd7-4771-abeb-d9e6ebae4064",
+      "title": {
+        "label": "Title",
+        "content": "Castle Rock, Nahant"
+      },
+      "record_ID": "saam_2020.20.115",
+      "unit_code": "SAAM",
+      "title_sort": "CASTLE ROCK, NAHANT",
+      "data_source": "Smithsonian American Art Museum",
+      "record_link": "https://americanart.si.edu/collections/search/artwork/?id=114194",
+      "online_media": {
+        "media": [
+          {
+            "id": "media:SAAM-2020.20.115_1",
+            "guid": "http://n2t.net/ark:/65665/bj966037b22-35b2-41d3-b86f-12b4eaa9f188",
+            "type": "Images",
+            "idsId": "SAAM-2020.20.115_1",
+            "usage": {
+              "access": "CC0"
+            },
+            "content": "https://ids.si.edu/ids/deliveryService?id=SAAM-2020.20.115_1",
+            "thumbnail": "https://ids.si.edu/ids/deliveryService?id=SAAM-2020.20.115_1",
+            "altTextAccessibility": "",
+            "extDescrAccessibility": "",
+            "resources": [
+              {
+                "label": "High-resolution TIFF",
+                "url": "https://ids.si.edu/ids/download?id=SAAM-2020.20.115_1.tif",
+                "width": 3000,
+                "height": 1863,
+                "dimensions": "3000x1863"
+              },
+              {
+                "label": "High-resolution JPEG",
+                "url": "https://ids.si.edu/ids/download?id=SAAM-2020.20.115_1.jpg",
+                "width": 3000,
+                "height": 1863,
+                "dimensions": "3000x1863"
+              },
+              {
+                "label": "Screen Image",
+                "url": "https://ids.si.edu/ids/download?id=SAAM-2020.20.115_1_screen"
+              },
+              {
+                "label": "Thumbnail Image",
+                "url": "https://ids.si.edu/ids/download?id=SAAM-2020.20.115_1_thumb"
+              }
+            ]
+          }
+        ],
+        "mediaCount": 1
+      },
+      "metadata_usage": {
+        "access": "CC0"
+      }
+    }
+  },
+  "ingestMetadata": {
+    "transformedAt": "2025-10-18T18:08:25.730Z",
+    "sourceFile": "edanmdm_saam_2020_20_115.json"
+  },
+  "derived": {
+    "dominantColors": {
+      "version": "dominant-colors/v2",
+      "generatedAt": "2025-10-15T03:29:11.021Z",
+      "stats": {
+        "algorithm": "mmcq+kmeans-lab",
+        "totalSamples": 99600,
+        "representedPixels": 397600,
+        "iterations": 14,
+        "quantize": {
+          "palette": [
+            {
+              "hex": "#6D8588",
+              "class": "neutral",
+              "score": 414576246.422
+            },
+            {
+              "hex": "#2F2B1F",
+              "class": "neutral",
+              "score": 254145578.66
+            },
+            {
+              "hex": "#464A35",
+              "class": "neutral",
+              "score": 65339831.586
+            },
+            {
+              "hex": "#AE9E7D",
+              "class": "chromatic",
+              "score": 6678695.952
+            },
+            {
+              "hex": "#913318",
+              "class": "chromatic",
+              "score": 120197.345
+            }
+          ],
+          "desiredNeutral": 3,
+          "desiredChroma": 2
+        }
+      },
+      "image": {
+        "variant": "analysis",
+        "filename": "edanmdm_saam_2020_20_115.jpg",
+        "relativePath": "analysis/edanmdm_saam_2020_20_115.jpg",
+        "width": 1269,
+        "height": 788,
+        "bytes": 134192,
+        "format": "jpeg"
+      }
+    }
+  }
+}

@@ -1,0 +1,413 @@
+{
+  "kind": "artwork",
+  "sourceId": "harvard",
+  "source": "Harvard Art Museums",
+  "id": "232653",
+  "documentId": "harvard_232653",
+  "uri": "https://www.harvardartmuseums.org/collections/object/232653",
+  "title": "Portrait of the Artist's Wife, Margareta Rees",
+  "classification": [
+    "Painting"
+  ],
+  "formattedClassification": "Paintings",
+  "genres": [
+    "painting"
+  ],
+  "medium": [
+    "Oil on canvas"
+  ],
+  "formattedMedium": "Oil on canvas",
+  "dimensions": "48 x 39.7 cm (18 7/8 x 15 5/8 in.)\r\nframe: 59.5 x 49 cm (23 7/16 x 19 5/16 in.)",
+  "measurements": {
+    "height": 48,
+    "width": 39.7,
+    "area": 1905.6000000000001
+  },
+  "creditLine": "Harvard Art Museums/Fogg Museum, Purchase through the generosity of an Anonymous Donor",
+  "culture": "Dutch",
+  "period": "17th Century",
+  "periods": [
+    "17th Century"
+  ],
+  "formattedPeriod": "17th century",
+  "geographicalLocations": [
+    {
+      "name": "Netherlands",
+      "country": "Netherlands",
+      "continent": "Europe",
+      "type": "country"
+    }
+  ],
+  "primaryGeographicalLocation": {
+    "name": "Netherlands",
+    "country": "Netherlands",
+    "continent": "Europe",
+    "type": "country"
+  },
+  "departments": [
+    "European and American Art"
+  ],
+  "formattedDate": "1698",
+  "startYear": 1698,
+  "endYear": 1698,
+  "rights": {
+    "status": "unknown",
+    "openAccess": false
+  },
+  "publicAccess": true,
+  "copyrightRestricted": true,
+  "primaryConstituent": {
+    "id": "29367",
+    "name": "Adriaen van der Werff",
+    "role": "artist",
+    "agentType": "Person",
+    "gender": "unknown",
+    "culture": "Dutch",
+    "biography": "1659 - 1722",
+    "ulanId": "500028638",
+    "ulanUrl": "http://vocab.getty.edu/ulan/500028638",
+    "canonicalName": "Werff, Adriaen van der"
+  },
+  "constituents": [
+    {
+      "id": "29367",
+      "name": "Adriaen van der Werff",
+      "role": "artist",
+      "agentType": "Person",
+      "gender": "unknown",
+      "culture": "Dutch",
+      "biography": "1659 - 1722",
+      "ulanId": "500028638",
+      "ulanUrl": "http://vocab.getty.edu/ulan/500028638",
+      "canonicalName": "Werff, Adriaen van der"
+    }
+  ],
+  "image": {
+    "filename": "232653.webp",
+    "width": 1114,
+    "height": 1347,
+    "bytes": 221832,
+    "format": "webp",
+    "thumbnailFilename": "232653.webp",
+    "thumbnailWidth": 331,
+    "thumbnailHeight": 400,
+    "rights": {
+      "status": "unknown",
+      "openAccess": false
+    },
+    "dominantColors": [
+      {
+        "hex": "#19130E",
+        "percent": 0.587606,
+        "rgb": {
+          "r": 25,
+          "g": 19,
+          "b": 14
+        },
+        "lab": {
+          "l": 6.47,
+          "a": 2,
+          "b": 3.48
+        }
+      },
+      {
+        "hex": "#3A2618",
+        "percent": 0.164464,
+        "rgb": {
+          "r": 58,
+          "g": 38,
+          "b": 24
+        },
+        "lab": {
+          "l": 17.27,
+          "a": 7.47,
+          "b": 12.92
+        }
+      },
+      {
+        "hex": "#6B432B",
+        "percent": 0.097349,
+        "rgb": {
+          "r": 107,
+          "g": 67,
+          "b": 43
+        },
+        "lab": {
+          "l": 32.88,
+          "a": 14.52,
+          "b": 21.97
+        }
+      },
+      {
+        "hex": "#CCAC81",
+        "percent": 0.083807,
+        "rgb": {
+          "r": 204,
+          "g": 172,
+          "b": 129
+        },
+        "lab": {
+          "l": 72.09,
+          "a": 5.72,
+          "b": 26.62
+        }
+      },
+      {
+        "hex": "#AA6B4A",
+        "percent": 0.066775,
+        "rgb": {
+          "r": 170,
+          "g": 107,
+          "b": 74
+        },
+        "lab": {
+          "l": 51.38,
+          "a": 21.9,
+          "b": 28.93
+        }
+      }
+    ]
+  },
+  "hasImage": true,
+  "openAccess": false,
+  "raw": {
+    "copyright": null,
+    "contextualtextcount": 0,
+    "creditline": "Harvard Art Museums/Fogg Museum, Purchase through the generosity of an Anonymous Donor",
+    "accesslevel": 1,
+    "createdate": "1997-11-01T00:00:00-05:00",
+    "dateoflastpageview": "2025-09-23",
+    "classificationid": 26,
+    "division": "European and American Art",
+    "markscount": 0,
+    "publicationcount": 0,
+    "totaluniquepageviews": 116,
+    "contact": "am_europeanamerican@harvard.edu",
+    "colorcount": 8,
+    "rank": 116262,
+    "id": 232653,
+    "state": null,
+    "verificationleveldescription": "Good. Object is well described and information is vetted",
+    "period": null,
+    "images": [
+      {
+        "date": "2014-07-18",
+        "copyright": "President and Fellows of Harvard College",
+        "imageid": 442504,
+        "idsid": 400115559,
+        "format": "image/jpeg",
+        "description": null,
+        "technique": "Make:Sinar Photography AG;Model:Sinar CMV/ Sinarback eVolution 75H;Orientation:1;Software:Adobe Photoshop CS6 (Macintosh);",
+        "renditionnumber": "756373",
+        "displayorder": 1,
+        "baseimageurl": "https://nrs.hvrd.art/urn-3:HUAM:756373",
+        "alttext": null,
+        "width": 2026,
+        "publiccaption": null,
+        "iiifbaseuri": "https://ids.hvrd.art/ids/iiif/400115559",
+        "height": 2450
+      },
+      {
+        "date": "2008-01-29",
+        "copyright": "President and Fellows of Harvard College",
+        "imageid": 374,
+        "idsid": 20669059,
+        "format": "image/jpeg",
+        "description": null,
+        "technique": null,
+        "renditionnumber": "VRS11441",
+        "displayorder": 2,
+        "baseimageurl": "https://nrs.hvrd.art/urn-3:HUAM:VRS11441_dynmc",
+        "alttext": null,
+        "width": 824,
+        "publiccaption": null,
+        "iiifbaseuri": "https://ids.hvrd.art/ids/iiif/20669059",
+        "height": 1024
+      }
+    ],
+    "worktypes": [
+      {
+        "worktypeid": "250",
+        "worktype": "painting"
+      }
+    ],
+    "imagecount": 2,
+    "totalpageviews": 137,
+    "accessionyear": 1994,
+    "standardreferencenumber": null,
+    "signed": "A. van der Werff, f. 1698",
+    "classification": "Paintings",
+    "relatedcount": 0,
+    "verificationlevel": 3,
+    "primaryimageurl": "https://nrs.hvrd.art/urn-3:HUAM:756373",
+    "titlescount": 2,
+    "peoplecount": 1,
+    "style": null,
+    "lastupdate": "2025-10-05T05:04:39-04:00",
+    "commentary": null,
+    "periodid": null,
+    "technique": null,
+    "edition": null,
+    "description": null,
+    "medium": "Oil on canvas",
+    "lendingpermissionlevel": 0,
+    "title": "Portrait of the Artist's Wife, Margareta Rees",
+    "accessionmethod": "Purchase",
+    "colors": [
+      {
+        "color": "#191919",
+        "spectrum": "#1eb264",
+        "hue": "Grey",
+        "percent": 0.7173118279569892,
+        "css3": "#000000"
+      },
+      {
+        "color": "#4b3219",
+        "spectrum": "#4ab851",
+        "hue": "Brown",
+        "percent": 0.09473118279569892,
+        "css3": "#556b2f"
+      },
+      {
+        "color": "#af7d64",
+        "spectrum": "#c85783",
+        "hue": "Brown",
+        "percent": 0.05129032258064516,
+        "css3": "#cd5c5c"
+      },
+      {
+        "color": "#644b32",
+        "spectrum": "#59ba4a",
+        "hue": "Brown",
+        "percent": 0.04478494623655914,
+        "css3": "#556b2f"
+      },
+      {
+        "color": "#96644b",
+        "spectrum": "#c25687",
+        "hue": "Brown",
+        "percent": 0.04430107526881721,
+        "css3": "#a0522d"
+      },
+      {
+        "color": "#c8967d",
+        "spectrum": "#e66c64",
+        "hue": "Grey",
+        "percent": 0.022526881720430107,
+        "css3": "#bc8f8f"
+      },
+      {
+        "color": "#fac896",
+        "spectrum": "#ef7a55",
+        "hue": "Orange",
+        "percent": 0.01553763440860215,
+        "css3": "#ffdead"
+      },
+      {
+        "color": "#e1af7d",
+        "spectrum": "#ef7a55",
+        "hue": "Orange",
+        "percent": 0.009516129032258064,
+        "css3": "#deb887"
+      }
+    ],
+    "provenance": null,
+    "groupcount": 0,
+    "dated": "1698",
+    "department": "Department of Paintings, Sculpture & Decorative Arts",
+    "dateend": 1698,
+    "people": [
+      {
+        "role": "Artist",
+        "birthplace": "Kralinger-Ambacht",
+        "gender": "unknown",
+        "displaydate": "1659 - 1722",
+        "prefix": null,
+        "culture": "Dutch",
+        "displayname": "Adriaen van der Werff",
+        "alphasort": "Werff, Adriaen van der",
+        "name": "Adriaen van der Werff",
+        "personid": 29367,
+        "deathplace": "Rotterdam",
+        "displayorder": 1
+      }
+    ],
+    "url": "https://www.harvardartmuseums.org/collections/object/232653",
+    "dateoffirstpageview": "2009-07-29",
+    "century": "17th century",
+    "objectnumber": "1994.146",
+    "labeltext": null,
+    "datebegin": 1698,
+    "culture": "Dutch",
+    "exhibitioncount": 0,
+    "imagepermissionlevel": 0,
+    "mediacount": 0,
+    "objectid": 232653,
+    "techniqueid": null,
+    "dimensions": "48 x 39.7 cm (18 7/8 x 15 5/8 in.)\r\nframe: 59.5 x 49 cm (23 7/16 x 19 5/16 in.)",
+    "seeAlso": [
+      {
+        "id": "https://iiif.harvardartmuseums.org/manifests/object/232653",
+        "type": "IIIF Manifest",
+        "format": "application/json",
+        "profile": "http://iiif.io/api/presentation/2/context.json"
+      }
+    ]
+  },
+  "ingestMetadata": {
+    "transformedAt": "2025-10-18T18:07:47.137Z",
+    "sourceFile": "232653.json"
+  },
+  "derived": {
+    "dominantColors": {
+      "version": "dominant-colors/v2",
+      "generatedAt": "2025-10-14T02:42:57.124Z",
+      "stats": {
+        "algorithm": "mmcq+kmeans-lab",
+        "totalSamples": 132400,
+        "representedPixels": 529600,
+        "iterations": 12,
+        "quantize": {
+          "palette": [
+            {
+              "hex": "#AD7151",
+              "class": "chromatic",
+              "score": 272277586.035
+            },
+            {
+              "hex": "#1F1610",
+              "class": "neutral",
+              "score": 230895303.994
+            },
+            {
+              "hex": "#D4B286",
+              "class": "chromatic",
+              "score": 221688585.015
+            },
+            {
+              "hex": "#7D6344",
+              "class": "chromatic",
+              "score": 70539928.576
+            },
+            {
+              "hex": "#4C4C4C",
+              "class": "neutral",
+              "score": 27360
+            }
+          ],
+          "desiredNeutral": 2,
+          "desiredChroma": 3
+        }
+      },
+      "image": {
+        "variant": "analysis",
+        "filename": "232653.jpg",
+        "relativePath": "analysis/232653.jpg",
+        "width": 909,
+        "height": 1099,
+        "bytes": 181344,
+        "format": "jpeg"
+      }
+    }
+  }
+}

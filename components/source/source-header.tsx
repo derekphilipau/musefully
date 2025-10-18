@@ -21,7 +21,7 @@ export function SourceHeader({
   const dict = getDictionary();
   const sourceMeta = sources[item.sourceId] || {};
   const displayName =
-    sourceMeta.shortName || sourceMeta.name || item.source || item.sourceId;
+    sourceMeta.shortName || sourceMeta.name || item.sourceId;
 
   return (
     <div
@@ -31,7 +31,7 @@ export function SourceHeader({
       )}
     >
       <Link
-        href={`/?source=${sources[item.sourceId]?.name}`}
+        href={`/?sourceId=${item.sourceId}`}
         className="inline-flex items-center font-semibold"
       >
         <span className="line-clamp-1 uppercase tracking-wide">

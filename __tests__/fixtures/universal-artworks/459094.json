@@ -1,0 +1,328 @@
+{
+  "kind": "artwork",
+  "sourceId": "met",
+  "source": "The Metropolitan Museum of Art",
+  "id": "459094",
+  "documentId": "met_459094",
+  "uri": "https://www.metmuseum.org/art/collection/search/459094",
+  "title": "Valley with Fir (Shade on the Mountain)",
+  "objectName": "Painting",
+  "classification": [
+    "Painting"
+  ],
+  "formattedClassification": "Paintings",
+  "accessionNumber": "1975.1.163",
+  "accessionDate": "1975",
+  "medium": [
+    "Oil on canvas"
+  ],
+  "formattedMedium": "Oil on canvas",
+  "dimensions": "29 x 35 1/2 in. (73.7 x 90.2 cm)",
+  "measurements": {
+    "height": 73.66,
+    "width": 90.17,
+    "area": 6641.9222
+  },
+  "creditLine": "Robert Lehman Collection, 1975",
+  "culture": "",
+  "period": "",
+  "formattedPeriod": "",
+  "dynasty": "",
+  "departments": [
+    "Robert Lehman Collection"
+  ],
+  "formattedDate": "1909",
+  "startYear": 1909,
+  "endYear": 1909,
+  "rights": {
+    "status": "public-domain",
+    "openAccess": true
+  },
+  "publicAccess": true,
+  "copyrightRestricted": false,
+  "primaryConstituent": {
+    "id": "161799",
+    "name": "Henri-Edmond Cross (Henri-Edmond Delacroix)",
+    "role": "artist",
+    "agentType": "Person",
+    "gender": "",
+    "canonicalName": "Cross, Henri Edmond",
+    "identifiers": [
+      {
+        "type": "wikidata",
+        "value": "https://www.wikidata.org/wiki/Q555224"
+      },
+      {
+        "type": "ulan",
+        "value": "http://vocab.getty.edu/page/ulan/500014010"
+      },
+      {
+        "type": "ulanid",
+        "value": "500014010"
+      }
+    ],
+    "ulanId": "500014010",
+    "ulanUrl": "http://vocab.getty.edu/ulan/500014010"
+  },
+  "constituents": [
+    {
+      "id": "161799",
+      "name": "Henri-Edmond Cross (Henri-Edmond Delacroix)",
+      "role": "artist",
+      "agentType": "Person",
+      "gender": "",
+      "canonicalName": "Cross, Henri Edmond",
+      "identifiers": [
+        {
+          "type": "wikidata",
+          "value": "https://www.wikidata.org/wiki/Q555224"
+        },
+        {
+          "type": "ulan",
+          "value": "http://vocab.getty.edu/page/ulan/500014010"
+        },
+        {
+          "type": "ulanid",
+          "value": "500014010"
+        }
+      ],
+      "ulanId": "500014010",
+      "ulanUrl": "http://vocab.getty.edu/ulan/500014010"
+    }
+  ],
+  "image": {
+    "filename": "459094.webp",
+    "width": 1350,
+    "height": 1111,
+    "bytes": 477300,
+    "format": "webp",
+    "thumbnailFilename": "459094.webp",
+    "thumbnailWidth": 400,
+    "thumbnailHeight": 329,
+    "rights": {
+      "status": "public-domain",
+      "openAccess": true
+    },
+    "dominantColors": [
+      {
+        "hex": "#BEB3A3",
+        "percent": 0.280813,
+        "rgb": {
+          "r": 190,
+          "g": 179,
+          "b": 163
+        },
+        "lab": {
+          "l": 73.59,
+          "a": 1.23,
+          "b": 10.1
+        }
+      },
+      {
+        "hex": "#C59D41",
+        "percent": 0.220562,
+        "rgb": {
+          "r": 197,
+          "g": 157,
+          "b": 65
+        },
+        "lab": {
+          "l": 66.79,
+          "a": 5.66,
+          "b": 50.59
+        }
+      },
+      {
+        "hex": "#636A83",
+        "percent": 0.212599,
+        "rgb": {
+          "r": 99,
+          "g": 106,
+          "b": 131
+        },
+        "lab": {
+          "l": 45.06,
+          "a": 4.04,
+          "b": -14.57
+        }
+      },
+      {
+        "hex": "#243631",
+        "percent": 0.143663,
+        "rgb": {
+          "r": 36,
+          "g": 54,
+          "b": 49
+        },
+        "lab": {
+          "l": 21.33,
+          "a": -7.86,
+          "b": 0.82
+        }
+      },
+      {
+        "hex": "#707954",
+        "percent": 0.142363,
+        "rgb": {
+          "r": 112,
+          "g": 121,
+          "b": 84
+        },
+        "lab": {
+          "l": 49.18,
+          "a": -9.53,
+          "b": 19.36
+        }
+      }
+    ]
+  },
+  "hasImage": true,
+  "openAccess": true,
+  "subjects": [
+    {
+      "label": "Landscapes"
+    }
+  ],
+  "raw": {
+    "objectID": 459094,
+    "isHighlight": false,
+    "accessionNumber": "1975.1.163",
+    "accessionYear": "1975",
+    "isPublicDomain": true,
+    "primaryImage": "https://images.metmuseum.org/CRDImages/rl/original/DT3110.jpg",
+    "primaryImageSmall": "https://images.metmuseum.org/CRDImages/rl/web-large/DT3110.jpg",
+    "additionalImages": [
+      "https://images.metmuseum.org/CRDImages/rl/original/ep1975.1.163.bw.R.jpg",
+      "https://images.metmuseum.org/CRDImages/rl/original/2514.jpg"
+    ],
+    "constituents": [
+      {
+        "constituentID": 161799,
+        "role": "Artist",
+        "name": "Henri-Edmond Cross (Henri-Edmond Delacroix)",
+        "constituentULAN_URL": "http://vocab.getty.edu/page/ulan/500014010",
+        "constituentWikidata_URL": "https://www.wikidata.org/wiki/Q555224",
+        "gender": ""
+      }
+    ],
+    "department": "Robert Lehman Collection",
+    "objectName": "Painting",
+    "title": "Valley with Fir (Shade on the Mountain)",
+    "culture": "",
+    "period": "",
+    "dynasty": "",
+    "reign": "",
+    "portfolio": "",
+    "artistRole": "Artist",
+    "artistPrefix": "",
+    "artistDisplayName": "Henri-Edmond Cross (Henri-Edmond Delacroix)",
+    "artistDisplayBio": "French, Douai 1856–1910 Saint-Clair",
+    "artistSuffix": "",
+    "artistAlphaSort": "Cross, Henri-Edmond",
+    "artistNationality": "French",
+    "artistBeginDate": "1856",
+    "artistEndDate": "1910",
+    "artistGender": "",
+    "artistWikidata_URL": "https://www.wikidata.org/wiki/Q555224",
+    "artistULAN_URL": "http://vocab.getty.edu/page/ulan/500014010",
+    "objectDate": "1909",
+    "objectBeginDate": 1909,
+    "objectEndDate": 1909,
+    "medium": "Oil on canvas",
+    "dimensions": "29 x 35 1/2 in. (73.7 x 90.2 cm)",
+    "measurements": [
+      {
+        "elementName": "Overall",
+        "elementDescription": null,
+        "elementMeasurements": {
+          "Height": 73.7,
+          "Width": 90.2
+        }
+      }
+    ],
+    "creditLine": "Robert Lehman Collection, 1975",
+    "geographyType": "",
+    "city": "",
+    "state": "",
+    "county": "",
+    "country": "",
+    "region": "",
+    "subregion": "",
+    "locale": "",
+    "locus": "",
+    "excavation": "",
+    "river": "",
+    "classification": "Paintings",
+    "rightsAndReproduction": "",
+    "linkResource": "",
+    "metadataDate": "2025-03-21T04:53:15.447Z",
+    "repository": "Metropolitan Museum of Art, New York, NY",
+    "objectURL": "https://www.metmuseum.org/art/collection/search/459094",
+    "tags": [
+      {
+        "term": "Landscapes",
+        "AAT_URL": "http://vocab.getty.edu/page/aat/300132294",
+        "Wikidata_URL": "https://www.wikidata.org/wiki/Q191163"
+      }
+    ],
+    "objectWikidata_URL": "https://www.wikidata.org/wiki/Q20181510",
+    "isTimelineWork": false,
+    "GalleryNumber": "961"
+  },
+  "ingestMetadata": {
+    "transformedAt": "2025-10-18T18:07:54.078Z",
+    "sourceFile": "459094.json"
+  },
+  "derived": {
+    "dominantColors": {
+      "version": "dominant-colors/v2",
+      "generatedAt": "2025-10-14T02:59:10.562Z",
+      "stats": {
+        "algorithm": "mmcq+kmeans-lab",
+        "totalSamples": 131600,
+        "representedPixels": 526400,
+        "iterations": 17,
+        "quantize": {
+          "palette": [
+            {
+              "hex": "#B19F7E",
+              "class": "chromatic",
+              "score": 729688597.349
+            },
+            {
+              "hex": "#1D2529",
+              "class": "neutral",
+              "score": 369599312.499
+            },
+            {
+              "hex": "#415157",
+              "class": "neutral",
+              "score": 315155194.554
+            },
+            {
+              "hex": "#D6CBB2",
+              "class": "neutral",
+              "score": 292409986.541
+            },
+            {
+              "hex": "#BF9321",
+              "class": "chromatic",
+              "score": 77909295.303
+            }
+          ],
+          "desiredNeutral": 3,
+          "desiredChroma": 2
+        }
+      },
+      "image": {
+        "variant": "analysis",
+        "filename": "459094.jpg",
+        "relativePath": "analysis/459094.jpg",
+        "width": 1102,
+        "height": 907,
+        "bytes": 354697,
+        "format": "jpeg"
+      }
+    }
+  }
+}

@@ -116,10 +116,10 @@ describe('getSanitizedSearchParams', () => {
 
   it('should retain repeated aggregation filters as arrays', () => {
     const sanitizedParams = getSanitizedSearchParams(validIndex, {
-      source: ['sanity', 'archivesspace'],
+      sourceId: ['sanity', 'archivesspace'],
     }) as SearchParams;
 
-    expect(sanitizedParams.aggFilters.source).toEqual([
+    expect(sanitizedParams.aggFilters.sourceId).toEqual([
       'sanity',
       'archivesspace',
     ]);
@@ -127,22 +127,22 @@ describe('getSanitizedSearchParams', () => {
 
   it('should transform URLSearchParams into GenericSearchParams with arrays', () => {
     const params = new URLSearchParams();
-    params.append('source', 'sanity');
-    params.append('source', 'archivesspace');
+    params.append('sourceId', 'sanity');
+    params.append('sourceId', 'archivesspace');
     params.set('q', 'painting');
 
     const result = transformSearchParams(params);
-    expect(result.source).toEqual(['sanity', 'archivesspace']);
+    expect(result.sourceId).toEqual(['sanity', 'archivesspace']);
     expect(result.q).toBe('painting');
   });
 
   it('should append multiple values when converting to URLSearchParams', () => {
     const sanitizedParams = getSanitizedSearchParams(validIndex, {
-      source: ['sanity', 'archivesspace'],
+      sourceId: ['sanity', 'archivesspace'],
     }) as SearchParams;
 
     const urlParams = toURLSearchParams(sanitizedParams);
-    expect(urlParams.getAll('source')).toEqual(['sanity', 'archivesspace']);
+    expect(urlParams.getAll('sourceId')).toEqual(['sanity', 'archivesspace']);
     expect(urlParams.has('f')).toBe(false);
   });
 

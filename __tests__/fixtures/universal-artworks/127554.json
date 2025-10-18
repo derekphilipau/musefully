@@ -1,0 +1,434 @@
+{
+  "kind": "artwork",
+  "sourceId": "nga",
+  "source": "National Gallery of Art",
+  "id": "127554",
+  "documentId": "nga_127554",
+  "uri": "https://www.nga.gov/collection/art-object-page.127554.html",
+  "title": "Vase of Flowers",
+  "accessionNumber": "2003.38.1",
+  "classification": [
+    "Painting"
+  ],
+  "formattedClassification": "Painting",
+  "genres": [
+    "painting"
+  ],
+  "medium": [
+    "Oil on canvas"
+  ],
+  "formattedMedium": "oil on canvas",
+  "dimensions": "overall: 61 x 51.4 cm (24 x 20 1/4 in.)\r\nframed: 76.84 × 66.04 × 6.99 cm (30 1/4 × 26 × 2 3/4 in.)",
+  "measurements": {
+    "height": 51.4,
+    "width": 51.44,
+    "area": 2644.0159999999996
+  },
+  "creditLine": "Gift of William and Abigail Gerdts",
+  "formattedDate": "1875",
+  "startYear": 1875,
+  "endYear": 1875,
+  "rights": {
+    "status": "public-domain",
+    "openAccess": true
+  },
+  "publicAccess": true,
+  "copyrightRestricted": false,
+  "primaryConstituent": {
+    "id": "27447",
+    "name": "George Cochran Lambdin",
+    "canonicalName": "Lambdin, George Cochran",
+    "role": "painter",
+    "roleType": "artist",
+    "agentType": "Person",
+    "biography": "American, 1830 - 1896",
+    "birthYear": 1830,
+    "deathYear": 1896,
+    "nationality": [
+      "American"
+    ],
+    "identifiers": [
+      {
+        "type": "wikidata",
+        "value": "Q5538011"
+      },
+      {
+        "type": "ulan",
+        "value": "http://vocab.getty.edu/ulan/500026958"
+      },
+      {
+        "type": "ulanid",
+        "value": "500026958"
+      }
+    ],
+    "ulanId": "500026958",
+    "ulanUrl": "http://vocab.getty.edu/ulan/500026958",
+    "type": "individual",
+    "rank": 1
+  },
+  "constituents": [
+    {
+      "id": "27447",
+      "name": "George Cochran Lambdin",
+      "canonicalName": "Lambdin, George Cochran",
+      "role": "painter",
+      "roleType": "artist",
+      "agentType": "Person",
+      "biography": "American, 1830 - 1896",
+      "birthYear": 1830,
+      "deathYear": 1896,
+      "nationality": [
+        "American"
+      ],
+      "identifiers": [
+        {
+          "type": "wikidata",
+          "value": "Q5538011"
+        },
+        {
+          "type": "ulan",
+          "value": "http://vocab.getty.edu/ulan/500026958"
+        },
+        {
+          "type": "ulanid",
+          "value": "500026958"
+        }
+      ],
+      "ulanId": "500026958",
+      "ulanUrl": "http://vocab.getty.edu/ulan/500026958",
+      "type": "individual",
+      "rank": 1
+    }
+  ],
+  "image": {
+    "filename": "127554.webp",
+    "width": 1122,
+    "height": 1336,
+    "bytes": 194248,
+    "format": "webp",
+    "thumbnailFilename": "127554.webp",
+    "thumbnailWidth": 336,
+    "thumbnailHeight": 400,
+    "rights": {
+      "status": "public-domain",
+      "openAccess": true
+    },
+    "dominantColors": [
+      {
+        "hex": "#33251E",
+        "percent": 0.331518,
+        "rgb": {
+          "r": 51,
+          "g": 37,
+          "b": 30
+        },
+        "lab": {
+          "l": 16.23,
+          "a": 5.42,
+          "b": 7.67
+        }
+      },
+      {
+        "hex": "#473C29",
+        "percent": 0.32756,
+        "rgb": {
+          "r": 71,
+          "g": 60,
+          "b": 41
+        },
+        "lab": {
+          "l": 26.13,
+          "a": 1.65,
+          "b": 13.99
+        }
+      },
+      {
+        "hex": "#716A47",
+        "percent": 0.231682,
+        "rgb": {
+          "r": 113,
+          "g": 106,
+          "b": 71
+        },
+        "lab": {
+          "l": 44.68,
+          "a": -2.74,
+          "b": 20.96
+        }
+      },
+      {
+        "hex": "#C4B289",
+        "percent": 0.074583,
+        "rgb": {
+          "r": 196,
+          "g": 178,
+          "b": 137
+        },
+        "lab": {
+          "l": 73.17,
+          "a": 0.41,
+          "b": 23.47
+        }
+      },
+      {
+        "hex": "#933E39",
+        "percent": 0.034658,
+        "rgb": {
+          "r": 147,
+          "g": 62,
+          "b": 57
+        },
+        "lab": {
+          "l": 37.78,
+          "a": 35.26,
+          "b": 20.96
+        }
+      }
+    ]
+  },
+  "hasImage": true,
+  "openAccess": true,
+  "raw": {
+    "objectid": "127554",
+    "accessioned": "1",
+    "accessionnum": "2003.38.1",
+    "locationid": "",
+    "title": "Vase of Flowers",
+    "displaydate": "1875",
+    "beginyear": "1875",
+    "endyear": "1875",
+    "visualbrowsertimespan": "1851 to 1875",
+    "medium": "oil on canvas",
+    "dimensions": "overall: 61 x 51.4 cm (24 x 20 1/4 in.)\r\nframed: 76.84 × 66.04 × 6.99 cm (30 1/4 × 26 × 2 3/4 in.)",
+    "inscription": "lower right: Geo. C. Lambdin 1875",
+    "markings": "",
+    "attributioninverted": "Lambdin, George Cochran",
+    "attribution": "George Cochran Lambdin",
+    "provenancetext": "Paul Lane, TIvoli, New York, 1954. Possibly James H. Ricau [1916-1993], New York;[1] William H. [1929-2020] and Abigail Booth Gerdts, New York, by at least 1966;[2] gift (partial and promised) 2003 to NGA.\r\n\r\n\r\n[1] William Gerdts recalls that the Lambdin, or another painting, may have been the painting given to him by Ricau after Gerdts located for him a lost painting by Wright of Derby. See Gerdts' introduction in _For Beauty and for Truth: The William and Abigail Gerdts Collection of American Still Life_; exh. cat., Mead Art Museum, Amherst College and Berry-Hill Galleries, Inc., New York;  Amherst, 1998: 17.\r\n\r\n[2] William Gerdts lent the painting to a 1966 exhibition.\r\n\r\n",
+    "creditline": "Gift of William and Abigail Gerdts",
+    "classification": "Painting",
+    "subclassification": "",
+    "visualbrowserclassification": "painting",
+    "parentid": "",
+    "isvirtual": "0",
+    "departmentabbr": "CAB",
+    "portfolio": "",
+    "series": "",
+    "volume": "",
+    "watermarks": "",
+    "lastdetectedmodification": "2024-12-04 11:51:24.043-05",
+    "wikidataid": "Q20188805",
+    "customprinturl": "",
+    "customprintid": null,
+    "objectConstituents": [
+      {
+        "constituentId": "26356",
+        "name": "Dr. and Mrs. William H. Gerdts",
+        "forwardName": "Dr. and Mrs. William H. Gerdts",
+        "roleType": "donor",
+        "role": "donor",
+        "displayDate": "he: 1929 - 2020; she: born 1937",
+        "beginYear": 1929,
+        "country": "United States",
+        "nationality": [
+          "American"
+        ],
+        "type": "couple",
+        "alternateNames": [
+          "Gerdts, William H., Dr. and Mrs.",
+          "Gerdts, Abigail Booth"
+        ],
+        "displayOrder": 1
+      },
+      {
+        "constituentId": "27447",
+        "name": "George Cochran Lambdin",
+        "forwardName": "George Cochran Lambdin",
+        "roleType": "artist",
+        "role": "painter",
+        "displayDate": "American, 1830 - 1896",
+        "beginYear": 1830,
+        "endYear": 1896,
+        "nationality": [
+          "American"
+        ],
+        "ulanId": "500026958",
+        "wikidataId": "Q5538011",
+        "type": "individual",
+        "alternateNames": [
+          "Lambdin, George Cochran"
+        ],
+        "displayOrder": 1
+      },
+      {
+        "constituentId": "36756",
+        "name": "James Henri Ricau",
+        "forwardName": "James Henri Ricau",
+        "roleType": "owner",
+        "role": "previous owner",
+        "prefix": "possibly",
+        "displayDate": "American, 1916 - 1993",
+        "beginYear": 1916,
+        "endYear": 1993,
+        "nationality": [
+          "American"
+        ],
+        "type": "individual",
+        "alternateNames": [
+          "Ricau, James Henri",
+          "Ricau, Jimmy"
+        ],
+        "displayOrder": 1
+      },
+      {
+        "constituentId": "26356",
+        "name": "Dr. and Mrs. William H. Gerdts",
+        "forwardName": "Dr. and Mrs. William H. Gerdts",
+        "roleType": "donor",
+        "role": "source",
+        "displayDate": "he: 1929 - 2020; she: born 1937",
+        "beginYear": 1929,
+        "country": "United States",
+        "nationality": [
+          "American"
+        ],
+        "type": "couple",
+        "alternateNames": [
+          "Gerdts, William H., Dr. and Mrs.",
+          "Gerdts, Abigail Booth"
+        ],
+        "displayOrder": 2
+      },
+      {
+        "constituentId": "26356",
+        "name": "Dr. and Mrs. William H. Gerdts",
+        "forwardName": "Dr. and Mrs. William H. Gerdts",
+        "roleType": "owner",
+        "role": "previous owner",
+        "suffix": ", New York, NY",
+        "displayDate": "1966 - 2003",
+        "beginYear": 1966,
+        "endYear": 2003,
+        "country": "United States",
+        "nationality": [
+          "American"
+        ],
+        "type": "couple",
+        "alternateNames": [
+          "Gerdts, William H., Dr. and Mrs.",
+          "Gerdts, Abigail Booth"
+        ],
+        "displayOrder": 2
+      },
+      {
+        "constituentId": "12",
+        "name": "National Gallery of Art",
+        "forwardName": "National Gallery of Art",
+        "roleType": "owner",
+        "role": "current owner",
+        "displayDate": "2003 -",
+        "beginYear": 2003,
+        "country": "United States",
+        "ulanId": "500115983",
+        "wikidataId": "Q214867",
+        "type": "corporate",
+        "alternateNames": [
+          "National Gallery of Art",
+          "National Gallery of Art, Washington",
+          "NGA, Corcoran Gallery of Art"
+        ],
+        "displayOrder": 3
+      }
+    ],
+    "objectDimensions": [
+      {
+        "element": "overall",
+        "dimensionType": "width",
+        "dimension": 51.44,
+        "unit": "centimeters",
+        "raw": "51.4400000000"
+      },
+      {
+        "element": "overall",
+        "dimensionType": "height",
+        "dimension": 60.96,
+        "unit": "centimeters",
+        "raw": "60.9600000000"
+      }
+    ],
+    "publishedImages": [
+      {
+        "uuid": "d96730f9-b64b-47dc-bce9-27f670375816",
+        "iiifUrl": "https://api.nga.gov/iiif/d96730f9-b64b-47dc-bce9-27f670375816",
+        "iiifThumbUrl": "https://api.nga.gov/iiif/d96730f9-b64b-47dc-bce9-27f670375816/full/!200,200/0/default.jpg",
+        "viewType": "primary",
+        "sequence": 0,
+        "width": 18435,
+        "height": 21941,
+        "maxPixels": null,
+        "assistiveText": null
+      }
+    ],
+    "imageSources": [
+      "https://api.nga.gov/iiif/d96730f9-b64b-47dc-bce9-27f670375816"
+    ],
+    "manifestLicense": "open-access",
+    "manifestOpenAccess": true
+  },
+  "ingestMetadata": {
+    "transformedAt": "2025-10-18T18:07:59.600Z",
+    "sourceFile": "127554.json"
+  },
+  "derived": {
+    "dominantColors": {
+      "version": "dominant-colors/v2",
+      "generatedAt": "2025-10-14T03:05:59.007Z",
+      "stats": {
+        "algorithm": "mmcq+kmeans-lab",
+        "totalSamples": 134400,
+        "representedPixels": 537600,
+        "iterations": 18,
+        "quantize": {
+          "palette": [
+            {
+              "hex": "#3E3023",
+              "class": "neutral",
+              "score": 560503209.429
+            },
+            {
+              "hex": "#C9B78D",
+              "class": "chromatic",
+              "score": 395534839.966
+            },
+            {
+              "hex": "#7C7652",
+              "class": "chromatic",
+              "score": 245331452.976
+            },
+            {
+              "hex": "#B56752",
+              "class": "chromatic",
+              "score": 77909008.091
+            },
+            {
+              "hex": "#5E6374",
+              "class": "neutral",
+              "score": 668832.927
+            }
+          ],
+          "desiredNeutral": 2,
+          "desiredChroma": 3
+        }
+      },
+      "image": {
+        "variant": "analysis",
+        "filename": "127554.jpg",
+        "relativePath": "analysis/127554.jpg",
+        "width": 916,
+        "height": 1091,
+        "bytes": 181136,
+        "format": "jpeg"
+      }
+    }
+  }
+}

@@ -28,54 +28,61 @@ describe('artworks ingester', () => {
   });
 
   it('normalizes a PMA fixture into an ArtworkDocument', async () => {
-    const raw = loadFixture<Record<string, unknown>>('104467.json');
+    const raw = loadFixture<Record<string, unknown>>('343820.json');
     const doc = (await ingester.transform(raw)) as ArtworkDocument | undefined;
     expect(doc).toBeDefined();
     if (!doc) return;
 
-    expect(doc.id).toBe('104467');
+    expect(doc.id).toBe('343820');
     expect(doc.sourceId).toBe('pma');
-    expect(doc.source).toBe('Philadelphia Museum of Art');
-    expect(doc.primaryConstituent?.canonicalName).toBe('Delacroix, Eugène');
+    expect(doc.source).toBeUndefined();
+    expect(doc.primaryConstituent?.canonicalName).toBe('Kanō Yasunobu');
     expect(doc.constituents).toHaveLength(1);
     expect(doc.classification).toEqual(['Painting']);
     expect(doc.formattedClassification).toBe('Paintings');
-    expect(doc.medium).toEqual(['Oil on canvas']);
-    expect(doc.formattedMedium).toBe('Oil on canvas');
+    expect(doc.medium).toEqual(['Ink on paper', 'hanging scroll']);
+    expect(doc.formattedMedium).toBe('Ink on paper; hanging scroll');
     expect(doc.keywords).toEqual(
-      expect.arrayContaining(['Painting', 'Oil on canvas', 'oil'])
+      expect.arrayContaining([
+        'Painting',
+        'Ink on paper',
+        'hanging scroll',
+        'ink',
+      ])
     );
     expect(doc.measurements).toEqual({
-      height: 29,
-      width: 36,
-      area: 1044,
+      height: 20,
+      width: 21,
+      depth: 28,
+      area: 420,
+      volume: 11760,
     });
-    expect(doc.searchText).toContain('W1950-1-2');
-    expect(doc.accessionNumber).toBe('W1950-1-2');
+    expect(doc.searchText).toContain('2019-13-5');
+    expect(doc.accessionNumber).toBe('2019-13-5');
     expect(doc.accessionDate).toBeUndefined();
     expect(doc.primaryGeographicalLocation).toEqual(
-      expect.objectContaining({ name: 'France' })
+      expect.objectContaining({ name: 'Japan' })
     );
     expect(doc.geographicalLocations).toContainEqual(
-      expect.objectContaining({ name: 'France', continent: 'Europe' })
+      expect.objectContaining({ name: 'Japan', continent: 'Asia' })
     );
     expect(doc.hasImage).toBe(true);
     expect(doc.image?.url).toBe(
-      'https://cdn.test/images/pma/main/104467.webp'
+      'https://cdn.test/images/pma/main/343820.webp'
     );
     expect(doc.image?.thumbnailUrl).toBe(
-      'https://cdn.test/images/pma/thumb/104467.webp'
+      'https://cdn.test/images/pma/thumb/343820.webp'
     );
     expect(doc.image?.dominantColors?.[0]).toEqual(
-      expect.objectContaining({ percent: 29, hex: '#BCB29E' })
+      expect.objectContaining({ percent: 60, hex: '#9B8064' })
     );
     expect(doc.openAccess).toBe(true);
     expect(doc.rightsType).toBe('public-domain');
     const generatedId = ingester.generateId(doc, true);
-    expect(generatedId).toBe('pma_104467');
+    expect(generatedId).toBe('pma_343820');
   });
 
-  it('falls back to the provided source name when config is missing', async () => {
+  it('handles missing source config gracefully', async () => {
     const raw = loadFixture<Record<string, unknown>>('mystery.json');
     const doc = (await ingester.transform(raw)) as ArtworkDocument | undefined;
     expect(doc).toBeDefined();
@@ -83,7 +90,7 @@ describe('artworks ingester', () => {
 
     expect(doc.id).toBe('MM-42');
     expect(doc.sourceId).toBe('mystery');
-    expect(doc.source).toBe('Mystery Museum');
+    expect(doc.source).toBeUndefined();
     expect(doc.classification).toEqual(['Painting']);
     expect(doc.formattedClassification).toBe('Mixed media painting');
     expect(doc.medium).toEqual(['Acrylic on panel']);

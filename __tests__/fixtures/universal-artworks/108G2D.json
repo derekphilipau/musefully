@@ -1,0 +1,251 @@
+{
+  "kind": "artwork",
+  "sourceId": "getty",
+  "source": "J. Paul Getty Museum",
+  "id": "108G2D",
+  "documentId": "getty_108G2D",
+  "uri": "https://www.getty.edu/art/collection/object/108G2D",
+  "title": "Madonna and Child",
+  "accessionNumber": "2000.35",
+  "objectNumber": "2000.35",
+  "classification": "Painting",
+  "culture": "Italian",
+  "geographicalLocations": [
+    {
+      "name": "Italy",
+      "country": "Italy",
+      "continent": "Europe",
+      "type": "country"
+    }
+  ],
+  "primaryGeographicalLocation": {
+    "name": "Italy",
+    "country": "Italy",
+    "continent": "Europe",
+    "type": "country"
+  },
+  "formattedDate": "1290–1295",
+  "startYear": 1290,
+  "endYear": 1290,
+  "rights": {
+    "status": "cc0",
+    "openAccess": true
+  },
+  "publicAccess": true,
+  "copyrightRestricted": false,
+  "primaryConstituent": {
+    "id": "person/2f753cb9-a4fc-429d-b007-222b467d6bab",
+    "name": "Master of St. Cecilia",
+    "role": "artist",
+    "agentType": "Person",
+    "biography": "Master of St. Cecilia (Italian, active about 1290 - 1320)",
+    "suffix": "Italian, active about 1290 - 1320",
+    "ulanId": "500021021",
+    "ulanUrl": "http://vocab.getty.edu/ulan/500021021",
+    "canonicalName": "Saint Cecilia Master"
+  },
+  "constituents": [
+    {
+      "id": "person/2f753cb9-a4fc-429d-b007-222b467d6bab",
+      "name": "Master of St. Cecilia",
+      "role": "artist",
+      "agentType": "Person",
+      "biography": "Master of St. Cecilia (Italian, active about 1290 - 1320)",
+      "suffix": "Italian, active about 1290 - 1320",
+      "ulanId": "500021021",
+      "ulanUrl": "http://vocab.getty.edu/ulan/500021021",
+      "canonicalName": "Saint Cecilia Master"
+    }
+  ],
+  "image": {
+    "filename": "108G2D.webp",
+    "width": 1063,
+    "height": 1410,
+    "bytes": 221294,
+    "format": "webp",
+    "thumbnailFilename": "108G2D.webp",
+    "thumbnailWidth": 301,
+    "thumbnailHeight": 399,
+    "rights": {
+      "status": "cc0",
+      "openAccess": true
+    },
+    "alt": "Object Overall",
+    "dominantColors": [
+      {
+        "hex": "#0E1A19",
+        "percent": 0.449967,
+        "rgb": {
+          "r": 14,
+          "g": 26,
+          "b": 25
+        },
+        "lab": {
+          "l": 8.17,
+          "a": -4.05,
+          "b": -1.02
+        }
+      },
+      {
+        "hex": "#A97D32",
+        "percent": 0.240597,
+        "rgb": {
+          "r": 169,
+          "g": 125,
+          "b": 50
+        },
+        "lab": {
+          "l": 55.48,
+          "a": 9.47,
+          "b": 45.83
+        }
+      },
+      {
+        "hex": "#875B25",
+        "percent": 0.141617,
+        "rgb": {
+          "r": 135,
+          "g": 91,
+          "b": 37
+        },
+        "lab": {
+          "l": 42.45,
+          "a": 13.01,
+          "b": 37.35
+        }
+      },
+      {
+        "hex": "#BC925E",
+        "percent": 0.111551,
+        "rgb": {
+          "r": 188,
+          "g": 146,
+          "b": 94
+        },
+        "lab": {
+          "l": 63.45,
+          "a": 9.44,
+          "b": 33.63
+        }
+      },
+      {
+        "hex": "#5C412F",
+        "percent": 0.056269,
+        "rgb": {
+          "r": 92,
+          "g": 65,
+          "b": 47
+        },
+        "lab": {
+          "l": 30.16,
+          "a": 9.2,
+          "b": 15.9
+        }
+      }
+    ]
+  },
+  "hasImage": true,
+  "openAccess": true,
+  "raw": {
+    "id": "object/d47f77ba-ee72-4e8a-bc5b-b1f0a98dca78",
+    "primary_name": "Madonna and Child",
+    "is_standalone": true,
+    "is_parent": false,
+    "is_root": false,
+    "producers": [
+      {
+        "id": "person/2f753cb9-a4fc-429d-b007-222b467d6bab",
+        "primary_name": "Master of St. Cecilia",
+        "primary_name--text": "Master of St. Cecilia",
+        "all_names": [
+          "Master of St. Cecilia",
+          "Master of S. Cecilia",
+          "Saint Cecilia Master",
+          "Cecilia Master",
+          "Cecily Master",
+          "Master Of S. Cecilia"
+        ],
+        "slug_with_path": "/person/103KZZ",
+        "suffix": "Italian, active about 1290 - 1320",
+        "description": "Master of St. Cecilia (Italian, active about 1290 - 1320)",
+        "role": [
+          "Artist"
+        ]
+      }
+    ],
+    "culture": [
+      "Italian"
+    ],
+    "object_number": "2000.35",
+    "accession_number": "2000.35",
+    "date_created": "1290–1295",
+    "manifest": {
+      "url": "https://media.getty.edu/iiif/manifest/509cad07-d7a5-4ac4-808a-9ec8656f7366",
+      "attribution": "<p>Images provided here are believed to be in the public domain and     are available under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>     through Getty&rsquo;s <a href=\"http://www.getty.edu/about/opencontent.html\">Open Content Program</a>.     Texts provided here are &copy; J. Paul Getty Trust, licensed under     <a href=\"https://creativecommons.org/licenses/by/4.0/legalcode\">CC BY 4.0</a>.     Terms of use for the Getty logo can be found     <a href=\"http://www.getty.edu/legal/copyright.html#logo\"> here</a>.    </p>",
+      "license": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "thumb": "https://media.getty.edu/iiif/image/b638db48-16a8-4ad6-aa0a-14ba2981d8a4/full/!300,300/0/default.jpg",
+      "thumbUuid": "b638db48-16a8-4ad6-aa0a-14ba2981d8a4",
+      "numItems": 1,
+      "altText": "Object Overall"
+    },
+    "slug_with_path": "/object/108G2D",
+    "id_manager_slug": "108G2D",
+    "id_manager_path": "object"
+  },
+  "ingestMetadata": {
+    "transformedAt": "2025-10-18T18:07:40.081Z",
+    "sourceFile": "108G2D.json"
+  },
+  "derived": {
+    "dominantColors": {
+      "version": "dominant-colors/v2",
+      "generatedAt": "2025-10-14T02:30:21.013Z",
+      "stats": {
+        "algorithm": "mmcq+kmeans-lab",
+        "totalSamples": 120800,
+        "representedPixels": 482400,
+        "iterations": 9,
+        "quantize": {
+          "palette": [
+            {
+              "hex": "#A17735",
+              "class": "chromatic",
+              "score": 338983535.181
+            },
+            {
+              "hex": "#C69858",
+              "class": "chromatic",
+              "score": 329424945.374
+            },
+            {
+              "hex": "#101D17",
+              "class": "neutral",
+              "score": 192970650.743
+            },
+            {
+              "hex": "#7C4F21",
+              "class": "chromatic",
+              "score": 139998679.306
+            },
+            {
+              "hex": "#49402D",
+              "class": "neutral",
+              "score": 4482731.479
+            }
+          ],
+          "desiredNeutral": 2,
+          "desiredChroma": 3
+        }
+      },
+      "image": {
+        "variant": "analysis",
+        "filename": "108G2D.jpg",
+        "relativePath": "analysis/108G2D.jpg",
+        "width": 868,
+        "height": 1152,
+        "bytes": 196861,
+        "format": "jpeg"
+      }
+    }
+  }
+}

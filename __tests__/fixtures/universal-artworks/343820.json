@@ -1,0 +1,319 @@
+{
+  "kind": "artwork",
+  "sourceId": "pma",
+  "source": "Philadelphia Museum of Art",
+  "id": "343820",
+  "documentId": "pma_343820",
+  "uri": "https://www.philamuseum.org/collection/object/343820",
+  "title": "The Poet Su Tung Po",
+  "accessionNumber": "2019-13-5",
+  "classification": [
+    "Painting"
+  ],
+  "formattedClassification": "Paintings",
+  "departments": [
+    "East Asian Art"
+  ],
+  "medium": [
+    "Ink on paper",
+    "hanging scroll"
+  ],
+  "formattedMedium": "Ink on paper; hanging scroll",
+  "dimensions": "image: 13 1/2 × 20 1/4 inches (34.3 × 51.4 cm)\r\noverall with mounting: 45 1/2 × 21 3/8 inches (115.6 × 54.3 cm)\r\noverall with knobs: 45 1/2 x 28 1/2 inches (115.6 x 72.4 cm)",
+  "measurements": {
+    "height": 20,
+    "width": 21,
+    "depth": 28,
+    "area": 420,
+    "volume": 11760
+  },
+  "creditLine": "Gift of Helen Cunningham in memory of Ted Newbold, 2019",
+  "formattedDate": "17th century",
+  "startYear": 1613,
+  "endYear": 1685,
+  "rights": {
+    "status": "public-domain",
+    "openAccess": true
+  },
+  "publicAccess": true,
+  "copyrightRestricted": false,
+  "primaryConstituent": {
+    "name": "Kano Yasunobu",
+    "canonicalName": "Kanō Yasunobu",
+    "role": "artist/maker",
+    "roleType": "artist",
+    "biography": "Japanese, 1613 - 1685",
+    "nationality": [
+      "Japanese"
+    ],
+    "agentType": "Person",
+    "rank": 1,
+    "prefix": "Artist/maker:",
+    "birthYear": 1613,
+    "deathYear": 1685,
+    "ulanId": "500121026",
+    "ulanUrl": "http://vocab.getty.edu/ulan/500121026"
+  },
+  "constituents": [
+    {
+      "name": "Kano Yasunobu",
+      "canonicalName": "Kanō Yasunobu",
+      "role": "artist/maker",
+      "roleType": "artist",
+      "biography": "Japanese, 1613 - 1685",
+      "nationality": [
+        "Japanese"
+      ],
+      "agentType": "Person",
+      "rank": 1,
+      "prefix": "Artist/maker:",
+      "birthYear": 1613,
+      "deathYear": 1685,
+      "ulanId": "500121026",
+      "ulanUrl": "http://vocab.getty.edu/ulan/500121026"
+    }
+  ],
+  "image": {
+    "filename": "343820.webp",
+    "width": 1501,
+    "height": 999,
+    "bytes": 51782,
+    "format": "webp",
+    "thumbnailFilename": "343820.webp",
+    "thumbnailWidth": 400,
+    "thumbnailHeight": 266,
+    "rights": {
+      "status": "public-domain",
+      "openAccess": true
+    },
+    "dominantColors": [
+      {
+        "hex": "#9B8064",
+        "percent": 0.600113,
+        "rgb": {
+          "r": 155,
+          "g": 128,
+          "b": 100
+        },
+        "lab": {
+          "l": 55.24,
+          "a": 6.05,
+          "b": 19.34
+        }
+      },
+      {
+        "hex": "#A08568",
+        "percent": 0.301861,
+        "rgb": {
+          "r": 160,
+          "g": 133,
+          "b": 104
+        },
+        "lab": {
+          "l": 57.39,
+          "a": 6,
+          "b": 19.27
+        }
+      },
+      {
+        "hex": "#88735C",
+        "percent": 0.037303,
+        "rgb": {
+          "r": 136,
+          "g": 115,
+          "b": 92
+        },
+        "lab": {
+          "l": 49.92,
+          "a": 4.44,
+          "b": 15.67
+        }
+      },
+      {
+        "hex": "#746453",
+        "percent": 0.033675,
+        "rgb": {
+          "r": 116,
+          "g": 100,
+          "b": 83
+        },
+        "lab": {
+          "l": 43.55,
+          "a": 3.42,
+          "b": 12.24
+        }
+      },
+      {
+        "hex": "#4F463D",
+        "percent": 0.027049,
+        "rgb": {
+          "r": 79,
+          "g": 70,
+          "b": 61
+        },
+        "lab": {
+          "l": 30.38,
+          "a": 2.01,
+          "b": 7.1
+        }
+      }
+    ]
+  },
+  "hasImage": true,
+  "openAccess": true,
+  "geographicalLocations": [
+    {
+      "name": "Japan",
+      "country": "Japan",
+      "continent": "Asia",
+      "type": "country"
+    }
+  ],
+  "primaryGeographicalLocation": {
+    "name": "Japan",
+    "country": "Japan",
+    "continent": "Asia",
+    "type": "country"
+  },
+  "raw": {
+    "ObjectID": 343820,
+    "ObjectNumber": "2019-13-5",
+    "Department": "East Asian Art",
+    "Classification": "Paintings",
+    "Dated": "17th century",
+    "DateBegin": 1613,
+    "DateEnd": 1685,
+    "EndISODate": "10000001685",
+    "BeginISODate": "10000001613",
+    "Medium": "Ink on paper; hanging scroll",
+    "Dimensions": "image: 13 1/2 × 20 1/4 inches (34.3 × 51.4 cm)\r\noverall with mounting: 45 1/2 × 21 3/8 inches (115.6 × 54.3 cm)\r\noverall with knobs: 45 1/2 x 28 1/2 inches (115.6 x 72.4 cm)",
+    "CreditLine": "Gift of Helen Cunningham in memory of Ted Newbold, 2019",
+    "OnView": 0,
+    "Titles": [
+      {
+        "Title": "The Poet Su Tung Po",
+        "DisplayOrder": 1
+      }
+    ],
+    "Constituents": [
+      {
+        "Maker": "Kano Yasunobu, Japanese",
+        "DisplayName": "Kano Yasunobu",
+        "DisplayDate": "Japanese, 1613 - 1685",
+        "LastName": "Kano Yasunobu",
+        "DisplayOrder": 1,
+        "Role": "Artist/Maker",
+        "Prefix": "Artist/maker:",
+        "Nationality": "Japanese"
+      }
+    ],
+    "Period": "Edo Period (1615-1868)",
+    "Geography": [
+      {
+        "GeoCode": "Made in",
+        "Country": "Japan",
+        "MARC": "ja",
+        "Continent": "Asia"
+      }
+    ],
+    "Related": [
+      {}
+    ],
+    "lastUpdated": {
+      "_seconds": 1751506375,
+      "_nanoseconds": 238000000
+    },
+    "Views": {
+      "DownloadBehavior": 140,
+      "ObjectID": 343820,
+      "ObjectName": "Paintings",
+      "PrimaryView": {
+        "MainFile": "2019-13-5crop-pma2020.jpg",
+        "micrio": {
+          "shortId": "yCaQx",
+          "isFinished": true,
+          "customId": "2019-13-5crop-pma2020.jpg",
+          "hasError": false,
+          "id": "b05a6eaf-fdab-4203-9167-1c2ae851a53e"
+        }
+      },
+      "RightsType": "Public Domain",
+      "ready": true,
+      "SecondaryViews": {
+        "0": {
+          "MainFile": "2019-13-5det-pma2020.jpg",
+          "micrio": {
+            "shortId": "CXFFU",
+            "isFinished": true,
+            "customId": "2019-13-5det-pma2020.jpg",
+            "id": "f0b3bd84-3efa-4901-b4c2-495255cb15d1",
+            "hasError": false
+          }
+        }
+      },
+      "AccessionNumber": "2019-13-5",
+      "RightsTypeID": 4,
+      "lastUpdated": {
+        "_seconds": 1642604107,
+        "_nanoseconds": 472000000
+      }
+    },
+    "Metadata": {}
+  },
+  "ingestMetadata": {
+    "transformedAt": "2025-10-18T18:08:09.914Z",
+    "sourceFile": "343820.json"
+  },
+  "derived": {
+    "dominantColors": {
+      "version": "dominant-colors/v2",
+      "generatedAt": "2025-10-14T03:19:40.145Z",
+      "stats": {
+        "algorithm": "mmcq+kmeans-lab",
+        "totalSamples": 106400,
+        "representedPixels": 425600,
+        "iterations": 6,
+        "quantize": {
+          "palette": [
+            {
+              "hex": "#9C8265",
+              "class": "chromatic",
+              "score": 86376610.208
+            },
+            {
+              "hex": "#4D453B",
+              "class": "neutral",
+              "score": 11705867.053
+            },
+            {
+              "hex": "#70604F",
+              "class": "neutral",
+              "score": 4439593.945
+            },
+            {
+              "hex": "#826C4C",
+              "class": "chromatic",
+              "score": 50340.226
+            },
+            {
+              "hex": "#B59475",
+              "class": "chromatic",
+              "score": 1503.345
+            }
+          ],
+          "desiredNeutral": 2,
+          "desiredChroma": 3
+        }
+      },
+      "image": {
+        "variant": "analysis",
+        "filename": "343820.jpg",
+        "relativePath": "analysis/343820.jpg",
+        "width": 1226,
+        "height": 816,
+        "bytes": 96827,
+        "format": "jpeg"
+      }
+    }
+  }
+}

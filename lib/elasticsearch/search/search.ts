@@ -13,8 +13,8 @@ import { getElasticsearchIndices, type SearchParams } from './searchParams';
 import {
   addColorQuery,
   addDefaultQueryBoolDateRange,
-  addQueryAggs,
   addGlobalAggs,
+  addQueryAggs,
   addQueryBoolDateRange,
   addQueryBoolFilterTerms,
   addQueryBoolYearRange,
@@ -93,9 +93,24 @@ export async function search(
     ];
   } else {
     esQuery.sort = [
-      { sortPriority: 'desc' },
-      { startYear: 'desc' },
-      { date: 'desc' },
+      {
+        sortPriority: {
+          order: 'desc',
+          missing: 0,
+        },
+      },
+      {
+        startYear: {
+          order: 'desc',
+          missing: 0,
+        },
+      },
+      {
+        date: {
+          order: 'desc',
+          missing: 0,
+        },
+      },
     ];
   }
 
@@ -165,7 +180,20 @@ export async function searchCollections(
   } else if (searchParams.sortField && searchParams.sortOrder) {
     esQuery.sort = [{ [searchParams.sortField]: searchParams.sortOrder }];
   } else {
-    esQuery.sort = [{ sortPriority: 'desc' }, { startYear: 'desc' }];
+    esQuery.sort = [
+      {
+        sortPriority: {
+          order: 'desc',
+          missing: 0,
+        },
+      },
+      {
+        startYear: {
+          order: 'desc',
+          missing: 0,
+        },
+      },
+    ];
   }
 
   addQueryBoolYearRange(esQuery, searchParams);
@@ -218,19 +246,28 @@ function getResponseOptions(
     if (!('buckets' in aggAgg) || !Array.isArray(aggAgg.buckets)) continue;
 
     const selectedValues = searchParams.aggFilters[field] || [];
-    const buckets = aggAgg.buckets as Array<T.AggregationsStringTermsBucketKeys>;
+    const buckets =
+      aggAgg.buckets as Array<T.AggregationsStringTermsBucketKeys>;
 
     const fieldOptions: AggOption[] = buckets.map((bucket) => ({
       key: String(bucket.key),
       doc_count:
-        typeof bucket.doc_count === 'number' ? bucket.doc_count : Number(bucket.doc_count),
+        typeof bucket.doc_count === 'number'
+          ? bucket.doc_count
+          : Number(bucket.doc_count),
       selected: selectedValues.includes(String(bucket.key)),
     }));
 
     const globalField =
-      globalAggs && typeof globalAggs === 'object' ? (globalAggs as any)[field] : undefined;
+      globalAggs && typeof globalAggs === 'object'
+        ? (globalAggs as any)[field]
+        : undefined;
 
-    if (globalField && 'buckets' in globalField && Array.isArray(globalField.buckets)) {
+    if (
+      globalField &&
+      'buckets' in globalField &&
+      Array.isArray(globalField.buckets)
+    ) {
       for (const bucket of globalField.buckets as Array<T.AggregationsStringTermsBucketKeys>) {
         const key = String(bucket.key);
         if (!fieldOptions.find((option) => option.key === key)) {

@@ -70,7 +70,7 @@
   "index.events.type.exhibition": "Exhibition",
   "index.news.itemTitle": "News",
   "index.content.itemTitle": "Page",
-  "field.source": "Source",
+  "field.sourceId": "Source",
   "field.title": "Title",
   "field.primaryConstituent.canonicalName": "Maker/Artist",
   "field.classification": "Classification",

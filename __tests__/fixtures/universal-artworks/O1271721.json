@@ -1,0 +1,452 @@
+{
+  "kind": "artwork",
+  "sourceId": "vam",
+  "source": "Victoria and Albert Museum",
+  "id": "O1271721",
+  "documentId": "vam_O1271721",
+  "uri": "https://collections.vam.ac.uk/item/O1271721/",
+  "title": "Anvar-i Suhayli",
+  "description": "Manuscript folio recto, paint and ink on paper,",
+  "accessionNumber": "IS.13:318/1-1962",
+  "classification": [
+    "Painting"
+  ],
+  "formattedClassification": "Painting",
+  "genres": [
+    "Paintings",
+    "Manuscripts",
+    "Illustration",
+    "Myths & Legends"
+  ],
+  "materials": [
+    "paint",
+    "ink",
+    "paper",
+    "gold"
+  ],
+  "techniques": [
+    "painted",
+    "written"
+  ],
+  "materialsAndTechniquesNote": "Painted and written in paint, gold and ink on paper",
+  "creditLine": "",
+  "formattedDate": "late 16th century",
+  "startYear": 1550,
+  "endYear": 1599,
+  "geographicalLocations": [
+    {
+      "name": "Deccan Plateau",
+      "country": "India",
+      "continent": "Asia",
+      "type": "region"
+    },
+    {
+      "name": "Golconda"
+    }
+  ],
+  "primaryGeographicalLocation": {
+    "name": "Deccan Plateau",
+    "country": "India",
+    "continent": "Asia",
+    "type": "region"
+  },
+  "departments": [
+    "SSEA"
+  ],
+  "rights": {
+    "status": "arr",
+    "openAccess": false,
+    "holder": "© Victoria and Albert Museum, London"
+  },
+  "publicAccess": true,
+  "copyrightRestricted": true,
+  "primaryConstituent": {
+    "name": "Unknown",
+    "role": "artist",
+    "agentType": "Person",
+    "canonicalName": "Unknown"
+  },
+  "constituents": [
+    {
+      "name": "Unknown",
+      "role": "artist",
+      "agentType": "Person",
+      "canonicalName": "Unknown"
+    }
+  ],
+  "image": {
+    "filename": "O1271721.webp",
+    "width": 632,
+    "height": 843,
+    "bytes": 76364,
+    "format": "webp",
+    "thumbnailFilename": "O1271721.webp",
+    "thumbnailWidth": 300,
+    "thumbnailHeight": 400,
+    "rights": {
+      "status": "arr",
+      "openAccess": false,
+      "holder": "© Victoria and Albert Museum, London"
+    },
+    "dominantColors": [
+      {
+        "hex": "#C5A976",
+        "percent": 0.593358,
+        "rgb": {
+          "r": 197,
+          "g": 169,
+          "b": 118
+        },
+        "lab": {
+          "l": 70.48,
+          "a": 2.98,
+          "b": 30.23
+        }
+      },
+      {
+        "hex": "#876837",
+        "percent": 0.168392,
+        "rgb": {
+          "r": 135,
+          "g": 104,
+          "b": 55
+        },
+        "lab": {
+          "l": 46.11,
+          "a": 5.98,
+          "b": 32.01
+        }
+      },
+      {
+        "hex": "#020101",
+        "percent": 0.1511,
+        "rgb": {
+          "r": 2,
+          "g": 1,
+          "b": 1
+        },
+        "lab": {
+          "l": 0.36,
+          "a": 0.3,
+          "b": 0.3
+        }
+      },
+      {
+        "hex": "#877B5D",
+        "percent": 0.044525,
+        "rgb": {
+          "r": 135,
+          "g": 123,
+          "b": 93
+        },
+        "lab": {
+          "l": 51.8,
+          "a": 0.08,
+          "b": 17.74
+        }
+      },
+      {
+        "hex": "#513919",
+        "percent": 0.042625,
+        "rgb": {
+          "r": 81,
+          "g": 57,
+          "b": 25
+        },
+        "lab": {
+          "l": 25.9,
+          "a": 6.75,
+          "b": 23.17
+        }
+      }
+    ]
+  },
+  "hasImage": true,
+  "openAccess": false,
+  "location": {
+    "gallery": "005"
+  },
+  "raw": {
+    "meta": {
+      "version": "2.1",
+      "_links": {
+        "self": {
+          "href": "https://api.vam.ac.uk/v2/object/O1271721"
+        },
+        "collection_page": {
+          "href": "https://collections.vam.ac.uk/item/O1271721/"
+        }
+      },
+      "images": {
+        "_primary_thumbnail": "https://framemark.vam.ac.uk/collections/2017KL7037/full/!100,100/0/default.jpg",
+        "_iiif_image": "https://framemark.vam.ac.uk/collections/2017KL7037/",
+        "_alt_iiif_image": [],
+        "imageResolution": "high",
+        "_images_meta": [
+          {
+            "assetRef": "2017KL7037",
+            "copyright": "© Victoria and Albert Museum, London",
+            "sensitiveImage": false
+          }
+        ]
+      },
+      "see_also": {
+        "_iiif_pres": "https://iiif.vam.ac.uk/collections/O1271721/manifest.json",
+        "_alt_iiif_pres": []
+      }
+    },
+    "record": {
+      "systemNumber": "O1271721",
+      "accessionNumber": "IS.13:318/1-1962",
+      "objectType": "Painting",
+      "titles": [
+        {
+          "title": "Anvar-i Suhayli",
+          "type": "popular title"
+        }
+      ],
+      "summaryDescription": "",
+      "physicalDescription": "Manuscript folio recto, paint and ink on paper,",
+      "artistMakerPerson": [
+        {
+          "name": {
+            "text": "Unknown",
+            "id": "A1848"
+          },
+          "association": {
+            "text": "",
+            "id": ""
+          },
+          "note": ""
+        }
+      ],
+      "artistMakerOrganisations": [],
+      "artistMakerPeople": [],
+      "materials": [
+        {
+          "text": "paint",
+          "id": "AAT15029"
+        },
+        {
+          "text": "ink",
+          "id": "AAT15012"
+        },
+        {
+          "text": "paper",
+          "id": "AAT14109"
+        },
+        {
+          "text": "gold",
+          "id": "AAT11021"
+        }
+      ],
+      "techniques": [
+        {
+          "text": "painted",
+          "id": "AAT54216"
+        },
+        {
+          "text": "written",
+          "id": "AAT54698"
+        }
+      ],
+      "materialsAndTechniques": "Painted and written in paint, gold and ink on paper",
+      "categories": [
+        {
+          "text": "Paintings",
+          "id": "THES48917"
+        },
+        {
+          "text": "Manuscripts",
+          "id": "THES48922"
+        },
+        {
+          "text": "Illustration",
+          "id": "THES48938"
+        },
+        {
+          "text": "Myths & Legends",
+          "id": "THES49005"
+        }
+      ],
+      "styles": [
+        {
+          "text": "Deccani",
+          "id": "AAT18979"
+        }
+      ],
+      "collectionCode": {
+        "text": "SSEA",
+        "id": "THES48598"
+      },
+      "images": [
+        "2017KL7037"
+      ],
+      "imageResolution": "high",
+      "galleryLocations": [
+        {
+          "current": {
+            "text": "005",
+            "id": "THES406585"
+          },
+          "free": "",
+          "case": "",
+          "shelf": "",
+          "box": ""
+        }
+      ],
+      "partTypes": [
+        [
+          {
+            "text": "page",
+            "id": "AAT194222"
+          }
+        ]
+      ],
+      "contentWarnings": [
+        {
+          "apprise": "",
+          "note": ""
+        }
+      ],
+      "placesOfOrigin": [
+        {
+          "place": {
+            "text": "Deccan",
+            "id": "x31972"
+          },
+          "association": {
+            "text": "made",
+            "id": "x28654"
+          },
+          "note": ""
+        },
+        {
+          "place": {
+            "text": "Golconda",
+            "id": "x31969"
+          },
+          "association": {
+            "text": "made",
+            "id": "x28654"
+          },
+          "note": "probably"
+        }
+      ],
+      "productionDates": [
+        {
+          "date": {
+            "text": "late 16th century",
+            "earliest": "1550-01-01",
+            "latest": "1599-12-31"
+          },
+          "association": {
+            "text": "made",
+            "id": "x28654"
+          },
+          "note": "the last folio bears the Persian date 990/1582, a date later than 1582 is unlikely and it is possible that the manuscript was executed up to thirty years earlier than this date"
+        }
+      ],
+      "associatedObjects": [],
+      "creditLine": "",
+      "dimensions": [],
+      "dimensionsNote": "",
+      "marksAndInscriptions": [],
+      "objectHistory": "",
+      "historicalContext": "",
+      "briefDescription": "Painting, manuscript folio page, <i>Anvar-i Suhayli</i>, paint and ink on paper, Deccan, probably Golconda, late 16th century",
+      "bibliographicReferences": [],
+      "production": "Husayn Va'iz al-Kashifi was the author of the Persian version of the <i>Anvar-i Suhayli</i>, written in the 15th century. Often called 'The Lights of Canopus' in English, these fables were originally composed in India and at some point were written in Sanskrit. ",
+      "productionType": {
+        "text": "",
+        "id": ""
+      },
+      "contentDescription": "",
+      "contentPlaces": [],
+      "associatedPlaces": [],
+      "contentPerson": [],
+      "associatedPerson": [],
+      "contentOrganisations": [],
+      "associatedOrganisations": [],
+      "contentPeople": [],
+      "associatedPeople": [],
+      "contentEvents": [],
+      "associatedEvents": [],
+      "contentOthers": [],
+      "contentConcepts": [],
+      "contentLiteraryRefs": [],
+      "galleryLabels": [],
+      "partNumbers": [
+        "IS.13:318/1-1962"
+      ],
+      "accessionNumberNum": "13",
+      "accessionNumberPrefix": "IS",
+      "accessionYear": 1962,
+      "otherNumbers": [],
+      "copyNumber": "",
+      "aspects": [
+        "WHOLE"
+      ],
+      "assets": [],
+      "recordModificationDate": "2025-05-21",
+      "recordCreationDate": "2013-09-04",
+      "availableToBook": false
+    }
+  },
+  "ingestMetadata": {
+    "transformedAt": "2025-10-18T18:08:31.623Z",
+    "sourceFile": "O1271721.json"
+  },
+  "derived": {
+    "dominantColors": {
+      "version": "dominant-colors/v2",
+      "generatedAt": "2025-10-14T03:31:01.624Z",
+      "stats": {
+        "algorithm": "mmcq+kmeans-lab",
+        "totalSamples": 120000,
+        "representedPixels": 480000,
+        "iterations": 7,
+        "quantize": {
+          "palette": [
+            {
+              "hex": "#0E0B06",
+              "class": "neutral",
+              "score": 630444911.931
+            },
+            {
+              "hex": "#C2A774",
+              "class": "chromatic",
+              "score": 579391955.904
+            },
+            {
+              "hex": "#7E602F",
+              "class": "chromatic",
+              "score": 115968465.862
+            },
+            {
+              "hex": "#856D44",
+              "class": "chromatic",
+              "score": 67967944.901
+            },
+            {
+              "hex": "#66471F",
+              "class": "chromatic",
+              "score": 47159198.095
+            }
+          ],
+          "desiredNeutral": 1,
+          "desiredChroma": 4
+        }
+      },
+      "image": {
+        "variant": "analysis",
+        "filename": "O1271721.jpg",
+        "relativePath": "analysis/O1271721.jpg",
+        "width": 632,
+        "height": 843,
+        "bytes": 108413,
+        "format": "jpeg"
+      }
+    }
+  }
+}

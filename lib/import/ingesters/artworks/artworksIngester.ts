@@ -75,6 +75,7 @@ interface UniversalArtwork extends UnknownRecord {
   source?: string;
   sourceName?: string;
   sourceId?: string;
+  documentId?: string;
   id?: string;
   uri?: string;
   title?: string;
@@ -560,18 +561,112 @@ function parseAccessionDate(value: unknown): string | undefined {
   return undefined;
 }
 
+function normalizeToLower(value?: string): string | undefined {
+  if (!value) return undefined;
+  const trimmed = value.trim();
+  return trimmed ? trimmed.toLowerCase() : undefined;
+}
+
+function findSourceIdByName(name?: string): string | undefined {
+  const target = normalizeToLower(name);
+  if (!target) return undefined;
+
+  for (const [id, meta] of Object.entries(sources)) {
+    const metaName = normalizeToLower(meta.name);
+    const metaShortName = normalizeToLower(meta.shortName);
+    if (metaName === target || metaShortName === target) {
+      return id;
+    }
+  }
+
+  return undefined;
+}
+
+function matchesPrefixedId(
+  candidate: string | undefined,
+  idValue: string | undefined
+): boolean {
+  if (!candidate || !idValue) return false;
+  return idValue.startsWith(`${candidate}_`);
+}
+
+function resolveSourceSlug(doc: UniversalArtwork): string {
+  const rawSourceId = toStringValue(doc.sourceId);
+  const rawSource = toStringValue(doc.source);
+  const rawSourceName = toStringValue(doc.sourceName);
+  const rawDocumentId = toStringValue(doc.documentId);
+  const rawId = toStringValue(doc.id);
+
+  const prefer = (candidate?: string): string | undefined => {
+    if (!candidate) return undefined;
+    if (sources[candidate]) return candidate;
+    if (matchesPrefixedId(candidate, rawDocumentId)) return candidate;
+    if (matchesPrefixedId(candidate, rawId)) return candidate;
+    return undefined;
+  };
+
+  const resolvedById = prefer(rawSourceId);
+  if (resolvedById) return resolvedById;
+
+  const resolvedBySource = prefer(rawSource);
+  if (resolvedBySource) return resolvedBySource;
+
+  const nameMatch =
+    findSourceIdByName(rawSourceName) || findSourceIdByName(rawSource);
+  if (nameMatch) return nameMatch;
+
+  const documentPrefix =
+    rawDocumentId && rawDocumentId.includes('_')
+      ? rawDocumentId.split('_')[0]
+      : undefined;
+  if (documentPrefix) return documentPrefix;
+
+  const idPrefix =
+    rawId && rawId.includes('_') ? rawId.split('_')[0] : undefined;
+  if (idPrefix) return idPrefix;
+
+  return rawSourceId || rawSource || FALLBACK_SOURCE_ID;
+}
+
+function stripSourcePrefix(
+  value: string | undefined,
+  sourceSlug: string
+): string | undefined {
+  if (!value) return undefined;
+  const trimmed = value.trim();
+  if (!trimmed) return undefined;
+  if (sourceSlug && trimmed.startsWith(`${sourceSlug}_`)) {
+    return trimmed.slice(sourceSlug.length + 1);
+  }
+  return trimmed;
+}
+
+function resolveObjectId(
+  doc: UniversalArtwork,
+  sourceSlug: string
+): string | undefined {
+  const rawId = toStringValue(doc.id);
+  const rawDocumentId = toStringValue(doc.documentId);
+  const rawSourceId = toStringValue(doc.sourceId);
+
+  let objectId = stripSourcePrefix(rawId, sourceSlug);
+
+  if (!objectId) {
+    objectId = stripSourcePrefix(rawDocumentId, sourceSlug);
+  }
+
+  if (!objectId && rawSourceId && rawSourceId !== sourceSlug) {
+    objectId = rawSourceId.trim();
+  }
+
+  return objectId;
+}
+
 async function transformArtwork(
   doc: UniversalArtwork
 ): Promise<ArtworkDocument | undefined> {
-  const sourceSlug = toStringValue(doc.source) || FALLBACK_SOURCE_ID;
-  const sourceName =
-    sources[sourceSlug]?.name || toStringValue(doc.sourceName) || sourceSlug;
-
-  const objectId =
-    toStringValue(doc.sourceId) ||
-    (toStringValue(doc.id)?.startsWith(`${sourceSlug}_`)
-      ? toStringValue(doc.id)?.slice(sourceSlug.length + 1)
-      : toStringValue(doc.id));
+  const sourceSlug = resolveSourceSlug(doc);
+  const objectId = resolveObjectId(doc, sourceSlug);
 
   if (!objectId) {
     console.warn('Skipping document without sourceId/id', doc);
@@ -739,7 +834,6 @@ async function transformArtwork(
 
   const esDoc: ArtworkDocument = {
     type,
-    source: sourceName,
     sourceId: sourceSlug,
     id: objectId,
     url: toStringValue(doc.uri),
@@ -810,7 +904,9 @@ export const ingester: ElasticsearchIngester = {
   transform: async (doc: UniversalArtwork) => transformArtwork(doc),
   extractTerms: async (doc: ArtworkDocument) => {
     const sourceName =
-      sources[doc.sourceId || '']?.name || doc.source || FALLBACK_SOURCE_ID;
+      sources[doc.sourceId || '']?.name ||
+      doc.sourceId ||
+      FALLBACK_SOURCE_ID;
     return artworkTermsExtractor(doc, sourceName);
   },
 };

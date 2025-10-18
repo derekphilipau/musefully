@@ -9,6 +9,7 @@ import {
 } from '@/lib/elasticsearch/search/searchParams';
 import { Button } from '@/components/ui/button';
 import { Icons } from '../icons';
+import { sources } from '@/config/sources';
 
 interface SearchFilterTagProps {
   params?: SearchParams;
@@ -50,7 +51,9 @@ export function SearchFilterTag({ params, name, value }: SearchFilterTagProps) {
           style={{ backgroundColor: `#${value}`, color: `#${value}` }}
         />
       ) : (
-        <div>{value}</div>
+        <div>
+          {name === 'sourceId' ? sources[value]?.name || value : value}
+        </div>
       )}
       <Icons.x className="ml-2 size-4" />
     </Button>

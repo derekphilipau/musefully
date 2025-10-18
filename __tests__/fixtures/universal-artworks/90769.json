@@ -1,0 +1,384 @@
+{
+  "kind": "artwork",
+  "sourceId": "bkm",
+  "source": "Brooklyn Museum",
+  "id": "90769",
+  "documentId": "bkm_90769",
+  "uri": "https://www.brooklynmuseum.org/opencollection/objects/90769",
+  "title": "Desdemona Cursed by her Father (Desdemona maudite par son père)",
+  "accessionNumber": "67.24.22",
+  "accessionDate": "1967-03-08 00:00:00",
+  "classification": [
+    "Painting"
+  ],
+  "formattedClassification": "Painting",
+  "collections": [
+    {
+      "id": 7,
+      "name": "European Art",
+      "folder": "european_art",
+      "rank": 0
+    }
+  ],
+  "medium": [
+    "Oil on cradled panel"
+  ],
+  "formattedMedium": "Oil on cradled panel",
+  "dimensions": "16 x 12 5/8 in. (40.6 x 32.1 cm)",
+  "measurements": {
+    "height": 40.64,
+    "width": 32.0675,
+    "area": 1303.2232000000001
+  },
+  "geographicalLocations": [
+    {
+      "name": "France",
+      "country": "France",
+      "continent": "Europe",
+      "type": "Place made"
+    }
+  ],
+  "primaryGeographicalLocation": {
+    "name": "France",
+    "country": "France",
+    "continent": "Europe",
+    "type": "Place made"
+  },
+  "creditLine": "Bequest of Laura L. Barnes",
+  "formattedDate": "ca. 1852",
+  "startYear": 1850,
+  "endYear": 1854,
+  "rights": {
+    "status": "nkcr",
+    "openAccess": true
+  },
+  "publicAccess": true,
+  "copyrightRestricted": false,
+  "primaryConstituent": {
+    "id": "972",
+    "name": "Eugène Delacroix",
+    "role": "artist",
+    "agentType": "Person",
+    "nationality": [
+      "French"
+    ],
+    "dates": "French, 1798-1863",
+    "birthYear": 1798,
+    "deathYear": 1863,
+    "rank": 1,
+    "ulanId": "500115509",
+    "ulanUrl": "http://vocab.getty.edu/ulan/500115509",
+    "canonicalName": "Delacroix, Eugène"
+  },
+  "constituents": [
+    {
+      "id": "972",
+      "name": "Eugène Delacroix",
+      "role": "artist",
+      "agentType": "Person",
+      "nationality": [
+        "French"
+      ],
+      "dates": "French, 1798-1863",
+      "birthYear": 1798,
+      "deathYear": 1863,
+      "rank": 1,
+      "ulanId": "500115509",
+      "ulanUrl": "http://vocab.getty.edu/ulan/500115509",
+      "canonicalName": "Delacroix, Eugène"
+    }
+  ],
+  "image": {
+    "filename": "90769.webp",
+    "width": 1089,
+    "height": 1378,
+    "bytes": 331264,
+    "format": "webp",
+    "thumbnailFilename": "90769.webp",
+    "thumbnailWidth": 316,
+    "thumbnailHeight": 400,
+    "rights": {
+      "status": "nkcr",
+      "openAccess": true
+    },
+    "credit": "Brooklyn Museum photograph",
+    "dominantColors": [
+      {
+        "hex": "#2C221C",
+        "percent": 0.293845,
+        "rgb": {
+          "r": 44,
+          "g": 34,
+          "b": 28
+        },
+        "lab": {
+          "l": 14.07,
+          "a": 3.71,
+          "b": 5.3
+        }
+      },
+      {
+        "hex": "#563D20",
+        "percent": 0.259383,
+        "rgb": {
+          "r": 86,
+          "g": 61,
+          "b": 32
+        },
+        "lab": {
+          "l": 27.93,
+          "a": 6.96,
+          "b": 21.94
+        }
+      },
+      {
+        "hex": "#7B5618",
+        "percent": 0.192919,
+        "rgb": {
+          "r": 123,
+          "g": 86,
+          "b": 24
+        },
+        "lab": {
+          "l": 39.43,
+          "a": 9.94,
+          "b": 39.35
+        }
+      },
+      {
+        "hex": "#B18526",
+        "percent": 0.162413,
+        "rgb": {
+          "r": 177,
+          "g": 133,
+          "b": 38
+        },
+        "lab": {
+          "l": 58.29,
+          "a": 8.01,
+          "b": 53.53
+        }
+      },
+      {
+        "hex": "#842617",
+        "percent": 0.09144,
+        "rgb": {
+          "r": 132,
+          "g": 38,
+          "b": 23
+        },
+        "lab": {
+          "l": 30.42,
+          "a": 39.13,
+          "b": 31.91
+        }
+      }
+    ]
+  },
+  "hasImage": true,
+  "openAccess": true,
+  "onView": true,
+  "raw": {
+    "id": 90769,
+    "title": "Desdemona Cursed by her Father (Desdemona maudite par son père)",
+    "accession_number": "67.24.22",
+    "accession_date": "1967-03-08 00:00:00",
+    "object_date": "ca. 1852",
+    "object_date_begin": 1850,
+    "object_date_end": 1854,
+    "period": null,
+    "dynasty": null,
+    "description": null,
+    "provenance": null,
+    "medium": "Oil on cradled panel",
+    "dimensions": "16 x 12 5/8 in. (40.6 x 32.1 cm)",
+    "edition": null,
+    "portfolio": null,
+    "state": null,
+    "markings": null,
+    "signed": "Signed lower left: \"Eug. Delacroix\"",
+    "inscribed": null,
+    "credit_line": "Bequest of Laura L. Barnes",
+    "copyright": null,
+    "classification": "Painting",
+    "public_access": 1,
+    "approvals_mask": 16380,
+    "copyright_restricted": 0,
+    "visible": 1,
+    "date_added": "2010-03-10",
+    "highlight": 0,
+    "primary_image": "67.24.22_SL1.jpg",
+    "section": "",
+    "museum_location": {
+      "id": null,
+      "name": "This item is not on view",
+      "is_public": 0,
+      "is_floor": false,
+      "parent_location_id": null
+    },
+    "rights_type": {
+      "name": "no known copyright restrictions",
+      "public_name": "No known copyright restrictions",
+      "description": "This work may be in the public domain in the United States. Works created by United States and non-United States nationals published prior to 1923 are in the public domain, subject to the terms of any applicable treaty or agreement.\n          You may download and use Brooklyn Museum images of this work. Please include caption information from this page and credit the Brooklyn Museum. If you need a high resolution file, please fill out our online <a href=\"https://brooklynmuseum.wufoo.com/forms/brooklyn-museum-image-request/\" target=\"_blank\">application form</a> (charges apply).\n          The Museum does not warrant that the use of this work will not infringe on the rights of third parties, such as artists or artists' heirs holding the rights to the work. It is your responsibility to determine and satisfy copyright or other use restrictions before copying, transmitting, or making other use of protected items beyond that allowed by \"fair use,\" as such term is understood under the United States Copyright Act.\n          The Brooklyn Museum makes no representations or warranties with respect to the application or terms of any international agreement governing copyright protection in the United States for works created by foreign nationals.\nFor further information about copyright, we recommend resources at the <a href=\"https://www.copyright.gov/\" target=\"_blank\">United States Library of Congress</a>, <a href=\"https://copyright.cornell.edu/resources\" target=\"_blank\">Cornell University</a>, <em><a href=\"https://hdl.handle.net/1813/14142\" target=\"_blank\">Copyright and Cultural Institutions: Guidelines for U.S. Libraries, Archives, and Museums</a></em>, and <a href=\"https://www.copyright-watch.org/\" target=\"_blank\">Copyright Watch</a>.\nFor more information about the Museum's rights project, including how rights types are assigned, please see our <a href=\"https://www.brooklynmuseum.org/community/blogosphere/bloggers/tag/copyright\" target=\"_blank\">blog posts on copyright</a>.\nIf you have any information regarding this work and rights to it, please contact <a href=\"mailto:copyright@brooklynmuseum.org\">copyright@brooklynmuseum.org</a>."
+    },
+    "completeness": {
+      "name": "Good",
+      "description": "Most data is approved, but records have not been fully vetted. Many objects have quality photos and descriptions.",
+      "percentage": 78
+    },
+    "labels": [],
+    "artists": [
+      {
+        "id": 972,
+        "prefix": "",
+        "name": "Eugène Delacroix",
+        "suffix": "",
+        "nationality": "French",
+        "role": "Artist",
+        "dates": "French, 1798-1863",
+        "start_year": 1798,
+        "end_year": 1863,
+        "date_added": "2008-12-17",
+        "rank": 1
+      }
+    ],
+    "collections": [
+      {
+        "id": 7,
+        "name": "European Art",
+        "folder": "european_art",
+        "rank": 0
+      }
+    ],
+    "exhibitions": [
+      {
+        "id": 646,
+        "title": "About Time: 700 Years of European Paintings"
+      }
+    ],
+    "related_items": [],
+    "geographical_locations": [
+      {
+        "id": 5120,
+        "name": "France",
+        "type": "Place made",
+        "locale": null,
+        "city": null,
+        "region": null,
+        "sub_region": null,
+        "state": null,
+        "country": "France",
+        "continent": "Europe",
+        "sub_continent": null,
+        "latitude": null,
+        "longitude": null
+      }
+    ],
+    "images": [
+      {
+        "id": 33722,
+        "status": "active",
+        "filename": "67.24.22_SL1.jpg",
+        "date": "",
+        "credit": "Brooklyn Museum photograph",
+        "description": "",
+        "view": "overall",
+        "date_added": "2010-03-10",
+        "rank": 1,
+        "is_color": "",
+        "load_date": "2016-11-17",
+        "updated_at": "2022-01-27 04:01:50",
+        "object_image_id": 33722,
+        "object_id": 90769
+      },
+      {
+        "id": 33723,
+        "status": "active",
+        "filename": "CONS.67.24.22_1990_xrs_detail1.jpg",
+        "date": 1990,
+        "credit": "Brooklyn Museum photograph",
+        "description": "detail",
+        "view": "xray",
+        "date_added": "2010-03-10",
+        "rank": 2,
+        "is_color": "",
+        "load_date": "2016-12-07",
+        "updated_at": "2022-02-02 04:01:38",
+        "object_image_id": 33723,
+        "object_id": 90769
+      },
+      {
+        "id": 33724,
+        "status": "active",
+        "filename": "CONS.67.24.22_1990_xrs_detail2.jpg",
+        "date": 1990,
+        "credit": "Brooklyn Museum photograph",
+        "description": "detail",
+        "view": "xray",
+        "date_added": "2010-03-10",
+        "rank": 2,
+        "is_color": "",
+        "load_date": "2016-12-07",
+        "updated_at": "2022-02-02 04:01:38",
+        "object_image_id": 33724,
+        "object_id": 90769
+      }
+    ]
+  },
+  "ingestMetadata": {
+    "transformedAt": "2025-10-18T18:07:28.880Z",
+    "sourceFile": "90769.json"
+  },
+  "derived": {
+    "dominantColors": {
+      "version": "dominant-colors/v2",
+      "generatedAt": "2025-10-14T02:08:03.977Z",
+      "stats": {
+        "algorithm": "mmcq+kmeans-lab",
+        "totalSamples": 126400,
+        "representedPixels": 505600,
+        "iterations": 15,
+        "quantize": {
+          "palette": [
+            {
+              "hex": "#51341D",
+              "class": "chromatic",
+              "score": 501100451.147
+            },
+            {
+              "hex": "#BF862A",
+              "class": "chromatic",
+              "score": 236026524.346
+            },
+            {
+              "hex": "#A37C20",
+              "class": "chromatic",
+              "score": 141504085.805
+            },
+            {
+              "hex": "#8E5216",
+              "class": "chromatic",
+              "score": 88347120.762
+            },
+            {
+              "hex": "#1E1A18",
+              "class": "neutral",
+              "score": 38590155.503
+            }
+          ],
+          "desiredNeutral": 1,
+          "desiredChroma": 4
+        }
+      },
+      "image": {
+        "variant": "analysis",
+        "filename": "90769.jpg",
+        "relativePath": "analysis/90769.jpg",
+        "width": 889,
+        "height": 1125,
+        "bytes": 231819,
+        "format": "jpeg"
+      }
+    }
+  }
+}

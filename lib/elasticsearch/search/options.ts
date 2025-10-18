@@ -37,14 +37,25 @@ export async function options(
   };
 
   if (q) {
-    request.query = {
-      match: {
-        [`${field}.search`]: {
-          query: q,
-          fuzziness: 'AUTO:3,7',
+    if (field === 'sourceId') {
+      request.query = {
+        wildcard: {
+          [field]: {
+            value: `*${q}*`,
+            case_insensitive: true,
+          },
         },
-      },
-    };
+      };
+    } else {
+      request.query = {
+        match: {
+          [`${field}.search`]: {
+            query: q,
+            fuzziness: 'AUTO:3,7',
+          },
+        },
+      };
+    }
   }
 
   const client = getClient();

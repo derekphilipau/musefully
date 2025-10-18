@@ -24,7 +24,7 @@ interface IndicesMeta {
 export const indicesMeta: IndicesMeta = {
   art: {
     aggs: [
-      'source',
+      'sourceId',
       'primaryConstituent.canonicalName',
       'classification',
       'medium',
@@ -39,7 +39,7 @@ export const indicesMeta: IndicesMeta = {
     ],
     filters: [
       // not all aggs need to be filters
-      'source',
+      'sourceId',
       'primaryConstituent.canonicalName',
       'classification',
       'medium',
@@ -58,15 +58,15 @@ export const indicesMeta: IndicesMeta = {
     ],
   },
   news: {
-    aggs: ['source'],
-    filters: ['source'],
+    aggs: ['sourceId'],
+    filters: ['sourceId'],
   },
   events: {
-    aggs: ['source', 'location'],
-    filters: ['source', 'location'],
+    aggs: ['sourceId', 'location'],
+    filters: ['sourceId', 'location'],
   },
   all: {
-    aggs: ['source'],
-    filters: ['source'],
+    aggs: ['sourceId'],
+    filters: ['sourceId'],
   },
 };

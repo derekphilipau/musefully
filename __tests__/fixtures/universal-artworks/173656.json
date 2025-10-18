@@ -1,0 +1,409 @@
+{
+  "kind": "artwork",
+  "sourceId": "cma",
+  "source": "Cleveland Museum of Art",
+  "id": "173656",
+  "documentId": "cma_173656",
+  "uri": "https://clevelandart.org/art/1915.693",
+  "title": "Maternal Solicitude",
+  "accessionNumber": "1915.693",
+  "accessionDate": "1915-10-29T00:00:00",
+  "classification": [
+    "Painting"
+  ],
+  "formattedClassification": "Painting",
+  "medium": [
+    "Oil on wood"
+  ],
+  "formattedMedium": "oil on wood",
+  "techniques": [
+    "oil on wood"
+  ],
+  "dimensions": {
+    "unframed": {
+      "height": 0.495,
+      "width": 0.61
+    }
+  },
+  "creditLine": "Hinman B. Hurlbut Collection",
+  "provenance": [
+    {
+      "description": "sold in 1873 to H. B. Hurlbut, Cleveland.",
+      "citations": [],
+      "footnotes": [],
+      "date": null,
+      "sortorder": null
+    }
+  ],
+  "culture": "America",
+  "geographicalLocations": [
+    {
+      "name": "United States",
+      "country": "United States",
+      "continent": "North America",
+      "type": "country"
+    }
+  ],
+  "primaryGeographicalLocation": {
+    "name": "United States",
+    "country": "United States",
+    "continent": "North America",
+    "type": "country"
+  },
+  "departments": [
+    "American Painting and Sculpture"
+  ],
+  "formattedDate": "1873",
+  "startYear": 1873,
+  "endYear": 1873,
+  "rights": {
+    "status": "cc0",
+    "openAccess": true
+  },
+  "publicAccess": true,
+  "copyrightRestricted": false,
+  "primaryConstituent": {
+    "id": "6774",
+    "name": "Arthur Fitzwilliam Tait",
+    "role": "artist",
+    "agentType": "Person",
+    "biography": "Arthur Fitzwilliam Tait (American, 1819–1905)",
+    "birthYear": 1819,
+    "deathYear": 1905,
+    "ulanId": "500023688",
+    "ulanUrl": "http://vocab.getty.edu/ulan/500023688",
+    "canonicalName": "Tait, Arthur Fitzwilliam"
+  },
+  "constituents": [
+    {
+      "id": "6774",
+      "name": "Arthur Fitzwilliam Tait",
+      "role": "artist",
+      "agentType": "Person",
+      "biography": "Arthur Fitzwilliam Tait (American, 1819–1905)",
+      "birthYear": 1819,
+      "deathYear": 1905,
+      "ulanId": "500023688",
+      "ulanUrl": "http://vocab.getty.edu/ulan/500023688",
+      "canonicalName": "Tait, Arthur Fitzwilliam"
+    }
+  ],
+  "image": {
+    "url": "https://openaccess-cdn.clevelandart.org/1915.693/1915.693_print.jpg",
+    "width": 3400,
+    "height": 2770,
+    "rights": {
+      "status": "cc0",
+      "openAccess": true
+    },
+    "dominantColors": [
+      {
+        "hex": "#E0D8BD",
+        "percent": 0.324333,
+        "rgb": {
+          "r": 224,
+          "g": 216,
+          "b": 189
+        },
+        "lab": {
+          "l": 86.32,
+          "a": -1.75,
+          "b": 14.39
+        }
+      },
+      {
+        "hex": "#AEA78F",
+        "percent": 0.216917,
+        "rgb": {
+          "r": 174,
+          "g": 167,
+          "b": 143
+        },
+        "lab": {
+          "l": 68.55,
+          "a": -1.65,
+          "b": 13.21
+        }
+      },
+      {
+        "hex": "#7B7A6D",
+        "percent": 0.193098,
+        "rgb": {
+          "r": 123,
+          "g": 122,
+          "b": 109
+        },
+        "lab": {
+          "l": 50.95,
+          "a": -2.29,
+          "b": 7.13
+        }
+      },
+      {
+        "hex": "#3E3A33",
+        "percent": 0.158298,
+        "rgb": {
+          "r": 62,
+          "g": 58,
+          "b": 51
+        },
+        "lab": {
+          "l": 24.64,
+          "a": 0.64,
+          "b": 5.14
+        }
+      },
+      {
+        "hex": "#927248",
+        "percent": 0.107354,
+        "rgb": {
+          "r": 146,
+          "g": 114,
+          "b": 72
+        },
+        "lab": {
+          "l": 50.11,
+          "a": 7.52,
+          "b": 28.19
+        }
+      }
+    ]
+  },
+  "hasImage": true,
+  "openAccess": true,
+  "raw": {
+    "id": 173656,
+    "accession_number": "1915.693",
+    "share_license_status": "CC0",
+    "tombstone": "Maternal Solicitude, 1873. Arthur Fitzwilliam Tait (American, 1819–1905). Oil on wood; unframed: 49.5 x 61 cm (19 1/2 x 24 in.). The Cleveland Museum of Art, Hinman B. Hurlbut Collection 1915.693",
+    "current_location": null,
+    "title": "Maternal Solicitude",
+    "creation_date": "1873",
+    "creation_date_earliest": 1873,
+    "creation_date_latest": 1873,
+    "artists_tags": [
+      "male"
+    ],
+    "culture": [
+      "America"
+    ],
+    "technique": "oil on wood",
+    "support_materials": [],
+    "department": "American Painting and Sculpture",
+    "collection": "American - Painting",
+    "type": "Painting",
+    "measurements": "Unframed: 49.5 x 61 cm (19 1/2 x 24 in.)",
+    "dimensions": {
+      "unframed": {
+        "height": 0.495,
+        "width": 0.61
+      }
+    },
+    "state_of_the_work": null,
+    "edition_of_the_work": null,
+    "copyright": null,
+    "inscriptions": [
+      {
+        "inscription": "Signed lower right: \"A. F. Tait. . / N.Y. 1873\";  inscribed on the back:  \" 'Maternal Solicitude' (The Dying Fawn)\"",
+        "inscription_translation": null,
+        "inscription_remark": null,
+        "sortorder": null
+      }
+    ],
+    "exhibitions": {
+      "current": [
+        {
+          "id": 317001,
+          "title": "Inaugural Exhibition",
+          "description": "<i>Inaugural Exhibition</i>. The Cleveland Museum of Art, Cleveland, OH (organizer) (co-organizer) (June 6-September 20, 1916).",
+          "opening_date": "1916-06-06T05:00:00"
+        }
+      ],
+      "legacy": []
+    },
+    "provenance": [
+      {
+        "description": "sold in 1873 to H. B. Hurlbut, Cleveland.",
+        "citations": [],
+        "footnotes": [],
+        "date": null,
+        "sortorder": null
+      }
+    ],
+    "find_spot": null,
+    "related_works": [],
+    "former_accession_numbers": [
+      "452.1915"
+    ],
+    "did_you_know": null,
+    "description": null,
+    "external_resources": {
+      "wikidata": [
+        "https://www.wikidata.org/wiki/Q117230258",
+        "https://www.wikidata.org/wiki/Q60482693"
+      ],
+      "internet_archive": [
+        "https://archive.org/details/clevelandart-1915.693-maternal-solicitude"
+      ]
+    },
+    "citations": [],
+    "url": "https://clevelandart.org/art/1915.693",
+    "images": {
+      "annotation": null,
+      "web": {
+        "url": "https://openaccess-cdn.clevelandart.org/1915.693/1915.693_web.jpg",
+        "width": "1096",
+        "height": "893",
+        "filesize": "825703",
+        "filename": "1915.693_web.jpg"
+      },
+      "print": {
+        "url": "https://openaccess-cdn.clevelandart.org/1915.693/1915.693_print.jpg",
+        "width": "3400",
+        "height": "2770",
+        "filesize": "8648469",
+        "filename": "1915.693_print.jpg"
+      },
+      "full": {
+        "url": "https://openaccess-cdn.clevelandart.org/1915.693/1915.693_full.tif",
+        "width": "5670",
+        "height": "4621",
+        "filesize": "78634340",
+        "filename": "1915.693_full.tif"
+      }
+    },
+    "alternate_images": [
+      {
+        "annotation": "",
+        "web": {
+          "url": "https://openaccess-cdn.clevelandart.org/alternate/1915.693/1915.693_alt0_web.jpg",
+          "width": "1094",
+          "height": "893",
+          "filesize": "904599"
+        },
+        "print": {
+          "url": "https://openaccess-cdn.clevelandart.org/alternate/1915.693/1915.693_alt0_print.jpg",
+          "width": "1881",
+          "height": "1536",
+          "filesize": "2798281"
+        },
+        "full": {
+          "url": "https://openaccess-cdn.clevelandart.org/alternate/1915.693/1915.693_alt0_full.tif",
+          "width": "1881",
+          "height": "1536",
+          "filesize": "8670900"
+        }
+      },
+      {
+        "date_created": "2010-11-10T20:37:22",
+        "annotation": "",
+        "web": {
+          "url": "https://openaccess-cdn.clevelandart.org/alternate/1915.693/1915.693_alt1_web.jpg",
+          "width": "1098",
+          "height": "893",
+          "filesize": "526372"
+        },
+        "print": {
+          "url": "https://openaccess-cdn.clevelandart.org/alternate/1915.693/1915.693_alt1_print.jpg",
+          "width": "3400",
+          "height": "2764",
+          "filesize": "6040164"
+        },
+        "full": {
+          "url": "https://openaccess-cdn.clevelandart.org/alternate/1915.693/1915.693_alt1_full.tif",
+          "width": "5840",
+          "height": "4748",
+          "filesize": "83210140"
+        }
+      }
+    ],
+    "creditline": "Hinman B. Hurlbut Collection",
+    "sketchfab_id": null,
+    "sketchfab_url": null,
+    "gallery_donor_text": null,
+    "athena_id": 173656,
+    "creators": [
+      {
+        "id": 6774,
+        "description": "Arthur Fitzwilliam Tait (American, 1819–1905)",
+        "extent": null,
+        "qualifier": null,
+        "role": "artist",
+        "biography": null,
+        "name_in_original_language": null,
+        "birth_year": "1819",
+        "death_year": "1905"
+      }
+    ],
+    "legal_status": "accessioned",
+    "accession_date": "1915-10-29T00:00:00",
+    "sortable_date": 1873,
+    "date_text": "1873",
+    "collapse_artists": false,
+    "on_loan": false,
+    "recently_acquired": false,
+    "record_type": "object",
+    "conservation_statement": null,
+    "has_conservation_images": false,
+    "cover_accession_number": null,
+    "is_nazi_era_provenance": false,
+    "impression": null,
+    "alternate_titles": [],
+    "is_highlight": false,
+    "updated_at": "2025-08-08 02:53:58.960000"
+  },
+  "ingestMetadata": {
+    "transformedAt": "2025-10-18T18:07:34.375Z",
+    "sourceFile": "1915_693.json"
+  },
+  "derived": {
+    "dominantColors": {
+      "version": "dominant-colors/v2",
+      "generatedAt": "2025-10-14T02:26:07.511Z",
+      "stats": {
+        "algorithm": "mmcq+kmeans-lab",
+        "totalSamples": 130400,
+        "representedPixels": 521600,
+        "iterations": 16,
+        "quantize": {
+          "palette": [
+            {
+              "hex": "#A49D86",
+              "class": "neutral",
+              "score": 770613699.04
+            },
+            {
+              "hex": "#3F3830",
+              "class": "neutral",
+              "score": 652580214.4
+            },
+            {
+              "hex": "#726650",
+              "class": "neutral",
+              "score": 373268215.018
+            },
+            {
+              "hex": "#D7BE97",
+              "class": "chromatic",
+              "score": 11642327.835
+            },
+            {
+              "hex": "#8F8338",
+              "class": "chromatic",
+              "score": 2537263.049
+            }
+          ],
+          "desiredNeutral": 3,
+          "desiredChroma": 2
+        }
+      },
+      "image": {
+        "variant": "analysis",
+        "filename": "1915_693.jpg",
+        "relativePath": "analysis/1915_693.jpg",
+        "width": 3400,
+        "height": 2770
+      }
+    }
+  }
+}
