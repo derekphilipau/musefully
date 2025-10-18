@@ -12,5 +12,5 @@ test('should navigate to the art search page', async ({
   } else {
     await page.click('text=Art');
   }
-  await expect(page).toHaveURL('/art?hasPhoto=true&f=true');
+  await expect(page).toHaveURL('/art?hasPhoto=true');
 });

@@ -23,7 +23,7 @@ API endpoints for search, document retrieval, and RSS feed updates. Next.js API 
 
 - **Summary**: Execute a search on an Elasticsearch index
 - **Description**: Endpoint to execute a search on the provided Elasticsearch index based on the given parameters. Querystring parameters are the same as those for the Web UI:
-  GET `http://localhost:3000/api/search?index=art&f=true&primaryConstituent.canonicalName=George%20Bradford%20Brainerd`
+  GET `http://localhost:3000/api/search?index=art&primaryConstituent.canonicalName=George%20Bradford%20Brainerd`
 
 #### Parameters:
 

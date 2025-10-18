@@ -212,7 +212,7 @@ export const siteConfig: SiteConfig = {
     {
       dict: 'index.art',
       basePath: 'art',
-      href: '/art?hasPhoto=true&f=true',
+      href: '/art?hasPhoto=true',
     },
     {
       dict: 'index.news',
@@ -222,7 +222,7 @@ export const siteConfig: SiteConfig = {
     {
       dict: 'index.events',
       basePath: 'events',
-      href: '/events?isNow=true&f=true',
+      href: '/events?isNow=true',
     },
   ],
   links: {

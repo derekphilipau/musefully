@@ -4,6 +4,7 @@ import {
   GenericSearchParams,
   getSanitizedSearchParams,
   isHexColor,
+  hasActiveFilters,
   LAYOUT_DEFAULT,
   MAX_PAGES,
   SearchParams,
@@ -26,7 +27,6 @@ describe('getSanitizedSearchParams', () => {
     onView: 'true',
     layout: 'list',
     card: 'cardType',
-    f: 'true',
     startYear: '1990',
     endYear: '2020',
     invalidFilter: 'value',
@@ -143,5 +143,20 @@ describe('getSanitizedSearchParams', () => {
 
     const urlParams = toURLSearchParams(sanitizedParams);
     expect(urlParams.getAll('source')).toEqual(['sanity', 'archivesspace']);
+    expect(urlParams.has('f')).toBe(false);
+  });
+
+  it('determines when filters are active', () => {
+    const sanitizedParams = getSanitizedSearchParams(validIndex, {
+      hasPhoto: 'true',
+    }) as SearchParams;
+
+    expect(sanitizedParams.isShowFilters).toBe(true);
+    expect(hasActiveFilters(sanitizedParams)).toBe(true);
+  });
+
+  it('determines when no filters are active', () => {
+    const sanitizedParams = getSanitizedSearchParams(validIndex, {});
+    expect(hasActiveFilters(sanitizedParams)).toBe(false);
   });
 });

@@ -151,11 +151,7 @@ export function SearchPagination({ isShowViewOptions }: SearchPaginationProps) {
         {isShowViewOptions && (
           <>
             <div>
-              <SearchFilterButton
-                searchParams={searchParams}
-                options={options}
-                isShowFilters={searchParams.isShowFilters}
-              />
+              <SearchFilterButton />
             </div>
             <div>
               <TooltipProvider>

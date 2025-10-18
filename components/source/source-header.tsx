@@ -31,7 +31,7 @@ export function SourceHeader({
       )}
     >
       <Link
-        href={`/?f=true&source=${sources[item.sourceId]?.name}`}
+        href={`/?source=${sources[item.sourceId]?.name}`}
         className="inline-flex items-center font-semibold"
       >
         <span className="line-clamp-1 uppercase tracking-wide">

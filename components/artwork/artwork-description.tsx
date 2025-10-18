@@ -32,12 +32,12 @@ export function ArtworkDescription({
     Array.isArray(item.medium) &&
     item.medium.length > 0;
 
-  //  http://localhost:3000/art?hasPhoto=true&f=true&startYear=2014&endYear=2014
+  //  http://localhost:3000/art?hasPhoto=true&startYear=2014&endYear=2014
   const startYear = item.startYear;
   const endYear = item.endYear || item.startYear;
   let dateLink = '';
   if (startYear && endYear) {
-    dateLink = `/art?hasPhoto=true&f=true&startYear=${item.startYear}&endYear=${item.endYear}`;
+    dateLink = `/art?hasPhoto=true&startYear=${item.startYear}&endYear=${item.endYear}`;
   }
 
   return (

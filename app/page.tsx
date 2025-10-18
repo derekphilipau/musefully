@@ -28,6 +28,7 @@ import { SearchDidYouMean } from '@/components/search/search-did-you-mean';
 import { SearchFilterTags } from '@/components/search/search-filter-tags';
 import { SearchFilters } from '@/components/search/search-filters';
 import { SearchPagination } from '@/components/search/search-pagination';
+import { SearchLayout } from '@/components/search/search-layout';
 
 function getLayoutGridClass(layout: LayoutType) {
   if (layout === LAYOUT_GRID)
@@ -125,24 +126,7 @@ export default async function Page(props: PageProps) {
           )}
         </div>
         <SearchFilterTags searchParams={sanitizedParams} />
-        <div className="gap-6 pb-8 pt-2 sm:grid sm:grid-cols-3 md:grid-cols-4 md:pt-4">
-          {sanitizedParams.isShowFilters && (
-            <aside
-              className="hidden h-full space-y-2 sm:col-span-1 sm:block"
-              aria-label="Search filters"
-            >
-              <SearchFilters />
-            </aside>
-          )}
-          <main
-            className={
-              sanitizedParams.isShowFilters
-                ? 'sm:col-span-2 md:col-span-3'
-                : 'sm:col-span-3 md:col-span-4'
-            }
-            role="main"
-            aria-label="Search results"
-          >
+        <SearchLayout sidebar={<SearchFilters />}>
             {apiError?.length > 0 && (
               <h3 className="mb-6 text-lg font-extrabold leading-tight tracking-tighter text-red-800">
                 {apiError}
@@ -219,8 +203,7 @@ export default async function Page(props: PageProps) {
               )}
             </div>
             <SearchPagination isShowViewOptions={false} />
-          </main>
-        </div>
+        </SearchLayout>
       </section>
     </SearchProvider>
   );

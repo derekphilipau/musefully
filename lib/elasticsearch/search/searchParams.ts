@@ -139,7 +139,6 @@ export function getSanitizedSearchParams(
       : LAYOUT_DEFAULT;
   sanitizedParams.cardType =
     (typeof params.card === 'string' && params.card) || undefined;
-  sanitizedParams.isShowFilters = getBooleanValue(params.f);
   sanitizedParams.isNow = getBooleanValue(params.isNow);
 
   // date range
@@ -165,6 +164,8 @@ export function getSanitizedSearchParams(
       }
     }
   }
+
+  sanitizedParams.isShowFilters = hasActiveFilters(sanitizedParams);
 
   return sanitizedParams as SearchParams;
 }
@@ -254,7 +255,6 @@ export function toURLSearchParams(
     urlParams.set('hasPhoto', searchParams.hasPhoto.toString());
   if (searchParams.onView)
     urlParams.set('onView', searchParams.onView.toString());
-  if (searchParams.isShowFilters === true) urlParams.set('f', 'true');
   if (searchParams.isNow === true) urlParams.set('isNow', 'true');
 
   if (searchParams.layout && searchParams.layout !== LAYOUT_DEFAULT)
@@ -408,12 +408,6 @@ export function setColor(
  * @param searchParams - The current search parameters.
  * @returns New search parameters.
  */
-export function toggleIsShowFilters(searchParams: SearchParams): SearchParams {
-  const params = { ...searchParams };
-  params.isShowFilters = !params.isShowFilters;
-  return params;
-}
-
 /**
  * Immutable toggle the isNow flag in search parameters.
  * @param searchParams - The current search parameters.
@@ -457,6 +451,38 @@ function normalizeFilterValues(
     .filter((value) => value.length > 0);
 
   return Array.from(new Set(decoded));
+}
+
+export function hasActiveFilters(params: Partial<SearchParams>): boolean {
+  if (!params) return false;
+
+  if (params.hasPhoto) return true;
+  if (params.onView) return true;
+  if (params.isUnrestricted) return true;
+  if (params.isNow) return true;
+  if (params.hexColor) return true;
+  if (
+    params.startYear !== undefined &&
+    params.startYear !== null
+  )
+    return true;
+  if (
+    params.endYear !== undefined &&
+    params.endYear !== null
+  )
+    return true;
+
+  const aggFilters = params.aggFilters;
+  if (aggFilters) {
+    for (const key in aggFilters) {
+      const values = aggFilters[key];
+      if (Array.isArray(values) && values.length > 0) {
+        return true;
+      }
+    }
+  }
+
+  return false;
 }
 
 /**
