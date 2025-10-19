@@ -2,7 +2,10 @@ import { Key } from 'react';
 import Link from 'next/link';
 import { getDictionary } from '@/dictionaries/dictionaries';
 
-import type { ArtworkDocument, DocumentGeographicalLocation } from '@/types/document';
+import type {
+  ArtworkDocument,
+  DocumentGeographicalLocation,
+} from '@/types/document';
 
 interface DescriptionRowProps {
   item?: ArtworkDocument;
@@ -10,8 +13,7 @@ interface DescriptionRowProps {
 
 export function GeographicalDescriptionRow({ item }: DescriptionRowProps) {
   const dict = getDictionary();
-  const displayName =
-    dict?.[`field.geographicalLocations`] || 'Unknown field';
+  const displayName = dict?.[`field.geographicalLocations`] || 'Unknown field';
   const searchUrl = '/art?';
 
   let val = item?.geographicalLocations;
@@ -29,7 +31,7 @@ export function GeographicalDescriptionRow({ item }: DescriptionRowProps) {
           (geoLoc: DocumentGeographicalLocation, i: Key) =>
             geoLoc && (
               <span key={i}>
-                {geoLoc.type}:{' '}
+                {geoLoc.type && `${geoLoc.type}: `}
                 <Link
                   href={`${searchUrl}primaryGeographicalLocation.name=${encodeURIComponent(geoLoc.name)}`}
                   className="underline"
