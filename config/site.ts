@@ -124,11 +124,12 @@ export const siteConfig: SiteConfig = {
       sourceId: 'hyperallergic',
       url: 'https://hyperallergic.com/feed/',
     },
-    {
-      ingester: 'rssIngester',
-      sourceId: 'moma',
-      url: 'https://stories.moma.org/feed',
-    },
+    // MoMA discontinued their RSS feed
+    // {
+    //   ingester: 'rssIngester',
+    //   sourceId: 'moma',
+    //   url: 'https://stories.moma.org/feed',
+    // },
     {
       ingester: 'rssIngester',
       sourceId: 'cooperhewitt',
@@ -159,11 +160,12 @@ export const siteConfig: SiteConfig = {
       sourceId: 'nyt',
       url: 'https://rss.nytimes.com/services/xml/rss/nyt/ArtandDesign.xml',
     },
-    {
-      ingester: 'rssIngester',
-      sourceId: 'met',
-      url: 'https://www.metmuseum.org/blogs?rss=1',
-    },
+    // Met discontinued their RSS feed
+    // {
+    //   ingester: 'rssIngester',
+    //   sourceId: 'met',
+    //   url: 'https://www.metmuseum.org/blogs?rss=1',
+    // },
     {
       ingester: 'rssIngester',
       sourceId: 'artsy',

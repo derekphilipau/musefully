@@ -12,6 +12,8 @@ import {
 
 const INDEX_NAME = 'news';
 
+const FETCH_TIMEOUT_MS = 10000; // 10 second timeout per feed
+
 async function importRssFeed(
   client: Client,
   ingester: ElasticsearchRssIngester,
@@ -20,7 +22,12 @@ async function importRssFeed(
 ) {
   try {
     console.log(`Importing RSS feed ${url}...`);
-    const response = await fetch(url);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+
+    const response = await fetch(url, { signal: controller.signal });
+    clearTimeout(timeoutId);
+
     const xmlString = await response.text();
 
     // Parse the XML string using xml2js
@@ -48,7 +55,9 @@ async function importRssFeed(
       await bulk(client, operations);
     }
   } catch (error) {
-    console.error('An error occurred:', error);
+    // Re-throw with sourceId context so Promise.allSettled captures it
+    const message = error instanceof Error ? error.message : String(error);
+    throw new Error(`[${sourceId}] ${message}`);
   }
 }
 
@@ -64,20 +73,25 @@ export default async function updateRssFeeds() {
     return;
   }
 
-  for (const rssFeed of siteConfig.rssFeeds) {
-    try {
-      if (!rssFeed.ingester || !rssFeed.url)
-        throw new Error('RSS Feed missing url');
+  const results = await Promise.allSettled(
+    siteConfig.rssFeeds.map(async (rssFeed) => {
+      if (!rssFeed.ingester || !rssFeed.url) {
+        throw new Error(`RSS Feed ${rssFeed.sourceId} missing url or ingester`);
+      }
       const { ingester } = await import(`./ingesters/rss/${rssFeed.ingester}`);
-      await importRssFeed(
-        client,
-        ingester,
-        rssFeed.url,
-        rssFeed.sourceId
-      );
-    } catch (e) {
-      console.error(`Error updating RSS ${rssFeed.sourceId}: ${e}`);
-      return;
+      await importRssFeed(client, ingester, rssFeed.url, rssFeed.sourceId);
+      return rssFeed.sourceId;
+    })
+  );
+
+  // Log results
+  const succeeded = results.filter((r) => r.status === 'fulfilled');
+  const failed = results.filter((r) => r.status === 'rejected');
+
+  console.log(`RSS import complete: ${succeeded.length} succeeded, ${failed.length} failed`);
+  failed.forEach((r) => {
+    if (r.status === 'rejected') {
+      console.error(`RSS feed failed: ${r.reason}`);
     }
-  }
+  });
 }
