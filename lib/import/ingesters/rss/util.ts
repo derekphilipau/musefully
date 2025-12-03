@@ -48,14 +48,28 @@ export function getRssItemImageUrl(item: any): string | undefined {
   const description = item.description?.[0];
   const content = item['content:encoded'] ? item['content:encoded'][0] : '';
 
-  const regex = /<img.*?src="(.*?)".*?>/;
+  // Try data-lazy-src first (used by WordPress lazy loading), then fall back to src
+  const lazyRegex = /<img[^>]*?data-lazy-src="([^"]+)"[^>]*?>/;
+  const srcRegex = /<img[^>]*?src="([^"]+)"[^>]*?>/;
 
-  const descriptionMatch = description?.match(regex);
-  const contentMatch = content?.match(regex);
+  // Check content first (usually has higher quality images)
+  const contentLazyMatch = content?.match(lazyRegex);
+  if (contentLazyMatch?.[1]) return contentLazyMatch[1];
 
-  if (descriptionMatch?.length === 2) return descriptionMatch[1];
+  const contentSrcMatch = content?.match(srcRegex);
+  // Skip placeholder/fallback images
+  if (contentSrcMatch?.[1] && !contentSrcMatch[1].includes('lazyload-fallback')) {
+    return contentSrcMatch[1];
+  }
 
-  if (contentMatch?.length === 2) return contentMatch[1];
+  // Then check description
+  const descriptionLazyMatch = description?.match(lazyRegex);
+  if (descriptionLazyMatch?.[1]) return descriptionLazyMatch[1];
+
+  const descriptionSrcMatch = description?.match(srcRegex);
+  if (descriptionSrcMatch?.[1] && !descriptionSrcMatch[1].includes('lazyload-fallback')) {
+    return descriptionSrcMatch[1];
+  }
 }
 
 export function getRssItemId(item: any) {
