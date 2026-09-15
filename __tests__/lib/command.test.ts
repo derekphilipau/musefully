@@ -18,8 +18,9 @@ describe('CLI functions', () => {
   let mockQuestion, mockClose;
 
   beforeEach(() => {
-    mockQuestion = readline.createInterface({}).question;
-    mockClose = readline.createInterface({}).close;
+    const mockInterface = readline.createInterface({ input: process.stdin });
+    mockQuestion = mockInterface.question;
+    mockClose = mockInterface.close;
   });
 
   test('ask function', async () => {
